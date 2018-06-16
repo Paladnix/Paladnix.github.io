@@ -1,0 +1,834 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="React,Router," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="这是一个react router的V4版本。被广泛使用， 非常流行。 Installationreact router 被包含在三个包中： react-router, react-router-dom, react-router-native. 你几乎不会直接安装react-router这个包，因为这是一个核心包，提供的是基础的react应用的路由库。另外的两个分别提供了特殊的使用环境，前者是浏览">
+<meta name="keywords" content="React,Router">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react-router tutorial">
+<meta property="og:url" content="http://paladnix.github.io/2017/react-router-dom/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="这是一个react router的V4版本。被广泛使用， 非常流行。 Installationreact router 被包含在三个包中： react-router, react-router-dom, react-router-native. 你几乎不会直接安装react-router这个包，因为这是一个核心包，提供的是基础的react应用的路由库。另外的两个分别提供了特殊的使用环境，前者是浏览">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.283Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="react-router tutorial">
+<meta name="twitter:description" content="这是一个react router的V4版本。被广泛使用， 非常流行。 Installationreact router 被包含在三个包中： react-router, react-router-dom, react-router-native. 你几乎不会直接安装react-router这个包，因为这是一个核心包，提供的是基础的react应用的路由库。另外的两个分别提供了特殊的使用环境，前者是浏览">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/react-router-dom/"/>
+
+
+
+
+
+  <title>react-router tutorial | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/react-router-dom/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">react-router tutorial</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-17T23:40:11+08:00">
+                2017-11-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/react-router-dom/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/react-router-dom/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这是一个react router的V4版本。被广泛使用， 非常流行。</p>
+<h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><p>react router 被包含在三个包中： react-router, react-router-dom, react-router-native. 你几乎不会直接安装react-router这个包，因为这是一个核心包，提供的是基础的react应用的路由库。<br>另外的两个分别提供了特殊的使用环境，前者是浏览器端， 后者是在react-native中。他们都完全包含react-router这个包中的内容。</p>
+<p><code>npm install --save react-router-dom</code></p>
+<h1 id="The-Router"><a href="#The-Router" class="headerlink" title="The Router"></a>The Router</h1><p>在多页应用中，路由的设计尤为重要。<br>在react应用中，其实不存在真正的多页应用，而是使用一些浏览器操作来使得单页应用具备多页应用的功能。所谓的多页应用，应该是当你输入一个固定的链接时，得到的页面应该是一致的，并且具备后退的功能。但是在react应用中，页面并不会完全重新加载，而是以特殊的方式来组织，做局部加载，实现多页面的效果。</p>
+<p>在浏览器应用中，我们使用的是<code>&lt;BrowserRouter&gt;</code>和<code>&lt;HashRouter&gt;</code>组件。当我们的请求的网站是一个动态的页面（Know how to respond to any possible URI）的时候，我们使用前者；如果是个纯静态的页面，我们使用后者。很明显我们大多数使用前者。</p>
+<h2 id="History"><a href="#History" class="headerlink" title="History"></a>History</h2><p>每个router组件都有一个history的对象，用于记录浏览的记录，用于保持跟踪。<br>关于这一部分，暂时还没有研究。待研究。</p>
+<h1 id="Rendering-a-lt-Router-gt"><a href="#Rendering-a-lt-Router-gt" class="headerlink" title="Rendering a &lt;Router&gt;"></a>Rendering a <code>&lt;Router&gt;</code></h1><p><code>&lt;BrowserRouter&gt;</code> 只允许一个子组件的存在，所以跟react一个尿性的，我们可以将我们的应用封装成<code>&lt;App \&gt;</code>的形式来使用。<br>For example:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; BrowserRouter &#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></span><br><span class="line">ReactDOM.render((</span><br><span class="line">  &lt;BrowserRouter&gt;</span><br><span class="line">    &lt;App /&gt;</span><br><span class="line">  &lt;<span class="regexp">/BrowserRouter&gt;</span></span><br><span class="line"><span class="regexp">), document.getElementById('root'))</span></span><br></pre></td></tr></table></figure>
+<h1 id="The-App"><a href="#The-App" class="headerlink" title="The App"></a>The App</h1><p>在<code>&lt;App&gt;</code>中，我们就可以开始做布局的工作，我们可以不直接添加我们的路由体系，直接在<code>&lt;App&gt;</code>组件中添加一些组件。当我们添加我们的路由体系的时候，每个路由信息，都由一个<code>&lt;Route&gt;</code>组件来组织。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;Switch&gt;</span><br><span class="line">  &lt;Route exact path=<span class="string">'/'</span> component=&#123;Home&#125;/&gt;</span><br><span class="line">  &#123;<span class="comment">/* both /roster and /roster/:number begin with /roster */</span>&#125;</span><br><span class="line">  &lt;Route path=<span class="string">'/roster'</span> component=&#123;Roster&#125;/&gt;</span><br><span class="line">  &lt;Route path=<span class="string">'/schedule'</span> component=&#123;Schedule&#125;/&gt;</span><br><span class="line">&lt;<span class="regexp">/Switch&gt;</span></span><br></pre></td></tr></table></figure>
+<p>其中， <code>&lt;Switch&gt;</code>组件用于列表匹配，从上到下依次匹配，直到匹配成功退出。</p>
+<p>每个<code>&lt;Router&gt;</code>有三个参数，分别是：<code>component</code>, <code>render</code>, <code>childern</code>。 这三个只能出现一个。</p>
+<p><strong>component</strong>， 就是渲染对应的组件。<br><strong>render</strong>， 是一个函数，返回一个react的组件，跟普通组件很相似，但是会很方便内联渲染和传递更多的参数。<br><strong>childern</strong>， 是一个函数，返回一个组件，不像前面两个，这个无论是否匹配都会渲染这个组件。</p>
+<p>在上面的例子中，有使用<code>exact</code>修饰的path，需要完全精确匹配才会渲染对应的组件。</p>
+<h1 id="嵌套的Router"><a href="#嵌套的Router" class="headerlink" title="嵌套的Router"></a>嵌套的Router</h1><p>在同一个组件中，可能提供多个路由访问的内容，这个时候我们可以将路由信息嵌套起来使用。如上例中的<code>&lt;Route path=&#39;/roster&#39; component={Roster}/&gt;</code>， 如果我有一个路由是<code>/roster/6</code>， 就会去访问roster对应的组件，并在组件内继续匹配路由。</p>
+<h1 id="Pathparam"><a href="#Pathparam" class="headerlink" title="Pathparam"></a>Pathparam</h1><p>在路径中中带有的参数，我们可以使用<code>prop.match.xxx</code>来获取，在<code>&lt;Route&gt;</code> 配置path的时候使用的是<code>/roster/:number</code>的形式来注册变量。</p>
+<p>路径中不支持GET的参数，也就是<code>http://xxx.com?aaa=1&amp;b=2</code>, <code>？</code>后面的的东西会被忽略。</p>
+<h1 id="Link"><a href="#Link" class="headerlink" title="Link"></a>Link</h1><p>在页面中做链接，不能直接使用<code>&lt;a&gt;</code>， 这样会产生整个页面的刷新。这个包中使用<code>&lt;Link&gt;</code>组件来做，这个组件会修改浏览器的地址栏记录，产生新的页面，但是没有整个页面的刷新。</p>
+<p>在Link中的路径要写绝对路径，从根路径开始，不带host。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/React/" rel="tag"># React</a>
+          
+            <a href="/tags/Router/" rel="tag"># Router</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/ubuntu-core/" rel="next" title="ubuntu-core">
+                <i class="fa fa-chevron-left"></i> ubuntu-core
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/mobx/" rel="prev" title="mobx - redux的优秀替代品">
+                mobx - redux的优秀替代品 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/react-router-dom/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Installation"><span class="nav-number">1.</span> <span class="nav-text">Installation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#The-Router"><span class="nav-number">2.</span> <span class="nav-text">The Router</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#History"><span class="nav-number">2.1.</span> <span class="nav-text">History</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Rendering-a-lt-Router-gt"><span class="nav-number">3.</span> <span class="nav-text">Rendering a &lt;Router&gt;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#The-App"><span class="nav-number">4.</span> <span class="nav-text">The App</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#嵌套的Router"><span class="nav-number">5.</span> <span class="nav-text">嵌套的Router</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pathparam"><span class="nav-number">6.</span> <span class="nav-text">Pathparam</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Link"><span class="nav-number">7.</span> <span class="nav-text">Link</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

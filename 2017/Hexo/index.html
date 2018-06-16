@@ -1,0 +1,876 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Blog,Github," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="这是一个经济又快速又好看的博客搭建教程。 你的博客将会有一个后缀为github.io的域名，并且在该域名下有300M的存储空间。但是，本教程只写给Linux用户，其他用户参考自行摸索，原理一致，操作类似。 你看到的我的这篇博客就是最后的效果，当然你也可以自行修改样式。 博客使用Hexo博客生成系统，其优点如下：  简单快速，无需服务器端架设环境。 可选样式众多，易于修改。 扩展插件众多，且使用方便">
+<meta name="keywords" content="Blog,Github">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://paladnix.github.io/2017/Hexo/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="这是一个经济又快速又好看的博客搭建教程。 你的博客将会有一个后缀为github.io的域名，并且在该域名下有300M的存储空间。但是，本教程只写给Linux用户，其他用户参考自行摸索，原理一致，操作类似。 你看到的我的这篇博客就是最后的效果，当然你也可以自行修改样式。 博客使用Hexo博客生成系统，其优点如下：  简单快速，无需服务器端架设环境。 可选样式众多，易于修改。 扩展插件众多，且使用方便">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.233Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="这是一个经济又快速又好看的博客搭建教程。 你的博客将会有一个后缀为github.io的域名，并且在该域名下有300M的存储空间。但是，本教程只写给Linux用户，其他用户参考自行摸索，原理一致，操作类似。 你看到的我的这篇博客就是最后的效果，当然你也可以自行修改样式。 博客使用Hexo博客生成系统，其优点如下：  简单快速，无需服务器端架设环境。 可选样式众多，易于修改。 扩展插件众多，且使用方便">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/Hexo/"/>
+
+
+
+
+
+  <title>Hexo | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/Hexo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Hexo</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-28T14:24:05+08:00">
+                2017-05-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/Hexo/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/Hexo/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这是一个经济又快速又好看的博客搭建教程。</p>
+<p>你的博客将会有一个后缀为github.io的域名，并且在该域名下有300M的存储空间。但是，本教程只写给Linux用户，其他用户参考自行摸索，原理一致，操作类似。</p>
+<p>你看到的我的这篇博客就是最后的效果，当然你也可以自行修改样式。</p>
+<p>博客使用Hexo博客生成系统，其优点如下：</p>
+<ol>
+<li>简单快速，无需服务器端架设环境。</li>
+<li>可选样式众多，易于修改。</li>
+<li>扩展插件众多，且使用方便。</li>
+<li>使用markdown语法编写博客，易于上手。</li>
+<li>生成博客为纯静态代码，无需运行环境可直接移植，不依赖数据库。</li>
+</ol>
+<h2 id="本机环境的准备"><a href="#本机环境的准备" class="headerlink" title="本机环境的准备"></a>本机环境的准备</h2><p>你需要以下几个软件的环境：</p>
+<ol>
+<li>Node.js</li>
+<li>Git</li>
+<li>Hexo</li>
+</ol>
+<h3 id="安装node-js"><a href="#安装node-js" class="headerlink" title="安装node.js"></a>安装node.js</h3><p>在安装这个的时候卡了很久，然后才知道自己装的是Node.js, 然而需要的是Node！正确的结果是在命令行输入<code>node -v</code> 如果可以看到版本号就可以了。<br>正确的安装命令是：<code>sudo apt install nodejs-legacy</code>，害怕。。。就是有这样的操作，当你install nodejs的时候，对不起，这个并不是你要的node.js， 哈，我也很绝望啊！</p>
+<p>然后要安装一下这个npm工具：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install npm</span><br><span class="line">$ npm -v        <span class="comment">#看npm版本，如果结果显示版本号则安装成功</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install git</span><br></pre></td></tr></table></figure>
+<p>有的时候在安装完git后依旧在项目中无法使用，后面发布博客到github上面的时候会使用到git，如果报错：<code>Deploy not found git</code> 之类的，就需要再搞一下这个玩意儿！这就是软件版本混乱的锅，想说爱你不容易！</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git</span><br></pre></td></tr></table></figure>
+<h3 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
+<p>当然这个在安装的时候也有坑出现各种问题，那就只好去百度了，我是因为前面的东西出问题后来修好后就好了。一般也不会有啥问题了。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>其使用逻辑非常简单而且封装很好，命令操作也十分简洁，重点在于配置文件的修改。这是个强配置的框架，事实上好的框架就应该这样，甚至可以将软件由不懂程序设计的人来使用，但是前提得有一个个很清晰的配置文件设计思路以及详细的说明书……</p>
+<h3 id="建立工作区"><a href="#建立工作区" class="headerlink" title="建立工作区"></a>建立工作区</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init Blog</span><br><span class="line">$ <span class="built_in">cd</span> Blog</span><br></pre></td></tr></table></figure>
+<h3 id="新建一篇博文"><a href="#新建一篇博文" class="headerlink" title="新建一篇博文"></a>新建一篇博文</h3><p>在Blog文件夹内执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new 文件名(不加后缀)</span><br><span class="line">$ hexo new Hello</span><br></pre></td></tr></table></figure></p>
+<p>此时新建了一个文件在<code>source/_posts/Hello.md</code>， 打开文件即可编写内容，内容使用markdown语法。<br>事实上在第一次初始化博客的时候其中带有一篇示例博文，与你新建的这个文件在同一目录下。你可以先不着急编写文章，先来看一下默认文章的效果。</p>
+<h3 id="本地启动服务"><a href="#本地启动服务" class="headerlink" title="本地启动服务"></a>本地启动服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>随后你在本地浏览器输入<code>localhost:4000</code> 应该就可以看到你的博客。如果你的<code>4000</code>端口被占，请参照命令给出的提示信息操作。</p>
+<h3 id="部署到Github-io"><a href="#部署到Github-io" class="headerlink" title="部署到Github.io"></a>部署到Github.io</h3><p>在讲这个之前必须要说一下，配置文件的使用和Github Page的用法。</p>
+<h2 id="Github-Page"><a href="#Github-Page" class="headerlink" title="Github Page"></a>Github Page</h2><p>Github提供了这样一个服务，可以做项目的说明博客等，也可以用来做个人主页。</p>
+<p>首先你要在Github上有一个帐号，然后新建一个repository，项目名称必须为<code>YourUserName.github.io</code>。然后你需要在此项目下上传纯静态网页代码。之后可以使用<code>https://YourUserName.github.io</code>来访问这个站点。</p>
+<p>上传代码这件事当然是Hexo一个命令搞定，生成代码也是一个命令搞定，所以不用担心，先来看如何配置Hexo</p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>配置文件路径：<code>Blog/_comfig.yml</code><br>打开并修改其中如下几个必要的信息：</p>
+<ol>
+<li><code>title</code> ： 更改为你博客的标题，就是你风骚的昵称。</li>
+<li><code>author</code>： 更改为你喜欢的你的代号。</li>
+<li><code>url</code>： 未来你博客的地址。</li>
+<li><code>root</code>:  这个十分重要，就是你项目所在的文件夹的名称（如果你选择使用github page做站点，就写<code>YourUserName.github.io</code>， 如果你选择使用自己的服务器来做站点，就写你服务器上存放代码的文件夹名称，你会用<code>YourIP/YourRoot</code>的方式来访问，所以你应该知道填写什么了吧）。</li>
+<li><code>#Directory</code>：块下的几行你可以全部打开，但是其中的某些东西需要进一步配置。</li>
+<li><code>theme</code>： 你可以选择你喜欢的主题，<a href="https://hexo.io/themes/" target="_blank" rel="noopener">更多主题</a>，每个主题都有其自己的详细说明，不再赘述。</li>
+<li><code>deploy</code>： <code>type: git</code>, <code>repo: git@github.com:YourUserName/YourUserName.github.io.git</code>, <code>branch: master</code>。这个配置的就是上传部署的目标地址。也就是你的Github Page 的项目地址。</li>
+</ol>
+<p>好了，以上配置做好后就可以尝试第一次上传了。</p>
+<h3 id="上传部署"><a href="#上传部署" class="headerlink" title="上传部署"></a>上传部署</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean    <span class="comment"># 清除之前生成的文件</span></span><br><span class="line">$ hexo g        <span class="comment"># 生成博客文件</span></span><br><span class="line">$ hexo d        <span class="comment"># 部署到`deploy`的目的地址。</span></span><br></pre></td></tr></table></figure>
+<p>然后你可以尝试使用<code>https://YourUserName.github.io</code> 来访问你的博客了。</p>
+<p>你也可以选择在本地测试，使用上面提到的 <code>本地启动服务</code> 即可。</p>
+<h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>主题非常多，你可以选择你喜欢的主题，并到其详细说明中寻找安装、使用和修改的方法。<br>每个主题都有自己的配置文件，且配置文件的格式是统一的，所以很方便。</p>
+<p>本博客使用的主题为<a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">Next</a>。</p>
+<p>一些人气颇高的主题会有自己的官方网站，上面有更多插件的使用。如果有时间，我会补充该部分内容到该文章中。如果你对此做了整理，我也很乐意讲你的成果添加到本文的附录中。</p>
+<p>Thanks.</p>
+<h2 id="多机同步"><a href="#多机同步" class="headerlink" title="多机同步"></a>多机同步</h2><p>换了公司的电脑再带着自己的电脑写博客有点太low了，最好的方式当然是无牵无挂，有网就能玩的状态，所以就需要多机同步。很自然就想到了github嘛，之前发布的时候是将生成的静态网页发布了github上，但是你的工程源文件并没有同步上去，所以要做的就是将工程文件也搞上去。然后就有两个思路：1. 在io那个仓库新建一个分支，然后把源代码搞到新分支上去。2. 搞个新的仓库，单独放工程源文件。</p>
+<p>由于我的github操作水平有限，在尝试新分支的时候总是出错，所以我就选择了另一种简单粗暴的方式。</p>
+<p>首先在本地初始化建仓库, 在github上建一个仓库，关联起来<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git init</span><br><span class="line">$ git add .</span><br><span class="line">$ git commit -m <span class="string">'init'</span></span><br><span class="line">$ git push origin master</span><br></pre></td></tr></table></figure></p>
+<p>其实就是跟普通建仓库一样的。。。有些东西没有写，其实默认应该是会的，就是添加新机器的ssh_key到github上，<code>ssh-keygen -t rsa -C &quot;你的邮箱地址&quot;</code>，然后复制<code>~/.ssh/id_rsa.pub</code> 到github上就可以了。<br>不过我在网桑看到了有人将文件夹下的<code>.gitignore</code>文件追加了两行：<code>/deploy_git</code> 和 <code>/public</code> 。如果你直接建仓失败了就这样搞试试。</p>
+<p>然后就是在另一台机器上，现在本地建起hexo的工作区，然后同步数据过来就好了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git init</span><br><span class="line">$ git remote add origin &lt;url&gt;</span><br><span class="line">$ git fetch --all</span><br><span class="line">$ git reset --hard origin/master</span><br></pre></td></tr></table></figure>
+<p>这样就同步好了，接下来每次更新博客流程如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ git pull</span><br><span class="line">$ hexo new XXX</span><br><span class="line">$ hexo g</span><br><span class="line">$ hexo d</span><br><span class="line">$ git add .</span><br><span class="line">$ git commit -m <span class="string">'xx'</span></span><br><span class="line">$ git push origin master</span><br></pre></td></tr></table></figure>
+<p>搞起来感觉有点麻烦，因为用的是Node这个体系，不熟悉。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Blog/" rel="tag"># Blog</a>
+          
+            <a href="/tags/Github/" rel="tag"># Github</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/ACMRoad/" rel="next" title="ACMRoad">
+                <i class="fa fa-chevron-left"></i> ACMRoad
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/Java-1/" rel="prev" title="Java 抽象与接口">
+                Java 抽象与接口 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/Hexo/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#本机环境的准备"><span class="nav-number">1.</span> <span class="nav-text">本机环境的准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装node-js"><span class="nav-number">1.1.</span> <span class="nav-text">安装node.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装git"><span class="nav-number">1.2.</span> <span class="nav-text">安装git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Hexo"><span class="nav-number">1.3.</span> <span class="nav-text">安装Hexo</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">2.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立工作区"><span class="nav-number">2.1.</span> <span class="nav-text">建立工作区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新建一篇博文"><span class="nav-number">2.2.</span> <span class="nav-text">新建一篇博文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地启动服务"><span class="nav-number">2.3.</span> <span class="nav-text">本地启动服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署到Github-io"><span class="nav-number">2.4.</span> <span class="nav-text">部署到Github.io</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Github-Page"><span class="nav-number">3.</span> <span class="nav-text">Github Page</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">4.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#上传部署"><span class="nav-number">4.1.</span> <span class="nav-text">上传部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主题"><span class="nav-number">4.2.</span> <span class="nav-text">主题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多机同步"><span class="nav-number">5.</span> <span class="nav-text">多机同步</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

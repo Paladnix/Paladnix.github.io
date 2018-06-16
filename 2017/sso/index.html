@@ -1,0 +1,856 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Solution," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="每天要接N多个需求，我也是很怀疑人生。本是在集群运维组干着运维系统开发，却被隔壁存储数据库组拉着每天做些数据结构思考题，虽然到现在我已经积攒了很多个思考题没来的及思考了。今天又来了个自己组的一个月前的bug要搞定。 多应用服务下，实现单点登录，多点信任的方案。 SSO的基本概念在wiki上的解释非常清晰，比其本身的名字(Single Sign-On)更清晰：在一个多应用但彼此独立的系统上，只要进行">
+<meta name="keywords" content="Solution">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sso 单点登录">
+<meta property="og:url" content="http://paladnix.github.io/2017/sso/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="每天要接N多个需求，我也是很怀疑人生。本是在集群运维组干着运维系统开发，却被隔壁存储数据库组拉着每天做些数据结构思考题，虽然到现在我已经积攒了很多个思考题没来的及思考了。今天又来了个自己组的一个月前的bug要搞定。 多应用服务下，实现单点登录，多点信任的方案。 SSO的基本概念在wiki上的解释非常清晰，比其本身的名字(Single Sign-On)更清晰：在一个多应用但彼此独立的系统上，只要进行">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.287Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="sso 单点登录">
+<meta name="twitter:description" content="每天要接N多个需求，我也是很怀疑人生。本是在集群运维组干着运维系统开发，却被隔壁存储数据库组拉着每天做些数据结构思考题，虽然到现在我已经积攒了很多个思考题没来的及思考了。今天又来了个自己组的一个月前的bug要搞定。 多应用服务下，实现单点登录，多点信任的方案。 SSO的基本概念在wiki上的解释非常清晰，比其本身的名字(Single Sign-On)更清晰：在一个多应用但彼此独立的系统上，只要进行">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/sso/"/>
+
+
+
+
+
+  <title>sso 单点登录 | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/sso/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">sso 单点登录</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-14T10:57:24+08:00">
+                2017-08-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/sso/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/sso/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>每天要接N多个需求，我也是很怀疑人生。本是在集群运维组干着运维系统开发，却被隔壁存储数据库组拉着每天做些数据结构思考题，虽然到现在我已经积攒了很多个思考题没来的及思考了。今天又来了个自己组的一个月前的bug要搞定。</p>
+<p>多应用服务下，实现单点登录，多点信任的方案。</p>
+<h2 id="SSO的基本概念"><a href="#SSO的基本概念" class="headerlink" title="SSO的基本概念"></a>SSO的基本概念</h2><p>在wiki上的解释非常清晰，比其本身的名字(Single Sign-On)更清晰：在一个多应用但彼此独立的系统上，只要进行一次登录就可以在不同的应用中获得信任。就是你在淘宝登录一下，然后你在咸鱼、tmall、阿里云等等网站上都不用登录了，就可以直接被识别出来，不过是在一定时间长度内。</p>
+<h2 id="基本问题"><a href="#基本问题" class="headerlink" title="基本问题"></a>基本问题</h2><p>实现这个系统有两个问题：</p>
+<ol>
+<li>用户数据统一</li>
+<li>系统内信息统一</li>
+</ol>
+<p>首先就是你的一个用户名和密码在每个应用上都能登录。其次就是在你登录以后其他的应用都能获取到这个登录信息。</p>
+<p>解决这个问题的主要思路就是建立一个公共的缓存，所有的应用都去这里提取用户的信任信息。有了公共缓存以后，问题的核心又转移到了客户端。因为客户端（这里就是指浏览器）在访问每个应用的时候所带有的信息是不一样的，所以你去缓存中也提取不到这个信息了。主要解决的就是如何让客户端在访问同一个系统中的不同应用的时候带有一个相同的ID信息。</p>
+<h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><p>这一部分的具体细节可以看下一篇博客。</p>
+<h2 id="SSO的基本流程"><a href="#SSO的基本流程" class="headerlink" title="SSO的基本流程"></a>SSO的基本流程</h2><p>在网上看到了很多实现方式的分析，还有人要步步深入，循序渐进。我觉得这个模型还是比较简单的，所以就直接来聊聊这个模型就可以了。</p>
+<p>我们模型要解决的问题是：跨域名的单点登录。<br>问题主要使用的技术就是Cookie。</p>
+<h3 id="主要流程"><a href="#主要流程" class="headerlink" title="主要流程"></a>主要流程</h3><ol>
+<li>本机客户端也就是浏览器，发起一个请求到目标应用的服务器。</li>
+<li>服务器判断你没有登录，因为你没有携带任何的凭证信息在你的Cookie中。</li>
+<li>于是给你返回一个302，302就是一个重定向的返回代码，并且与之匹配的还有一个参数也会被返回过来，就是重定向的目标地址。同时还携带了这个服务器自己的URL地址，也就是你最终要访问的那个。</li>
+<li>浏览器接收到302和参数以后，自行发起一个到重定向地址的请求。请求中有一个参数，就是原目标地址。</li>
+<li>链接上这个地址，并且这个页面一般就是个登录页面。登录完成以后，这个第三方的服务器会在你的Cookie里写一个TokenId，并且也返回给你一个302。这次重定向的目的地是你真正要访问的地址。</li>
+<li>你的浏览器接受到这个参数就再一次发起请求，并且在Cookie中带有了一个TokenID。</li>
+<li>目的服务器验证成功，登录成功。</li>
+</ol>
+<p>对于上面的过程中有几个东西要解释一下。</p>
+<h4 id="302"><a href="#302" class="headerlink" title="302"></a>302</h4><p>这是HTTP的一个状态码，表示暂时性的重定向到另外一个地址上去访问。在浏览器收到这个状态码的时候就去请求新的URL。</p>
+<p>在php代码中，我们写<code>&lt;?php header(&quot;Location:http://ip/path/&quot;); ?&gt;</code>就是返回一个重定向302的状态。基础知识很重要。</p>
+<p>在下一篇Cookie中，也有这方面的内容。</p>
+<h3 id="如何认证"><a href="#如何认证" class="headerlink" title="如何认证"></a>如何认证</h3><p>我自己用php写了一个简单的模型。还是比较简单的。<br>下面就按步骤介绍一下：</p>
+<h4 id="修改本地hosts"><a href="#修改本地hosts" class="headerlink" title="修改本地hosts"></a>修改本地hosts</h4><p>hosts作为你的联通网络的第一个路由表，你可以做一些修改，比如给自己的电脑绑定n个不同的域名。<br>当然这个域名只在你的路由表中，所以只在你的电脑上管用。不过没关系，我们用这种方法模拟出了一个跨域名的环境。</p>
+<p>ubuntu下hosts文件：<code>/etc/hosts</code></p>
+<p>在其中添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1   baiyan.a</span><br><span class="line">127.0.0.1   paladnix.b</span><br></pre></td></tr></table></figure></p>
+<p>然后我们编写下面的几个php文件来模拟整个过程，文件位置在<code>/var/www/html/sso/</code>下。</p>
+<h4 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h4><p>首先我们去访问：<code>http://baiyan.a/sso/hello.php</code><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( ($_GET[<span class="string">'uuid'</span>]== <span class="string">''</span> || $_GET[<span class="string">'uuid'</span>]!=<span class="number">553</span>) &amp;&amp; ($_COOKIE[<span class="string">'uuid'</span>]==<span class="string">''</span> || $_COOKIE[<span class="string">'uuid'</span>]!=<span class="number">553</span> ))&#123;</span><br><span class="line">    header(<span class="string">"Location:http://paladnix.b/sso/log.php?call_back=http://baiyan.a/sso/hello.php"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    setcookie(<span class="string">'uuid'</span>, $_GET[<span class="string">'uuid'</span>], time()+<span class="number">3600</span>);</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"Hello "</span>.$_GET[<span class="string">'uuid'</span>].<span class="string">" "</span>.$_COOKIE[<span class="string">'uuid'</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>根据你的参数和cookie来确定是否要定向到登录站点。并将自己的uri作为参数附在后面。</p>
+<p>跳转到验证点<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"></span><br><span class="line">$call_back = $_GET[<span class="string">'call_back'</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( $_COOKIE[<span class="string">'uuid'</span>] == <span class="string">''</span> )&#123;</span><br><span class="line">    header(<span class="string">"Location:http://paladnix.b/sso/loginh.php?call_back=$call_back"</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123; </span><br><span class="line">    $uuid = <span class="number">553</span>;</span><br><span class="line">    setcookie(<span class="string">'uuid'</span>, $uuid);</span><br><span class="line">    <span class="comment">//echo $_COOKIE['uuid'];</span></span><br><span class="line">    header(<span class="string">"Location:$call_back?uuid=$uuid"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在这里判断一下对方最近是否有登录，也是通过cookie来判断，注意这里已经是另外一个域名了，所以cookie已经不一样了。没有登录定向到登录页面。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;title&gt;Login&lt;/title&gt;</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line"></span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;form method=<span class="string">"post"</span> action=<span class="string">"login.php"</span>&gt;</span><br><span class="line">        &lt;input type=<span class="string">"text"</span> name=<span class="string">"name"</span> value=<span class="string">""</span> /&gt;</span><br><span class="line">        &lt;br&gt;</span><br><span class="line">        &lt;input type=<span class="string">"text"</span> name=<span class="string">"pw"</span> value=<span class="string">""</span>/&gt;</span><br><span class="line">        &lt;br&gt;</span><br><span class="line">        &lt;input type=<span class="string">"hidden"</span> name=<span class="string">"call_back"</span> value=<span class="string">"&lt;?php echo $_GET['call_back'] ?&gt;"</span> /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;button type=<span class="string">"submit"</span>&gt;submit&lt;/button&gt; </span><br><span class="line">        &lt;/form&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>在表单中添加了一个隐藏字段，<code>call_back</code>。填写信息并去验证。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$name = $_POST[<span class="string">'name'</span>];</span><br><span class="line">$pw = $_POST[<span class="string">'pw'</span>];</span><br><span class="line">$call_back = $_POST[<span class="string">'call_back'</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>($name == <span class="string">'baiyan'</span>)&#123;</span><br><span class="line">    $uuid = <span class="number">553</span>;</span><br><span class="line">    setcookie(<span class="string">'uuid'</span>,$uuid, time()+<span class="number">1800</span>);</span><br><span class="line">    header(<span class="string">"Location:$call_back?uuid=$uuid"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    header(<span class="string">"Location:http://paladnix.b/sso/loginh.php?call_back=$call_back"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>验证并且写个cookie，并设置半小时后过期。<br>然后就会跳转回去显示hello了。</p>
+<h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>上面的方式都是明文的非藏不安全，一般的做法，我们可以给cookie的内容加密。</p>
+<p>在验证方式上，现在是没有再验证uuid的正确性。有些做法会拿到uuid以后再发送给登录服务器去校验真伪。我觉得这个完全可以避免，可以设计一个算法，在本地验证uuid的正确性比较优。</p>
+<p>所以在编码uuid的时候我们可以将其有效时间也编在内，校验准确性的同时也也可以校验是否过期。我们可以再增加一个字段，使得uuid是由这个字段通过不可逆计算得到的hash值，然后到本地以后，重复这个算法，比对结果hash是否一致。</p>
+<p>逐步完善吧。暂时还没有时间。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Solution/" rel="tag"># Solution</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/spring-2/" rel="next" title="每天读点Spring(2)--Start">
+                <i class="fa fa-chevron-left"></i> 每天读点Spring(2)--Start
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/cookie/" rel="prev" title="Cookie">
+                Cookie <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/sso/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SSO的基本概念"><span class="nav-number">1.</span> <span class="nav-text">SSO的基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本问题"><span class="nav-number">2.</span> <span class="nav-text">基本问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cookie"><span class="nav-number">3.</span> <span class="nav-text">Cookie</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSO的基本流程"><span class="nav-number">4.</span> <span class="nav-text">SSO的基本流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主要流程"><span class="nav-number">4.1.</span> <span class="nav-text">主要流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#302"><span class="nav-number">4.1.1.</span> <span class="nav-text">302</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何认证"><span class="nav-number">4.2.</span> <span class="nav-text">如何认证</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#修改本地hosts"><span class="nav-number">4.2.1.</span> <span class="nav-text">修改本地hosts</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#过程"><span class="nav-number">4.2.2.</span> <span class="nav-text">过程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加密"><span class="nav-number">5.</span> <span class="nav-text">加密</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,875 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Web,Css," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="作为CSS的一种扩展语言，使得CSS开发更便捷。 变量less中的变量使用@开头。 1234567891011121314151617181920  // LESS@color: #4D926F;#header &amp;#123;  color: @color;&amp;#125;h2 &amp;#123;  color: @color;&amp;#125;/* 生成的 CSS */#header &amp;#123;  color:">
+<meta name="keywords" content="Web,Css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="less 笔记">
+<meta property="og:url" content="http://paladnix.github.io/2017/less/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="作为CSS的一种扩展语言，使得CSS开发更便捷。 变量less中的变量使用@开头。 1234567891011121314151617181920  // LESS@color: #4D926F;#header &amp;#123;  color: @color;&amp;#125;h2 &amp;#123;  color: @color;&amp;#125;/* 生成的 CSS */#header &amp;#123;  color:">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.279Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="less 笔记">
+<meta name="twitter:description" content="作为CSS的一种扩展语言，使得CSS开发更便捷。 变量less中的变量使用@开头。 1234567891011121314151617181920  // LESS@color: #4D926F;#header &amp;#123;  color: @color;&amp;#125;h2 &amp;#123;  color: @color;&amp;#125;/* 生成的 CSS */#header &amp;#123;  color:">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/less/"/>
+
+
+
+
+
+  <title>less 笔记 | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/less/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">less 笔记</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-20T12:36:39+08:00">
+                2017-11-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/less/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/less/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>作为CSS的一种扩展语言，使得CSS开发更便捷。</p>
+<h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><p>less中的变量使用<code>@</code>开头。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">  // LESS</span><br><span class="line"></span><br><span class="line">@color: #4D926F;</span><br><span class="line"></span><br><span class="line">#header &#123;</span><br><span class="line">  color: @color;</span><br><span class="line">&#125;</span><br><span class="line">h2 &#123;</span><br><span class="line">  color: @color;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/* 生成的 CSS */</span><br><span class="line"></span><br><span class="line">#header &#123;</span><br><span class="line">  color: #4D926F;</span><br><span class="line">&#125;</span><br><span class="line">h2 &#123;</span><br><span class="line">  color: #4D926F;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>甚至可以用变量名定义为变量:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@fnord: &quot;I am fnord.&quot;;</span><br><span class="line">@var: &apos;fnord&apos;;</span><br><span class="line">content: @@var;</span><br><span class="line"></span><br><span class="line">--&gt; content: &quot;I am fnord.&quot;;</span><br></pre></td></tr></table></figure>
+<p>请注意 LESS 中的变量为完全的 ‘常量’ ，所以只能定义一次.</p>
+<h2 id="字符串嵌入"><a href="#字符串嵌入" class="headerlink" title="字符串嵌入"></a>字符串嵌入</h2><p>变量可以用类似ruby和php的方式嵌入到字符串中，像@{name}这样的结构:</p>
+<p><code>@base-url: &quot;http://assets.fnord.com&quot;;
+background-image: url(&quot;@{base-url}/images/bg.png&quot;);</code></p>
+<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><p>LESS 中的作用域跟其他编程语言非常类似，首先会从本地查找变量或者混合模块，如果没找到的话会去父级作用域中查找，直到找到为止.</p>
+<h1 id="引入文件"><a href="#引入文件" class="headerlink" title="引入文件"></a>引入文件</h1><p>你可以在main文件中通过下面的形势引入 .less 文件, .less 后缀可带可不带:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@import &quot;lib.less&quot;;</span><br><span class="line">@import &quot;lib&quot;;</span><br></pre></td></tr></table></figure></p>
+<p>如果你想导入一个CSS文件而且不想LESS对它进行处理，只需要使用.css后缀就可以:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@import &quot;lib.css&quot;;</span><br></pre></td></tr></table></figure></p>
+<h1 id="打包重用"><a href="#打包重用" class="headerlink" title="打包重用"></a>打包重用</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#bundle &#123;</span><br><span class="line">  .button () &#123;</span><br><span class="line">    display: block;</span><br><span class="line">    border: 1px solid black;</span><br><span class="line">    background-color: grey;</span><br><span class="line">    &amp;:hover &#123; background-color: white &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  .tab &#123; ... &#125;</span><br><span class="line">  .citation &#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用的时候这样使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#header a &#123;</span><br><span class="line">  color: orange;</span><br><span class="line">  #bundle &gt; .button;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="混合"><a href="#混合" class="headerlink" title="混合"></a>混合</h1><p>混合可以将一个定义好的class A轻松的引入到另一个class B中，从而简单实现class B继承class A中的所有属性。我们还可以带参数地调用，就像使用函数一样。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">// LESS</span><br><span class="line"></span><br><span class="line">.rounded-corners (@radius: 5px) &#123;  // 设置默认值</span><br><span class="line">  border-radius: @radius;</span><br><span class="line">  -webkit-border-radius: @radius;</span><br><span class="line">  -moz-border-radius: @radius;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#header &#123;</span><br><span class="line">  .rounded-corners;</span><br><span class="line">&#125;</span><br><span class="line">#footer &#123;</span><br><span class="line">  .rounded-corners(10px);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/* 生成的 CSS */</span><br><span class="line"></span><br><span class="line">#header &#123;</span><br><span class="line">  border-radius: 5px;</span><br><span class="line">  -webkit-border-radius: 5px;</span><br><span class="line">  -moz-border-radius: 5px;</span><br><span class="line">&#125;</span><br><span class="line">#footer &#123;</span><br><span class="line">  border-radius: 10px;</span><br><span class="line">  -webkit-border-radius: 10px;</span><br><span class="line">  -moz-border-radius: 10px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>任何 CSS class, id 或者 元素 属性集都可以以同样的方式引入.</p>
+<h2 id="arguments-变量"><a href="#arguments-变量" class="headerlink" title="@arguments 变量"></a>@arguments 变量</h2><p>@arguments包含了所有传递进来的参数. 如果你不想单独处理每一个参数的话就可以像这样写:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) &#123;</span><br><span class="line">  box-shadow: @arguments;</span><br><span class="line">  -moz-box-shadow: @arguments;</span><br><span class="line">  -webkit-box-shadow: @arguments;</span><br><span class="line">&#125;</span><br><span class="line">.box-shadow(2px, 5px);</span><br></pre></td></tr></table></figure></p>
+<h1 id="嵌套"><a href="#嵌套" class="headerlink" title="嵌套"></a>嵌套</h1><p>我们可以在一个选择器中嵌套另一个选择器来实现继承，这样很大程度减少了代码量，并且代码看起来更加的清晰。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// LESS</span><br><span class="line"></span><br><span class="line">#header &#123;</span><br><span class="line">  h1 &#123;</span><br><span class="line">    font-size: 26px;</span><br><span class="line">    font-weight: bold;</span><br><span class="line">  &#125;</span><br><span class="line">  p &#123; font-size: 12px;</span><br><span class="line">    a &#123; text-decoration: none;</span><br><span class="line">      &amp;:hover &#123; border-width: 1px &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 生成的 CSS */</span><br><span class="line"></span><br><span class="line">#header h1 &#123;</span><br><span class="line">  font-size: 26px;</span><br><span class="line">  font-weight: bold;</span><br><span class="line">&#125;</span><br><span class="line">#header p &#123;</span><br><span class="line">  font-size: 12px;</span><br><span class="line">&#125;</span><br><span class="line">#header p a &#123;</span><br><span class="line">  text-decoration: none;</span><br><span class="line">&#125;</span><br><span class="line">#header p a:hover &#123;</span><br><span class="line">  border-width: 1px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意 &amp; 符号的使用—如果你想写串联选择器，而不是写后代选择器，就可以用到&amp;了. 这点对伪类尤其有用如 :hover 和 :focus.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">.bordered &#123;</span><br><span class="line">  &amp;.float &#123;</span><br><span class="line">    float: left; </span><br><span class="line">  &#125;</span><br><span class="line">  .top &#123;</span><br><span class="line">    margin: 5px; </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 输出 */</span><br><span class="line">.bordered.float &#123;</span><br><span class="line">  float: left;  </span><br><span class="line">&#125;</span><br><span class="line">.bordered .top &#123;</span><br><span class="line">  margin: 5px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="函数-amp-运算"><a href="#函数-amp-运算" class="headerlink" title="函数 &amp; 运算"></a>函数 &amp; 运算</h1><p>运算提供了加，减，乘，除操作；我们可以做属性值和颜色的运算，这样就可以实现属性值之间的复杂关系。LESS中的函数一一映射了JavaScript代码，如果你愿意的话可以操作属性值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// LESS</span><br><span class="line"></span><br><span class="line">@the-border: 1px;</span><br><span class="line">@base-color: #111;</span><br><span class="line">@red:        #842210;</span><br><span class="line"></span><br><span class="line">#header &#123;</span><br><span class="line">  color: @base-color * 3;</span><br><span class="line">  border-left: @the-border;</span><br><span class="line">  border-right: @the-border * 2;</span><br><span class="line">&#125;</span><br><span class="line">#footer &#123;</span><br><span class="line">  color: @base-color + #003300;</span><br><span class="line">  border-color: desaturate(@red, 10%);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Color-函数"><a href="#Color-函数" class="headerlink" title="Color 函数"></a>Color 函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">lighten(@color, 10%);     // return a color which is 10% *lighter* than @color</span><br><span class="line">darken(@color, 10%);      // return a color which is 10% *darker* than @color</span><br><span class="line"></span><br><span class="line">saturate(@color, 10%);    // return a color 10% *more* saturated than @color</span><br><span class="line">desaturate(@color, 10%);  // return a color 10% *less* saturated than @color</span><br><span class="line"></span><br><span class="line">fadein(@color, 10%);      // return a color 10% *less* transparent than @color</span><br><span class="line">fadeout(@color, 10%);     // return a color 10% *more* transparent than @color</span><br><span class="line">fade(@color, 50%);        // return @color with 50% transparency</span><br><span class="line"></span><br><span class="line">spin(@color, 10);         // return a color with a 10 degree larger in hue than @color</span><br><span class="line">spin(@color, -10);        // return a color with a 10 degree smaller hue than @color</span><br><span class="line"></span><br><span class="line">mix(@color1, @color2);    // return a mix of @color1 and @color2</span><br></pre></td></tr></table></figure>
+<p>你还可以提取颜色信息:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hue(@color);        // returns the `hue` channel of @color</span><br><span class="line">saturation(@color); // returns the `saturation` channel of @color</span><br><span class="line">lightness(@color);  // returns the &apos;lightness&apos; channel of @color</span><br></pre></td></tr></table></figure>
+<h2 id="Math-函数"><a href="#Math-函数" class="headerlink" title="Math 函数"></a>Math 函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">round(1.67); // returns `2`</span><br><span class="line">ceil(2.4);   // returns `3`</span><br><span class="line">floor(2.6);  // returns `2`</span><br><span class="line">percentage(0.5); // returns `50%`</span><br></pre></td></tr></table></figure>
+<h1 id="模式匹配"><a href="#模式匹配" class="headerlink" title="模式匹配"></a>模式匹配</h1><p>类似于函数重载。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.mixin (@s, @color) &#123; ... &#125;</span><br><span class="line"></span><br><span class="line">.class &#123;</span><br><span class="line">  .mixin(@switch, #888);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果想让.mixin根据不同的@switch值而表现各异，如下这般设置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">.mixin (dark, @color) &#123;</span><br><span class="line">  color: darken(@color, 10%);</span><br><span class="line">&#125;</span><br><span class="line">.mixin (light, @color) &#123;</span><br><span class="line">  color: lighten(@color, 10%);</span><br><span class="line">&#125;</span><br><span class="line">.mixin (@_, @color) &#123;</span><br><span class="line">  display: block;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>变量可以匹配任意的传入值，而变量以外的固定值就仅仅匹配与其相等的传入值。</p>
+<p>我们也可以匹配多个参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">.mixin (@a) &#123;</span><br><span class="line">  color: @a;</span><br><span class="line">&#125;</span><br><span class="line">.mixin (@a, @b) &#123;</span><br><span class="line">  color: fade(@a, @b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="导引"><a href="#导引" class="headerlink" title="导引"></a>导引</h1><p>当我们想根据表达式进行匹配，而非根据值和参数匹配时，导引就显得非常有用。Less不使用if-else的方式实现条件判断，而是使用导引。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">.mixin (@a) when (lightness(@a) &gt;= 50%) &#123;</span><br><span class="line">  background-color: black;</span><br><span class="line">&#125;</span><br><span class="line">.mixin (@a) when (lightness(@a) &lt; 50%) &#123;</span><br><span class="line">  background-color: white;</span><br><span class="line">&#125;</span><br><span class="line">.mixin (@a) &#123;</span><br><span class="line">  color: @a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可使用的运算符： <code>=, &gt;, &lt;, &gt;=, &lt;=</code>。<br>需要注意的是， 只有关键字true才是真，其余的任何东西都是假。<br>导引序列使用逗号‘,’—分割，当且仅当所有条件都符合时，才会被视为匹配成功。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.mixin (@a) when (@a &gt; 10), (@a &lt; -10) &#123; ... &#125;</span><br></pre></td></tr></table></figure></p>
+<p>在导引序列中可以使用and关键字实现与条件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.mixin (@a) when (isnumber(@a)) and (@a &gt; 0) &#123; ... &#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用not关键字实现或条件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.mixin (@b) when not (@b &gt; 0) &#123; ... &#125;</span><br></pre></td></tr></table></figure></p>
+<p>导引可以无参数，也可以对参数进行比较运算：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@media: mobile;</span><br><span class="line"></span><br><span class="line">.mixin (@a) when (@media = mobile) &#123; ... &#125;</span><br><span class="line">.mixin (@a) when (@media = desktop) &#123; ... &#125;</span><br><span class="line"></span><br><span class="line">.max (@a, @b) when (@a &gt; @b) &#123; width: @a &#125;</span><br><span class="line">.max (@a, @b) when (@a &lt; @b) &#123; width: @b &#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后，如果想基于值的类型进行匹配，我们就可以使用<code>is*</code>函式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.mixin (@a, @b: 0) when (isnumber(@b)) &#123; ... &#125;</span><br><span class="line">.mixin (@a, @b: black) when (iscolor(@b)) &#123; ... &#125;</span><br></pre></td></tr></table></figure></p>
+<p>常用的有：</p>
+<ul>
+<li>iscolor</li>
+<li>isnumber</li>
+<li>isstring</li>
+<li>iskeyword</li>
+<li>isurl</li>
+</ul>
+<p>如果你想判断一个值是纯数字，还是某个单位量，可以使用下列函式：</p>
+<ul>
+<li>ispixel</li>
+<li>ispercentage</li>
+<li>isem<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="避免编译"><a href="#避免编译" class="headerlink" title="避免编译"></a>避免编译</h1><p>有时候我们需要输出一些不正确的CSS语法或者使用一些 LESS不认识的专有语法.</p>
+<p>要输出这样的值我们可以在字符串前加上一个 ~, 例如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.class &#123;</span><br><span class="line">  filter: ~&quot;ms:alwaysHasItsOwnSyntax.For.Stuff()&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们可以将要避免编译的值用 “”包含起来。输出的时候会去掉引号的。</p>
+<h1 id="Javascript表达式"><a href="#Javascript表达式" class="headerlink" title="Javascript表达式"></a>Javascript表达式</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@var: `&quot;hello&quot;.toUpperCase() + &apos;!&apos;`;</span><br></pre></td></tr></table></figure>
+<p>使用反引号包起来。<br>注意你也可以同时使用字符串插值和避免编译:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@str: &quot;hello&quot;;</span><br><span class="line">@var: ~`&quot;@&#123;str&#125;&quot;.toUpperCase() + &apos;!&apos;`;</span><br></pre></td></tr></table></figure>
+<p>它也可以访问JavaScript环境:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@height: `document.body.clientHeight`;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Web/" rel="tag"># Web</a>
+          
+            <a href="/tags/Css/" rel="tag"># Css</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/react-2/" rel="next" title="react 设计概念">
+                <i class="fa fa-chevron-left"></i> react 设计概念
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/webpack/" rel="prev" title="webpack">
+                webpack <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/less/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#变量"><span class="nav-number">1.</span> <span class="nav-text">变量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串嵌入"><span class="nav-number">1.1.</span> <span class="nav-text">字符串嵌入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作用域"><span class="nav-number">1.2.</span> <span class="nav-text">作用域</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#引入文件"><span class="nav-number">2.</span> <span class="nav-text">引入文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#打包重用"><span class="nav-number">3.</span> <span class="nav-text">打包重用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#混合"><span class="nav-number">4.</span> <span class="nav-text">混合</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#arguments-变量"><span class="nav-number">4.1.</span> <span class="nav-text">@arguments 变量</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#嵌套"><span class="nav-number">5.</span> <span class="nav-text">嵌套</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#函数-amp-运算"><span class="nav-number">6.</span> <span class="nav-text">函数 &amp; 运算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Color-函数"><span class="nav-number">6.1.</span> <span class="nav-text">Color 函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Math-函数"><span class="nav-number">6.2.</span> <span class="nav-text">Math 函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模式匹配"><span class="nav-number">7.</span> <span class="nav-text">模式匹配</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#导引"><span class="nav-number">8.</span> <span class="nav-text">导引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#避免编译"><span class="nav-number">9.</span> <span class="nav-text">避免编译</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Javascript表达式"><span class="nav-number">10.</span> <span class="nav-text">Javascript表达式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

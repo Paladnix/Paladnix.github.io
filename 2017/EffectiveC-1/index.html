@@ -1,0 +1,839 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="C++," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="从北京回来，决定花三天时间把这本书看掉。有两个原因，第一个是我希望主要精通的语言还是选择C++，因为其功能强大，且速度快；优秀的程序员就应该精通C++才可以。其次是在即将要学习的机器学习和深度学习的领域中，C++是后期算法工程化的重要一环。 如果是看完这本书，我觉得三天就够了。如果是精研每个细节就要花个一周了，我决定先快速的get到重点的内容，在接下来写代码的过程中再实践出来。 本书架构这本书被冠">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Effective C++ 读书笔记">
+<meta property="og:url" content="http://paladnix.github.io/2017/EffectiveC-1/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="从北京回来，决定花三天时间把这本书看掉。有两个原因，第一个是我希望主要精通的语言还是选择C++，因为其功能强大，且速度快；优秀的程序员就应该精通C++才可以。其次是在即将要学习的机器学习和深度学习的领域中，C++是后期算法工程化的重要一环。 如果是看完这本书，我觉得三天就够了。如果是精研每个细节就要花个一周了，我决定先快速的get到重点的内容，在接下来写代码的过程中再实践出来。 本书架构这本书被冠">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.228Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Effective C++ 读书笔记">
+<meta name="twitter:description" content="从北京回来，决定花三天时间把这本书看掉。有两个原因，第一个是我希望主要精通的语言还是选择C++，因为其功能强大，且速度快；优秀的程序员就应该精通C++才可以。其次是在即将要学习的机器学习和深度学习的领域中，C++是后期算法工程化的重要一环。 如果是看完这本书，我觉得三天就够了。如果是精研每个细节就要花个一周了，我决定先快速的get到重点的内容，在接下来写代码的过程中再实践出来。 本书架构这本书被冠">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/EffectiveC-1/"/>
+
+
+
+
+
+  <title>Effective C++ 读书笔记 | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/EffectiveC-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Effective C++ 读书笔记</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-23T21:31:44+08:00">
+                2017-09-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/EffectiveC-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/EffectiveC-1/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>从北京回来，决定花三天时间把这本书看掉。有两个原因，第一个是我希望主要精通的语言还是选择C++，因为其功能强大，且速度快；优秀的程序员就应该精通C++才可以。其次是在即将要学习的机器学习和深度学习的领域中，C++是后期算法工程化的重要一环。</p>
+<p>如果是看完这本书，我觉得三天就够了。如果是精研每个细节就要花个一周了，我决定先快速的get到重点的内容，在接下来写代码的过程中再实践出来。</p>
+<h2 id="本书架构"><a href="#本书架构" class="headerlink" title="本书架构"></a>本书架构</h2><p>这本书被冠以盛名，源自于其内容的独特性、优质性。<br>书中不是详细介绍C++的各种特性，而是从大量的工程经验中思考c++编写代码的优秀习惯。</p>
+<p>本书全局来看，由55条准则构成。这55条准则被由浅入深的分成了8个模块，还有一个杂项模块作为第9个模块。<br>下面我就这些准则和书中的内容做个整理。</p>
+<h2 id="1-让自己习惯C"><a href="#1-让自己习惯C" class="headerlink" title="1. 让自己习惯C++"></a>1. 让自己习惯C++</h2><h3 id="View-C-as-a-federation-of-languages"><a href="#View-C-as-a-federation-of-languages" class="headerlink" title="View C++ as a federation of languages"></a>View C++ as a federation of languages</h3><p>C++ 今天已经是一个多重范型编程语言，同时支持过程形式、面向对象形式、函数形式、泛型形式、元编程形式的语言。<br>因此这是一个语言的联邦，几乎各种语言的编程模式都可以在C++中得到体现。<br>最主要的是，做到这些并且保持着速度。</p>
+<h3 id="Prefer-const-enum-inline-to-define"><a href="#Prefer-const-enum-inline-to-define" class="headerlink" title="Prefer const, enum, inline to #define"></a>Prefer const, enum, inline to #define</h3><p>主要就是讲了#define的种种缺点。<br>从我自身的使用上来说，简短的单文件程序中，使用define还是可以的，但是看别人的代码中就非常的困难了。因此我自己也是不倾向于使用define来定义一些东西。</p>
+<p><strong>常量</strong>：<br>对于常量我们可以使用const来定义，而不是使用define。这样不仅安全，而且编译后的代码更少。<br>define的一个比较严重的问题就是作用域的问题，其并不重视作用域，在编译的时候，对此后的内容均有效，除非遇到undefine。但是一个常量是可以有作用域的限制的。<br>除了使用const还可以用enum来定义一个常量，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class Game&#123;</span><br><span class="line">private:</span><br><span class="line">    enum&#123; NumTurns=5 &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样就定义了一个5的代名词，但是并不会被取到地址，也不会被改变。如果使用者企图调用这个的地址会在编译时就被报错，而不是像const那样在运行时报错出来。</p>
+<p><strong>函数</strong><br>很多人会define一个小函数，来达到函数的作用又减小了函数调用的开销。但是这样写，一个是不直观，容易错；还有就是括号要很多，也容易出错。用inline是一样的效果。</p>
+<h3 id="Use-const-whenever-possible"><a href="#Use-const-whenever-possible" class="headerlink" title="Use const whenever possible"></a>Use const whenever possible</h3><p>关于const的语法的细节，可以参考之前的相关的内容。<br>使用const可以避免很多错误，与上面一样，这些错误很可能会发生在运行时。但是如果你适当的用了const，就会在编译的时候被避免。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CLASS a, b ,c;</span><br><span class="line">if( a*b = c)</span><br></pre></td></tr></table></figure></p>
+<p>内置类型会编译报错没有问题，但是对于自定义的类型，就会出现意想不到的错误。</p>
+<h3 id="确保使用的变量都被初始化了"><a href="#确保使用的变量都被初始化了" class="headerlink" title="确保使用的变量都被初始化了"></a>确保使用的变量都被初始化了</h3><p>这里有一个很有趣的东西，叫做冒号表达式，没错，就是那个冒号表达式。与一般的赋值初始化不同的是，冒号表达式更快速。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class A&#123;</span><br><span class="line">    Som a, b;</span><br><span class="line">    A(Som _a, Som _b)&#123;</span><br><span class="line">        a = _a;</span><br><span class="line">        b = _b;</span><br><span class="line">    &#125;</span><br><span class="line">    A(Som _a, Som _b):a(_a), b(_b)&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>对于第一种写法，需要先调用每个类的默认构造函数，随后进行复值。但是默认构造函数就浪费了。<br>对于第二种，直接调用其copy构造函数，所以更快。</p>
+<p>然后书中讨论了初始化顺序的问题，在类中的成员是严格按照其定义的顺序进行初始化的，即使你在初始化序列中写的顺序与定义顺序不一致也没有关系。<br>但是在一些全局的non-local static 变量中，其初始化的顺序是绝对不可预知的，也就是一些你定义在全局，namespace中的静态变量，其初始化的顺序是完全不确定的。<br>这会引发严重的灾难，会导致你使用到没有初始化的对象。<br>解决的办法就是不用non-local static变量。将这些变量的定义转移到函数中去，你甚至可以专门写一个函数用来给这个变量初始化，可以保证的是，函数在没有被调用的时候是不会被初始化的，并且在首次调用的时候一定会初始化。这样就可以保证得到的对象是经过初始化的了。<br>这样做的后果，突出的就是表现为使用函数来访问一个静态变量而原来是直接用变量本身访问。</p>
+<h2 id="Constructs-Destructors-and-Assignment-Operators"><a href="#Constructs-Destructors-and-Assignment-Operators" class="headerlink" title="Constructs, Destructors, and Assignment Operators"></a>Constructs, Destructors, and Assignment Operators</h2><h3 id="Know-what-functions-C-silently-writes-and-calls"><a href="#Know-what-functions-C-silently-writes-and-calls" class="headerlink" title="Know what functions C++ silently writes and calls"></a>Know what functions C++ silently writes and calls</h3><p>编译器会帮你写哪些函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class Empty&#123;</span><br><span class="line">public :</span><br><span class="line">    Empty()&#123;&#125;</span><br><span class="line">    Empty(const Empty&amp; rhs)&#123;&#125;</span><br><span class="line">    ~Empty()&#123;&#125;</span><br><span class="line"></span><br><span class="line">    Empty&amp; operator=(const Empty&amp; rhs)&#123;&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面这四个函数是默认的，但是如果你写了一个构造函数以后，这个默认的构造函数就不会帮你写了，需要你自己写默认构造。</p>
+<h3 id="Exolicitly-disallow-the-use-of-compiler-generated-function-you-do-not-want"><a href="#Exolicitly-disallow-the-use-of-compiler-generated-function-you-do-not-want" class="headerlink" title="Exolicitly disallow the use of compiler-generated function you do not want."></a>Exolicitly disallow the use of compiler-generated function you do not want.</h3><p>如何避免编译器帮你自动生成一些你不想要的函数，自己声明一个，不要定义，然后private起来。</p>
+<h3 id="Declare-destructors-virtual-in-polymorphic-base-classes"><a href="#Declare-destructors-virtual-in-polymorphic-base-classes" class="headerlink" title="Declare destructors virtual in polymorphic base classes."></a>Declare destructors virtual in polymorphic base classes.</h3><p>这是因为会产生局部销毁的后果而出现内存泄漏。</p>
+<p>这是因为，在多态继承的类中，我们可以用一个基类的指针来操作一个子类，当我要进行析构的时候，我们会<code>delete pt (pt is a pointer to base class)</code>， 但是如果基类不是个虚函数的析构函数，就会造成局部的析构，产生内存泄漏。</p>
+<p>如果你的类是个多态基类，就要有个virtual的析构函数，否则不要生命析构函数。</p>
+<h3 id="Prevent-exception-from-leaving-destructors"><a href="#Prevent-exception-from-leaving-destructors" class="headerlink" title="Prevent exception from leaving destructors."></a>Prevent exception from leaving destructors.</h3><p>对于一个C++程序来说，如果有两个异常同时报出来就有可能导致程序发生不明确的行为或是终止，因此，我们一定要捕获这样的异常。<br>如果在析构函数中产生了一个异常，这非常的尴尬，因为用户无法获知这个问题，从而无法处理，并且导致未明确的行为。<br>一个比较好的设计就是将可能出现一场的操作放到一个函数中，让用户显示的可以调用并处理异常，同时在析构函数中检验是否已经处理完，如果此时没有处理，只好在析构函数中调用这个函数并吞下这个异常。</p>
+<h3 id="Never-call-virtual-function-during-construction-or-destruction"><a href="#Never-call-virtual-function-during-construction-or-destruction" class="headerlink" title="Never call virtual function during construction or destruction"></a>Never call virtual function during construction or destruction</h3><p>因为基类的初始化的问题，在初始化的时候，虚函数可能还没有定义，因此是不会被调用到子类的函数中的。</p>
+<h3 id="让赋值操作符返回一个-this-的引用"><a href="#让赋值操作符返回一个-this-的引用" class="headerlink" title="让赋值操作符返回一个*this 的引用"></a>让赋值操作符返回一个<code>*this</code> 的引用</h3><h3 id="在operator-中处理自我赋值"><a href="#在operator-中处理自我赋值" class="headerlink" title="在operator= 中处理自我赋值"></a>在operator= 中处理自我赋值</h3><p>在赋值的时候很容易会出现赋值给自己的请况，此时请注意在赋值的时候处理好释放空间的时机，以保证不会出现野指针等问题。</p>
+<h3 id="Copy-all-parts-of-an-object"><a href="#Copy-all-parts-of-an-object" class="headerlink" title="Copy all parts of an object"></a>Copy all parts of an object</h3><p>在复制一个对象的时候，要保证复制了每一个对像并调用了每个成员的该调用的函数。</p>
+<h2 id="Resource-Management"><a href="#Resource-Management" class="headerlink" title="Resource Management"></a>Resource Management</h2><p>程序使用了一些资源，在不用的时候要及时的还给系统，这些资源包括：内存、文件描述器、互斥锁、图形界面的字形、笔刷、数据库链接、sockets等。</p>
+<h3 id="Use-object-to-manage-resources"><a href="#Use-object-to-manage-resources" class="headerlink" title="Use object to manage resources"></a>Use object to manage resources</h3><p>这个习惯要求我们把释放资源的任务交给析构函数来做，这样当对象析构的时候自动释放资源。此外，文中提到使用<code>auto_ptr</code>智能指针。<br>智能指针保证只有一个智能指针指向一个资源，在赋值发生的时候，原指针会被置为空。<br>使用智能指针是为了防止你多个指针指向一个对象的时候，被其中一个释放，随后其他指针就变成了野指针。</p>
+<h3 id="在资源管理类中小心copy行为"><a href="#在资源管理类中小心copy行为" class="headerlink" title="在资源管理类中小心copy行为"></a>在资源管理类中小心copy行为</h3>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"># C++</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/myheart/" rel="next" title="一个决定">
+                <i class="fa fa-chevron-left"></i> 一个决定
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/CF855-c/" rel="prev" title="Codeforces 855-C 树形DP">
+                Codeforces 855-C 树形DP <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/EffectiveC-1/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#本书架构"><span class="nav-number">1.</span> <span class="nav-text">本书架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-让自己习惯C"><span class="nav-number">2.</span> <span class="nav-text">1. 让自己习惯C++</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#View-C-as-a-federation-of-languages"><span class="nav-number">2.1.</span> <span class="nav-text">View C++ as a federation of languages</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prefer-const-enum-inline-to-define"><span class="nav-number">2.2.</span> <span class="nav-text">Prefer const, enum, inline to #define</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Use-const-whenever-possible"><span class="nav-number">2.3.</span> <span class="nav-text">Use const whenever possible</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#确保使用的变量都被初始化了"><span class="nav-number">2.4.</span> <span class="nav-text">确保使用的变量都被初始化了</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Constructs-Destructors-and-Assignment-Operators"><span class="nav-number">3.</span> <span class="nav-text">Constructs, Destructors, and Assignment Operators</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Know-what-functions-C-silently-writes-and-calls"><span class="nav-number">3.1.</span> <span class="nav-text">Know what functions C++ silently writes and calls</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exolicitly-disallow-the-use-of-compiler-generated-function-you-do-not-want"><span class="nav-number">3.2.</span> <span class="nav-text">Exolicitly disallow the use of compiler-generated function you do not want.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Declare-destructors-virtual-in-polymorphic-base-classes"><span class="nav-number">3.3.</span> <span class="nav-text">Declare destructors virtual in polymorphic base classes.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prevent-exception-from-leaving-destructors"><span class="nav-number">3.4.</span> <span class="nav-text">Prevent exception from leaving destructors.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Never-call-virtual-function-during-construction-or-destruction"><span class="nav-number">3.5.</span> <span class="nav-text">Never call virtual function during construction or destruction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#让赋值操作符返回一个-this-的引用"><span class="nav-number">3.6.</span> <span class="nav-text">让赋值操作符返回一个*this 的引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在operator-中处理自我赋值"><span class="nav-number">3.7.</span> <span class="nav-text">在operator= 中处理自我赋值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Copy-all-parts-of-an-object"><span class="nav-number">3.8.</span> <span class="nav-text">Copy all parts of an object</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Resource-Management"><span class="nav-number">4.</span> <span class="nav-text">Resource Management</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Use-object-to-manage-resources"><span class="nav-number">4.1.</span> <span class="nav-text">Use object to manage resources</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在资源管理类中小心copy行为"><span class="nav-number">4.2.</span> <span class="nav-text">在资源管理类中小心copy行为</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

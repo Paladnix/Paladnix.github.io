@@ -1,0 +1,839 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Redis,NoSQL," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="redis 是一个高速的高级的键值对存储系统。开源的，高可用，高效。其将数据完全保存在内存中，磁盘只做持久化。并且支持多种数据结构：list、set、hashtable等，使用方便。使用的场景主要有:   如排行榜、计数器缓冲、数据统计（如TopN，交集，并集等）、最新项目检索、地理位置存储及range查询 实时统计和过期处理，如用户投票及排序；复杂的数据结构缓存及内存数据库 缓存，消息队列(Re">
+<meta name="keywords" content="Redis,NoSQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis">
+<meta property="og:url" content="http://paladnix.github.io/2017/redis/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="redis 是一个高速的高级的键值对存储系统。开源的，高可用，高效。其将数据完全保存在内存中，磁盘只做持久化。并且支持多种数据结构：list、set、hashtable等，使用方便。使用的场景主要有:   如排行榜、计数器缓冲、数据统计（如TopN，交集，并集等）、最新项目检索、地理位置存储及range查询 实时统计和过期处理，如用户投票及排序；复杂的数据结构缓存及内存数据库 缓存，消息队列(Re">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.284Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis">
+<meta name="twitter:description" content="redis 是一个高速的高级的键值对存储系统。开源的，高可用，高效。其将数据完全保存在内存中，磁盘只做持久化。并且支持多种数据结构：list、set、hashtable等，使用方便。使用的场景主要有:   如排行榜、计数器缓冲、数据统计（如TopN，交集，并集等）、最新项目检索、地理位置存储及range查询 实时统计和过期处理，如用户投票及排序；复杂的数据结构缓存及内存数据库 缓存，消息队列(Re">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/redis/"/>
+
+
+
+
+
+  <title>redis | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/redis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">redis</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-14T11:42:58+08:00">
+                2017-07-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/redis/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/redis/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>redis 是一个高速的高级的键值对存储系统。开源的，高可用，高效。<br>其将数据完全保存在内存中，磁盘只做持久化。并且支持多种数据结构：list、set、hashtable等，使用方便。<br>使用的场景主要有: </p>
+<ul>
+<li>如排行榜、计数器缓冲、数据统计（如TopN，交集，并集等）、最新项目检索、地理位置存储及range查询</li>
+<li>实时统计和过期处理，如用户投票及排序；复杂的数据结构缓存及内存数据库</li>
+<li>缓存，消息队列(Redis本地支持发布/订阅)，应用程序中的任何短期数据，例如，web应用程序中的会话，网页命中计数等。</li>
+</ul>
+<p>由于其属于内存数据库，所以成本比较大，冈起来比较爽一点。</p>
+<h4 id="Install-on-Ubuntu"><a href="#Install-on-Ubuntu" class="headerlink" title="Install on Ubuntu"></a>Install on Ubuntu</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install redis-server</span><br></pre></td></tr></table></figure>
+<h4 id="Startup"><a href="#Startup" class="headerlink" title="Startup"></a>Startup</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-server</span><br></pre></td></tr></table></figure>
+<h4 id="Work-on-it"><a href="#Work-on-it" class="headerlink" title="Work on it"></a>Work on it</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redis-cli</span><br><span class="line"></span><br><span class="line"><span class="comment"># 出现命令提示符即正常工作</span></span><br></pre></td></tr></table></figure>
+<h2 id="支持的数据结构"><a href="#支持的数据结构" class="headerlink" title="支持的数据结构"></a>支持的数据结构</h2><p>正时因为支持这些数据结构才易用。</p>
+<h4 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h4><p>Redis中的字符串是一个字节序列。Redis中的字符串是二进制安全的，这意味着它们的长度不由任何特殊的终止字符决定。因此，可以在一个字符串中存储高达512兆字节的任何内容。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> name `Paladnix` <span class="comment"># 存入key-value</span></span><br><span class="line"></span><br><span class="line">get name <span class="comment"># 获取key对应的value</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="Hash散列"><a href="#Hash散列" class="headerlink" title="Hash散列"></a>Hash散列</h4><p>Redis散列/哈希(Hashes)是键值对的集合。Redis散列/哈希是字符串字段和字符串值之间的映射。因此，它们用于表示对象。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HMSET key uname <span class="string">"Paladnix"</span> password <span class="string">"123"</span> level 0</span><br><span class="line"><span class="comment"># key 对应一个对象</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="列表List"><a href="#列表List" class="headerlink" title="列表List"></a>列表List</h4><p>Redis列表只是字符串列表，按插入顺序排序。可以向Redis列表的头部或尾部添加元素。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lpush alist redis   <span class="comment"># 插入字符串</span></span><br><span class="line">lpush alist Paladnix <span class="comment"># 插入字符串</span></span><br><span class="line"></span><br><span class="line">lrange alist 0 10   <span class="comment"># 获取字符串</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="集合Set"><a href="#集合Set" class="headerlink" title="集合Set"></a>集合Set</h4><p>Redis集合是字符串的无序集合。在Redis中，可以添加，删除和测试成员存在的时间O(1)复杂性。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sadd yiibailist redis   <span class="comment"># 添加字符串</span></span><br><span class="line"></span><br><span class="line">smembers yiibailist     <span class="comment"># 输出结果</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="可排序集合"><a href="#可排序集合" class="headerlink" title="可排序集合"></a>可排序集合</h4><p>Redis可排序集合类似于Redis集合，是不重复的字符集合。 不同之处在于，排序集合的每个成员都与分数相关联，这个分数用于按最小分数到最大分数来排序的排序集合。虽然成员是唯一的，但分数值可以重复。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">zadd yiibaiset 0 redis</span><br><span class="line"></span><br><span class="line">ZRANGEBYSCORE yiibaiset 0 1000  <span class="comment"># 输出结果</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><p>其实redis的使用跟数据库差不多。<br>具体的数据操作命令其实非常的简单就不一一介绍了，我自己也用的不熟。那些命令都能很容易获得，介绍一点好玩的命令就好了。</p>
+<h4 id="远程链接"><a href="#远程链接" class="headerlink" title="远程链接"></a>远程链接</h4><p>示例显示如何连接到Redis远程服务器，在主机(host)127.0.0.1，端口(port)6379上运行，并使用密码为 mypass<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -h 127.0.0.1 -p 6379 -a <span class="string">"mypass"</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="发送订阅"><a href="#发送订阅" class="headerlink" title="发送订阅"></a>发送订阅</h4><p>Redis发布订阅(pub/sub)是一种消息通信模式：发送者(pub)发送消息，订阅者(sub)接收消息。<br>Redis 发布订阅(pub/sub)实现了消息系统，发送者(在redis术语中称为发布者)在接收者(订阅者)接收消息时发送消息。传送消息的链路称为信道。</p>
+<p>在Redis中，客户端可以订阅任意数量的信道。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SUBSCRIBE redisChat <span class="comment"># 订阅名为"redisChat"的信道。</span></span><br><span class="line"></span><br><span class="line">PUBLISH redisChat <span class="string">"Redis is a great caching technique"</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="程序连接Redis"><a href="#程序连接Redis" class="headerlink" title="程序连接Redis"></a>程序连接Redis</h4><p>跟使用数据库一样，不过不一样的是这个比较统一和简单。</p>
+<h4 id="java"><a href="#java" class="headerlink" title="java"></a>java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    Java 连接Redis. 字符串操作。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">import</span> redis.clients.jedis.Jedis; </span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisStringJava</span> </span>&#123; </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123; </span><br><span class="line">      <span class="comment">//Connecting to Redis server on localhost </span></span><br><span class="line">      Jedis jedis = <span class="keyword">new</span> Jedis(<span class="string">"localhost"</span>); </span><br><span class="line">      System.out.println(<span class="string">"Connection to server sucessfully"</span>); </span><br><span class="line">      <span class="comment">//set the data in redis string </span></span><br><span class="line">      jedis.set(<span class="string">"tutorial-name"</span>, <span class="string">"Redis tutorial"</span>); </span><br><span class="line">      <span class="comment">// Get the stored data and print it </span></span><br><span class="line">      System.out.println(<span class="string">"Stored string in redis:: "</span>+ jedis.get(<span class="string">"tutorialname"</span>)); </span><br><span class="line">   &#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    Java Redis List 操作</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">import</span> redis.clients.jedis.Jedis; </span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisListJava</span> </span>&#123; </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123; </span><br><span class="line">      <span class="comment">//Connecting to Redis server on localhost </span></span><br><span class="line">      Jedis jedis = <span class="keyword">new</span> Jedis(<span class="string">"localhost"</span>); </span><br><span class="line">      System.out.println(<span class="string">"Connection to server sucessfully"</span>); </span><br><span class="line"></span><br><span class="line">      <span class="comment">//store data in redis list </span></span><br><span class="line">      jedis.lpush(<span class="string">"tutorial-list"</span>, <span class="string">"Redis"</span>); </span><br><span class="line">      jedis.lpush(<span class="string">"tutorial-list"</span>, <span class="string">"Mongodb"</span>); </span><br><span class="line">      jedis.lpush(<span class="string">"tutorial-list"</span>, <span class="string">"Mysql"</span>); </span><br><span class="line">      <span class="comment">// Get the stored data and print it </span></span><br><span class="line">      List&lt;String&gt; list = jedis.lrange(<span class="string">"tutorial-list"</span>, <span class="number">0</span> ,<span class="number">5</span>); </span><br><span class="line"></span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;list.size(); i++) &#123; </span><br><span class="line">         System.out.println(<span class="string">"Stored string in redis:: "</span>+list.get(i)); </span><br><span class="line">      &#125; </span><br><span class="line">   &#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    Java Redis Key 操作</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">import</span> redis.clients.jedis.Jedis; </span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisKeyJava</span> </span>&#123; </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123; </span><br><span class="line">      <span class="comment">//Connecting to Redis server on localhost </span></span><br><span class="line">      Jedis jedis = <span class="keyword">new</span> Jedis(<span class="string">"localhost"</span>); </span><br><span class="line">      System.out.println(<span class="string">"Connection to server sucessfully"</span>); </span><br><span class="line">      <span class="comment">//store data in redis list </span></span><br><span class="line">      <span class="comment">// Get the stored data and print it </span></span><br><span class="line">      List&lt;String&gt; list = jedis.keys(<span class="string">"*"</span>); </span><br><span class="line"></span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;list.size(); i++) &#123; </span><br><span class="line">         System.out.println(<span class="string">"List of stored keys:: "</span>+list.get(i)); </span><br><span class="line">      &#125; </span><br><span class="line">   &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="PHP-Redis-on-Ubuntu"><a href="#PHP-Redis-on-Ubuntu" class="headerlink" title="PHP-Redis on Ubuntu"></a>PHP-Redis on Ubuntu</h4><p>下载<a href="http://github.com/nicolasff/phpredis%E3%80%82" target="_blank" rel="noopener">phpredis</a>项目代码并安装。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> phpredis </span><br><span class="line">sudo phpize </span><br><span class="line">sudo ./configure </span><br><span class="line">sudo make </span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure></p>
+<p>现在，将“modules”文件夹的内容复制并粘贴到PHP扩展目录中，并在php.ini中添加以下行<code>extension = redis.so</code>。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Connect &amp; String</span></span><br><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">   <span class="comment">//Connecting to Redis server on localhost </span></span><br><span class="line">   $redis = <span class="keyword">new</span> Redis(); </span><br><span class="line">   $redis-&gt;connect(<span class="string">'127.0.0.1'</span>, <span class="number">6379</span>); </span><br><span class="line">   <span class="keyword">echo</span> <span class="string">"Connection to server sucessfully"</span>; </span><br><span class="line">   <span class="comment">//set the data in redis string </span></span><br><span class="line">   $redis-&gt;set(<span class="string">"tutorial-name"</span>, <span class="string">"Redis tutorial"</span>); </span><br><span class="line">   <span class="comment">// Get the stored data and print it </span></span><br><span class="line">   <span class="keyword">echo</span> <span class="string">"Stored string in redis:: "</span> .$redis→get(<span class="string">"tutorial-name"</span>); </span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// List 操作</span></span><br><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">   <span class="comment">//Connecting to Redis server on localhost </span></span><br><span class="line">   $redis = <span class="keyword">new</span> Redis(); </span><br><span class="line">   $redis-&gt;connect(<span class="string">'127.0.0.1'</span>, <span class="number">6379</span>); </span><br><span class="line">   <span class="keyword">echo</span> <span class="string">"Connection to server sucessfully"</span>; </span><br><span class="line">   <span class="comment">//store data in redis list </span></span><br><span class="line">   $redis-&gt;lpush(<span class="string">"tutorial-list"</span>, <span class="string">"Redis"</span>); </span><br><span class="line">   $redis-&gt;lpush(<span class="string">"tutorial-list"</span>, <span class="string">"Mongodb"</span>); </span><br><span class="line">   $redis-&gt;lpush(<span class="string">"tutorial-list"</span>, <span class="string">"Mysql"</span>);  </span><br><span class="line"></span><br><span class="line">   <span class="comment">// Get the stored data and print it </span></span><br><span class="line">   $arList = $redis-&gt;lrange(<span class="string">"tutorial-list"</span>, <span class="number">0</span> ,<span class="number">5</span>); </span><br><span class="line">   <span class="keyword">echo</span> <span class="string">"Stored string in redis:: "</span>; </span><br><span class="line">   print_r($arList); </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
+          
+            <a href="/tags/NoSQL/" rel="tag"># NoSQL</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/Java-Exception/" rel="next" title="Java Exception & Error">
+                <i class="fa fa-chevron-left"></i> Java Exception & Error
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/ACM-contest-1/" rel="prev" title="比赛题解-2017苏大暑假集训个人赛(13)">
+                比赛题解-2017苏大暑假集训个人赛(13) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/redis/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Install-on-Ubuntu"><span class="nav-number">1.</span> <span class="nav-text">Install on Ubuntu</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Startup"><span class="nav-number">2.</span> <span class="nav-text">Startup</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Work-on-it"><span class="nav-number">3.</span> <span class="nav-text">Work on it</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#支持的数据结构"><span class="nav-number"></span> <span class="nav-text">支持的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串"><span class="nav-number">1.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hash散列"><span class="nav-number">2.</span> <span class="nav-text">Hash散列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#列表List"><span class="nav-number">3.</span> <span class="nav-text">列表List</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#集合Set"><span class="nav-number">4.</span> <span class="nav-text">集合Set</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可排序集合"><span class="nav-number">5.</span> <span class="nav-text">可排序集合</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令"><span class="nav-number"></span> <span class="nav-text">命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#远程链接"><span class="nav-number">1.</span> <span class="nav-text">远程链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#发送订阅"><span class="nav-number">2.</span> <span class="nav-text">发送订阅</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#程序连接Redis"><span class="nav-number">3.</span> <span class="nav-text">程序连接Redis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java"><span class="nav-number">4.</span> <span class="nav-text">java</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PHP-Redis-on-Ubuntu"><span class="nav-number">5.</span> <span class="nav-text">PHP-Redis on Ubuntu</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

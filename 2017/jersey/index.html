@@ -1,0 +1,858 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java,Web,Jersy," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="jersy是一个Web Service的框架，据说是符合RESTful架构的一种框架，这是一种新的思路，而不是新的技术，是对于前端的各种技术而言，所设计的后台实现方式，力图以一种统一的方便的方式组织为前端提供数据。jersey的官网. 此次接触这个框架是业务需要了，但是，觉得这个框架比较简单，正好也有时间，所以就做一个学习实验，探索一下在资源短缺的情况下如何学习一个新的东西。事实上资源也确实不是很">
+<meta name="keywords" content="Java,Web,Jersy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jersey">
+<meta property="og:url" content="http://paladnix.github.io/2017/jersey/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="jersy是一个Web Service的框架，据说是符合RESTful架构的一种框架，这是一种新的思路，而不是新的技术，是对于前端的各种技术而言，所设计的后台实现方式，力图以一种统一的方便的方式组织为前端提供数据。jersey的官网. 此次接触这个框架是业务需要了，但是，觉得这个框架比较简单，正好也有时间，所以就做一个学习实验，探索一下在资源短缺的情况下如何学习一个新的东西。事实上资源也确实不是很">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.278Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jersey">
+<meta name="twitter:description" content="jersy是一个Web Service的框架，据说是符合RESTful架构的一种框架，这是一种新的思路，而不是新的技术，是对于前端的各种技术而言，所设计的后台实现方式，力图以一种统一的方便的方式组织为前端提供数据。jersey的官网. 此次接触这个框架是业务需要了，但是，觉得这个框架比较简单，正好也有时间，所以就做一个学习实验，探索一下在资源短缺的情况下如何学习一个新的东西。事实上资源也确实不是很">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/jersey/"/>
+
+
+
+
+
+  <title>jersey | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/jersey/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">jersey</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-01T20:32:52+08:00">
+                2017-07-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/jersey/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/jersey/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>jersy是一个Web Service的框架，据说是符合RESTful架构的一种框架，这是一种新的思路，而不是新的技术，是对于前端的各种技术而言，所设计的后台实现方式，力图以一种统一的方便的方式组织为前端提供数据。<br><a href="https://jersy.gtihub.io" target="_blank" rel="noopener">jersey的官网</a>.</p>
+<p>此次接触这个框架是业务需要了，但是，觉得这个框架比较简单，正好也有时间，所以就做一个学习实验，探索一下在资源短缺的情况下如何学习一个新的东西。事实上资源也确实不是很多，这一次主要依靠官方文档学习使用。</p>
+<p>原本打算直接上代码的，但是在官网上看了一会后就发现有好多名词解释的问题。那就先来看几个名词。</p>
+<p>首先第一个就是<code>JAX-RS</code>，这是JAVA EE6引进的新技术，全称Java api for RESTful Web Service. 主要是使用了注解的形式来简化Web开发和部署。然后跟Jersey的关系是Jersey实现了JAX-RS的框架接口，并且扩展了更多的东西，提供了自己的API。</p>
+<p>然后学习Jersey的第一步就是搞懂他的路由方式，在这里就是注解了。</p>
+<p>在讲注解之前还有一个不是很重要的名词：<code>POJO(Plain Old Java Object)</code>, 称之为简单一般Java对象，这个概念是与JavaBean做区分的。其实没有什么必要，引用Martin Fowler的一句话：</p>
+<p>“我们疑惑为什么人们不喜欢在他们的系统中使用普通的对象，我们得到的结论是——普通的对象缺少一个响亮的名字，因此我们给它们起了一个，并且取得了很好的效果。”       ——Martin Fowler</p>
+<p>所以事实上也就是个名词，所谓简单Java对象就是不包含业务逻辑的对象，一般用于描述数据实体。具体的区别等到写JavaBean的时候就看出来了，这里不讲了。</p>
+<p>在我手中的项目使用了其中的两个包，maven代码如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- jersey --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.glassfish.jersey.containers<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jersey-container-servlet<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.25<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.glassfish.jersey.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jersey-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.25<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以看到一个是servlet的Container，另外一个是client客户端。具体的用法，等到用到再说。</p>
+<h1 id="注解路由"><a href="#注解路由" class="headerlink" title="注解路由"></a>注解路由</h1><p>这里用的路由就是JAX-RS的规范。（一次写不完，慢慢补充）。</p>
+<h2 id="Path"><a href="#Path" class="headerlink" title="@Path"></a>@Path</h2><p>这个注解的原文解释非常好，所以有时间的还是去看一下原文是怎么写的吧，下面我就结合自己理解写一下。</p>
+<p>这个@Path注解的内容是一个相对的<a href="2017/URI">URI</a>路径，由其注解的类会被相应的路径访问到。</p>
+<p>在下面这个例子中可以看到，这个类被一个@Path注解为”printers”，当URL路径为<code>/printers</code>的时候就会路由到这个类中，那么这个类有那么多函数，调用那个函数呢？下面还有子路径以及路径的通信方式。</p>
+<p>首先<code>HTTP-Methods</code>都是被支持的，常用的有：</p>
+<ul>
+<li>@POST</li>
+<li>@GET</li>
+<li>@PUT</li>
+<li>@DELETE<br>并且对于每个函数都可以进行@Path的进一步注解，有过Web开发经验的人都知道是怎么玩的。如果你的URL路径是<code>/printers/list</code>， 就会定位到<code>getListOfPrinters()</code>函数。同理可知其他的用法。<br>需要说的可能是如果一个函数没有注解而其他的函数有注解，在路径为<code>printers</code>的时候就会定位那个没有注解的，因为其他的都是精确匹配的，按照精确匹配无法匹配到其他的函数，这个是不精确匹配的，所以就过来了。</li>
+</ul>
+<p>对于<code>/</code>，开始和结尾的位置可以加可以不加，都能够被解析。除此以外，这里还有些内容你可能看不太懂，下面会讲。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Path</span>(<span class="string">"/printers"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PrintersResource</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@GET</span></span><br><span class="line">    <span class="meta">@Produces</span>(&#123;<span class="string">"application/json"</span>, <span class="string">"application/xml"</span>&#125;)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> WebResourceList <span class="title">getMyResources</span><span class="params">()</span> </span>&#123; ... &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@GET</span> <span class="meta">@Path</span>(<span class="string">"/list"</span>)</span><br><span class="line">    <span class="meta">@Produces</span>(&#123;<span class="string">"application/json"</span>, <span class="string">"application/xml"</span>&#125;)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> WebResourceList <span class="title">getListOfPrinters</span><span class="params">()</span> </span>&#123; ... &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@GET</span> <span class="meta">@Path</span>(<span class="string">"/jMakiTable"</span>)</span><br><span class="line">    <span class="meta">@Produces</span>(<span class="string">"application/json"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> PrinterTableModel <span class="title">getTable</span><span class="params">()</span> </span>&#123; ... &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@GET</span> <span class="meta">@Path</span>(<span class="string">"/jMakiTree"</span>)</span><br><span class="line">    <span class="meta">@Produces</span>(<span class="string">"application/json"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeModel <span class="title">getTree</span><span class="params">()</span> </span>&#123; ... &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@GET</span> <span class="meta">@Path</span>(<span class="string">"/ids/&#123;printerid&#125;"</span>)</span><br><span class="line">    <span class="meta">@Produces</span>(&#123;<span class="string">"application/json"</span>, <span class="string">"application/xml"</span>&#125;)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Printer <span class="title">getPrinter</span><span class="params">(@PathParam(<span class="string">"printerid"</span>)</span> String printerId) </span>&#123; ... &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@PUT</span> <span class="meta">@Path</span>(<span class="string">"/ids/&#123;printerid&#125;"</span>)</span><br><span class="line">    <span class="meta">@Consumes</span>(&#123;<span class="string">"application/json"</span>, <span class="string">"application/xml"</span>&#125;)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">putPrinter</span><span class="params">(@PathParam(<span class="string">"printerid"</span>)</span> String printerId, Printer printer) </span>&#123; ... &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@DELETE</span> <span class="meta">@Path</span>(<span class="string">"/ids/&#123;printerid&#125;"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deletePrinter</span><span class="params">(@PathParam(<span class="string">"printerid"</span>)</span> String printerId) </span>&#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注解除了简单的字符串以外，按照JAX-RS的规范，在路径中可以设定变量。也就是上面看到的<code>@Path(&quot;{printerid}&quot;)</code>的用法，这里的话花括号中的部分就是变量，是用URL的方式传参过来的。对应的在其函数的定义中，参数列表中就对这个参数做了声明：<code>@PathParam(&quot;printerid&quot;)</code>，就作为参数传进来了。对于参数，还可以进行正则匹配，格式如下：<code>@Path(&quot;{name: [a-zA-Z]*}&quot;)</code>，则如果参数符合大小写字母的限制就能够正确匹配，否则就是404了。</p>
+<h2 id="Produce"><a href="#Produce" class="headerlink" title="@Produce"></a>@Produce</h2><p>很明显这个注解是描述了这个方法或是类可以生产什么东西，什么类型的东西，也就是返回给Client什么类型的内容，如果是<code>text/html</code>，则返回的就是一个页面。这个东西在HTTP请求的<code>accept</code>字段会有限制，如果accept注明了接受什么类型的数据，那么就会选择对应的生产者去调用，在其他注解方式相同的情况下。</p>
+<p>可以选择多个MIME媒体类型。</p>
+<h2 id="Consumes"><a href="#Consumes" class="headerlink" title="@Consumes"></a>@Consumes</h2><p>消费者，就是这个类或方法可以接受什么媒体类型的数据，例如:<code>@Consumes(MediaType.APPLICATION_JSON)</code>就说明该函数可以接受Json类型的数据。具体的用法还没有用过，暂时不写。</p>
+<h2 id="POST"><a href="#POST" class="headerlink" title="@POST"></a>@POST</h2><p>如果我们用jersey来做API的话，一般就是将POST的报文转换成JSON字符串整个传过来。这个时候参数直接就传做函数的参数，不需要做什么说明。事实上不做注解说明的函数就是被默认塞进来的参数。</p>
+<p>还有一种是表单参数。这个目前没有做过，不过我猜也是一样的。</p>
+<h1 id="Jersey-Client"><a href="#Jersey-Client" class="headerlink" title="Jersey Client"></a>Jersey Client</h1><p>做API最常用的就是Client了，一个以http协议为基础的请求发送端。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Client client = ClientBuilder.newClient();</span><br><span class="line">WebTarget target = client.target(url);</span><br><span class="line"></span><br><span class="line"><span class="comment">// put</span></span><br><span class="line">Response response = target.request().accept(MediaType.APPLICATION_JSON_TYPE).put(</span><br><span class="line">             Entity.entity(obj.toJSONString(), MediaType.APPLICATION_JSON_TYPE));</span><br><span class="line"></span><br><span class="line"><span class="comment">// post</span></span><br><span class="line">Response response = target.request().accept(MediaType.APPLICATION_JSON_TYPE).post(</span><br><span class="line">             Entity.entity(inputJson, MediaType.APPLICATION_JSON));</span><br><span class="line"></span><br><span class="line"><span class="comment">// get (参数放在url中)</span></span><br><span class="line">Response response = target.request().get();</span><br><span class="line"></span><br><span class="line"> <span class="keyword">if</span>(response == <span class="keyword">null</span> || response.getStatus() != <span class="number">200</span> )</span><br><span class="line">     <span class="comment">// 请求失败</span></span><br><span class="line"></span><br><span class="line">String detail = response.readEntity(String.class);</span><br><span class="line">JSONObject object = JSON.parseObject(objString);</span><br><span class="line"></span><br><span class="line">client.close();</span><br></pre></td></tr></table></figure></p>
+<p>基本用法就是这样了，可以用来对自己的API进行测试，也可以去调其他的API。</p>
+<h2 id="jesey的几种参数注解"><a href="#jesey的几种参数注解" class="headerlink" title="jesey的几种参数注解"></a>jesey的几种参数注解</h2><p>在写接口的时候接受的参数有这么几种，上面已经介绍过了<code>@PathParam</code>， 下面就系统的介绍一下几种参数。</p>
+<h3 id="PathParam"><a href="#PathParam" class="headerlink" title="@PathParam()"></a>@PathParam()</h3><p>可以认为是定义在路径中的一个变量。程序提取对应路径位置的字符串作为对应的参数。使用方式在上面有所以不详细介绍了。</p>
+<h3 id="QueryParam"><a href="#QueryParam" class="headerlink" title="@QueryParam()"></a>@QueryParam()</h3><p>该参数用于获取Get请求中的查询参数，他和上一个的区别是它是通过URI中的？符号来实现的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@GET</span><br><span class="line">@Path(&quot;/user&quot;)</span><br><span class="line">@Produces(&quot;text/plain&quot;)</span><br><span class="line">public User getUser(@QueryParam(&quot;name&quot;) String name, @QueryParam(&quot;age&quot;) int age) &#123; </span><br><span class="line">...&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当请求是：<code>http://localhost:8080/user?name=cesar&amp;age=21</code>时会被这个方法捕获。</p>
+<h3 id="FormParam"><a href="#FormParam" class="headerlink" title="@FormParam()"></a>@FormParam()</h3><p>顾名思义就是表单中的数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@POST</span><br><span class="line">@Consumes(&quot;application/x-www-form-urlencoded&quot;)</span><br><span class="line">publicvoid post(@FormParam(&quot;name&quot;) String name) &#123; </span><br><span class="line">// Store the message</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="默认参数值-DefaultValue"><a href="#默认参数值-DefaultValue" class="headerlink" title="默认参数值@DefaultValue"></a>默认参数值@DefaultValue</h3><p>当你希望在函数获取参数时参数有一个默认值，那么就可以使用该注释，它的使用方法如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@GET</span><br><span class="line">@Path(&quot;/user&quot;)</span><br><span class="line">@Produces(&quot;text/plain&quot;)</span><br><span class="line">public User getUser(@QueryParam(&quot;name&quot;) String name, @DefaultValue(&quot;26&quot;) @QueryParam(&quot;age&quot;) int age) &#123; </span><br><span class="line">...&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="使用Map的参数-Context"><a href="#使用Map的参数-Context" class="headerlink" title="使用Map的参数@Context"></a>使用Map的参数@Context</h3><p>在一个大型的server中，由于参数的多变，参数结构的调整很容易遇到问题，这时候就可以考虑使用@Context来进行注释了。例子如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@GET</span><br><span class="line">public String get(@Context UriInfo ui) &#123; </span><br><span class="line"> MultivaluedMap&lt;String, String&gt; queryParams = ui.getQueryParameters(); </span><br><span class="line">MultivaluedMap&lt;String, String&gt; pathParams = ui.getPathParameters();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来你会用到遍历map和删除map元素的操作来做一些处理。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/Web/" rel="tag"># Web</a>
+          
+            <a href="/tags/Jersy/" rel="tag"># Jersy</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/IDEAkey/" rel="next" title="IDEA常用快捷键">
+                <i class="fa fa-chevron-left"></i> IDEA常用快捷键
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/Maven/" rel="prev" title="Maven">
+                Maven <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/jersey/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#注解路由"><span class="nav-number">1.</span> <span class="nav-text">注解路由</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Path"><span class="nav-number">1.1.</span> <span class="nav-text">@Path</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Produce"><span class="nav-number">1.2.</span> <span class="nav-text">@Produce</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Consumes"><span class="nav-number">1.3.</span> <span class="nav-text">@Consumes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#POST"><span class="nav-number">1.4.</span> <span class="nav-text">@POST</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Jersey-Client"><span class="nav-number">2.</span> <span class="nav-text">Jersey Client</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jesey的几种参数注解"><span class="nav-number">2.1.</span> <span class="nav-text">jesey的几种参数注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PathParam"><span class="nav-number">2.1.1.</span> <span class="nav-text">@PathParam()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QueryParam"><span class="nav-number">2.1.2.</span> <span class="nav-text">@QueryParam()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FormParam"><span class="nav-number">2.1.3.</span> <span class="nav-text">@FormParam()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#默认参数值-DefaultValue"><span class="nav-number">2.1.4.</span> <span class="nav-text">默认参数值@DefaultValue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Map的参数-Context"><span class="nav-number">2.1.5.</span> <span class="nav-text">使用Map的参数@Context</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

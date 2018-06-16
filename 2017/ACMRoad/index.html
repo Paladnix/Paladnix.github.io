@@ -1,0 +1,847 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ACM," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="作为ACM的老队员，最经常被问的不是XXX算法的问题，而是“学长我要玩ACM，我该从哪开始？”。这个问题嘛，有超过3个人问就有必要写成文字来回答，正如但凡一个操作需要两条以上命令就可以写成脚本来做一样。 就不回首往事了，尽管一路走来感慨良多啊。 新人，也有区别。你是没有程序编写基础的还是有一定代码基础的？有Py基础还是C的基础？有没有算法基础？ 如果你是一个大一新生，且没有学过程序设计，或正在学，">
+<meta name="keywords" content="ACM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ACMRoad">
+<meta property="og:url" content="http://paladnix.github.io/2017/ACMRoad/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="作为ACM的老队员，最经常被问的不是XXX算法的问题，而是“学长我要玩ACM，我该从哪开始？”。这个问题嘛，有超过3个人问就有必要写成文字来回答，正如但凡一个操作需要两条以上命令就可以写成脚本来做一样。 就不回首往事了，尽管一路走来感慨良多啊。 新人，也有区别。你是没有程序编写基础的还是有一定代码基础的？有Py基础还是C的基础？有没有算法基础？ 如果你是一个大一新生，且没有学过程序设计，或正在学，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.210Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ACMRoad">
+<meta name="twitter:description" content="作为ACM的老队员，最经常被问的不是XXX算法的问题，而是“学长我要玩ACM，我该从哪开始？”。这个问题嘛，有超过3个人问就有必要写成文字来回答，正如但凡一个操作需要两条以上命令就可以写成脚本来做一样。 就不回首往事了，尽管一路走来感慨良多啊。 新人，也有区别。你是没有程序编写基础的还是有一定代码基础的？有Py基础还是C的基础？有没有算法基础？ 如果你是一个大一新生，且没有学过程序设计，或正在学，">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/ACMRoad/"/>
+
+
+
+
+
+  <title>ACMRoad | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/ACMRoad/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">ACMRoad</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-28T03:35:21+08:00">
+                2017-05-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/ACMRoad/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/ACMRoad/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>作为ACM的老队员，最经常被问的不是XXX算法的问题，而是“学长我要玩ACM，我该从哪开始？”。这个问题嘛，有超过3个人问就有必要写成文字来回答，正如但凡一个操作需要两条以上命令就可以写成脚本来做一样。</p>
+<p>就不回首往事了，尽管一路走来感慨良多啊。</p>
+<p>新人，也有区别。你是没有程序编写基础的还是有一定代码基础的？有Py基础还是C的基础？有没有算法基础？</p>
+<p>如果你是一个大一新生，且没有学过程序设计，或正在学，那么我建议你花最多2周，把C语言关于文件操作之前的部分学完(文件操作非必要)。不要说2周太短了，如果你打算在ACM竞赛中获得不凡的成绩，就2周。你可能天赋异秉可以花很少的时间学会C语言，这很好，说明你有个好脑子，且可以在搞好ACM的同时兼顾上课。如果你的脑子不是很棒，但是也喜欢，2周时间就必要的做些调整，课该怎么上就要考虑一下了（事实上就算是脑子很好，也要考虑一下）。</p>
+<p>然后你可能要检测一下自己的C语言水平，尤其是在做ACM题目上的水平。此时我建议你去用2周的时间刷掉HDU平台上的<a href="http://acm.hdu.edu.cn/listproblem.php?vol=11" target="_blank" rel="noopener">第11页</a>的题目，这上面的题目涉及到的算法比较简单，算法对应的C语言程序也比较简单，只是使用到了字符串的处理、数组的使用、结构体的使用等基本语法知识，但是会让你对这些基本知识有翻天覆地的改观，他们很简单，但是可以做出很神奇的动作。这些题目可以让你对C语言的语法更加熟练，甚至到了4岁小朋友说母语的水平一样自然而流畅，同时，当然你因为不会使用高级语法来加快代码编写速度和质量，就像4岁小朋友不会写作文一样。但是仅仅语法熟练只是一方面，同时你会学习到一些更加快速方便的函数，如使用sort()函数来排序而不是自己编写冒泡排序等傻逼的排序函数；你还会接触到强类型语言中变量的数值边界问题、数值精度问题；字符串处理的常见bug；如何编写递归代码等。你还会知道你的电脑一秒钟只能运行大约1e8次的简单数学运算，你会慢慢的学会用计算机的思维方式思考问题的解决办法。同时你还会接触到一些算法，如动态规划等。（此页中有很少的几个题目非常困难，没关系，不要管他们，但你需要完成至少90道题目）</p>
+<p>然后你可以小声的对自己说：“我已经看到了ACM-ICPC的影子了！”。</p>
+<p>然后你需要入门一下。这个阶段你可能会比较痛苦，因为你要做的就是不断的离开你熟悉的几行代码，转而去学习新的算法，写新的代码。而这一切，应该都没有人会仔细的教你。</p>
+<p>到现在为止，你可能都没有学过一个完整的算法。之前做的那些水题都只是思维的开胃菜而已。那么现在你要清楚你必须去认真的、系统的学习一些算法。要能清晰的理出算法的逻辑，快速的编写出高质量且准确的代码，要能眼动查找BUG。不用担心，有人的地方都有路，已经有无数人做过这件事，所以你有章可循。</p>
+<p>在介绍下一站之前，我必须告诉你，ACM比赛使用Linux操作系统编写代码。所以，按照我们的一致希望，我们希望你能从现在开始使用Linux并逐步使用Linux来工作，windows只是个好东西，但不是程序员的玩具，你的玩具是Linux操作系统，比赛统一使用Ubuntu操作系统作为平台，如果你对Linux一无所知，你需要去百度一下了。</p>
+<p>至于如何安装Ubuntu操作系统和如何使用，请见其他博文或直接来实验室寻找学长的帮助（文章目前还没有整合）。</p>
+<p>你需要去<a href="http://vjudge.net" target="_blank" rel="noopener">Vjudge</a>申请一个帐号，并且开始学习<code>[简单搜索专题]</code><a href="http://vjudge.net/contest/65959" target="_blank" rel="noopener">传送门</a>。我们一致建议从这个算法专题开始，因为这里要用到的技能你学习起来会比较快速，因为你的前期技术铺垫已经做好了。其次这里的内容将会在其他的算法中使用到，所以你要从这里开始。这里的学习并没有学习资料，一切资料都在网络上，这里有的只是十几道检验你学习成果的题目，但是，这些题目与你今后比赛中遇到的题目在外形上长的已经很相似了。你大概需要一周多一点的时间来攻克这个专题。当你结束这个专题的时候你应该具备以下几条但不限于此的能力：</p>
+<ol>
+<li>快速编写递归程序。</li>
+<li>看到搜索类问题可以快速反应出解决方式并编写代码解决。</li>
+<li>快速估算自己方案的时间空间复杂度并决定是否可行。</li>
+<li>尝试使用高级一些的语法来编写代码，如C++中的部分内容，包括重载运算符等。</li>
+<li>手动调试代码修改BUG而不需要依靠调试工具。</li>
+<li>初步熟练使用Vim编写代码，并初步熟悉Linux-Ubuntu操作系统，使用简单命令来操作计算机。</li>
+<li>熟练的从网络上寻找资源解决自己的疑问，同时可以快速的看懂别人的相关代码。</li>
+<li>了解一些题库。</li>
+</ol>
+<p>接下来你或许就不再需要这篇文章的指导了，但是，你离入门还差的远。</p>
+<p>之后的一段时间内，算法还是要继续学习，依旧用这样的专题的形式。同时你也要去接触一下真正的比赛是什么样子，以及，真的强是什么样子。</p>
+<h2 id="以下平台会不定期有比赛，可视个人情况参加："><a href="#以下平台会不定期有比赛，可视个人情况参加：" class="headerlink" title="以下平台会不定期有比赛，可视个人情况参加："></a>以下平台会不定期有比赛，可视个人情况参加：</h2><p><a href="http://codeforces.com" target="_blank" rel="noopener">Codeforces</a>(cf)<br><a href="http://hihocoder.com" target="_blank" rel="noopener">HihoCoder</a></p>
+<h2 id="以下算法方向需要你在未来两年内有所涉及，但是掌握这些算法并不是保障："><a href="#以下算法方向需要你在未来两年内有所涉及，但是掌握这些算法并不是保障：" class="headerlink" title="以下算法方向需要你在未来两年内有所涉及，但是掌握这些算法并不是保障："></a>以下算法方向需要你在未来两年内有所涉及，但是掌握这些算法并不是保障：</h2><ol>
+<li>搜索</li>
+<li>图论(最短路、生成树、二分图、连通图、网络流…)</li>
+<li>动态规划(树形DP、数位DP、区间DP、斜率DP、概率DP…)</li>
+<li>数论</li>
+<li>数据结构(线段树、搜索树、平衡二叉树、KD树、树堆…)</li>
+<li>字符串(KMP、Hash、AC自动机、后缀数组、字典树)</li>
+<li>等…</li>
+</ol>
+<h2 id="推荐的书：-刘汝佳竞赛入门经典两本：紫书、大白书，链接不放了。"><a href="#推荐的书：-刘汝佳竞赛入门经典两本：紫书、大白书，链接不放了。" class="headerlink" title="推荐的书： 刘汝佳竞赛入门经典两本：紫书、大白书，链接不放了。"></a>推荐的书： 刘汝佳竞赛入门经典两本：紫书、大白书，链接不放了。</h2><p>有些问题，可以先尝试自己回答一下，自己实在回答不了或无法找到答案回答，再提出来。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ACM/" rel="tag"># ACM</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/AccessModifier/" rel="next" title="OOP中的-控制修饰符">
+                <i class="fa fa-chevron-left"></i> OOP中的-控制修饰符
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/Hexo/" rel="prev" title="Hexo">
+                Hexo <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/ACMRoad/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#以下平台会不定期有比赛，可视个人情况参加："><span class="nav-number">1.</span> <span class="nav-text">以下平台会不定期有比赛，可视个人情况参加：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以下算法方向需要你在未来两年内有所涉及，但是掌握这些算法并不是保障："><span class="nav-number">2.</span> <span class="nav-text">以下算法方向需要你在未来两年内有所涉及，但是掌握这些算法并不是保障：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐的书：-刘汝佳竞赛入门经典两本：紫书、大白书，链接不放了。"><span class="nav-number">3.</span> <span class="nav-text">推荐的书： 刘汝佳竞赛入门经典两本：紫书、大白书，链接不放了。</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

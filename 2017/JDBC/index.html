@@ -1,0 +1,844 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java,SQL," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="JDBC(Java DataBase Connectivity) 这是JDK中集成的一个数据库API，可以访问任何类型表列数据，特别是存储在关系数据库中的数据。本文以mysql为例。 所谓数据库交互，无非就是那么几个部分：建立连接，执行SQL，取回数据。JDBC的设计思路被Php借鉴过去后就产生了PDO，跟JDBC一曲同工，加之轻量级，然后就感觉很好的样子…与数据库交互体现在程序上，也无非就是那么">
+<meta name="keywords" content="Java,SQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JDBC">
+<meta property="og:url" content="http://paladnix.github.io/2017/JDBC/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="JDBC(Java DataBase Connectivity) 这是JDK中集成的一个数据库API，可以访问任何类型表列数据，特别是存储在关系数据库中的数据。本文以mysql为例。 所谓数据库交互，无非就是那么几个部分：建立连接，执行SQL，取回数据。JDBC的设计思路被Php借鉴过去后就产生了PDO，跟JDBC一曲同工，加之轻量级，然后就感觉很好的样子…与数据库交互体现在程序上，也无非就是那么">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.237Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JDBC">
+<meta name="twitter:description" content="JDBC(Java DataBase Connectivity) 这是JDK中集成的一个数据库API，可以访问任何类型表列数据，特别是存储在关系数据库中的数据。本文以mysql为例。 所谓数据库交互，无非就是那么几个部分：建立连接，执行SQL，取回数据。JDBC的设计思路被Php借鉴过去后就产生了PDO，跟JDBC一曲同工，加之轻量级，然后就感觉很好的样子…与数据库交互体现在程序上，也无非就是那么">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/JDBC/"/>
+
+
+
+
+
+  <title>JDBC | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/JDBC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">JDBC</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-09T15:25:31+08:00">
+                2017-07-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/JDBC/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/JDBC/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>JDBC(Java DataBase Connectivity) 这是JDK中集成的一个数据库API，可以访问任何类型表列数据，特别是存储在关系数据库中的数据。<br>本文以mysql为例。</p>
+<p>所谓数据库交互，无非就是那么几个部分：建立连接，执行SQL，取回数据。JDBC的设计思路被Php借鉴过去后就产生了PDO，跟JDBC一曲同工，加之轻量级，然后就感觉很好的样子…<br>与数据库交互体现在程序上，也无非就是那么几个部分：引入包，实例化对象，调用函数。</p>
+<p>那么学习JDBC学他的什么？学会了怎么用然后呢？可以学习其设计思路，有的时候，从设计思路来学习怎么用会比直接学怎么用要容易，Let me show you.</p>
+<h1 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h1><p>现在把自己当成设计者，从设计的角度出发来看JDBC。<br>你要做的事情是将市面上诸多数据库整合到一起，给Java程序提供一个格式统一的工具。用更学术的语言来表达就是将底层差异屏蔽掉，抽象出一个数据库抽象层，使得数据库对于Java程序透明（学术其实也是将事物统一整理成一个较高的层次，忽略底层实现差异，用思想指导实践。例如当你碰到一个新的问题，整体十分复杂，你不可能直接就想到一个实践方法将其实现，这个时候就需要知识来抽象这个问题，当问题抽象到了某个知识领域内，这个问题就可以再从抽象顺着这个知识往下拆解，最后落实到具体实践跟抽象知识已经没什么关系了）。</p>
+<p>要实现统一接口，我们借鉴操作系统与硬件之间的做法，就是每个数据库按照我给的一个标准来写你自己的驱动程序，这个标准就是初步将数据库之间的差异屏蔽，例如我规定所有的<code>select</code>语句由什么函数执行，返回什么格式的数据等。这就是底层的Driver。</p>
+<p>再往上，我们需要一个统一的入口。在Java中，不同数据库实现的Driver肯定是不同的类，这样的话难道我们要用什么数据库就用什么类吗？当然能透明就透明，最好是我在参数中体现我要用什么数据库，灵活性更大。所以这个时候我们在几个类上面在做一个抽象，抽出来一个Manager，这个Manage负责数据库的选择，动态实例化，连接等等乱七八糟的事情，然后这个manage在整理封装成JDBC API提供给Java程序使用。</p>
+<p>Over.</p>
+<p>但是你知道了怎么设计，还是没有卵用，哈哈哈呵呵！上面已经说过了，当你具体实践的时候已经跟上层知识没有什么关系了，但是你会很快理解具体该怎么做。</p>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><p>jdbc简单的使用差不多在下面的代码中都有体现，另外我对于这个资源关闭的问题还有点迷惑，因为在jdbc的代码中实现了一个Autocloseable的接口，对于当前版本的JDBC要不要显示关闭资源的问题，有可能是不需要的。有待深入了解这个AutoCloseAble接口。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//STEP 1. Import required packages</span></span><br><span class="line"><span class="keyword">import</span> java.sql.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FirstExample</span> </span>&#123;</span><br><span class="line">   <span class="comment">// JDBC driver name and database URL</span></span><br><span class="line">   <span class="keyword">static</span> <span class="keyword">final</span> String JDBC_DRIVER = <span class="string">"com.mysql.jdbc.Driver"</span>;  </span><br><span class="line">   <span class="keyword">static</span> <span class="keyword">final</span> String DB_URL = <span class="string">"jdbc:mysql://localhost/emp"</span>;</span><br><span class="line">   <span class="comment">// URL 格式(mysql)： jdbc:mysql://host:port/databaseName</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">//  Database credentials</span></span><br><span class="line">   <span class="keyword">static</span> <span class="keyword">final</span> String USER = <span class="string">"root"</span>;</span><br><span class="line">   <span class="keyword">static</span> <span class="keyword">final</span> String PASS = <span class="string">"123456"</span>;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">   Connection conn = <span class="keyword">null</span>;</span><br><span class="line">   PreparedStatement stmt = <span class="keyword">null</span>;</span><br><span class="line">   <span class="keyword">try</span>&#123;</span><br><span class="line">      <span class="comment">//STEP 2: Register JDBC driver</span></span><br><span class="line">      <span class="comment">// JDBC要求要显式注册你要用的驱动类</span></span><br><span class="line">      <span class="comment">// 这个代码就是让JVM加载对应的类，并执行其中的静态代码。</span></span><br><span class="line">      Class.forName(<span class="string">"com.mysql.jdbc.Driver"</span>);</span><br><span class="line"></span><br><span class="line">      <span class="comment">//STEP 3: Open a connection</span></span><br><span class="line">      System.out.println(<span class="string">"Connecting to database..."</span>);</span><br><span class="line">      conn = DriverManager.getConnection(DB_URL,USER,PASS);</span><br><span class="line"></span><br><span class="line">      <span class="comment">//STEP 4: Execute a query</span></span><br><span class="line">      System.out.println(<span class="string">"Creating statement..."</span>);</span><br><span class="line">      String sql;</span><br><span class="line">      sql = <span class="string">"SELECT id, first, last, age FROM Employees"</span>;</span><br><span class="line">      stmt = conn.prepareStatement(sql);</span><br><span class="line">      ResultSet rs = stmt.executeQuery();</span><br><span class="line"></span><br><span class="line">      <span class="comment">//STEP 5: Extract data from result set</span></span><br><span class="line">      <span class="keyword">while</span>(rs.next())&#123;</span><br><span class="line">         <span class="comment">//Retrieve by column name</span></span><br><span class="line">         <span class="keyword">int</span> id  = rs.getInt(<span class="string">"id"</span>);</span><br><span class="line">         <span class="keyword">int</span> age = rs.getInt(<span class="string">"age"</span>);</span><br><span class="line">         String first = rs.getString(<span class="string">"first"</span>);</span><br><span class="line">         String last = rs.getString(<span class="string">"last"</span>);</span><br><span class="line"></span><br><span class="line">         <span class="comment">//Display values</span></span><br><span class="line">         System.out.print(<span class="string">"ID: "</span> + id);</span><br><span class="line">         System.out.print(<span class="string">", Age: "</span> + age);</span><br><span class="line">         System.out.print(<span class="string">", First: "</span> + first);</span><br><span class="line">         System.out.println(<span class="string">", Last: "</span> + last);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//STEP 6: Clean-up environment</span></span><br><span class="line">      rs.close();</span><br><span class="line">      stmt.close();</span><br><span class="line">      conn.close();</span><br><span class="line">   &#125;<span class="keyword">catch</span>(SQLException se)&#123;</span><br><span class="line">      <span class="comment">//Handle errors for JDBC</span></span><br><span class="line">      se.printStackTrace();</span><br><span class="line">   &#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">      <span class="comment">//Handle errors for Class.forName</span></span><br><span class="line">      e.printStackTrace();</span><br><span class="line">   &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">      <span class="comment">//finally block used to close resources</span></span><br><span class="line">      <span class="keyword">try</span>&#123;</span><br><span class="line">         <span class="keyword">if</span>(stmt!=<span class="keyword">null</span>)</span><br><span class="line">            stmt.close();</span><br><span class="line">      &#125;<span class="keyword">catch</span>(SQLException se2)&#123;</span><br><span class="line">      &#125;<span class="comment">// nothing we can do</span></span><br><span class="line">      <span class="keyword">try</span>&#123;</span><br><span class="line">         <span class="keyword">if</span>(conn!=<span class="keyword">null</span>)</span><br><span class="line">            conn.close();</span><br><span class="line">      &#125;<span class="keyword">catch</span>(SQLException se)&#123;</span><br><span class="line">         se.printStackTrace();</span><br><span class="line">      &#125;<span class="comment">//end finally try</span></span><br><span class="line">   &#125;<span class="comment">//end try</span></span><br><span class="line">   System.out.println(<span class="string">"There are so thing wrong!"</span>);</span><br><span class="line">&#125;<span class="comment">//end main</span></span><br><span class="line">&#125;<span class="comment">//end FirstExample</span></span><br></pre></td></tr></table></figure>
+<p>Java 的文档已经非常的详细了，除了是英文版，其他的都非常棒。你可以只了解上面的部分内容，当你需要使用其他的功能的时候都可以方便的在函数列表中找到你要的函数，估计你要实现的功能都有。<br>例如在获取字段的时候，你可以用下标来获取，而不是只能用字段名称获取。</p>
+<p>如何学习Java的使用? 去看源代码。所谓看源代码并不是代码的细节去看，而是去看这个代码都做了写什么，这个类是个什么类? 其内部是Array还是Map还是List？这些东西清楚了，足以让你知道如何使用它了。当然很多情况下，其内部不是简单的一中数据结构，可能是多种并行。所以你只需要对基础的数据结构很了解，在用这些东西的时候只要看函数名称就能理解其用法。可能在如何学习计算机科学这篇文章中还会提及这方面的技巧。</p>
+<h1 id="Statement"><a href="#Statement" class="headerlink" title="Statement"></a>Statement</h1><p>上面有个地方你可能会不太理解，就是为什么我建立连接后不能直接执行SQL而是要搞一个statement呢？这个就是设计模式与直观思路的差异问题。直观想法就是我建立了连接就可以去执行SQL了呀，但是JDBC要实现更多的功能，所以又进行了流程分拆，这个Statement就是用来执行SQL的那个部分，既然用一个类来执行，必然对这个SQL做了一些什么骚操作。事实上JDBC对于这个Statement有三种设计。</p>
+<h3 id="三种Statement类："><a href="#三种Statement类：" class="headerlink" title="三种Statement类："></a>三种Statement类：</h3><ul>
+<li><code>Statement</code>：由createStatement创建，用于发送简单的SQL语句（不带参数）。</li>
+<li><code>PreparedStatement</code> ：继承自Statement接口，由preparedStatement创建，用于发送含有一个或多个参数的SQL语句。PreparedStatement对象比Statement对象的效率更高，并且可以防止SQL注入，所以我们一般都使用PreparedStatement。</li>
+<li><code>CallableStatement</code>：继承自PreparedStatement接口，由方法prepareCall创建，用于调用存储过程。</li>
+</ul>
+<h3 id="常用Statement方法："><a href="#常用Statement方法：" class="headerlink" title="常用Statement方法："></a>常用Statement方法：</h3><ul>
+<li><code>execute(String sql)</code>:运行语句，返回是否有结果集</li>
+<li><code>executeQuery(String sql)</code>：运行select语句，返回ResultSet结果集。</li>
+<li><code>executeUpdate(String sql)</code>：运行insert/update/delete操作，返回更新的行数。</li>
+<li><code>addBatch(String sql)</code> ：把多条sql语句放到一个批处理中。</li>
+<li><code>executeBatch()</code>：向数据库发送一批sql语句执行。</li>
+</ul>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>以上只是简单的基础使用和一些基本概念的理解，以后会补充JDBC事务的概念，以及JDBC与SQL之间的数据类型转换等。</p>
+<p>会了这个你就基本懂php 中PDO的使用了。</p>
+<h1 id="常用代码实例"><a href="#常用代码实例" class="headerlink" title="常用代码实例"></a>常用代码实例</h1><p>有一些常用的代码，就直接写在这里，用的到的时候直接Copy上就好了。</p>
+<h2 id="获取insert后自增字段值"><a href="#获取insert后自增字段值" class="headerlink" title="获取insert后自增字段值"></a>获取insert后自增字段值</h2><p>用于在资源创建后获取资源ID， 要求具有原子性。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> String <span class="title">insertSQL</span><span class="params">(String sql)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//Connection 参考上面的代码</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// </span></span><br><span class="line">    ResultSet rs;</span><br><span class="line">    Connection conn = <span class="keyword">null</span>;</span><br><span class="line">    PreparedStatement ps = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">long</span> ret = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        conn = ds.getConnection();</span><br><span class="line">        <span class="comment">// important &amp; </span></span><br><span class="line">        ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);</span><br><span class="line">        <span class="keyword">int</span> rows = ps.executeUpdate();</span><br><span class="line">        rs = ps.getGeneratedKeys();</span><br><span class="line">        <span class="keyword">if</span>( rs.next() ) &#123;</span><br><span class="line">            ret = rs.getLong(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        conn.close();</span><br><span class="line">        ps.close();</span><br><span class="line">        rs.close();</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Long.toString(ret);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/SQL/" rel="tag"># SQL</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/rest-framework/" rel="next" title="rest_framework">
+                <i class="fa fa-chevron-left"></i> rest_framework
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/SQL/" rel="prev" title="SQL进阶">
+                SQL进阶 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/JDBC/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#架构"><span class="nav-number">1.</span> <span class="nav-text">架构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实例"><span class="nav-number">2.</span> <span class="nav-text">实例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Statement"><span class="nav-number">3.</span> <span class="nav-text">Statement</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#三种Statement类："><span class="nav-number">3.0.1.</span> <span class="nav-text">三种Statement类：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用Statement方法："><span class="nav-number">3.0.2.</span> <span class="nav-text">常用Statement方法：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他"><span class="nav-number">4.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用代码实例"><span class="nav-number">5.</span> <span class="nav-text">常用代码实例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#获取insert后自增字段值"><span class="nav-number">5.1.</span> <span class="nav-text">获取insert后自增字段值</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

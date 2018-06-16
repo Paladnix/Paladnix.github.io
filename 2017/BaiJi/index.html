@@ -1,0 +1,831 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Alibaba," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="声明：本文尽量避免涉密信息，如有发现请速联系，谢谢！ 可以说非常的幸运了，据说是第一次面向实习生的百年技术培训，历时三天，收获颇丰。那么，问题来了！收获了什么？ 好问题！这就要来聊一聊培训到底是为了什么？培训的目的是什么？培训其本质分两个部分，一个是“培”， 一个是“训”。在这次的培训中，“训”的成分很小啦，主要是“培”。我觉得这是一个很正确的做法，更多时候一个组织、一个团队需要的是培而不是训，对">
+<meta name="keywords" content="Alibaba">
+<meta property="og:type" content="article">
+<meta property="og:title" content="百技">
+<meta property="og:url" content="http://paladnix.github.io/2017/BaiJi/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="声明：本文尽量避免涉密信息，如有发现请速联系，谢谢！ 可以说非常的幸运了，据说是第一次面向实习生的百年技术培训，历时三天，收获颇丰。那么，问题来了！收获了什么？ 好问题！这就要来聊一聊培训到底是为了什么？培训的目的是什么？培训其本质分两个部分，一个是“培”， 一个是“训”。在这次的培训中，“训”的成分很小啦，主要是“培”。我觉得这是一个很正确的做法，更多时候一个组织、一个团队需要的是培而不是训，对">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.213Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="百技">
+<meta name="twitter:description" content="声明：本文尽量避免涉密信息，如有发现请速联系，谢谢！ 可以说非常的幸运了，据说是第一次面向实习生的百年技术培训，历时三天，收获颇丰。那么，问题来了！收获了什么？ 好问题！这就要来聊一聊培训到底是为了什么？培训的目的是什么？培训其本质分两个部分，一个是“培”， 一个是“训”。在这次的培训中，“训”的成分很小啦，主要是“培”。我觉得这是一个很正确的做法，更多时候一个组织、一个团队需要的是培而不是训，对">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/BaiJi/"/>
+
+
+
+
+
+  <title>百技 | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/BaiJi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">百技</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-07T23:20:15+08:00">
+                2017-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/BaiJi/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/BaiJi/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>声明：本文尽量避免涉密信息，如有发现请速联系，谢谢！</p>
+<p>可以说非常的幸运了，据说是第一次面向实习生的百年技术培训，历时三天，收获颇丰。<br>那么，问题来了！收获了什么？</p>
+<h3 id="好问题！"><a href="#好问题！" class="headerlink" title="好问题！"></a>好问题！</h3><p>这就要来聊一聊培训到底是为了什么？培训的目的是什么？<br>培训其本质分两个部分，一个是“培”， 一个是“训”。在这次的培训中，“训”的成分很小啦，主要是“培”。我觉得这是一个很正确的做法，更多时候一个组织、一个团队需要的是培而不是训，对于阿里这样人才质量普遍很高的公司来说更是如此。</p>
+<h3 id="我们？"><a href="#我们？" class="headerlink" title="(我们？)"></a>(我们？)</h3><p>先扯一点题外话。我切身的体会告诉我，我这一代人对精神独立这个玩意儿的需求特别大。他更关注的是自己的意志不受强加，一旦有压迫就极其敏感。凡事都有利有弊，那么这个利弊如何控制？这时候一个新的问题又来了，就是为什么会问如何控制啊？这是个很普遍的现象，一到演讲问答环节就有这样的问题出现，下一段来讨论这个问题。回到刚刚的话题，个人意志的独立性其坏的一面就表现为“盲目自信自己的看法”，其好的一面当然就是“灵活多变，善于创造”。对于一群聪明的人来说，当然就只需要稍加引导就可以啦。没错，就是要厚着脸皮说我很聪明，哈哈。</p>
+<h3 id="学了啥？"><a href="#学了啥？" class="headerlink" title="学了啥？"></a>学了啥？</h3><p>这次培训我到底学到了什么呢？回头想一想貌似也没有学到什么干货，除了一些代码规范的问题比较干以外，就听讲师讲的风声水起我也听的自得其乐。是没有什么干货，但是软文的力量不比干货差。有两种老师，一种是在你登山之前带你坐上飞机在这山间盘旋，先让你你看清了你要攀登的山；另一种就是告诉你，不用管前面的事情，听我指挥，你做好眼前事就好。很显然，就不用多说什么了。</p>
+<p>当初选择阿里巴巴，只有一个原因，我听说那里有技术巅峰，百技之行让我更清晰的看到了这个巅峰。当一群人在最前沿活跃的时候，他需要的是前瞻和创造，同时他也有足够的能力走好当前的每一步，所以，“百技”最重要的意义，也是它达到的效果，就是给你一个往前走的理由。其实对我而言，妄谈向前走还为时太早，我很清楚自己现在的能力还十分局限，满目见到的哪有巅峰，全是别人留下的风景，而我要一一领略后才能到达前沿。但是穿越荆棘也同样需要理由，不过幸运的是我本就有理由，而此次百技给了我一个略微清晰的方向。</p>
+<p>有赤子之心的人都无比幸福，我可能有半个。对于技术有一种爱不释手，当然在搞不出来的时候也会焦头烂额。对我而言，计算机是个巨大的玩具，这个玩具的功能之丰富，能力之强大是任何其他游戏所比拟不了的，当然其玩法也层出不穷，花式繁多。能以此为工作是件很幸福的事情，但愿工作不会磨灭我的热情。</p>
+<h3 id="传承"><a href="#传承" class="headerlink" title="传承"></a>传承</h3><p>百技，从我的角度看是一个传承的过程。一个带领过经历迭代的团队的人应该都明白传承对于一个团队的意义。人最坚不可催、最韧如磐石的就是精神，一群人的精神会召唤出精妙的火花，但是精神需要传承，不是每个加入团队的人自然就获得精神。传承最有效的方式就是讲故事。所以百技上非常牛逼的讲师轻描淡写的讲述那些历史的时候就将其精神注入到现场的人身上。</p>
+<p>那么是什么精神呢？ </p>
+<p>其美妙之处就在于我无法准确的描述，可意会而不可言传。用业界很著名的赋能的观点来说，就是真的能感受到赋能与你。</p>
+<h3 id="思考啊"><a href="#思考啊" class="headerlink" title="思考啊"></a>思考啊</h3><p>百技给我的另一个很大的冲击就是，让我再一次思考自己的人生在追求什么。这可能是要思考一生的问题，但问题的答案在你开始思考的那一秒，潜意识里就已经有了。<br>我的答案依旧是坦然的面对自己，不为可笑的虚名浪费时间。</p>
+<p>为什么会再一次思考这个问题。其实这个问题在过去的一段时间里一直在思考，因为要做选择了嘛。选择当然就是在现实与自己之间做个平衡。参加培训的我所在的组有10个人，其中9个是研究生，我有点紧张，然后我粗略看一下现场120多人的样貌，我判断的本科生应该不超过10个。这个数据我是没有预料到的，很震惊，同时更加慌张。我想到的第一个问题是：我不会成为下一个《伤仲永》吧。不过很快我就不这么想了，因为我特么根本就不是什么天赋异禀，怎么能跟仲永做比较。然后我就更慌了，没有仲永的本事还在这玩，不太秒啊。然后通过跟大家的几天相处，我终于近距离了解了一下研究生是个什么样子的一群人？然后我又意识到，这群研究生都是很厉害的研究生啊，害怕。</p>
+<p>学术圈的事情，一想起来就特别愤怒，本科生普遍就算了，算是全民普及教育的一部分了，研究生也搞成这样，很大程度稀释了国内学术水平，哼，不说了，都是交易。不过这群人都还是很厉害的，学识上。</p>
+<p>为啥加一个学识上呢，一家之言。上面挖了个坑这里填上。</p>
+<p>之前的一个问题是：为什么会问这样的问题。什么样的问题呢，就是这种问题。。。如何才能平衡工作跟生活？如何成为厉害的人？有没有什么好的方法XXXXX。。。问出这样的问题的人如果自己在0.001秒内没有给自己答案的都可以回家了。如果自己0.001秒就可以的出答案的还问出来，也可以回家了。</p>
+<p>研究生问出这样的问题，我觉得是很不应该的，所以我加了学术上。这就想讲到我对研究生这个学历的看法，不是对研究生们哦。首先一点要说的就是研究生什么年龄都是可以去读的，这在制度上是正确的，给赞。其次我认为其知识水平与思想素质水平不对等是不应该的。换句话说，一个人如果能够参透高深的知识内容，其必定也参透了一些哲学思想，或是自然之道，中国话讲大道至简。如果其强行掌握知识，也未必能在此基础上生发新生命。这貌似是国内学术圈的现状。</p>
+<p>所以有的时候，一纸虚荣未必值得我浪费青春去求证，我也未必需要世界对我的一纸认证。但倘若我真的去了，我会践行一个学者应有的付出。<br>归根结底，当我面对自己的时候，不要后悔。</p>
+<p>世界如此美妙啊。<br>Thanks！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Alibaba/" rel="tag"># Alibaba</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/Django/" rel="next" title="Django">
+                <i class="fa fa-chevron-left"></i> Django
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/rest-framework/" rel="prev" title="rest_framework">
+                rest_framework <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/BaiJi/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#好问题！"><span class="nav-number">1.</span> <span class="nav-text">好问题！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我们？"><span class="nav-number">2.</span> <span class="nav-text">(我们？)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#学了啥？"><span class="nav-number">3.</span> <span class="nav-text">学了啥？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传承"><span class="nav-number">4.</span> <span class="nav-text">传承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#思考啊"><span class="nav-number">5.</span> <span class="nav-text">思考啊</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

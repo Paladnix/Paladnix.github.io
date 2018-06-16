@@ -1,0 +1,922 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java,Web,Tomcat," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="其作用就是配置一个web程序的基本功能。容器在启动一个web项目的时候先读取这个配置文件，在配置文件读取无误后开始按照配置启动剩余的服务。 加载顺序1&amp;lt;context-param&amp;gt; -&amp;gt; &amp;lt;listener&amp;gt; -&amp;gt; &amp;lt;filter&amp;gt; -&amp;gt; &amp;lt;servlet&amp;gt; 容器会创建一个ServletContext，整个项目都会共用这个上下文。而">
+<meta name="keywords" content="Java,Web,Tomcat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web.xml">
+<meta property="og:url" content="http://paladnix.github.io/2017/web/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="其作用就是配置一个web程序的基本功能。容器在启动一个web项目的时候先读取这个配置文件，在配置文件读取无误后开始按照配置启动剩余的服务。 加载顺序1&amp;lt;context-param&amp;gt; -&amp;gt; &amp;lt;listener&amp;gt; -&amp;gt; &amp;lt;filter&amp;gt; -&amp;gt; &amp;lt;servlet&amp;gt; 容器会创建一个ServletContext，整个项目都会共用这个上下文。而">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.292Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="web.xml">
+<meta name="twitter:description" content="其作用就是配置一个web程序的基本功能。容器在启动一个web项目的时候先读取这个配置文件，在配置文件读取无误后开始按照配置启动剩余的服务。 加载顺序1&amp;lt;context-param&amp;gt; -&amp;gt; &amp;lt;listener&amp;gt; -&amp;gt; &amp;lt;filter&amp;gt; -&amp;gt; &amp;lt;servlet&amp;gt; 容器会创建一个ServletContext，整个项目都会共用这个上下文。而">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/web/"/>
+
+
+
+
+
+  <title>web.xml | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/web/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">web.xml</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-01T20:59:50+08:00">
+                2017-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/web/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/web/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>其作用就是配置一个web程序的基本功能。容器在启动一个web项目的时候先读取这个配置文件，在配置文件读取无误后开始按照配置启动剩余的服务。</p>
+<h3 id="加载顺序"><a href="#加载顺序" class="headerlink" title="加载顺序"></a>加载顺序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;context-param&gt; -&gt; &lt;listener&gt; -&gt; &lt;filter&gt; -&gt; &lt;servlet&gt;</span><br></pre></td></tr></table></figure>
+<p>容器会创建一个ServletContext，整个项目都会共用这个上下文。而<code>&lt;context-param&gt;</code>的内容以键值对的形式存在这个上下文中。<br>然后对读取<code>&lt;listener&gt;</code>，并实例化<code>listener</code>类，并初始化。<br>listener类中会有contextInitialized(ServletContextEvent args)初始化方法，启动Web应用时，系统调用Listener的该方法，在这个方法中获得：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ServletContext application = ServletContextEvent.getServletContext();</span><br><span class="line">context-param的值 = application.getInitParameter(&quot;context-param的键&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>得到这个context-param的值之后，你就可以做一些操作了。<br><strong>举例</strong>：你可能想在项目启动之前就打开数据库，那么这里就可以在<code>&lt;context-param&gt;</code>中设置数据库的连接方式（驱动、url、user、password），在监听类中初始化数据库的连接。这个监听是自己写的一个类，除了初始化方法，它还有销毁方法，用于关闭应用前释放资源。比如:说数据库连接的关闭，此时，调用contextDestroyed(ServletContextEvent args)，关闭Web应用时，系统调用Listener的该方法。</p>
+<p>所以归根结底，这个<code>&lt;context-param&gt;</code>就是用来存一些配置数据的地方。</p>
+<p>比如：定义一个管理员email地址用来从程序发送错误，或者与你整个应用程序有关的其他设置。使用自己定义的设置文件需要额外的代码和管理；直接在你的程序中使用硬编码（Hard-coding）参数值会给你之后修改程序带来麻烦，更困难的是，要根据不同的部署使用不同的设置；通过这种办法，可以让其他开发人员更容易找到相关的参数，因为它是一个用于设置这种参数的标准位置。</p>
+<h4 id="web-app"><a href="#web-app" class="headerlink" title="web-app"></a>web-app</h4><p>根元素，不用多说</p>
+<h4 id="display-name"><a href="#display-name" class="headerlink" title="display-name"></a>display-name</h4><p>应用的名称，这个在tomcat的维护信息中会出现。</p>
+<h4 id="session"><a href="#session" class="headerlink" title="session"></a>session</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">session-config</span>&gt;</span>   </span><br><span class="line"><span class="tag">&lt;<span class="name">session-timeout</span>&gt;</span>120<span class="tag">&lt;/<span class="name">session-timeout</span>&gt;</span>   </span><br><span class="line"><span class="tag">&lt;/<span class="name">session-config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="listener"><a href="#listener" class="headerlink" title="listener"></a>listener</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--****************************监听器配置*********************************--&gt;</span>  </span><br><span class="line"><span class="comment">&lt;!-- Spring的log4j监听器 --&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">listener</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.util.Log4jConfigListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">listener</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">listener</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">listener</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>监听器用来监听各种事件，比如：application和session事件，所有的监听器按照相同的方式定义，功能取决去它们各自实现的接口，常用的Web事件接口有如下几个：</p>
+<ul>
+<li>ServletContextListener：用于监听Web应用的启动和关闭；</li>
+<li>ServletContextAttributeListener：用于监听ServletContext范围（application）内属性的改变；</li>
+<li>ServletRequestListener：用于监听用户的请求；</li>
+<li>ServletRequestAttributeListener：用于监听ServletRequest范围（request）内属性的改变；</li>
+<li>HttpSessionListener：用于监听用户session的开始和结束；</li>
+<li>HttpSessionAttributeListener：用于监听HttpSession范围（session）内属性的改变。</li>
+</ul>
+<p><code>listener</code>类是实现了以下两个接口中任何一个接口的简单java类：javax.servlet.ServletContextListener或javax.servlet.http.HttpSessionListener，如果想让你的类监听应用的启动和停止事件，你就得实现ServletContextListener接口；想让你的类去监听Session的创建和失效事件，那你就得实现HttpSessionListener接口。</p>
+<p>有两种为应用配置listener的方式：</p>
+<ul>
+<li>使用@WebListener修饰Listener实现类即可。</li>
+<li>在web.xml文档中使用<code>&lt;listener&gt;</code>进行配置。</li>
+</ul>
+<p>在下一节配置spring的加载类的时候会给出例子。</p>
+<h4 id="spring相关配置"><a href="#spring相关配置" class="headerlink" title="spring相关配置"></a>spring相关配置</h4><p>配置spring，必须需要<code>&lt;listener&gt;</code>，<code>&lt;context-param&gt;</code>如果有就去加载配置的路径，没有就默认是<code>/WEB-INF/applicationContext.xml</code>。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- spring config --&gt;</span>  </span><br><span class="line"><span class="comment">&lt;!-- if this node is not exist, --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context-param</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>/WEB-INF/spring-configuration/*.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">context-param</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">listener</span>&gt;</span>  </span><br><span class="line">     <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span>  </span><br><span class="line"> <span class="tag">&lt;/<span class="name">listener</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>事实上，spring的配置也是有两种不同的方式的，一种是上面的这种使用<code>listener</code>的方式，还有一种是使用<code>servlet</code>的方式，这两种方式的区别在与什么时候加载。<br>使用listener的方式，是在web启动的时候加载，并且加载的顺序是在<code>filter</code>之前。所以在<code>filter</code>中就可以使用spring的类，否则其中的对象就是空的，就无法使用。所以我们一般选用上面的这种配置方式来启动spring。</p>
+<p>另外一种方式也放出来：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span>    </span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>context<span class="tag">&lt;/<span class="name">servlet-narne</span>&gt;</span>   </span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.context.ContextLoaderServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span>    </span><br><span class="line">    <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>1<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span>    </span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h3><p>Filter可认为是Servle的一种“加强版”，主要用于对用户请求request进行预处理，也可以对Response进行后处理，是个典型的处理链。使用Filter的完整流程是：Filter对用户请求进行预处理，接着将请求HttpServletRequest交给Servlet进行处理并生成响应，最后Filter再对服务器响应HttpServletResponse进行后处理。Filter与Servlet具有完全相同的生命周期，且Filter也可以通过<code>&lt;init-param&gt;</code>来配置初始化参数，获取Filter的初始化参数则使用FilterConfig的getInitParameter()。</p>
+<p>换种说法，Servlet里有request和response两个对象，Filter能够在一个request到达Servlet之前预处理request，也可以在离开Servlet时处理response，Filter其实是一个Servlet链。以下是Filter的一些常见应用场合，</p>
+<ul>
+<li>(1)认证Filter</li>
+<li>(2)日志和审核Filter</li>
+<li>(3)图片转换Filter</li>
+<li>(4)数据压缩Filter</li>
+<li>(5)密码Filter</li>
+<li>(6)令牌Filter</li>
+<li>(7)触发资源访问事件的Filter</li>
+<li>(8)XSLT Filter</li>
+<li>(9)媒体类型链Filter</li>
+</ul>
+<p>Filter可负责拦截多个请求或响应；一个请求或响应也可被多个Filter拦截。<br>Filter必须实现javax.servlet.Filter接口，在该接口中定义了三个方法：</p>
+<ul>
+<li>void init(FilterConfig config)：用于完成Filter的初始化。FilteConfig用于访问Filter的配置信息。</li>
+<li>void destroy()：用于Filter销毁前，完成某些资源的回收。</li>
+<li>void doFilter(ServletRequest request,ServletResponse response,FilterChain chain)：实现过滤功能的核心方法，该方法就是对每个请求及响应增加额外的处理。该方法实现对用户请求request进行预处理，也可以实现对服务器响应response进行后处理—它们的分界线为是否调用了chain.doFilter(request，response)，执行该方法之前，即对用户请求request进行预处理，执行该方法之后，即对服务器响应response进行后处理。</li>
+</ul>
+<h4 id="filter配置"><a href="#filter配置" class="headerlink" title="filter配置"></a>filter配置</h4><p>Filter配置与Servlet的配置非常相似，需要配置两部分：配置Filter名称和Filter拦截器URL模式。区别在于Servlet通常只配置一个URL，而Filter可以同时配置多个请求的URL。配置Filter有两种方式：</p>
+<ul>
+<li>Annotation注解相应类</li>
+<li>web.xml</li>
+</ul>
+<p><code>&lt;filter&gt;</code>用于指定Web容器中的过滤器，可包含<code>&lt;filter-name&gt;</code>、<code>&lt;filter-class&gt;</code>、<code>&lt;init-param&gt;</code>、<code>&lt;icon&gt;</code>、<code>&lt;display-name&gt;</code>、<code>&lt;description&gt;</code>。</p>
+<ul>
+<li><code>&lt;filter-name&gt;</code>用来定义过滤器的名称，该名称在整个程序中都必须唯一。</li>
+<li><code>&lt;filter-class&gt;</code>元素指定过滤器类的完全限定的名称，即Filter的实现类。</li>
+<li><code>&lt;init-param&gt;</code>为Filter配置参数，与<code>&lt;context-param&gt;</code>具有相同的元素描述符<code>&lt;param-name&gt;</code>和<code>&lt;param-value&gt;</code>。</li>
+</ul>
+<p><code>&lt;filter-mapping&gt;</code>元素用来声明Web应用中的过滤器映射，过滤器被映射到一个servlet或一个URL 模式。这个过滤器的<code>&lt;filter&gt;</code>和<code>&lt;filter-mapping&gt;</code>必须具有相同的<code>&lt;filter-name&gt;</code>，指定该Filter所拦截的URL。过滤是按照部署描述符的<code>&lt;filter-mapping&gt;</code>出现的顺序执行的。</p>
+<h4 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 字符集过滤器 --&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;<span class="name">filter</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>CharacterEncodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.CharacterEncodingFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span>  </span><br><span class="line">      <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>encoding<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span>  </span><br><span class="line">      <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span>  </span><br><span class="line">      <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>forceEncoding<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span>  </span><br><span class="line">      <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;/<span class="name">filter</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>CharacterEncodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h3><p>Servlet通常称为服务器端小程序，是运行在服务器端的程序，用于处理及响应客户的请求。Servlet是个特殊的java类，继承于HttpServlet。客户端通常只有GET和POST两种请求方式，Servlet为了响应则两种请求，必须重写<code>doGet()</code>和<code>doPost()</code>方法。大部分时候，Servlet对于所有的请求响应都是完全一样的，此时只需要重写<code>service()</code>方法即可响应客户端的所有请求。<br>另外HttpServlet有两个方法:</p>
+<ul>
+<li>init(ServletConfig config)：创建Servlet实例时，调用该方法的初始化Servlet资源。</li>
+<li>destroy()：销毁Servlet实例时，自动调用该方法的回收资源。<br>通常无需重写<code>init()</code>和<code>destroy()</code>两个方法，除非需要在初始化Servlet时，完成某些资源初始化的方法，才考虑重写<code>init()</code>方法，如果重写了<code>init()</code>方法，应在重写该方法的第一行调用super.init(config)，该方法将调用HttpServlet的<code>init()</code>方法。如果需要在销毁Servlet之前，先完成某些资源的回收，比如关闭数据库连接，才需要重写<code>destory()</code>。</li>
+</ul>
+<h4 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h4><p>创建Servlet实例有两个时机：<br>客户端第一次请求某个<code>Servlet</code>时，系统创建该<code>Servlet</code>的实例，大部分<code>Servlet</code>都是这种<code>Servlet</code>。<br>Web应用启动时立即创建<code>Servlet</code>实例，即<code>load-on-start Servlet</code>。</p>
+<p>每个Servlet的运行都遵循如下生命周期：</p>
+<ol>
+<li>创建Servlet实例。</li>
+<li>Web容器调用Servlet的init()方法，对Servlet进行初始化。</li>
+<li>Servlet初始化后，将一直存在于容器中，用于响应客户端请求，如果客户端发送GET请求，容器调用Servlet的doGet()方法处理并响应请求；如果客户端发送POST请求，容器调用Servlet的doPost()方法处理并响应请求。或者统一使用service()方法处理来响应用户请求。</li>
+<li>Web容器决定销毁Servlet时，先调用Servlet的destory()方法，通常在关闭Web应用时销毁Servlet实例。</li>
+</ol>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>为了让Servlet能响应用户请求，还必须将Servlet配置在web应用中。<br>从Servlet3.0开始，配置Servlet有两种方式：</p>
+<ul>
+<li>在Servlet类中使用<code>@WebServlet Annotation</code>进行配置。</li>
+<li>在<code>web.xml</code>文件中进行配置。</li>
+</ul>
+<p>我们用web.xml文件来配置Servlet，需要配置<code>&lt;servlet&gt;</code>和<code>&lt;servlet-mapping&gt;</code>。<br><code>&lt;servlet&gt;</code>用来声明一个Servlet。<code>&lt;icon&gt;</code>、<code>&lt;display-name&gt;</code>和<code>&lt;description&gt;</code>元素的用法和<code>&lt;filter&gt;</code>的用法相同。<code>&lt;init-param&gt;</code>元素与<code>&lt;context-param&gt;</code>元素具有相同的元素描述符，可以使用<code>&lt;init-param&gt;</code>子元素将初始化参数名和参数值传递给Servlet，访问Servlet配置参数通过ServletConfig对象来完成，ServletConfig提供如下方法：</p>
+<ul>
+<li>java.lang.String.getInitParameter(java.lang.String name)：用于获取初始化参数</li>
+<li><p>ServletConfig获取配置参数的方法和ServletContext获取配置参数的方法完全一样，只是ServletConfig是取得当前Servlet的配置参数，而ServletContext是获取整个Web应用的配置参数。</p>
+</li>
+<li><p><code>&lt;description&gt;</code>：为Servlet指定一个文本描述。</p>
+</li>
+<li><code>&lt;display-name&gt;</code>：为Servlet提供一个简短的名字被某些工具显示。</li>
+<li><code>&lt;icon&gt;</code>：为Servlet指定一个图标，在图形管理工具中表示该Servlet。</li>
+</ul>
+<p><code>&lt;servlet&gt;</code>必须含有<code>&lt;servlet-name&gt;</code>和<code>&lt;servlet-class&gt;</code>，或者<code>&lt;servlet-name&gt;</code>和<code>&lt;jsp-file&gt;</code>。 描述如下：</p>
+<ul>
+<li><code>&lt;servlet-name&gt;</code>用来定义servlet的名称，该名称在整个应用中必须是惟一的</li>
+<li><code>&lt;servlet-class&gt;</code>用来指定servlet的完全限定的名称。</li>
+<li><code>&lt;jsp-file&gt;</code>用来指定应用中JSP文件的完整路径。这个完整路径必须由/开始。</li>
+</ul>
+<p><strong><load-on-startup></load-on-startup></strong></p>
+<p>如果<code>load-on-startup元素存在</code>，而且也指定了<code>jsp-file</code>元素，则JSP文件会被重新编译成<code>Servlet</code>，同时产生的Servlet也被载入内存。<code>&lt;load-on-startup&gt;</code>的内容可以为空，或者是一个整数。这个值表示由Web容器载入内存的顺序。<br>举个例子：如果有两个Servlet元素都含有<code>&lt;load-on-startup&gt;</code>子元素，则<code>&lt;load-on-startup&gt;</code>子元素值较小的<code>Servlet</code>将先被加载。如果<code>&lt;load-on-startup&gt;</code>子元素值为空或负值，则由Web容器决定什么时候加载Servlet。如果两个Servlet的<code>&lt;load-on-startup&gt;</code>子元素值相同，则由Web容器决定先加载哪一个Servlet。<br><code>&lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</code>表示启动容器时，初始化Servlet。</p>
+<p><strong><code>&lt;servlet-mapping&gt;</code></strong></p>
+<p><code>&lt;servlet-mapping&gt;</code>含有<code>&lt;servlet-name&gt;</code>和<code>&lt;url-pattern&gt;</code></p>
+<ul>
+<li><code>&lt;servlet-name&gt;</code>：Servlet的名字，唯一性和一致性，与<code>&lt;servlet&gt;</code>元素中声明的名字一致。</li>
+<li><code>&lt;url-pattern&gt;</code>：指定相对于Servlet的URL的路径。该路径相对于web应用程序上下文的根路径。<code>&lt;servlet-mapping&gt;</code>将URL模式映射到某个Servlet，即该Servlet处理的URL。</li>
+</ul>
+<p><strong>加载Servlet的过程</strong><br>容器的Context对象对请求路径(URL)做出处理，去掉请求URL的上下文路径后，按路径映射规则和Servlet映射路径i<code>&lt;url- pattern&gt;</code>做匹配，如果匹配成功，则调用这个Servlet处理请求。</p>
+<h4 id="DispatcherServlet在web-xml中的配置："><a href="#DispatcherServlet在web-xml中的配置：" class="headerlink" title="DispatcherServlet在web.xml中的配置："></a>DispatcherServlet在web.xml中的配置：</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Spring view分发器  对所有的请求都由business对应的类来控制转发 --&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>business<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span>  </span><br><span class="line">      <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>publishContext<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span>  </span><br><span class="line">      <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>1<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/Web/" rel="tag"># Web</a>
+          
+            <a href="/tags/Tomcat/" rel="tag"># Tomcat</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/git/" rel="next" title="git实战指南">
+                <i class="fa fa-chevron-left"></i> git实战指南
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/SpringMVC/" rel="prev" title="SpringMVC">
+                SpringMVC <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/web/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#加载顺序"><span class="nav-number">1.</span> <span class="nav-text">加载顺序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#web-app"><span class="nav-number">1.1.</span> <span class="nav-text">web-app</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#display-name"><span class="nav-number">1.2.</span> <span class="nav-text">display-name</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#session"><span class="nav-number">1.3.</span> <span class="nav-text">session</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#listener"><span class="nav-number">1.4.</span> <span class="nav-text">listener</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#spring相关配置"><span class="nav-number">1.5.</span> <span class="nav-text">spring相关配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Filter"><span class="nav-number">2.</span> <span class="nav-text">Filter</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#filter配置"><span class="nav-number">2.1.</span> <span class="nav-text">filter配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Example"><span class="nav-number">2.2.</span> <span class="nav-text">Example</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet"><span class="nav-number">3.</span> <span class="nav-text">Servlet</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#生命周期"><span class="nav-number">3.1.</span> <span class="nav-text">生命周期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置"><span class="nav-number">3.2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DispatcherServlet在web-xml中的配置："><span class="nav-number">3.3.</span> <span class="nav-text">DispatcherServlet在web.xml中的配置：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

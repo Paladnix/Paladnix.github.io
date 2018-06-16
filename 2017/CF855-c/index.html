@@ -1,0 +1,843 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ACM,DP," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="题意给一颗树， 每个结点可以标记一个type。一共有m种type，分别是1-m。其中有一种特殊的type，编号为k，要求：  在这棵树中，最多出现x个type为k的点。 每个type为k的点，其相邻的点type必须小于k。  问，给定以上数据，求树的标记种类数有多少。 数据范围： n &amp;lt;= 1e5, x &amp;lt;=10, m &amp;lt;=1e9 分析这是一个典型的树形DP，DP的维度应该至少是">
+<meta name="keywords" content="ACM,DP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Codeforces 855-C 树形DP">
+<meta property="og:url" content="http://paladnix.github.io/2017/CF855-c/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="题意给一颗树， 每个结点可以标记一个type。一共有m种type，分别是1-m。其中有一种特殊的type，编号为k，要求：  在这棵树中，最多出现x个type为k的点。 每个type为k的点，其相邻的点type必须小于k。  问，给定以上数据，求树的标记种类数有多少。 数据范围： n &amp;lt;= 1e5, x &amp;lt;=10, m &amp;lt;=1e9 分析这是一个典型的树形DP，DP的维度应该至少是">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.221Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Codeforces 855-C 树形DP">
+<meta name="twitter:description" content="题意给一颗树， 每个结点可以标记一个type。一共有m种type，分别是1-m。其中有一种特殊的type，编号为k，要求：  在这棵树中，最多出现x个type为k的点。 每个type为k的点，其相邻的点type必须小于k。  问，给定以上数据，求树的标记种类数有多少。 数据范围： n &amp;lt;= 1e5, x &amp;lt;=10, m &amp;lt;=1e9 分析这是一个典型的树形DP，DP的维度应该至少是">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/CF855-c/"/>
+
+
+
+
+
+  <title>Codeforces 855-C 树形DP | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/CF855-c/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Codeforces 855-C 树形DP</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-26T01:07:28+08:00">
+                2017-09-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/CF855-c/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/CF855-c/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>给一颗树， 每个结点可以标记一个type。<br>一共有m种type，分别是1-m。<br>其中有一种特殊的type，编号为k，要求：</p>
+<ol>
+<li>在这棵树中，最多出现x个type为k的点。</li>
+<li>每个type为k的点，其相邻的点type必须小于k。</li>
+</ol>
+<p>问，给定以上数据，求树的标记种类数有多少。</p>
+<p>数据范围： n &lt;= 1e5, x &lt;=10, m &lt;=1e9</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>这是一个典型的树形DP，DP的维度应该至少是3维。</p>
+<p><code>Dp[i][j][z]</code> 表示： 以i为根的子树，用掉z个k时的种类数。<br>其中对于根结点的type选取，分三种情况，</p>
+<ul>
+<li><code>0</code>：type &lt; k (type &gt;=1 )</li>
+<li><code>1</code>：type = k </li>
+<li><code>2</code>：type &gt; k (type &lt;= m)</li>
+</ul>
+<p>Dp表示内容确定以后，就要来找转移方程了。<br>这种组合种类的问题，只要分清楚哪些量之间是相乘的关系，哪些量是相加的关系就好办了。</p>
+<p>思考一种普遍的情况，对于一个根节点和其儿子节点之间的关系，以及儿子之间的关系。<br>可以确定的是，各个儿子之间的关系是相乘的关系。因为儿子之间是没有约束的，不直接相连就没有<code>type &lt; k</code>的约束。所以每个子树内的排列种类是直接乘到贡献中的。</p>
+<p>然后就是儿子与父亲节点的关系。<br>讨论一下，如果父亲的取值是0类型，也就是<code>type &lt; k</code>。 对于任何一个儿子都可以任意选择type，并且这些选择之间是相加的关系。选择之和与父亲的选择种类之间是相乘关系。</p>
+<p>总上，父亲与儿子、儿子与儿子之间都是相乘的关系，儿子内部是相加关系。</p>
+<p>这个时候我们可以选择将父亲先放在一边，先合并各个儿子。最后把合并后的儿子与父亲合并。</p>
+<p>为什么不能直接把儿子合并到父亲上呢？</p>
+<p>因为对于一个固定的z来说，其对应的情况是z个k在所有子树中的全排列种情况。这些排列又是相加的关系，很显然我们不能去求这个排列，复杂度太大。</p>
+<p>我们要在处理每个儿子的时候，将其对不同的z的贡献都存起来，这个我们可以做到。</p>
+<p>以下的代码以根为0时举例，其他两个情况一样。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">for(int j=0; j&lt;=x ;j++)&#123;</span><br><span class="line">    for(int z = 0; z &lt;= x; z++)&#123;</span><br><span class="line">        if(l+z &gt; x) continue;</span><br><span class="line"></span><br><span class="line">        Dp[u][0][j+z] += ta[0][j] * (Dp[v][0][z] + Dp[v][1][z] + Dp[v][2][z]);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>ta[0][j]</code> 记录的是在当前儿子之前的所有儿子中，使用了j个k时，所有的种类数。<br>其中，<code>Dp[u][0][j+z]</code> 记录的是对于当前儿子结点v，使用了j+z 个k时，所有的种类数。</p>
+<p>在每次处理完一个儿子以后，就将ta数组更新一下。并将Dp[u]…清空。</p>
+<p>最后再将结果和根结点合并。这个合并就比较简单了。</p>
+<h2 id="附上代码："><a href="#附上代码：" class="headerlink" title="附上代码："></a>附上代码：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;bits/stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">const int MAXN = 100005;</span><br><span class="line">const long long MOD = 1000000007;</span><br><span class="line">int cnt = 0, head[MAXN];</span><br><span class="line">int n, m, k, x;</span><br><span class="line">typedef long long ll;</span><br><span class="line">ll Dp[MAXN][3][15], ta[3][15];</span><br><span class="line"></span><br><span class="line">struct Edge&#123;</span><br><span class="line">    int u, v, nxt;</span><br><span class="line">&#125;edge[MAXN&lt;&lt;2];</span><br><span class="line"></span><br><span class="line">void init()&#123;</span><br><span class="line">    cnt = 0;</span><br><span class="line">    memset(head, -1, sizeof(head));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void add(int u, int v)&#123;</span><br><span class="line">    edge[cnt].u = u;</span><br><span class="line">    edge[cnt].v = v;</span><br><span class="line">    edge[cnt].nxt = head[u];</span><br><span class="line">    head[u] = cnt++;</span><br><span class="line">&#125;</span><br><span class="line">void Dfs(int u, int pre)&#123;</span><br><span class="line">    int hasSon = 0;</span><br><span class="line">    for(int i = head[u]; i!=-1; i = edge[i].nxt )&#123;</span><br><span class="line">        int v = edge[i].v;</span><br><span class="line">        if(v == pre) continue;</span><br><span class="line">        hasSon = 1;</span><br><span class="line"></span><br><span class="line">        Dfs(v, u);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if( !hasSon ) &#123;</span><br><span class="line">        Dp[u][0][0] = 1ll*k-1;</span><br><span class="line">        Dp[u][1][1] = 1ll;</span><br><span class="line">        Dp[u][2][0] = 1ll*m-k;</span><br><span class="line"></span><br><span class="line">        return ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    memset(ta, 0, sizeof(ta));</span><br><span class="line">    ta[0][0] = ta[1][0] = ta[2][0] = 1ll;</span><br><span class="line">    for(int j = 0; j&lt;=x ; j++)&#123;</span><br><span class="line">        Dp[u][0][j] = Dp[u][1][j] = Dp[u][2][j] = 0;</span><br><span class="line">    &#125;</span><br><span class="line">    for(int i = head[u]; i != -1 ; i = edge[i].nxt)&#123;</span><br><span class="line">        int v = edge[i].v;</span><br><span class="line">        if(v == pre) continue;</span><br><span class="line"></span><br><span class="line">            for(int j = 0; j &lt;= x; j++ )&#123;</span><br><span class="line">                for(int z = 0; z &lt;= x; z++)&#123;</span><br><span class="line"></span><br><span class="line">                    if(j+z&gt;x) continue;</span><br><span class="line">                    Dp[u][0][j+z] += ta[0][j] * ( Dp[v][0][z] + Dp[v][1][z] + Dp[v][2][z] ) %MOD;</span><br><span class="line"></span><br><span class="line">                    Dp[u][1][j+z] += ta[1][j] * Dp[v][0][z] %MOD;</span><br><span class="line"></span><br><span class="line">                    Dp[u][2][j+z] += ta[2][j] * ( Dp[v][0][z] + Dp[v][2][z] ) %MOD;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        for(int j = 0; j &lt;=x; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            ta[0][j] = Dp[u][0][j]%MOD;</span><br><span class="line">            ta[1][j] = Dp[u][1][j]%MOD;</span><br><span class="line">            ta[2][j] = Dp[u][2][j]%MOD;</span><br><span class="line"></span><br><span class="line">            Dp[u][0][j] = 0;</span><br><span class="line">            Dp[u][1][j] = 0;</span><br><span class="line">            Dp[u][2][j] = 0;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for(int i=0;i&lt;=x; i++)&#123;</span><br><span class="line">        Dp[u][0][i] = 1ll*(k-1)*ta[0][i]%MOD;</span><br><span class="line">        if(i&gt;0)</span><br><span class="line">            Dp[u][1][i] = 1ll*ta[1][i-1]%MOD;</span><br><span class="line">        Dp[u][2][i] = 1ll*(m-k)*ta[2][i]%MOD;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line"></span><br><span class="line">    init();</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">    int u, v;</span><br><span class="line">    for(int i=1;i&lt;n;i++)&#123;</span><br><span class="line">        cin &gt;&gt; u &gt;&gt; v;</span><br><span class="line">        add(u, v);</span><br><span class="line">        add(v, u);</span><br><span class="line">    &#125;</span><br><span class="line">    cin  &gt;&gt; k &gt;&gt; x;</span><br><span class="line"></span><br><span class="line">    memset(Dp, 0, sizeof(Dp));</span><br><span class="line"></span><br><span class="line">    Dfs(1, 0);</span><br><span class="line"></span><br><span class="line">    ll ans = 0;</span><br><span class="line">    for(int i=0;i&lt;3;i++)&#123;</span><br><span class="line">        for(int j = 0; j &lt;=x; j++)</span><br><span class="line">            ans = (ans + Dp[1][i][j])%MOD;</span><br><span class="line">    &#125;</span><br><span class="line">    printf(&quot;%lld\n&quot;, ans%MOD);</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ACM/" rel="tag"># ACM</a>
+          
+            <a href="/tags/DP/" rel="tag"># DP</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/EffectiveC-1/" rel="next" title="Effective C++ 读书笔记">
+                <i class="fa fa-chevron-left"></i> Effective C++ 读书笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/ES6/" rel="prev" title="ES 6">
+                ES 6 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/CF855-c/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#题意"><span class="nav-number">1.</span> <span class="nav-text">题意</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附上代码："><span class="nav-number">3.</span> <span class="nav-text">附上代码：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

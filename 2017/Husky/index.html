@@ -1,0 +1,905 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="PHP,WEB,MVC," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="这篇文章是对我自己编写的PHP MVC 框架：Husky 的详细说明， 算作是官方说明文档。 项目的GitHub地址 Husky是什么？Husky 是一个使用PHP语言编写的Web MVC微框架，此项目最初是作者偶然看到的一篇博客中的教学项目。我对项目的代码进行了一些修改和整理，删除了一些不必要的内容，添加了部分设计，目前框架处于第一个版本(Husky-0.9)，框架将会长期维护更新。目前只在Li">
+<meta name="keywords" content="PHP,WEB,MVC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Husky - A Light Web MVC Framework">
+<meta property="og:url" content="http://paladnix.github.io/2017/Husky/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="这篇文章是对我自己编写的PHP MVC 框架：Husky 的详细说明， 算作是官方说明文档。 项目的GitHub地址 Husky是什么？Husky 是一个使用PHP语言编写的Web MVC微框架，此项目最初是作者偶然看到的一篇博客中的教学项目。我对项目的代码进行了一些修改和整理，删除了一些不必要的内容，添加了部分设计，目前框架处于第一个版本(Husky-0.9)，框架将会长期维护更新。目前只在Li">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.234Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Husky - A Light Web MVC Framework">
+<meta name="twitter:description" content="这篇文章是对我自己编写的PHP MVC 框架：Husky 的详细说明， 算作是官方说明文档。 项目的GitHub地址 Husky是什么？Husky 是一个使用PHP语言编写的Web MVC微框架，此项目最初是作者偶然看到的一篇博客中的教学项目。我对项目的代码进行了一些修改和整理，删除了一些不必要的内容，添加了部分设计，目前框架处于第一个版本(Husky-0.9)，框架将会长期维护更新。目前只在Li">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/Husky/"/>
+
+
+
+
+
+  <title>Husky - A Light Web MVC Framework | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/Husky/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Husky - A Light Web MVC Framework</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-17T21:56:06+08:00">
+                2017-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PHP/" itemprop="url" rel="index">
+                    <span itemprop="name">PHP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/Husky/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/Husky/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇文章是对我自己编写的<code>PHP MVC</code> 框架：<code>Husky</code> 的详细说明， 算作是官方说明文档。</p>
+<p>项目的<a href="https://github.com/Paladnix/Husky" target="_blank" rel="noopener">GitHub地址</a></p>
+<h2 id="Husky是什么？"><a href="#Husky是什么？" class="headerlink" title="Husky是什么？"></a>Husky是什么？</h2><p><code>Husky</code> 是一个使用<code>PHP</code>语言编写的Web MVC微框架，此项目最初是作者偶然看到的一篇<a href="https://github.com/yeszao/fastphp" target="_blank" rel="noopener">博客</a>中的教学项目。我对项目的代码进行了一些修改和整理，删除了一些不必要的内容，添加了部分设计，目前框架处于第一个版本(Husky-0.9)，框架将会长期维护更新。目前只在Linux开发环境下测试可用。</p>
+<p>如果你是一个初出茅庐的Web开发者，那么本框架就十分适合你来使用了。相比较很多成熟的PHP框架来说，Husky的体积小，逻辑简单，还没有加入很多集成的自动化功能。整个框架按照一个既定的数据格式实现了MVC开发的需求，更主要的是，在一定程度上说，这个框架还处于比较原始的状态， 这对新手深入了解框架的体系结构十分有利，你可以按照自己的想法对框架进行修改，甚至可能在此基础上改写出更出色的框架。</p>
+<p>本框架的开发初衷是为作者所在的学生社团开发网站，多人合作模式下编写网站没有一个框架实在太乱了。但是衡量工作内容，于是决定自己开发一个微框架来辅助网站的开发，就有了这个项目。</p>
+<h2 id="你需要掌握什么？"><a href="#你需要掌握什么？" class="headerlink" title="你需要掌握什么？"></a>你需要掌握什么？</h2><p>此框架需要一定的php网站开发经验才能熟练的使用。所以在使用之前，你需要具备以下的知识或能力:</p>
+<ul>
+<li>配置apache2 的Rewrite功能</li>
+<li>数据库SQL语句</li>
+<li>php基本语法</li>
+<li>面向对象编程的基本知识</li>
+<li>简要了解http协议与请求url链接</li>
+<li>清楚的了解软件 MVC 架构的组成</li>
+</ul>
+<p>在进一步开发框架之前，你需要进一步具备以下的知识或能力:</p>
+<ul>
+<li>apache2 的更多配置选项</li>
+<li>熟练掌握http协议</li>
+<li>深入理解 MVC 框架结构</li>
+<li>熟练使用php语言进行面向对象编程</li>
+<li>熟练使用PDO数据库操作库</li>
+<li>良好的编程习惯</li>
+</ul>
+<h2 id="Husky-做了什么？"><a href="#Husky-做了什么？" class="headerlink" title="Husky 做了什么？"></a>Husky 做了什么？</h2><p>Husky 实现了下面几个功能：</p>
+<ol>
+<li>唯一的网站入口，url地址重定向</li>
+<li>自动化加载MVC控制类，自动化解决类间依赖</li>
+<li>过滤SQL注入攻击的安全问题， 使用PDO进行数据库操作</li>
+<li>Controller、Model、View模块分离</li>
+<li>定义数据参数等的格式</li>
+</ol>
+<h2 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h2><p>框架需要软件环境：</p>
+<ul>
+<li>Linux</li>
+<li>apache2</li>
+<li>php(&gt;=5.4)</li>
+<li>mysql</li>
+</ul>
+<h3 id="开启apache2-rewrite-功能"><a href="#开启apache2-rewrite-功能" class="headerlink" title="开启apache2 rewrite 功能"></a>开启apache2 rewrite 功能</h3><p>默认的Ubuntu apache2是没有开启这个功能的，要先去看一下 <code>/etc/apache2/mods-enabled/</code> 文件夹下是否存在<code>rewrite.load</code> 模块的链接，如果没有，要去看一下  <code>/etc/apache2/mods-available/</code> 中是否存在对应的文件，如果有，则使用下面的命令建立一个链接到 <code>../mods-enabled/</code> 文件夹下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load</span><br></pre></td></tr></table></figure>
+<p>旧版本的<code>apache2</code>需要修改<code>httpd.conf</code> 文件中的<code>AllowOverride None</code> 修改为 <code>AllowOverride All</code></p>
+<p>如果是新版本的<code>apache2</code>需要修改<code>/etc/apache2/apache2.conf</code> 中的 <code>AllowOverride None</code> 修改为 <code>AllowOverride All</code>, 同时看一下 <code>AccessFileName</code> 为 <code>.htaccess</code> ;</p>
+<h3 id="download-code"><a href="#download-code" class="headerlink" title="download code"></a>download code</h3><p>准备好环境以后，下载该项目的代码包到你本地的文件夹 <code>eg: project/</code> 中。注意请将代码包中所有的文件放置在 <code>project/</code> 文件夹下，并检查隐藏文件<code>.htaccess</code>是否存在，如不存在请到Github上下载下来并放置在 <code>project/</code> 目录下。</p>
+<p>此时项目中默认会存在一个本教程的某个版本，直接在浏览器的地址栏输入:<code>localhost/project/(如果你的project/文件夹不在localhost的目录下请移至localhost/)</code>。此时如果你看到了本教程的某个版本的网页，则除数据库部分的环境配置成功，否则请检查软件是否安装，<code>apache2</code>的<code>Rewrite</code>功能是否已经打开。</p>
+<h2 id="开始编写代码"><a href="#开始编写代码" class="headerlink" title="开始编写代码"></a>开始编写代码</h2><p>下载下来的框架带有一个项目的目录结构，我们不需要变动。但是需要说明一下目录的结构和用途：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">project/</span><br><span class="line">    \__ application/</span><br><span class="line">            \__ controllers/</span><br><span class="line">            \__ models/</span><br><span class="line">            \__ views/</span><br><span class="line">    \__ config/</span><br><span class="line">            \__ config.php</span><br><span class="line">    \__ PHP_MVC/</span><br><span class="line">            \__ phpmvc.php</span><br><span class="line">            \__ Core.class.php</span><br><span class="line">            \__ Model.class.php</span><br><span class="line">            \__ Sql.class.php</span><br><span class="line">            \__ View.class.php</span><br><span class="line">            \__ Controller.class.php</span><br><span class="line">            \__ Model.class.php</span><br><span class="line">    \__ runtime/</span><br><span class="line">    \__ sql/</span><br><span class="line">    \__ css/</span><br><span class="line">    \__ js/</span><br><span class="line">    \__ fonts/</span><br><span class="line">    \__ images/</span><br><span class="line">    \__ index.php</span><br><span class="line">    \__ .htaccess</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><code>application/</code>文件夹内放置的就是整个网站即将开发的MVC部分的代码，基本上整个网站代码都会在这里。</li>
+<li><code>config/</code>放置整个网站的配置信息，包括数据库的密码、用户名等。</li>
+<li><code>PHP_MVC</code>是整个框架的核心代码，也包含了框架的基类，其余的代码都继承自这里的基类。</li>
+<li><code>runtime/</code>存放网站运行过程中的log日志文件和错误记录。</li>
+<li><code>sql/</code>做为开发过程中存放网站的数据库文件。</li>
+<li><code>index.php</code>是整个网站的唯一入口，已经重定向过来，在其中有两个宏定义：<code>APP_DEBUG</code>和<code>APP_DEBUG_FRA</code>分别用于网站开发时错误检测和框架开发时的错误检测。网站发布时需要将两个宏全部关闭。</li>
+<li><code>.htaccess</code>是网站url重定向文件</li>
+</ul>
+<h3 id="代码风格"><a href="#代码风格" class="headerlink" title="代码风格"></a>代码风格</h3><p>框架的整体采用Java代码风格，命名规则上也大部分借鉴Java命名规则。</p>
+<ul>
+<li>MySQL表名， 小驼峰命名法 <code>testTable</code></li>
+<li>类名(Class)， 大驼峰命名法：<code>Sql</code></li>
+<li>方法名(Actions)， 小驼峰命名法：<code>index</code>, <code>indexPost</code></li>
+<li>模块名(Models)， 大驼峰命名法， 后缀Model： <code>TestModel</code></li>
+<li>控制器(Controllers)， 大驼峰命名法，后缀Controller： <code>TestController</code></li>
+<li>视图(Views)， 控制器名/行为名： <code>TestView</code></li>
+</ul>
+<h3 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> *  php 代码： /application/controllers/TestController.class.php</span></span><br><span class="line"><span class="comment"> *   </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestController</span> <span class="keyword">extends</span> <span class="title">Controller</span></span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">/* </span></span><br><span class="line"><span class="comment">     *  当 url 为：localhost/project/test/ 或 localhost/project/text/index/ 时调用该函数 </span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     *  index 可以做为默认打开页面时的处理函数，</span></span><br><span class="line"><span class="comment">     *  不写则默认调用父类的index函数，直接渲染页面。</span></span><br><span class="line"><span class="comment">     *  该函数接受一个字符串数组参数 如：$params , 该字符串是url中的参数，数组中每个元素形如： id=2 ；</span></span><br><span class="line"><span class="comment">     *  每组参数使用 'name=value' 的形式存储。</span></span><br><span class="line"><span class="comment">     *  assign() 函数可以将键值对存储进视图模块中，交由视图模块进一步处理。</span></span><br><span class="line"><span class="comment">     *  render() 函数渲染视图，调用视图模块的函数进行渲染。 可以写一个参数用来标志：action</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">( $params )</span></span>&#123;</span><br><span class="line"> </span><br><span class="line">        $content = (<span class="keyword">new</span> TestModel)-&gt;selectAll();</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">$this</span>-&gt;assign(<span class="string">'title'</span>, <span class="string">'全部条目'</span>);</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">$this</span>-&gt;assign(<span class="string">'content'</span>, $content);</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">$this</span>-&gt;_view-&gt;render(<span class="string">"index"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    <span class="comment">/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *</span></span><br><span class="line"><span class="comment">     * * * 当 url 为：localhost/project/test/add/ 时调用该函数 * *</span></span><br><span class="line"><span class="comment">     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * </span></span><br><span class="line"><span class="comment">     *   同样也可以带参数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">( $params )</span></span>&#123;</span><br><span class="line"> </span><br><span class="line">        $data[<span class="string">'name'</span>] = $_POST[<span class="string">'value'</span>];</span><br><span class="line"> </span><br><span class="line">        $count = (<span class="keyword">new</span> TestModel)-&gt;add($data);</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">$this</span>-&gt;assign(<span class="string">'title'</span>, <span class="string">'添加成功'</span>);</span><br><span class="line">        <span class="keyword">$this</span>-&gt;assign(<span class="string">'count'</span>, $count);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">$this</span>-&gt;_view-&gt;render(<span class="string">"add"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="View"><a href="#View" class="headerlink" title="View"></a>View</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment"> *	php 代码： /application/views/TestView.class.php</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">     </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestView</span> <span class="keyword">extends</span> <span class="title">View</span></span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     *   对于不同的函数可以编写不同的前端组件，重写render函数按需加载组件</span></span><br><span class="line"><span class="comment">     *   </span></span><br><span class="line"><span class="comment">     *   此类对应上面的 TestController		</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     */</span> </span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">render</span><span class="params">( $action=<span class="string">"index"</span> )</span></span>&#123;</span><br><span class="line">    	</span><br><span class="line">    	<span class="keyword">if</span>($action == <span class="string">"index"</span>)&#123;</span><br><span class="line">    		<span class="keyword">$this</span>-&gt;index(); <span class="keyword">return</span> ;</span><br><span class="line">    	&#125;</span><br><span class="line">    	<span class="keyword">else</span> <span class="keyword">if</span>($action == <span class="string">"add"</span>)&#123;</span><br><span class="line">    		<span class="keyword">$this</span>-&gt;add(); <span class="keyword">return</span> ;</span><br><span class="line">    	&#125;</span><br><span class="line">    	</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">( )</span></span>&#123;</span><br><span class="line">    	</span><br><span class="line">    	$pages[] = APP_PATH.<span class="string">"/application/views/Index/header.php"</span>;</span><br><span class="line">    	$pages[] = APP_PATH.<span class="string">"/application/views/Index/body.php"</span>;</span><br><span class="line">    	$pages[] = APP_PATH.<span class="string">"/application/views/Index/footer.php"</span>;</span><br><span class="line">    	</span><br><span class="line">    	<span class="keyword">foreach</span>( $pages <span class="keyword">as</span> $page) <span class="keyword">$this</span>-&gt;page($page);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line"> 	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">( )</span></span>&#123;</span><br><span class="line">    	</span><br><span class="line">    	$pages[] = APP_PATH.<span class="string">"/application/views/Index/header.php"</span>;</span><br><span class="line">    	$pages[] = APP_PATH.<span class="string">"/application/views/Index/add.php"</span>;</span><br><span class="line">    	$pages[] = APP_PATH.<span class="string">"/application/views/Index/footer.php"</span>;</span><br><span class="line">    	</span><br><span class="line">    	<span class="keyword">foreach</span>( $pages <span class="keyword">as</span> $page) <span class="keyword">$this</span>-&gt;page($page);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> *  php 代码： /application/models/TestModel.class.php</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> <span class="comment">/*</span></span><br><span class="line"><span class="comment"> </span></span><br><span class="line"><span class="comment"> </span></span><br><span class="line"><span class="comment"> 	$this-&gt;formatInsert($data) : 接受一个键值对数组，将其格式化为：键='值' ， 键='值' 的字符串， 如果对应字段为整形数，则没有引号</span></span><br><span class="line"><span class="comment"> </span></span><br><span class="line"><span class="comment"> 	$this-&gt;formatWhere($data) : 键值对 -&gt; 字符串，</span></span><br><span class="line"><span class="comment"> 	</span></span><br><span class="line"><span class="comment"> 	$this-&gt;formatUpdate($data) : 键值对 -&gt; 字符串，</span></span><br><span class="line"><span class="comment"> </span></span><br><span class="line"><span class="comment"> 	$this-&gt;selectSQL($sql) : 执行$sql 语句，并返回二维数组做为结果。</span></span><br><span class="line"><span class="comment"> 	</span></span><br><span class="line"><span class="comment"> 	$this-&gt;querySQL($sql) : 执行$sql 语句，返回被影响的行数。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestModel</span> <span class="keyword">extends</span> <span class="title">Model</span></span>&#123;</span><br><span class="line"> </span><br><span class="line">     <span class="comment">/*  例如需要将数据库中所有的记录都提取出来并返回一个二维数组记录所有的数据 </span></span><br><span class="line"><span class="comment">      *</span></span><br><span class="line"><span class="comment">      */</span>  </span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">selectAll</span><span class="params">()</span></span>&#123;</span><br><span class="line"> </span><br><span class="line">        $sql = sprintf(<span class="string">"select * from `%s` "</span>, <span class="keyword">$this</span>-&gt;_table);</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;selectSQL($sql);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    <span class="comment">/*  如果要插入记录到数据库中，则将键值对存在 $data 中 </span></span><br><span class="line"><span class="comment">     *  query函数将返回受影响的行数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">insert</span><span class="params">( $data )</span></span>&#123;</span><br><span class="line"> </span><br><span class="line">        $sql = sprintf( <span class="string">"insert into `%s` %s"</span>, <span class="keyword">$this</span>-&gt;_table, <span class="keyword">$this</span>-&gt;formatInsert($data) );</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;querySQL($sql);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP/" rel="tag"># PHP</a>
+          
+            <a href="/tags/WEB/" rel="tag"># WEB</a>
+          
+            <a href="/tags/MVC/" rel="tag"># MVC</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/Begining/" rel="next" title="Begining">
+                <i class="fa fa-chevron-left"></i> Begining
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/before/" rel="prev" title="学习更深C/C++语言之前的思想准备">
+                学习更深C/C++语言之前的思想准备 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/Husky/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Husky是什么？"><span class="nav-number">1.</span> <span class="nav-text">Husky是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#你需要掌握什么？"><span class="nav-number">2.</span> <span class="nav-text">你需要掌握什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Husky-做了什么？"><span class="nav-number">3.</span> <span class="nav-text">Husky 做了什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置环境"><span class="nav-number">4.</span> <span class="nav-text">配置环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#开启apache2-rewrite-功能"><span class="nav-number">4.1.</span> <span class="nav-text">开启apache2 rewrite 功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#download-code"><span class="nav-number">4.2.</span> <span class="nav-text">download code</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始编写代码"><span class="nav-number">5.</span> <span class="nav-text">开始编写代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代码风格"><span class="nav-number">5.1.</span> <span class="nav-text">代码风格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Controller"><span class="nav-number">5.2.</span> <span class="nav-text">Controller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#View"><span class="nav-number">5.3.</span> <span class="nav-text">View</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model"><span class="nav-number">5.4.</span> <span class="nav-text">Model</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

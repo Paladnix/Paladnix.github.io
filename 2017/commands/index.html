@@ -1,0 +1,832 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Linux," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="Tomcat是最烂的软件，没有之一！Over!因为日志系统冲突的问题，这两天跟Tomcat斗争了好久，最终被其无耻下流卑鄙所折服，自信点，你就是最烂的！于是就诞生了上一篇长文来叙述日志是怎么搞，现在这一篇也是在实战中学习到的。 曾经学这些命令的时候只知道这些命令有很多功能，也很困惑，一个命令搞这么多参数干嘛，有什么用啊，我反正不会用。然后今天就脸红了，是我不会用。不得不说设计这些命令的前辈真的很厉">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="真正的老司机如何用Linux文本命令">
+<meta property="og:url" content="http://paladnix.github.io/2017/commands/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="Tomcat是最烂的软件，没有之一！Over!因为日志系统冲突的问题，这两天跟Tomcat斗争了好久，最终被其无耻下流卑鄙所折服，自信点，你就是最烂的！于是就诞生了上一篇长文来叙述日志是怎么搞，现在这一篇也是在实战中学习到的。 曾经学这些命令的时候只知道这些命令有很多功能，也很困惑，一个命令搞这么多参数干嘛，有什么用啊，我反正不会用。然后今天就脸红了，是我不会用。不得不说设计这些命令的前辈真的很厉">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.272Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="真正的老司机如何用Linux文本命令">
+<meta name="twitter:description" content="Tomcat是最烂的软件，没有之一！Over!因为日志系统冲突的问题，这两天跟Tomcat斗争了好久，最终被其无耻下流卑鄙所折服，自信点，你就是最烂的！于是就诞生了上一篇长文来叙述日志是怎么搞，现在这一篇也是在实战中学习到的。 曾经学这些命令的时候只知道这些命令有很多功能，也很困惑，一个命令搞这么多参数干嘛，有什么用啊，我反正不会用。然后今天就脸红了，是我不会用。不得不说设计这些命令的前辈真的很厉">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/commands/"/>
+
+
+
+
+
+  <title>真正的老司机如何用Linux文本命令 | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/commands/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">真正的老司机如何用Linux文本命令</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-27T17:23:29+08:00">
+                2017-07-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/commands/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/commands/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Tomcat是最烂的软件，没有之一！Over!<br>因为日志系统冲突的问题，这两天跟Tomcat斗争了好久，最终被其无耻下流卑鄙所折服，自信点，你就是最烂的！于是就诞生了上一篇长文来叙述日志是怎么搞，现在这一篇也是在实战中学习到的。</p>
+<p>曾经学这些命令的时候只知道这些命令有很多功能，也很困惑，一个命令搞这么多参数干嘛，有什么用啊，我反正不会用。然后今天就脸红了，是我不会用。<br>不得不说设计这些命令的前辈真的很厉害，然后发现windows就这么丢弃这些东西真的是自断后路。盖茨肯定意识到电脑以后会是标配，但是他一定没有意识到自己在让计算机变傻。或许他本身就很傻吧，不是很能懂，自己一个号称最优秀的程序员之一的人，在设计计算机的时候就这么把这些东西屏蔽掉，自己真的打算用吗？计算机是越来越多了，但是其真正强大的功能都被windows阉割了，也阉割了真正的优雅，一定程度上，我认为盖茨理解错了计算机处理信息的价值。</p>
+<p>我喜欢vim、latex、linux他们都有一个共同的特点，就是连通性非常强，而且操作简单。在工作过程中除了浏览网页，我基本上不会用鼠标，快捷键加命令可以无所不达。</p>
+<p>一般我会开两个终端窗口，一屏左右各占一个。开发服务器相关的应用的时候左边终端在本地，右侧终端<code>ssh</code>连进服务器。就单单这一个操作，在windows下就要复杂N倍，要安装软件才能支持<code>ssh</code>协议，还要软件模拟服务器终端，丑的要死不说，各种切换操作都要依靠鼠标… 而在linux的终端下，每个操作都只是简单的一个命令的事情，可以用命令完整精准的描述你的想法，所想即所得。</p>
+<p>下面几个命令，很强大。<br><code>ps</code>、<code>less</code>、<code>head</code>、<code>tail</code>、<code>grep</code>、<code>watch</code>…</p>
+<h2 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h2><p>你知道Tomcat自己的<code>bin/shutdown.sh</code>是无法把自己关闭的吗？很抱歉，我特么这么用了一天了。然后ps发现一堆tomcat进程在跑，顿时恐惧袭上心头。关不掉你就别写个<code>shutdown.sh</code>啊，坑死爸爸了。<br>下次要关tomcat就特么直接<code>kill</code>，就不用那么麻烦了。</p>
+<p><code>ps</code> 命令是一个系统进程的快照。他通过读取<code>/proc</code>文件的方式获取信息。<br>使用<code>man</code> 命令获取内置说明文档：<code>man ps</code>，就可以看到各个参数的说明。这里会介绍一些参数的用法，但是仅仅是做个记录而已，有价值的东西是后面的实战例子。</p>
+<p>在参数中，<code>ps</code>命令支持三种命令格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Unix    带短线(dash)：-a 参数</span><br><span class="line">BSD     不带短线(dash)：a 参数</span><br><span class="line">GNU     两个连续短线(two dash)：--a 参数</span><br></pre></td></tr></table></figure></p>
+<p>一般我用<code>Unix</code>格式的参数。<br>在解释这个命令之前还要解释一个东西就是Linux的进程。<br>在Linux中，一个进程组<code>(process group)</code>都是独一无二的会话<code>(session)</code>，这个<code>session</code>的<code>ID</code>就是这个<code>session</code>的第一个<code>process</code>的<code>ID</code>。这个进程也叫做<code>the session leader</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">-e              获取所有的进程，与-A 一毛一样。</span><br><span class="line"></span><br><span class="line">-aux            获取所有的进程的详细信息。包括没有tty的进程和leader进程。</span><br><span class="line">                包含一下信息：</span><br><span class="line">                USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND</span><br><span class="line"></span><br><span class="line">-C cmdlist      获取对应cmd的进程</span><br><span class="line"></span><br><span class="line">-p pidlist      获取对应pid的进程</span><br><span class="line"></span><br><span class="line">-u userlist     获取对应user的进程</span><br><span class="line"></span><br><span class="line">-f              获取格式化信息</span><br><span class="line"></span><br><span class="line">--sort spec     根据spec排序输出，example：ps jax --sort=uid,-ppid,+pid</span><br><span class="line">                + - 代表增序和降序</span><br><span class="line">                example: 按cpu时间排序 ps -aux --sort -pcpu</span><br><span class="line">                example: 按内存使用排序 ps -aux --sort -pmem</span><br><span class="line">                example: ps -aux --sort -pcpu,+pmem 多标准排序</span><br><span class="line"></span><br><span class="line">k               与sort同等作用</span><br><span class="line"></span><br><span class="line">-L pid          获取特定进程的所有线程</span><br><span class="line"></span><br><span class="line">-jaxf           以树形显示进程</span><br><span class="line"></span><br><span class="line">-eo             控制输出，可用来产看特定字段信息</span><br><span class="line">                example: ps -eo pid,user,args 查看谁登录了你的机器</span><br><span class="line"></span><br><span class="line">-m              在进程后面输出线程</span><br></pre></td></tr></table></figure></p>
+<p>上面这些只是基础知识，下面在补充一些：<br><strong>进程状态STAT代码</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">D    uninterruptible sleep (usually IO)</span><br><span class="line">R    running or runnable (on run queue)</span><br><span class="line">S    interruptible sleep (waiting for an event to complete)</span><br><span class="line">T    stopped by job control signal</span><br><span class="line">t    stopped by debugger during the tracing</span><br><span class="line">W    paging (not valid since the 2.6.xx kernel)</span><br><span class="line">X    dead (should never be seen)</span><br><span class="line">Z    defunct (&quot;zombie&quot;) process, terminated but not reaped by its parent</span><br><span class="line"></span><br><span class="line">&lt;    high-priority (not nice to other users)</span><br><span class="line">N    low-priority (nice to other users)</span><br><span class="line">L    has pages locked into memory (for real-time and custom IO)</span><br><span class="line">s    is a session leader</span><br><span class="line">l    is multi-threaded (using CLONE_THREAD, like NPTL pthreads</span><br><span class="line">     do)</span><br><span class="line">+    is in the foreground process group</span><br></pre></td></tr></table></figure></p>
+<p><strong>-o 输出格式</strong><br>example： ps -eo “%p %y %x %c”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">CODE   NORMAL   HEADER</span><br><span class="line">%C     pcpu     %CPU</span><br><span class="line">%G     group    GROUP</span><br><span class="line">%P     ppid     PPID</span><br><span class="line">%U     user     USER</span><br><span class="line">%a     args     COMMAND</span><br><span class="line">%c     comm     COMMAND</span><br><span class="line">%g     rgroup   RGROUP</span><br><span class="line">%n     nice     NI</span><br><span class="line">%p     pid      PID</span><br><span class="line">%r     pgid     PGID</span><br><span class="line">%t     etime    ELAPSED</span><br><span class="line">%u     ruser    RUSER</span><br><span class="line">%x     time     TIME</span><br><span class="line">%y     tty      TTY</span><br><span class="line">%z     vsz      VSZ</span><br></pre></td></tr></table></figure></p>
+<h2 id="less"><a href="#less" class="headerlink" title="less"></a>less</h2><p>是一个文本查看器，<code>more</code>的升级版，且以vi命令为基础。<br>类似的命令有下面几个：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">cat     由第一行开始显示内容，并将所有内容输出</span><br><span class="line"> </span><br><span class="line">tac     从最后一行倒序显示内容，并将所有内容输出</span><br><span class="line"> </span><br><span class="line">more    根据窗口大小，一页一页的现实文件内容</span><br><span class="line"> </span><br><span class="line">less    和more类似，但其优点可以往前翻页，而且进行可以搜索字符</span><br><span class="line"> </span><br><span class="line">head    只显示头几行</span><br><span class="line"> </span><br><span class="line">tail    只显示最后几行</span><br><span class="line"> </span><br><span class="line">nl      类似于cat -n，显示时输出行号</span><br><span class="line"> </span><br><span class="line">tailf   类似于tail -f</span><br></pre></td></tr></table></figure></p>
+<p>less 选项参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-N      显示每行的行号</span><br><span class="line"></span><br><span class="line">空格    向下翻页</span><br><span class="line">d       向后翻半页</span><br><span class="line">u       向前滚动半页</span><br><span class="line">/       向下搜索</span><br><span class="line">?       向上搜索</span><br><span class="line">ma      使用 a 标记文本的当前位置</span><br><span class="line">&apos;a      导航到标记 a 处</span><br></pre></td></tr></table></figure></p>
+<p>文件参数有多个的时候可以打开多个文件，使用<code>:n</code>下一个文件，<code>:p</code>上一个文件。<br>也可以在less中<code>:e file</code> 打开新的文件。</p>
+<h2 id="head"><a href="#head" class="headerlink" title="head"></a>head</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">head -n 10 # 显示前10行</span><br></pre></td></tr></table></figure>
+<h2 id="tail"><a href="#tail" class="headerlink" title="tail"></a>tail</h2><p>显示文件最后几行，最关键是当文件尾内容在增加的时候会在这里动态更新出来。<br>看示例你就明白用来做什么了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f xxx.log</span><br></pre></td></tr></table></figure></p>
+<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><p>这是个匹配命令，明天详细写。</p>
+<h2 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h2><p>watch可以帮你监测一个命令的运行结果，周期性的执行下个程序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-n      间隔秒数，默认2s</span><br><span class="line"></span><br><span class="line">-d      高亮发生变化的位置</span><br><span class="line"></span><br><span class="line">-d=cumulative   将历史中变化过的地方都标记出来</span><br><span class="line"></span><br><span class="line">-t 或-no-title  会关闭watch命令在顶部的时间间隔,命令，当前时间的输出。</span><br></pre></td></tr></table></figure></p>
+<p><strong>Example</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">watch -d -n 1 netstat -ntlp</span><br><span class="line"></span><br><span class="line">watch -n 1 ”df -i;df”  #监测磁盘inode和block数目变化情况</span><br><span class="line"></span><br><span class="line">watch -n 60 -d du -ah # 查看usb3.0拷贝到该目录下面的速度</span><br><span class="line"></span><br><span class="line">watch -n 1 ‘ps -aux --sort -pmem, -pcpu’ # 动态查看进程排序信息</span><br><span class="line"></span><br><span class="line">watch -n 1 ‘ps -aux --sort -pmem, -pcpu | head 20’ # 动态查看前10名</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/log/" rel="next" title="Java-Log日志">
+                <i class="fa fa-chevron-left"></i> Java-Log日志
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/spring/" rel="prev" title="spring">
+                spring <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/commands/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ps"><span class="nav-number">1.</span> <span class="nav-text">ps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#less"><span class="nav-number">2.</span> <span class="nav-text">less</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#head"><span class="nav-number">3.</span> <span class="nav-text">head</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tail"><span class="nav-number">4.</span> <span class="nav-text">tail</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#grep"><span class="nav-number">5.</span> <span class="nav-text">grep</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#watch"><span class="nav-number">6.</span> <span class="nav-text">watch</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

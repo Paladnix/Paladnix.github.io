@@ -1,0 +1,857 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Web,React,Javascript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="如果想用react开发功能丰富，易于代码管理，易于扩展维护的项目，我们最好使用react的一整个体系。当然你单独使用react的部分也是可以的，写一些简单的应用也非常方便，没有必要把这个体系用上。 这篇文章作为入门的一篇略深一些的介绍，在全面学习之前我们至少要知道我们学的每个部分是做什么，为什么要在这里用这个。所以本文不讲一些代码的细节，而是从整体上把握这个技术栈，帮助你快速理解整个体系。 总结一">
+<meta name="keywords" content="Web,React,Javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用react开发的优秀实践">
+<meta property="og:url" content="http://paladnix.github.io/2017/react-1/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="如果想用react开发功能丰富，易于代码管理，易于扩展维护的项目，我们最好使用react的一整个体系。当然你单独使用react的部分也是可以的，写一些简单的应用也非常方便，没有必要把这个体系用上。 这篇文章作为入门的一篇略深一些的介绍，在全面学习之前我们至少要知道我们学的每个部分是做什么，为什么要在这里用这个。所以本文不讲一些代码的细节，而是从整体上把握这个技术栈，帮助你快速理解整个体系。 总结一">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.282Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用react开发的优秀实践">
+<meta name="twitter:description" content="如果想用react开发功能丰富，易于代码管理，易于扩展维护的项目，我们最好使用react的一整个体系。当然你单独使用react的部分也是可以的，写一些简单的应用也非常方便，没有必要把这个体系用上。 这篇文章作为入门的一篇略深一些的介绍，在全面学习之前我们至少要知道我们学的每个部分是做什么，为什么要在这里用这个。所以本文不讲一些代码的细节，而是从整体上把握这个技术栈，帮助你快速理解整个体系。 总结一">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/react-1/"/>
+
+
+
+
+
+  <title>使用react开发的优秀实践 | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/react-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">使用react开发的优秀实践</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-15T14:10:15+08:00">
+                2017-11-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/react-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/react-1/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>如果想用react开发功能丰富，易于代码管理，易于扩展维护的项目，我们最好使用react的一整个体系。当然你单独使用react的部分也是可以的，写一些简单的应用也非常方便，没有必要把这个体系用上。</p>
+<p>这篇文章作为入门的一篇略深一些的介绍，在全面学习之前我们至少要知道我们学的每个部分是做什么，为什么要在这里用这个。所以本文不讲一些代码的细节，而是从整体上把握这个技术栈，帮助你快速理解整个体系。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一个比较好的实践是使用: react + redux + router, 来实现复杂的应用。<br>其中， react 承担了前端渲染控制的功能，redux承担了数据流转的控制功能，router则实现了路由控制的功能。</p>
+<p>这三项，基本上可以保证我们做出的项目，结构清晰，易于维护。<br>在初学这写东西的时候，可能会觉得比较痛苦，因为你需要记住太多的东西和条条框框来开发，这好像限制了你的自由发挥，但是对于一个大型应用来说，或者即便是小应用，没有清晰的结构，就连你自己可能都看不懂自己的代码，后期维护的时候就基本上没有多少好体验了。</p>
+<p>真正优秀的作品，都是在严格的限制下完成的，因为人的思维不应该去思考那些复杂的页面组成的逻辑关系，而是在实现自己的业务逻辑和计算算法上，那些结构，按照一个科学的方式来做就好。而react正是提供了这样一个科学的流程和方式。</p>
+<h2 id="react"><a href="#react" class="headerlink" title="react"></a>react</h2><p>总的来说，在前端渲染方面，react非常出众， 一般我们将前端渲染的部分交给react来做。<br>react使用虚拟DOM的方式，来管理渲染。并且将一个页面分成多个组件进行管理，我们一般将组件按功能分开。当页面发生变化的时候，由react来决定哪里需要渲染，哪里不动，react来操纵浏览器的渲染。<br>与jQuery相比，更进一步， jQuery是将浏览器的一些操作封装出来，提供一组新的调用函数。但是react已经将浏览器的相关接口完全封装，并且屏蔽在react内部，提供了一种更自然和智能的方式来满足我们的需求。我们直接和react打交道，剩余的事情由react去和浏览器做。</p>
+<p>react这个框架可以运行在浏览器端，也可以运行在服务器端， 我们称之为Universal渲染，这里的服务器端，就是Nodejs的平台了。我用的基本上都是浏览器端运行。只要将react的脚本发送到浏览器进行执行就可以了。<br>初的渲染是后端的事情，有了ajax后前端也可以进行渲染了。但是前端渲染会有个问题，就是搜索引擎不友好，因为搜索引擎并不会去跟js代码交互，只会爬取静态页面，所以使用后端渲染十分重要。这关乎你的网站被检索到的可能性。</p>
+<h3 id="基本构造"><a href="#基本构造" class="headerlink" title="基本构造"></a>基本构造</h3><p>react的逻辑很简单，一切都是组件。一个页面是由多个组件堆砌而成，每个组件之间互相隔离，仅通过数据交互，而数据交互的接口是固定的。所以对于一个组件内部来说，与外界是完全隔离的。<br>一个组件包括，样式和数据。数据我们通过请求服务器去获得。<br>每个组件通过提供一个render函数来返回这个组件，这个render函数只能返回一个元素。如果有多个元素需要被包起来成为一个元素返回。<br>组件之间可以是嵌套关系，这个和类的概念有点像，在一个类中可以包含另一个类作为自己的成员。也就是方便我们做组件封装，功能划分。</p>
+<p>当我们写完一个react应用后，可以通过<code>npm start</code>的方式启动起来，当我们在浏览器访问对应的地址时，默认访问index.js, 所以我们的应用最终在这里组织起来。</p>
+<h2 id="ES6-amp-Javascript-amp-JSX"><a href="#ES6-amp-Javascript-amp-JSX" class="headerlink" title="ES6 &amp; Javascript &amp; JSX"></a>ES6 &amp; Javascript &amp; JSX</h2><p>在写应用的时候，我们使用JSX 语法来写，JSX以ES6为基础，react提供了JSX解释器。在写完以后，JSX语法的代码会被编译成JS代码，最终在浏览器中运行的是Javascript的代码，关于webpack等工具，我暂时没有去学习，因为react提供了一个创建react应用的脚本，能够一键创建好这些配置文件，所以我就暂时直接使用了。</p>
+<p><code>npm install --global create-react-app</code> </p>
+<p>这个命令就可以安装这个脚本，然后我们执行： <code>create-react-app myapp</code>, 就可以创建一个文件夹， 里面已经配置了一个简单的react应用。<br>然后我们进入这个文件夹，使用<code>npm start</code>就可以启动服务。 start的过程中，代码就会被编译，并打包成webpack中配置的打包形式。</p>
+<p>如果此时我们改变代码，这个页面会动态更新。</p>
+<h2 id="react-原生的数据控制"><a href="#react-原生的数据控制" class="headerlink" title="react 原生的数据控制"></a>react 原生的数据控制</h2><p>在react中，数据主要有三个载体，分别是state、prop、context。其中state是组件内部状态数据，prop用于层层传递，context可以跨层传递。</p>
+<p>react要实现各个组件独立，并且具有统一的结构，最重要的就是控制数据。在JS这种弱类型的语言中，这一点很好实现，重点就是设计一个接口形式。<br>react中的组件，都有两个变量，一个是prop， 一个是state。<br>其中，state是描述组件内部数据的，prop是对外的接口。也就是说，别人传过来的数据，会存在prop中。同时，prop是不可变的，组件自己不能更改prop的值， 只能改变state的值。</p>
+<p>这种数据控制的方式，比较原始，从接口统一的角度来看挺好的，也符合基本的思维方式。<br>但是这种控制方式也存在很多问题，不用去深究这个框架的细节，我们也可以提出很多问题：</p>
+<ol>
+<li>每个组件之间的数据冗余问题，很多数据统计的模块，该怎么存储数据？</li>
+</ol>
+<p>复制一份出来？当要更改数据的时候，是不是还要传参给另一个组件通知他改变数据？</p>
+<p>因此这样的数据控制肯定会让程序员自己想办法去解决，这样的解决方式很多，所以就会出现大家都用react，但是写出来的东西互相看不太懂。redux就是在这样的情况下，提供了一个统一的方式。</p>
+<h2 id="redux"><a href="#redux" class="headerlink" title="redux"></a>redux</h2><p>redux 对于数据做了如下的限制：</p>
+<ol>
+<li>数据源唯一</li>
+<li>状态只读</li>
+<li>数据改变只能通过纯函数完成</li>
+</ol>
+<p><strong>数据源唯一</strong> 唯一的数据源，是指所有的数据都存在一个地方Store，由redux做分发，这个数据呈树形分布。<br><strong>状态只读</strong> 状态不能被更改，你需要有个接口，来返回新的数据，redux会自己将数据覆盖上去。<br><strong>只能通过纯函数该变数据</strong> 所谓的纯函数就是指函数的输出完全取决于输入，没有其他的因素。</p>
+<p>在redux的限制下，在我们的流程中，需要多几个部分，来实现这个流程。</p>
+<h3 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h3><p>这就是存放数据的地方，这是一个类。 其是数据中心，同样，也应该是各个部分联系的中，应用的变化，就体现在数据的变化上，所以store将其余的部分连接在一起了。</p>
+<p>一个Store中，定义了能够更新其数据的reducer，数据的初始值， 还有一些中间件。</p>
+<p>在每个组件中, 我们都可以通过dispatch函数，来触发相应的reducer去更新数据。当数据被更新的时候，Store会自动通知相应的组件去更新页面。</p>
+<h3 id="action"><a href="#action" class="headerlink" title="action"></a>action</h3><p>这是一个动作，准确来说，用来描述一个动作。一个action返回一个数据集， 这些数据描述了一个动作，随后这个动作会被分发给对应的reducer去产生新的数据。这样新的数据就会被redux得到并更新原有的数据。</p>
+<p>每个action都有一个字段叫<code>type</code>， 一般是个字符串，用来区分不同的action，同时其也是reducer针对不同action做不同操作的标志。action中定义的数据，我们可以理解为前端产生的数据，然后作为参数传给reducer。</p>
+<h3 id="reducer"><a href="#reducer" class="headerlink" title="reducer"></a>reducer</h3><p>同时传给reducer的还有当前该组件中的state。这两个参数作为输入，返回新的state作为输出。这就是reducer的作用。</p>
+<h2 id="react-和redux"><a href="#react-和redux" class="headerlink" title="react 和redux"></a>react 和redux</h2><p>上面讲的是每个各自的一些东西，二者并不是必须同时使用的，都是可以分开使用的，redux只是一个数据控制方式，react只是一种前端渲染的方式。二者都可以被替代。</p>
+<p>在我们结合使用的过程中，react主要负责的就是渲染，redux就是负责组织数据，我们一般用的是react-redux。 这是专为react封装的一个redux库。</p>
+<h2 id="router"><a href="#router" class="headerlink" title="router"></a>router</h2><p>路由一样也可以与上面二者结合，可能更独立一些，因为router是作为一种组件的角色在其中出现。在其内部定义了路由匹配规则，如果你知道django的路由规则，router与之是一样的。</p>
+<h2 id="真的总结"><a href="#真的总结" class="headerlink" title="真的总结"></a>真的总结</h2><p>学习框架技术，在一定意义上，是学习一种思维方式，学会了思维的方式，剩余的就简单了。<br>接下来会写一些具体的技术细节， 以及各个库之间的联系，配合使用等。</p>
+<p>redux在后来的实践中太过繁琐，逐渐被mobx取代。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Web/" rel="tag"># Web</a>
+          
+            <a href="/tags/React/" rel="tag"># React</a>
+          
+            <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/self-1/" rel="next" title="阶段性总结">
+                <i class="fa fa-chevron-left"></i> 阶段性总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/raspberrypi/" rel="prev" title="树莓派 - 入坑指南(1)">
+                树莓派 - 入坑指南(1) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/react-1/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#react"><span class="nav-number">2.</span> <span class="nav-text">react</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本构造"><span class="nav-number">2.1.</span> <span class="nav-text">基本构造</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ES6-amp-Javascript-amp-JSX"><span class="nav-number">3.</span> <span class="nav-text">ES6 &amp; Javascript &amp; JSX</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#react-原生的数据控制"><span class="nav-number">4.</span> <span class="nav-text">react 原生的数据控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redux"><span class="nav-number">5.</span> <span class="nav-text">redux</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Store"><span class="nav-number">5.1.</span> <span class="nav-text">Store</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#action"><span class="nav-number">5.2.</span> <span class="nav-text">action</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reducer"><span class="nav-number">5.3.</span> <span class="nav-text">reducer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#react-和redux"><span class="nav-number">6.</span> <span class="nav-text">react 和redux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#router"><span class="nav-number">7.</span> <span class="nav-text">router</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#真的总结"><span class="nav-number">8.</span> <span class="nav-text">真的总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

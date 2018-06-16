@@ -1,0 +1,837 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="C++,OOP," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="面向对象其实就是那样，都差不多，不一样就是关键字还有一些奇怪的机制问题，总的来说实现的东西都是一样的。 虚函数对应Java的抽象函数。但是略有区别。虚函数在定义的时候使用关键字virtual来修饰声明，但是不一定是没有实现的，可以指定一个已经是实现的函数为虚函数。虚函数最主要的定义是使得每个继承他的子类都实现自己的版本。并且虚函数是实现C++动态绑定的关键。虚函数只能声明在类的内部。 动态绑定所谓">
+<meta name="keywords" content="C++,OOP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ OOP基础--动态绑定">
+<meta property="og:url" content="http://paladnix.github.io/2017/C-OOP-1/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="面向对象其实就是那样，都差不多，不一样就是关键字还有一些奇怪的机制问题，总的来说实现的东西都是一样的。 虚函数对应Java的抽象函数。但是略有区别。虚函数在定义的时候使用关键字virtual来修饰声明，但是不一定是没有实现的，可以指定一个已经是实现的函数为虚函数。虚函数最主要的定义是使得每个继承他的子类都实现自己的版本。并且虚函数是实现C++动态绑定的关键。虚函数只能声明在类的内部。 动态绑定所谓">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.216Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++ OOP基础--动态绑定">
+<meta name="twitter:description" content="面向对象其实就是那样，都差不多，不一样就是关键字还有一些奇怪的机制问题，总的来说实现的东西都是一样的。 虚函数对应Java的抽象函数。但是略有区别。虚函数在定义的时候使用关键字virtual来修饰声明，但是不一定是没有实现的，可以指定一个已经是实现的函数为虚函数。虚函数最主要的定义是使得每个继承他的子类都实现自己的版本。并且虚函数是实现C++动态绑定的关键。虚函数只能声明在类的内部。 动态绑定所谓">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/C-OOP-1/"/>
+
+
+
+
+
+  <title>C++ OOP基础--动态绑定 | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/C-OOP-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">C++ OOP基础--动态绑定</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-29T19:10:17+08:00">
+                2017-05-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/C-OOP-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/C-OOP-1/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>面向对象其实就是那样，都差不多，不一样就是关键字还有一些奇怪的机制问题，总的来说实现的东西都是一样的。</p>
+<h2 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h2><p>对应Java的抽象函数。但是略有区别。<br>虚函数在定义的时候使用关键字<code>virtual</code>来修饰声明，但是不一定是没有实现的，可以指定一个已经是实现的函数为虚函数。虚函数最主要的定义是使得每个继承他的子类都实现自己的版本。并且虚函数是实现C++动态绑定的关键。<br>虚函数只能声明在类的内部。</p>
+<h3 id="动态绑定"><a href="#动态绑定" class="headerlink" title="动态绑定"></a>动态绑定</h3><p>所谓动态绑定就是，有些函数并不是在编译的时候就知道要去调用那个函数的，而是在真正运行的时候才能根据变量的类型去调用对应的函数。这个实现就是对于基类的虚函数，子类也实现一个版本（子类在实现的时候不需要指定函数为虚函数，因为继承过来的函数就是虚函数，是可以传递的），这样对于同一个函数就有两个版本，当我在调用的时候使用指针调用或引用调用（注意必须是这两种调用之一的方式才会有动态绑定的效果，其他都是在编译阶段就能够确定下来。）就可以实现动态绑定。</p>
+<p>由于虚函数是在执行的时候才调用，所以在编译阶段就有些错误报不出来，比如如果我们没有实现某个子类的虚函数，在调用的时候就没有函数去执行，所以所有的虚函数都必须被定义，而不仅仅是声明，普通的函数只要我们永不到就可以不进行定义。</p>
+<h3 id="引用和指针调用"><a href="#引用和指针调用" class="headerlink" title="引用和指针调用"></a>引用和指针调用</h3><p>所谓引用和指针调用，是指函数中关于虚函数的调用对象是作为引用参数或者是指针参数传进去的，这样就需要根据参数的类型来调用不同版本的虚函数。这里就要说一下基类与派生类之间的类型转化问题，正是因为其二者可以进行类型转化，所以在参数列表中的类型并不能唯一限定参数的类型，才有了虚函数调用时的动态绑定。</p>
+<h3 id="类间类型转换"><a href="#类间类型转换" class="headerlink" title="类间类型转换"></a>类间类型转换</h3><p>子类中有一部分是来自与基类的，这一部分可以被单独利用。也就是说，一个子类，我们也可以把他当作他的某个基类来使用，使用的时候只用到基类的部分。也就是说，我有一个基类的指针，我就可以指向这个子类，此时，指针就操作子类的基类部分。这就是从派生类到基类的类型转换。</p>
+<p>反过来就是不行的，可想而知，多的东西可以不要，少了东西就会有问题，所以不存在从基类到派生类的转化。同时我们也就明白了，如果你要对于一个虚函数动态绑定，在调用函数的对象的类型声明的时候就要声明为基类的类型，这样当你传入一个子类的引用的时候，该引用就会转换为子类，进而去调用子类的虚函数实现；如果你写声明的时候声明为了子类的类型，就没有办法动态绑定了，因为反向没有办法转换。</p>
+<h3 id="虚函数覆盖"><a href="#虚函数覆盖" class="headerlink" title="虚函数覆盖"></a>虚函数覆盖</h3><p>子类要实现自己的虚函数版本就要对基类的虚函数进行覆盖，override，又是这个熟悉的东西。覆盖当然就要参数类型完全一样，参数不一样的那是重载，是不同的函数。书上说，一般我们都是要进行覆盖而不是重载，但是有的时候我们会搞错参数列表的顺序等细节，所以，你可以在函数声明的参数列表后加<code>override</code>说明符来告诉编译器，你是要覆盖虚函数的，如果有细节错误就告诉我！</p>
+<p>如果你在后面加上了<code>final</code>修饰符，就意味着，这个虚函数不希望再被覆盖了。</p>
+<p>关于虚函数的默认参数，不同版本可能会有不同的默认参数值，但是在默认参数的选取上，是依据静态类型决定的，也就是说不能做到动态绑定，调用函数的对象定义成什么类型就用什么默认值。如你调用函数的对象是基类的引用，那么即使你最后执行的是子类的函数，默认值也是基类的默认值，所以这个就会出现隐蔽的问题。所以安全起见，默认参数一致最好。</p>
+<h4 id="猜想"><a href="#猜想" class="headerlink" title="猜想"></a>猜想</h4><p>同时从这里我们也可以窥探出编译器的原理。对于一个函数覆盖来说，函数的默认值必须是在编译阶段就写进机器码中的，尽管你有两个版本的函数，编译器会对两个函数分别编译，但是默认值存储的实现是与函数编译分开的。这里只是猜测，对于函数的默认值，其实编译器可以将其存储在对应的栈位置上，也可以将其转成一个赋值命令存储在函数代码段中，这两种理论上都可以实现默认参数的功能，但是从编译器的定义角度，参数是单独存放在数据段的，而不在代码段，那么在编译的时候就会根据你参数的字面类型进行设定，而无法进行动态绑定。这个应该是C++的一个设计缺陷，最初设计函数编译的时候没有动态一说，就直接写进数据段了，等到出现动态绑定的时候沿用之前的函数处理的方式，就无法实现绑定。（不知道这个思路对不对，以后有时间考证下）。</p>
+<h3 id="回避动态绑定"><a href="#回避动态绑定" class="headerlink" title="回避动态绑定"></a>回避动态绑定</h3><p>除了动态绑定，也可以用<code>作用域操作符</code>来强制执行某一类的虚函数版本。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> ans = C-&gt;Base::Update();</span><br></pre></td></tr></table></figure>
+<p>为什么要回避动态绑定，这与类间设计有关。如果基类与派生类关于虚函数功能设定是：基类虚函数处理通用处理，派生类处理剩余子类相关内容，那么对于真的要完整实现功能的时候就要在派生类的虚函数中先调用一下基类的虚函数，再实现派生类的函数剩余部分，所以这时候就要回避动态绑定。</p>
+<h2 id="纯虚函数"><a href="#纯虚函数" class="headerlink" title="纯虚函数"></a>纯虚函数</h2><p>你的直觉会告诉你这个纯虚函数应该是个只有声明没有定义的函数。没错，这就是纯虚函数，在格式上有一个特点，就是函数声明最后有一个<code>=0</code>标志。这个声明必须在类的内部，并且类内不能对这个函数进行定义，在类外部定义是可以的。</p>
+<p>纯虚函数是在一些设计上必要的。比如我们有一个操作，有4个版本，每个版本根据不同的参数值有不同的动作，那么我们会设计一个基类，并在基类中声明这个函数，但是这个函数明显什么都不能做，而是要等到不同的子类根据自己的方案实现这个函数。所以这时候就声明一个纯虚函数就好了。</p>
+<p>子类只要正常的覆盖这个函数就可以，如果不覆盖就继续往下传递。</p>
+<h2 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h2><p>很熟悉，Java中含有抽象函数的类是抽象类，在这里有纯虚函数的类就是抽象类。并没有什么修饰符，就是个类。</p>
+<h2 id="继承中的友元"><a href="#继承中的友元" class="headerlink" title="继承中的友元"></a>继承中的友元</h2><ol>
+<li>友元不可继承、不可传递。</li>
+<li>派生类的友元不可访问基类中的非公有成员。</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"># C++</a>
+          
+            <a href="/tags/OOP/" rel="tag"># OOP</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/Java-1/" rel="next" title="Java 抽象与接口">
+                <i class="fa fa-chevron-left"></i> Java 抽象与接口
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/C-OOP-2/" rel="prev" title="C++ OOP--函数解析过程">
+                C++ OOP--函数解析过程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/C-OOP-1/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#虚函数"><span class="nav-number">1.</span> <span class="nav-text">虚函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#动态绑定"><span class="nav-number">1.1.</span> <span class="nav-text">动态绑定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用和指针调用"><span class="nav-number">1.2.</span> <span class="nav-text">引用和指针调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类间类型转换"><span class="nav-number">1.3.</span> <span class="nav-text">类间类型转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚函数覆盖"><span class="nav-number">1.4.</span> <span class="nav-text">虚函数覆盖</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#猜想"><span class="nav-number">1.4.1.</span> <span class="nav-text">猜想</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回避动态绑定"><span class="nav-number">1.5.</span> <span class="nav-text">回避动态绑定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#纯虚函数"><span class="nav-number">2.</span> <span class="nav-text">纯虚函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象类"><span class="nav-number">3.</span> <span class="nav-text">抽象类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#继承中的友元"><span class="nav-number">4.</span> <span class="nav-text">继承中的友元</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

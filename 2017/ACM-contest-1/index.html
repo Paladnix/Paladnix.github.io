@@ -1,0 +1,844 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ACM," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="比赛现场传送门。此次比赛共8道题目如下：  A. HDU 5777 签到题 B. Poj 3581 后缀数组 + 细节处理 C. Poj 2228 DP+循环情况处理 D. Poj 2155 二维树状数组/二维线段树(区域修改，单点查询) E. UVA 11853 DFS乱搞 F. HDU 4609 FFT基础题 G. HDU 5676 DFS + 二分 H. Poj 2728 最优比例生成树(0">
+<meta name="keywords" content="ACM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="比赛题解-2017苏大暑假集训个人赛(13)">
+<meta property="og:url" content="http://paladnix.github.io/2017/ACM-contest-1/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="比赛现场传送门。此次比赛共8道题目如下：  A. HDU 5777 签到题 B. Poj 3581 后缀数组 + 细节处理 C. Poj 2228 DP+循环情况处理 D. Poj 2155 二维树状数组/二维线段树(区域修改，单点查询) E. UVA 11853 DFS乱搞 F. HDU 4609 FFT基础题 G. HDU 5676 DFS + 二分 H. Poj 2728 最优比例生成树(0">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.208Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="比赛题解-2017苏大暑假集训个人赛(13)">
+<meta name="twitter:description" content="比赛现场传送门。此次比赛共8道题目如下：  A. HDU 5777 签到题 B. Poj 3581 后缀数组 + 细节处理 C. Poj 2228 DP+循环情况处理 D. Poj 2155 二维树状数组/二维线段树(区域修改，单点查询) E. UVA 11853 DFS乱搞 F. HDU 4609 FFT基础题 G. HDU 5676 DFS + 二分 H. Poj 2728 最优比例生成树(0">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/ACM-contest-1/"/>
+
+
+
+
+
+  <title>比赛题解-2017苏大暑假集训个人赛(13) | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/ACM-contest-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">比赛题解-2017苏大暑假集训个人赛(13)</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-14T12:53:21+08:00">
+                2017-07-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/ACM-contest-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/ACM-contest-1/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>比赛现场<a href="https://vjudge.net/contest/170743" target="_blank" rel="noopener">传送门</a>。此次比赛共8道题目如下：</p>
+<ol>
+<li>A. <a href="http://acm.hdu.edu.cn/showproblem.php?pid=5777" target="_blank" rel="noopener">HDU 5777</a> 签到题</li>
+<li>B. <a href="http://poj.org/problem?id=3581" target="_blank" rel="noopener">Poj 3581</a> 后缀数组 + 细节处理</li>
+<li>C. <a href="http://poj.org/problem?id=2228" target="_blank" rel="noopener">Poj 2228</a> DP+循环情况处理</li>
+<li>D. <a href="http://poj.org/problem?id=2155" target="_blank" rel="noopener">Poj 2155</a> 二维树状数组/二维线段树(区域修改，单点查询)</li>
+<li>E. <a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;page=show_problem&amp;problem=2953" target="_blank" rel="noopener">UVA 11853</a> DFS乱搞</li>
+<li>F. <a href="http://acm.hdu.edu.cn/showproblem.php?pid=4609" target="_blank" rel="noopener">HDU 4609</a> FFT基础题</li>
+<li>G. <a href="http://acm.hdu.edu.cn/showproblem.php?pid=5676" target="_blank" rel="noopener">HDU 5676</a> DFS + 二分</li>
+<li>H. <a href="http://poj.org/problem?id=2728" target="_blank" rel="noopener">Poj 2728</a> 最优比例生成树(0-1分数规划)/二分</li>
+</ol>
+<p>题目整体偏难，除签到题外应该都是银牌及以上题目，基本上要掌握到这个程度才算可以。</p>
+<h2 id="A-HDU-5777-签到题"><a href="#A-HDU-5777-签到题" class="headerlink" title="A. HDU 5777 签到题"></a>A. <a href="http://acm.hdu.edu.cn/showproblem.php?pid=5777" target="_blank" rel="noopener">HDU 5777</a> 签到题</h2><p>某一场BestCoder的B题，很简单的思维小题目。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="keyword">int</span> n,k;</span><br><span class="line"><span class="keyword">int</span> a[<span class="number">100006</span>];</span><br><span class="line">ll sum=<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> a&gt;b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> T;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;T);</span><br><span class="line">	<span class="keyword">while</span>(T--)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">"%d%d"</span>, &amp;n,&amp;k);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n<span class="number">-1</span>;i++)</span><br><span class="line">			<span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;a[i]);</span><br><span class="line">		sort(a,a+n<span class="number">-1</span>,cmp);</span><br><span class="line">		sum=n;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=k<span class="number">-1</span>;i&lt;n<span class="number">-1</span>;i++)</span><br><span class="line">			sum+=a[i];</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%lld\n"</span>,sum);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="B-Poj-3581-后缀数组-细节处理"><a href="#B-Poj-3581-后缀数组-细节处理" class="headerlink" title="B. Poj 3581 后缀数组 + 细节处理"></a>B. <a href="http://poj.org/problem?id=3581" target="_blank" rel="noopener">Poj 3581</a> 后缀数组 + 细节处理</h2><h4 id="题意："><a href="#题意：" class="headerlink" title="题意："></a>题意：</h4><p>给一个序列，让你分成三段，段内反转一下，然后使得新拼接成的序列字典序最小，字典序的意思就是你懂得。题目保证第一个数字最大。</p>
+<h4 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h4><p>思路很直白，分三段就是找两个切分点。开始到第一个切分点的部分就是第一段，要整体字典序最小，这个第一段一定要足够小。由于第一段是由原串第一段反转过来得到的，所以就可以将原来的串先直接整体反转一下，这样问题就转化成了我们要找个字典序最小的后缀，所以后缀数组搞一下。至于这么贪心是对的，下一段说明。<br>那么对于第二个切分点，就不能直接这么来了。因为第一段的贪心思路我们是可以证明的，至少你提不出反例，对于贪心算法的证明，提不出反例就默认是对的。为什么第一个贪心是对的，因为题目有一个条件保证了，就是第一个数是最大的。保证了什么情况呢？就是这个样例：<code>4 2 2 1 1 10</code>，最小的后缀是<code>1 1 10</code>, 而不是<code>1 10</code>。你匹配到的最小后缀一定是最长的那个。同样这个样例，对于第二个切分点来说就不是这样了，没有一个大头来保证后缀第一的是最长的串，直接搞就会得到2这一个元素，显然不是最优解。<br>这个时候我们还有一个可以作为思维出发点的东西，就是剩余的这两个串的位置关系。对于<code>abcd</code>来说(原串反转过后去掉第一段后的剩余部分)，如果我们将其分成两段，其在结果串中真正的顺序应该是<code>cdab</code>，这个点抓住了就很直观了，我们先将原串复制一遍，搞成：<code>abcdabcd</code>, 然后求一个字典序最小的后缀就是我们要的了，一样后缀数组搞一下。<br>注意后缀中长度小于原串长的都过滤掉，因为我要的是<code>cdab</code>这个串，起点要一定在前一段中，所以后缀长度要大于原串长度。还有就是要一定分三份，所以最长的后缀一定不能做为结果。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">代码暂时不在手边，回头补。</span><br></pre></td></tr></table></figure>
+<h2 id="C-Poj-2228-DP-循环情况处理"><a href="#C-Poj-2228-DP-循环情况处理" class="headerlink" title="C. Poj 2228 DP+循环情况处理"></a>C. <a href="http://poj.org/problem?id=2228" target="_blank" rel="noopener">Poj 2228</a> DP+循环情况处理</h2><h4 id="题意：-1"><a href="#题意：-1" class="headerlink" title="题意："></a>题意：</h4><p>就是给N个数，选B个，问和最大是多少。<br>限制：N个数围成环，每个数的值被计算当其前面一个数被选择的时候，也就说一段连续的数中第一个是不算的。</p>
+<h4 id="分析：-1"><a href="#分析：-1" class="headerlink" title="分析："></a>分析：</h4><p>先来看线性问题，就是不成环的问题。很简单，定义<code>Dp[i][j]</code>为：前i个数选择了j个数且第i个数必选的最优解。<br><code>Dp[i][j] = max( Dp[i-1][j-1]+a[i], max(Dp[k][j-1]) ), k&lt;i-1</code></p>
+<p>对于环的情况Dp转移不变，但是要特殊处理一下。环的处理就那么两种，第一种是搞成直的，还有就是讨论一下。这里显然只要讨论一下就可以，因为无非就是跨天和不跨天的区别，也就是最后一个取的时候地一个取不取的问题。<br>所以搞两次就好了。</p>
+<p>有两个优化，一个是循环清0,还有就是记录前面的Max。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> MAX_N = <span class="number">4000</span>;</span><br><span class="line"><span class="keyword">int</span> Dp[MAX_N][MAX_N], v[MAX_N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N, B;</span><br><span class="line">    <span class="keyword">while</span>( <span class="built_in">scanf</span>( <span class="string">"%d %d"</span>, &amp;N, &amp;B) != EOF )&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; i ++ ) <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;v[i]);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= N; i ++) <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt;= B; j++ ) Dp[i][j] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> Max = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">2</span>; j &lt;= B ; j ++ )&#123;</span><br><span class="line">            Max = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = j; i &lt;= N ; i ++)&#123;</span><br><span class="line">                Dp[i][j] = max( Max, Dp[i<span class="number">-1</span>][j<span class="number">-1</span>] + v[i] );</span><br><span class="line">                Max = max( Max, Dp[i<span class="number">-1</span>][j<span class="number">-1</span>] );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>( <span class="keyword">int</span> i = B; i &lt;= N; i ++ ) ans = max( ans, Dp[i][B] );</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= N; i ++) <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt;= B; j++ ) Dp[i][j] = <span class="number">0</span>;</span><br><span class="line">        Dp[<span class="number">2</span>][<span class="number">2</span>] = v[<span class="number">2</span>];</span><br><span class="line">        <span class="keyword">for</span>( <span class="keyword">int</span> j = <span class="number">3</span>; j &lt;= B ; j++ )&#123;</span><br><span class="line">            Max = <span class="number">0</span> ;</span><br><span class="line">            <span class="keyword">for</span>( <span class="keyword">int</span> i = j; i &lt;= N ; i ++ )&#123;</span><br><span class="line">                Dp[i][j] = max( Max, Dp[i<span class="number">-1</span>][j<span class="number">-1</span>] + v[i] );</span><br><span class="line">                Max = max( Max, Dp[i<span class="number">-1</span>][j<span class="number">-1</span>] );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>( B &gt; <span class="number">2</span> ) ans = max( ans, Dp[N][B] + v[<span class="number">1</span>] );</span><br><span class="line"></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, ans);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="D-Poj-2155-二维树状数组-二维线段树-区域修改，单点查询"><a href="#D-Poj-2155-二维树状数组-二维线段树-区域修改，单点查询" class="headerlink" title="D. Poj 2155 二维树状数组/二维线段树(区域修改，单点查询)"></a>D. <a href="http://poj.org/problem?id=2155" target="_blank" rel="noopener">Poj 2155</a> 二维树状数组/二维线段树(区域修改，单点查询)</h2><p>会二维的都能秒出。不会的也是可以推出来的，只有一点点的难度，距离真正的二维操作差得还远，如果有时间建议学习一下二维树状数组的区间改值与区间加值区间求和等操作。<br>手边没有，暂时不送了。</p>
+<h2 id="E-UVA-11853-DFS乱搞"><a href="#E-UVA-11853-DFS乱搞" class="headerlink" title="E. UVA 11853 DFS乱搞"></a>E. <a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;page=show_problem&amp;problem=2953" target="_blank" rel="noopener">UVA 11853</a> DFS乱搞</h2><p>题意很简单，一个1000×1000的方格上有一些圆，不能从圆范围经过，问是否有从左到右的一条路。这是大连2016的热身赛最后一题。</p>
+<ol>
+<li>先判断有没有，这个从上边界往下DFS能到下边界的就说明没有路。</li>
+<li>每次DFS的时候都记录与左边和右边的交点，在dfs过程中更新答案。<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">代码回头再补。</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="F-HDU-4609-FFT基础题"><a href="#F-HDU-4609-FFT基础题" class="headerlink" title="F. HDU 4609 FFT基础题"></a>F. <a href="http://acm.hdu.edu.cn/showproblem.php?pid=4609" target="_blank" rel="noopener">HDU 4609</a> FFT基础题</h2><p>给n个线段，求取三个组成三角形的概率，就是组成三角形的个数。<br>离散化+fft。FFT入门题。</p>
+<h2 id="G-HDU-5676-DFS-二分"><a href="#G-HDU-5676-DFS-二分" class="headerlink" title="G. HDU 5676 DFS + 二分"></a>G. <a href="http://acm.hdu.edu.cn/showproblem.php?pid=5676" target="_blank" rel="noopener">HDU 5676</a> DFS + 二分</h2><p>这一题就是打个表，然后二分答案就可以了。打表就DFS。最大的那个数会爆，特判一下。</p>
+<h2 id="H-Poj-2728-最优比例生成树-0-1分数规划-二分"><a href="#H-Poj-2728-最优比例生成树-0-1分数规划-二分" class="headerlink" title="H. Poj 2728 最优比例生成树(0-1分数规划)/二分"></a>H. <a href="http://poj.org/problem?id=2728" target="_blank" rel="noopener">Poj 2728</a> 最优比例生成树(0-1分数规划)/二分</h2><p>这一题二分答案去判断是可以过的。正解是0-1分数规划，不过这个不是我出这一题的本意，本意就是想让你们二分做掉。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>题目很看功力，结果跟预料的差不多。<br>比赛不重要，但是希望你们能掌握上面的东西。<br>有的时候就是到了赛场上，发现题目很熟悉，但就是跟你的能力隔了一点点的小沟，如果当时学这个东西能学的深一点，这题就过了。这就是我出这场题目的意思。<br>上班写的，比较粗糙，晚上再补补。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ACM/" rel="tag"># ACM</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/redis/" rel="next" title="redis">
+                <i class="fa fa-chevron-left"></i> redis
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/chrome/" rel="prev" title="chrome 控制台">
+                chrome 控制台 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/ACM-contest-1/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#A-HDU-5777-签到题"><span class="nav-number">1.</span> <span class="nav-text">A. HDU 5777 签到题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-Poj-3581-后缀数组-细节处理"><span class="nav-number">2.</span> <span class="nav-text">B. Poj 3581 后缀数组 + 细节处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#题意："><span class="nav-number">2.0.1.</span> <span class="nav-text">题意：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析："><span class="nav-number">2.0.2.</span> <span class="nav-text">分析：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-Poj-2228-DP-循环情况处理"><span class="nav-number">3.</span> <span class="nav-text">C. Poj 2228 DP+循环情况处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#题意：-1"><span class="nav-number">3.0.1.</span> <span class="nav-text">题意：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析：-1"><span class="nav-number">3.0.2.</span> <span class="nav-text">分析：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#D-Poj-2155-二维树状数组-二维线段树-区域修改，单点查询"><span class="nav-number">4.</span> <span class="nav-text">D. Poj 2155 二维树状数组/二维线段树(区域修改，单点查询)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#E-UVA-11853-DFS乱搞"><span class="nav-number">5.</span> <span class="nav-text">E. UVA 11853 DFS乱搞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#F-HDU-4609-FFT基础题"><span class="nav-number">6.</span> <span class="nav-text">F. HDU 4609 FFT基础题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#G-HDU-5676-DFS-二分"><span class="nav-number">7.</span> <span class="nav-text">G. HDU 5676 DFS + 二分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#H-Poj-2728-最优比例生成树-0-1分数规划-二分"><span class="nav-number">8.</span> <span class="nav-text">H. Poj 2728 最优比例生成树(0-1分数规划)/二分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">9.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

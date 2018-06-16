@@ -1,0 +1,827 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java,Error,Life," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="你没有看错，这篇文章的tags中有人生。又一次开始思考人生，总有Bug想害朕。 今天碰到了一个，算是一个BUG，跑出来是个ERROR，抛出了个Exception。讲道理，这些都是正常的，但是很不讲道理，这个错误报的我望而却步，这个异常更是一头雾水。Just A Fuck For You. 当我拿到这个集群巡检程序的时候，我认为应该是很简单的部署上服务器就可以了，因为这是一个已经在线上运行的包，我只">
+<meta name="keywords" content="Java,Error,Life">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java Exception &amp; Error">
+<meta property="og:url" content="http://paladnix.github.io/2017/Java-Exception/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="你没有看错，这篇文章的tags中有人生。又一次开始思考人生，总有Bug想害朕。 今天碰到了一个，算是一个BUG，跑出来是个ERROR，抛出了个Exception。讲道理，这些都是正常的，但是很不讲道理，这个错误报的我望而却步，这个异常更是一头雾水。Just A Fuck For You. 当我拿到这个集群巡检程序的时候，我认为应该是很简单的部署上服务器就可以了，因为这是一个已经在线上运行的包，我只">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.240Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java Exception &amp; Error">
+<meta name="twitter:description" content="你没有看错，这篇文章的tags中有人生。又一次开始思考人生，总有Bug想害朕。 今天碰到了一个，算是一个BUG，跑出来是个ERROR，抛出了个Exception。讲道理，这些都是正常的，但是很不讲道理，这个错误报的我望而却步，这个异常更是一头雾水。Just A Fuck For You. 当我拿到这个集群巡检程序的时候，我认为应该是很简单的部署上服务器就可以了，因为这是一个已经在线上运行的包，我只">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/Java-Exception/"/>
+
+
+
+
+
+  <title>Java Exception & Error | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/Java-Exception/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Java Exception & Error</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-13T17:24:27+08:00">
+                2017-07-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/Java-Exception/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/Java-Exception/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>你没有看错，这篇文章的tags中有<code>人生</code>。又一次开始思考人生，总有Bug想害朕。</p>
+<p>今天碰到了一个，算是一个BUG，跑出来是个ERROR，抛出了个Exception。讲道理，这些都是正常的，但是很不讲道理，这个错误报的我望而却步，这个异常更是一头雾水。Just A Fuck For You.</p>
+<p>当我拿到这个集群巡检程序的时候，我认为应该是很简单的部署上服务器就可以了，因为这是一个已经在线上运行的包，我只要改改参数在日常环境跑起来就可以了。然而，真正的魔术开始了。日常环境与线上环境居然差异很大，包括巡检的目标集群、结果数据库机器等都要改。这个还算好，虽然我不知道，但是有师兄在搞搞还是比较简单的，然后就上线，运行。</p>
+<p>第一个问题就是找不到主类。我懵逼，居然连启动都起不起来。好在还有进一步的报错信息，原来是找不到log的包。但是我在本地可以启动，我一直以为打jar包的时候会打依赖进去，结果是并不会打依赖包。这个是学艺不精，经验不足。于是把本地所有依赖包怼进服务器。这次顺利的启动起来了。</p>
+<p>然后就开始报错，几乎所有集群都拒绝访问。这尼玛就很尴尬了，我对整个项目一无所知啊。那就去问一下呗：<br>    “师兄，这个巡检被拒绝访问了，所有集群都访问不到。”<br>    –“有点忙，你自己先看看。”<br>    “我看不懂啊，先给我讲讲这个整体逻辑啊”<br>    –“没空”<br>    …</p>
+<p>然后就开始了一下午的生不如死。哼，回家睡觉！不干了！<br>第二天来到，我决定再深入看一下代码，应该能从代码中找到问题。作为ACM选手，从来就没有机器DEBUG的习惯，眼爆bug在C++100多行的代码里还是很快的，但是在Java里就有点懵逼了。Java的代码你说长，其实也不长。但就是会让你抓狂，自己看自己写的Java项目那是怎么看怎么喜欢。去看看其他人的Java项目，呵呵。写一个大工程当然就是要功能块分拆，功能隔离，减少代码内耦合，利于修改调整，兼具灵活性与健壮性。所以Java代码的特点就是不断的继承，类间调用，流程拆分……有的时候一个很简单的功能可能要涉及7、8个类和接口，所以看代码，就要有个够大的脑内栈空间。但是，就算难看，也不机器DEBUG，手动DEBUG的基本功还是有的。</p>
+<p>但凡报错靠谱点，都没有那么难，痛苦就在于，他报的错误与真正引起错误的地方相差太远，异常却又报的模模糊糊。首先是拒绝连接错误，现在代码里找到所有要访问的集群IP，打出来。然后找师兄去确认，集群是否在用，就这一个工作就前前后后搞了两个多小时，都在忙的不亦乐乎。集群有问题就好办多了，因为这锅就可以甩出去啦，偏偏机器没有问题。既然机器本身没有问题，那就只有代码的问题了。</p>
+<p>坑就坑在这次抛出的异常居然没有抛出一场的地点信息。或者说异常信息说明的地点距离异常真正发生的位置也有一段距离。主异常是有连接器客户端抛出的，抛出信息就是链接失败啦。然而依靠其抛出的异常栈只能找到发出链接请求的这个类，再往下就没有栈内信息了。然后就去看调用的函数，结果一进去发现这个类没有抛出异常，而是自己处理掉了。这本应该是非常值得表扬的，因为捕获了异常意味着这个异常是可以被预料并处理的，所以优秀的程序员都会在能处理的情况下都处理掉，如果是一些不好处理的，或需要根据使用者的需求来处理就继续向上抛，抛给函数使用者去处理。很多初级的Java程序员最常见的做法就是捕获这个异常，然后打印出来，交给运维去发现异常再回来改代码。我手里的这个类并没有抛出异常，而是把一场catch下来自己处理掉了。但是他只处理了其中的IO异常，还有一个可抛出异常也被他catch下来了，并且仅仅是打印到了log里，所以我就只能从日志中追踪到这里了。然而由于没有抛出，所以也就没有信息表明这个一场出现在上面的哪个位置，只能手动二分位置查错了。这个的原理很简单，就是发生异常位置以后的代码都不会被执行，所以只要在其中夹杂一些输出语句，就可以定位到出错的那句了。接下来定位到一个新的类中，至于这个类是干什么的我也不清楚，但是可以找bug。而这个函数就完全没有抛出异常也没有捕获异常，所以这个就要对函数里所有代码都做二分定位，而不是像刚才一样只定位try代码块中的代码就可以了。几个过大概5轮定位，又定位到了一个新的类里，通过对新的这个类的定位，可以基本确定异常就来源于这个函数中的某一句。异常信息中有一个是数字格式错误，通过上面的分析，我也基本上确定在这里发生的就是这个格式错误的异常，由于函数参数中只有一个double的参数，就重点找他的问题。先输出了他的值，发现没有问题。然后发现代码中他与另外一个变量做了比较，而定位异常位置也就发生在这个比较代码块中，参与比较的另外一个是从配置文件中提取的数据。经过往回找这个配置文件的参数选项，发现问题竟然是因为拼写错误导致找不到这个配置选项，所以这条语句的值变成了<code>if( double &gt; null )</code> 然后就有了这个数字格式错误的异常了。</p>
+<p>草泥马我的心好累。代码中写的是<code>max_master_clients</code>，然而配置文件中是<code>master_max_clients</code>，真不知道线上的那个代码是怎么跑的，害怕。</p>
+<h2 id="异常-Exception"><a href="#异常-Exception" class="headerlink" title="异常 Exception"></a>异常 Exception</h2><p>通过上面的故事，你应该已经了解了Exception的一些特性了。下面具体的介绍一下，以及正确用法！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/Error/" rel="tag"># Error</a>
+          
+            <a href="/tags/Life/" rel="tag"># Life</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/tomcat/" rel="next" title="tomcat">
+                <i class="fa fa-chevron-left"></i> tomcat
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/redis/" rel="prev" title="redis">
+                redis <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/Java-Exception/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#异常-Exception"><span class="nav-number">1.</span> <span class="nav-text">异常 Exception</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

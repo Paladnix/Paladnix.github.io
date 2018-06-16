@@ -1,0 +1,870 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="SQL,Mysql," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="本文不介绍最简单的增删改查，而是对于SQL的进阶语句的介绍，顺便研究一下其内部实现。 Join由浅入深，从使用到优化。 概述Join一般会有人称为级联查询，我表示这个名称还算直观。其应用场景有那么几种：  某个表中的某些字段需要另一个表来做精细描述。比如职工表中职工等级需要等级表来进一步详细描述该等级的权限、福利等。当我们需要某个人的信息的时候一定是从职工表拉取记录并且需要再从等级表中拉取具体信息">
+<meta name="keywords" content="SQL,Mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL进阶">
+<meta property="og:url" content="http://paladnix.github.io/2017/SQL/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="本文不介绍最简单的增删改查，而是对于SQL的进阶语句的介绍，顺便研究一下其内部实现。 Join由浅入深，从使用到优化。 概述Join一般会有人称为级联查询，我表示这个名称还算直观。其应用场景有那么几种：  某个表中的某些字段需要另一个表来做精细描述。比如职工表中职工等级需要等级表来进一步详细描述该等级的权限、福利等。当我们需要某个人的信息的时候一定是从职工表拉取记录并且需要再从等级表中拉取具体信息">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.244Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SQL进阶">
+<meta name="twitter:description" content="本文不介绍最简单的增删改查，而是对于SQL的进阶语句的介绍，顺便研究一下其内部实现。 Join由浅入深，从使用到优化。 概述Join一般会有人称为级联查询，我表示这个名称还算直观。其应用场景有那么几种：  某个表中的某些字段需要另一个表来做精细描述。比如职工表中职工等级需要等级表来进一步详细描述该等级的权限、福利等。当我们需要某个人的信息的时候一定是从职工表拉取记录并且需要再从等级表中拉取具体信息">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/SQL/"/>
+
+
+
+
+
+  <title>SQL进阶 | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/SQL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">SQL进阶</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-09T15:26:31+08:00">
+                2017-07-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/SQL/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/SQL/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文不介绍最简单的增删改查，而是对于SQL的进阶语句的介绍，顺便研究一下其内部实现。</p>
+<h1 id="Join"><a href="#Join" class="headerlink" title="Join"></a>Join</h1><p>由浅入深，从使用到优化。</p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Join一般会有人称为级联查询，我表示这个名称还算直观。其应用场景有那么几种：</p>
+<ol>
+<li>某个表中的某些字段需要另一个表来做精细描述。比如职工表中职工等级需要等级表来进一步详细描述该等级的权限、福利等。当我们需要某个人的信息的时候一定是从职工表拉取记录并且需要再从等级表中拉取具体信息合并呈现。</li>
+<li>某个人的全方位信息存放在不同的表中，要想得到完整信息就要多表查询合并结果。</li>
+</ol>
+<p>上面两种场景都是涉及了两个及以上的表，这就是join的使用场景特点。</p>
+<h2 id="SQL语句"><a href="#SQL语句" class="headerlink" title="SQL语句"></a>SQL语句</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> col_a, col_b, ... <span class="keyword">from</span> tb_1 <span class="keyword">join</span> tb_2 <span class="keyword">on</span> tb_1.col_a = tb_2.col_a <span class="keyword">where</span> ... ;</span><br></pre></td></tr></table></figure>
+<p>其最主要的特点就是from的来源发生了变化，所以我们可以理解为这个sql语句生成了一个新的表，并从这个新表中获取了符合<code>where</code>条件的记录。所以这个<code>join</code>我们看作是对表的一种运算，运算的结果是一张新的表。<br>这个join运算有一个on的条件，也就是在这个on的基础上进行运算。</p>
+<p>Join 运算一共有四种：</p>
+<ol>
+<li>inner join （内连接）</li>
+<li>outer join （外连接）</li>
+<li>left outer join （左外连接）</li>
+<li>right outer join （右外连接）</li>
+</ol>
+<p>在讲这四种运算之前先要有一个笛卡尔积的概念。<br>笛卡尔积来源于离散数学中的集合操作，对于两个集合做笛卡尔积就是将两个集合中元素两两组合，生成一个新的集合，新集合中的每一项都是一个二元组(可以理解为一个数据包， 并且这个数据包是有序的，总是某一个集合的元素在前，另一个在后)。所以，如果两个集合的size分别是n,m， 那么笛卡尔积生成的集合size=n*m;<br>对于表做笛卡尔积，同理就是将两个表的记录两两组合生成一个巨大的新表，每条记录都是由两个表的记录拼接而成。<br>该概念仅用于理解运算结果的组成，并不是其实现方式。以下的操作可以理解为是在此基础上进行条件筛选，但事实上SQL使用的是循环的方式去查找结果。</p>
+<h2 id="inner-join"><a href="#inner-join" class="headerlink" title="inner join"></a>inner join</h2><p>其结果为：笛卡尔积中，符合on 条件的记录。</p>
+<h2 id="outer-join"><a href="#outer-join" class="headerlink" title="outer join"></a>outer join</h2><p>对于一条A表的记录，如果没有找到符合on条件的对应的B表记录，那么A表的此记录依然出现在结果集中，其对应的B表部分为NULL。<br>The same to B.</p>
+<h2 id="left-outer-join"><a href="#left-outer-join" class="headerlink" title="left outer join"></a>left outer join</h2><p>根据outer join 的意思，可想而知，对于A找不到B的情况，保留A的记录，而对于B则滤掉相应记录。</p>
+<h2 id="right-outer-join"><a href="#right-outer-join" class="headerlink" title="right outer join"></a>right outer join</h2><p>同理。</p>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><p>如果对于A的一条记录，有多条B记录对应，那么会以多条记录的形式出现。这一点跟高级语言的思维方式不太一样。高级语言用OOP的思维来想，就是在这个对象的对应成员上挂个链表，有多少条记录就都挂在下面，但是A的这条记录的实例只有一个。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>join 的内部实现是啥?</p>
+<h1 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h1><p>这个事实上是非常常用的技巧，也非常简单。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> TableName <span class="keyword">limit</span> cnt, pagesize;</span><br></pre></td></tr></table></figure>
+<p>其中主要就是这个limit的用法，其支持两个参数，cnt-[偏移量], pagesize-[记录数量]。<br>很简单的计算机思维，起点加长度，当然起点是0。这个地方我还绕了一下，看了一个博客，结果这个博主很奇葩，人家都下标从0开始了，自己却还让记录从1开始记，害我吃了三秒钟的屎。就是你把记录下标从0开始记就好了。</p>
+<h2 id="example"><a href="#example" class="headerlink" title="example"></a>example</h2><p>下面这个就是从下标为5的记录开始，查询10条记录。使用的时候只要定一下pagesize，然后接受个page的参数，计算一下偏移量就Over啦。（曾经我还手动撸过，Too Young）<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> TableName <span class="keyword">limit</span> <span class="number">5</span>, <span class="number">10</span>;</span><br></pre></td></tr></table></figure></p>
+<h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><p>索引就是目录。但不仅仅是目录，还是整本书。<br>有几点需要知道：</p>
+<ol>
+<li>数据库中的数据是持久化的。</li>
+<li>索引就是文件，也是持久化的。</li>
+<li>索引比数据本身更大。</li>
+</ol>
+<p>震惊吧，我看到1G的数据有2G的索引的时候我也很震惊，然后就有了这篇文章。</p>
+<p>索引是干嘛的，为什么有索引，索引的好处。。。这些你都想的到，所以不说了。但是有几个数据你需要知道：</p>
+<ol>
+<li>内存速度比硬盘IO快十万倍，1e5。</li>
+<li>一次硬盘IO的时间差不多在9ms左右，一台500MIPS的机器可以跑40万条指令。</li>
+<li>一个三层B+树索引可以优化百万条的数据查询到3次IO。</li>
+</ol>
+<h3 id="索引有哪些？（高频面试问题）"><a href="#索引有哪些？（高频面试问题）" class="headerlink" title="索引有哪些？（高频面试问题）"></a>索引有哪些？（高频面试问题）</h3><p>关于这个问题，如果你回答的是：唯一索引、聚集索引、非聚集索引、主键索引等，一般的开发岗就算答对了。如果是技术实力强的团队，尤其是数据库相关的团队，such as 我所在的阿里中间件存储事业部，这个就算是个菜鸡回答了。如果你眼中的索引是：B+树索引、B-树索引、B树索引、位图索引、Hash索引，你就很有可能要被发offer了。这里就挑个B+树索引来说吧。</p>
+<p>不了解的人一定更关心B树和B-树和这个B+树的区别，那就瞎说一下吧。</p>
+<h4 id="B树"><a href="#B树" class="headerlink" title="B树"></a>B树</h4><p>B树就是二叉搜索树啦，一般要用平衡二叉树，不平衡的还有人用?<br>(B树的原名为B-tree，是多路二叉树，被直译为了<code>B-</code>树。乱糟糟的，你懂就好，不必纠结那些东东)</p>
+<h4 id="B-树"><a href="#B-树" class="headerlink" title="B-树"></a>B-树</h4><p>是个多路搜索树，也就是非二叉。其最大设定为M叉，在每个结点中，数据有序排列，且子树之间有序，所以可以直接节点上二分查找。<br>其数据分布在整个树中，也就是说不一定走到叶子就找到数据就返回了。</p>
+<h3 id="B-树-1"><a href="#B-树-1" class="headerlink" title="B+树"></a>B+树</h3><p>基本结构与B-树一样，不一样的就是所有的数据都分布在叶子节点上，中间结点只是做索引的功能不保存数据。</p>
+<p>其实还有<code>B*</code>树，哈哈，是不是很绝望。这种树在非根和非叶节点还放了一个指向兄弟的指针，在数据膨胀的时候空间利用那个率更高。<br>什么是数据膨胀呢，就是你数据库在变大嘛，你就要不断往索引树里面塞新的数据。这个时候你不断往某个结点里放，结果放满了，但是还有数据要分在这个叉里啊。所以你要把这个结点分裂出子节点，这个结点里把数据放下去，留个指针就好了。对于<code>B+</code>树来说，要求每个节点要至少放满1/2的数据的时候才能分裂;那么对于<code>B*</code>树来说，如果他的节点满了，可以把数据往兄弟节点里放，将分裂水位升到了2/3，所以空间利用率更高。</p>
+<p>但是这并不是我真正想说的。。。<br>我们还是来看这个<code>B+</code>树好了。</p>
+<p>首先普及一下操作系统数据加载的一个知识：由于我们可以想像，当硬盘上某条数据被加载到内存即将被使用的时候，那么其周围存储的数据有十分有可能就是下一个被用的数据，所以在加载数据的时候都是直接把整个数据页加载到内存里，数据页大小由操作系统决定，一般是4-8K。<br>这个设计之优美就在于利用了这个特性。每个东西被使用都是有原因的！基于这个特性，我们就可以尽可能的减小我们的磁盘IO次数，How to？我们让<code>B+</code>树的一个结点去记录一个磁盘页的信息，这样我们在树上访问一个节点的时候只做一次IO就将节点中的数据提取出来了，然后我们在内存中做二分，定出下一个节点，然后去访问这个结点，同样只要一次IO。这样索引的查找效率就提升到<code>logM(N)</code>了。</p>
+<p>但是这只是索引的优美，下面是索引的神奇。</p>
+<h2 id="索引查询优化"><a href="#索引查询优化" class="headerlink" title="索引查询优化"></a>索引查询优化</h2><p>这部分的内容很有生产力，当我还在学校的时候，某个不认识的学长曾经跟我说数据库优化多么重要，一条SQL语句优化就省了好几台服务器的钱。当然他也没能举出例子，说理有些苍白无力啊，那么例子就来了。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> TableName <span class="keyword">where</span> a=<span class="number">1</span> <span class="keyword">and</span> b&gt;<span class="number">1</span> <span class="keyword">and</span> c=<span class="number">2</span>;</span><br><span class="line">vs</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> TableName <span class="keyword">where</span> a=<span class="number">1</span> <span class="keyword">and</span> c=<span class="number">2</span> <span class="keyword">and</span> b&gt;<span class="number">1</span>;</span><br></pre></td></tr></table></figure></p>
+<p>这是个非常简单的例子，但是很能说明问题。<br>需要补充几点知识，<code>B+</code>树在节点内做匹配的时候很多时候都是多个字段都有索引的，他是按照<code>最左前缀</code>匹配原则来二分的，通俗点讲就是，贪心匹配，当当前条件满足他就往下走，例如当碰到这个<code>b&gt;1</code>, 那就不管你后面<code>c=2</code>的限制了，先去把所有的b&gt;1的结点访问一遍，去那里再搞你这个<code>c=2</code>。所以肯定是下面一个更快啦。</p>
+<p>会快多少呢？就看你数据库多大了，越大差的越多。这个简单的优化很容易学啊，也是最基础的必须做的优化。<br>一般<code>=、in</code>之间是可以乱序的，索引会自己调整。</p>
+<p>第二个优化就是：尽量选择区分度高的列作为索引,区分度的公式是<code>count(distinct col)/count(*)</code>，表示字段不重复的比例，比例越大我们扫描的记录数越少，唯一键的区分度是1，而一些状态、性别字段可能在大数据面前区分度就是0，那可能有人会问，这个比例有什么经验值吗？使用场景不同，这个值也很难确定，一般需要join的字段我们都要求是0.1以上，即平均1条扫描10条记录。</p>
+<p>关于慢查询的部分，再补充吧。。。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SQL/" rel="tag"># SQL</a>
+          
+            <a href="/tags/Mysql/" rel="tag"># Mysql</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/JDBC/" rel="next" title="JDBC">
+                <i class="fa fa-chevron-left"></i> JDBC
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/howtolearn/" rel="prev" title="关于计算机科学的学习">
+                关于计算机科学的学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/SQL/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Join"><span class="nav-number">1.</span> <span class="nav-text">Join</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL语句"><span class="nav-number">1.2.</span> <span class="nav-text">SQL语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#inner-join"><span class="nav-number">1.3.</span> <span class="nav-text">inner join</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#outer-join"><span class="nav-number">1.4.</span> <span class="nav-text">outer join</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#left-outer-join"><span class="nav-number">1.5.</span> <span class="nav-text">left outer join</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#right-outer-join"><span class="nav-number">1.6.</span> <span class="nav-text">right outer join</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tips"><span class="nav-number">1.7.</span> <span class="nav-text">Tips</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">1.8.</span> <span class="nav-text">问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分页"><span class="nav-number">2.</span> <span class="nav-text">分页</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#example"><span class="nav-number">2.1.</span> <span class="nav-text">example</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#索引"><span class="nav-number">3.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#索引有哪些？（高频面试问题）"><span class="nav-number">3.0.1.</span> <span class="nav-text">索引有哪些？（高频面试问题）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#B树"><span class="nav-number">3.0.1.1.</span> <span class="nav-text">B树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-树"><span class="nav-number">3.0.1.2.</span> <span class="nav-text">B-树</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B-树-1"><span class="nav-number">3.0.2.</span> <span class="nav-text">B+树</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引查询优化"><span class="nav-number">3.1.</span> <span class="nav-text">索引查询优化</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

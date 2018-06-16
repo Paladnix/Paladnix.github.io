@@ -1,0 +1,877 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic|Comic Sans MS:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="C/C++,Java,PHP," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico?v=5.1.1" />
+
+
+
+
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="" />
+
+
+
+<meta name="description" content="面向对象编程(Object-Oriented Programming)中,最初开始接触到的就是访问控制修饰符。访问控制修饰是几乎所有的OOP语言都会涉及到的，下面就整理三个我熟悉的语言。 C/C++更详细的内容可以参考《C++ primer》-类 这一章。 概述有三种修饰符，分别：private、public、protected。其中最后一个protected是在继承出现以后才有效的。对于无论是成">
+<meta name="keywords" content="C&#x2F;C++,Java,PHP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OOP中的-控制修饰符">
+<meta property="og:url" content="http://paladnix.github.io/2017/AccessModifier/index.html">
+<meta property="og:site_name" content="Paladnix">
+<meta property="og:description" content="面向对象编程(Object-Oriented Programming)中,最初开始接触到的就是访问控制修饰符。访问控制修饰是几乎所有的OOP语言都会涉及到的，下面就整理三个我熟悉的语言。 C/C++更详细的内容可以参考《C++ primer》-类 这一章。 概述有三种修饰符，分别：private、public、protected。其中最后一个protected是在继承出现以后才有效的。对于无论是成">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-16T15:14:41.212Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OOP中的-控制修饰符">
+<meta name="twitter:description" content="面向对象编程(Object-Oriented Programming)中,最初开始接触到的就是访问控制修饰符。访问控制修饰是几乎所有的OOP语言都会涉及到的，下面就整理三个我熟悉的语言。 C/C++更详细的内容可以参考《C++ primer》-类 这一章。 概述有三种修饰符，分别：private、public、protected。其中最后一个protected是在继承出现以后才有效的。对于无论是成">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paladnix.github.io/2017/AccessModifier/"/>
+
+
+
+
+
+  <title>OOP中的-控制修饰符 | Paladnix</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Paladnix</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-语言基础 " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paladnix.github.io/2017/AccessModifier/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paladnix">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paladnix">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">OOP中的-控制修饰符</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-27T15:55:04+08:00">
+                2017-05-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/AccessModifier/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="http://paladnix.github.io/2017/AccessModifier/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>面向对象编程(Object-Oriented Programming)中,最初开始接触到的就是访问控制修饰符。访问控制修饰是几乎所有的OOP语言都会涉及到的，下面就整理三个我熟悉的语言。</p>
+<h2 id="C-C"><a href="#C-C" class="headerlink" title="C/C++"></a>C/C++</h2><p>更详细的内容可以参考<code>《C++ primer》-类</code> 这一章。</p>
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>有三种修饰符，分别：<code>private</code>、<code>public</code>、<code>protected</code>。其中最后一个<code>protected</code>是在继承出现以后才有效的。对于无论是成员变量还是成员函数，这些修饰符都具有相同的作用，即访问控制。其设计的主要作用是为了防止封装的类内成员被类的使用者无意更改或误操作，同时，对访问权限的限制可以实现代码间的松耦合。在类内算法做调整的过程中保持使用者可调用的代码接口，只更改私有函数等。<br>在详述各个控制符之前要讲一下<code>struct</code> 和<code>class</code>的区别。二者都可以用来定义类，唯一的不同就是默认的访问权限不同。<code>struct</code>的第一个修饰符之前定义的成员默认是public的，但是class是默认private的。</p>
+<h3 id="private-与-public"><a href="#private-与-public" class="headerlink" title="private 与 public"></a>private 与 public</h3><p>这两个要一起来说，因为二相相生。<code>private</code>就是将控制权限制在类内，只能是类内的函数访问。<code>public</code>完全没有限制。这两个是最容易理解的，也没有什么好说的。</p>
+<h3 id="protected"><a href="#protected" class="headerlink" title="protected"></a>protected</h3><p>比上面两个略复杂一点点。在没有继承的情况下，<code>protected</code>与<code>private</code>是一样的，所以<code>protect</code>之所以与<code>private</code>不同在于派生类的访问。其修饰的成员可以被派生类直接访问，但是不被派生类对象访问。这个有些博客写的不太严谨，<code>protected</code>无论什么时候都不能与<code>public</code>一样，也就是类的使用者不能直接访问。<br>换句话说，派生类可以将其修饰的成员当成自己的亲成员来访问，派生类内部可以用对象实例来访问，但是类外不行。</p>
+<p>举个例子：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>&#123;</span></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="keyword">int</span> m;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> :</span> <span class="keyword">public</span> Base&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Note-1</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Add</span><span class="params">(A &amp; tmp)</span></span>&#123; tmp.m += <span class="number">1</span>; &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    A tmp;</span><br><span class="line">    <span class="comment">// Note-2</span></span><br><span class="line">    <span class="keyword">int</span> x = tmp.m;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> *  其中，Note-1的写法没有问题，但是Note-2的写法就是非法的。</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="friend"><a href="#friend" class="headerlink" title="friend"></a>friend</h3><p>有的时候我们的类成员不能被使用者直接访问，但是我需要让其他的一些非类内成员函数来访问，如<code>重载运算符</code>的时候需要被模板函数访问，所以又有了一个新的控制访问修饰符，这个修饰符只用来修饰一些函数或类的声明，也就是说可以让一些类或函数成为该类的友元，使得其可以访问类内的成员变量和成员函数，不受其他修饰符的限制。</p>
+<ol>
+<li>只能修饰非成员函数的声明，或其他类。</li>
+<li>只能在类内修饰。</li>
+<li>其声明不受其他几个修饰符影响。</li>
+<li>友元关系不能传递, 也不可继承。</li>
+<li>友元声明，只是声明了访问权限，并没有实际声明，如要使用该函数，仍然需要显示用普通声明再声明一次。</li>
+</ol>
+<h2 id="用作继承权限修饰符"><a href="#用作继承权限修饰符" class="headerlink" title="用作继承权限修饰符"></a>用作继承权限修饰符</h2><p>除了用于成员权限声明，此三个修饰符海可以用来修饰类的继承方式，不同的继承方式使得基类成员在派生类中的权限不同。</p>
+<p>基本用法如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CLASSNAME</span> :</span> [修饰符] BASECLASS &#123;...&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> :</span> <span class="keyword">public</span> Base&#123;...&#125;</span><br><span class="line"></span><br><span class="line">修饰符默认为<span class="keyword">private</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="private"><a href="#private" class="headerlink" title="private"></a>private</h3><ul>
+<li>基类中的所有<code>protected</code>、<code>public</code> 成员在该派生类中是<code>private</code>成员。</li>
+<li>基类中的所有<code>private</code>成员在派生类中不可用。</li>
+</ul>
+<h3 id="protected-1"><a href="#protected-1" class="headerlink" title="protected"></a>protected</h3><ul>
+<li>基类中的所有<code>protected</code>、<code>public</code> 成员在该派生类中是<code>protected</code>成员。</li>
+<li>基类中的所有<code>private</code>成员在派生类中不可用。</li>
+</ul>
+<h3 id="public"><a href="#public" class="headerlink" title="public"></a>public</h3><ul>
+<li>基类中的所有<code>public</code> 成员在该派生类中是<code>public</code>成员。</li>
+<li>基类中的所有<code>protected</code> 成员在该派生类中是<code>protected</code>成员。</li>
+<li>基类中的所有<code>private</code>成员在派生类中不可用。</li>
+</ul>
+<h3 id="using-改变权限"><a href="#using-改变权限" class="headerlink" title="using 改变权限"></a>using 改变权限</h3><p>如果在子类中使用using关键字则可以更改继承过来的变量的权限。例如：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>&#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> m;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> :</span> <span class="keyword">public</span> Base&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">using</span> Base::m;</span><br><span class="line">    <span class="comment">// 则此类中m为public变量，同样可以更改为其他类型。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h2><p>在Java中有四种访问修饰符，分别是：<code>private</code>、<code>protected</code>、<code>public</code>、<code>默认修饰符</code>。其中<code>类</code>只能由<code>public</code>或默认修饰符修饰（这里指访问权限的修饰，下面有<code>final</code>修饰符的用法）。且程序中有多个类的时候，程序文件名要命名为<code>public</code>修饰的那个类的名称。Java解释器运行的时候运行<code>main</code>函数所在的类。表现在命令行即：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(Stringp[] args)</span></span>&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 文件名为 A.java</span></span><br></pre></td></tr></table></figure></p>
+<p>编译：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javac A.java</span><br></pre></td></tr></table></figure></p>
+<p>运行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java B</span><br></pre></td></tr></table></figure></p>
+<h3 id="public-1"><a href="#public-1" class="headerlink" title="public"></a>public</h3><p>可以被任意访问。</p>
+<h3 id="private-1"><a href="#private-1" class="headerlink" title="private"></a>private</h3><p>其修饰的成员只能由类内函数访问、修改。与C++无较大区别。</p>
+<h3 id="protected-2"><a href="#protected-2" class="headerlink" title="protected"></a>protected</h3><p>其修饰的成员可由一下几个访问：</p>
+<ol>
+<li>类内其他成员。</li>
+<li>同一个包中的其他类</li>
+<li>该类的子类。</li>
+</ol>
+<h3 id="默认修饰符"><a href="#默认修饰符" class="headerlink" title="默认修饰符"></a>默认修饰符</h3><p>一般只能被同一个程序、同一个包中的其他类访问。</p>
+<h2 id="继承中的区别"><a href="#继承中的区别" class="headerlink" title="继承中的区别"></a>继承中的区别</h2><p>Java的继承没有修饰符，派生类可以继承基类的所有非私有成员（这里的继承是指可以操作，私有成员依然存在只是不能操作，不能访问，在C++中也是一样的），并且，继承具有传递性。</p>
+<p>例如B继承了A， C继承了B，则C可以直接访问A的非私有成员。</p>
+<h3 id="基类成员隐藏"><a href="#基类成员隐藏" class="headerlink" title="基类成员隐藏"></a>基类成员隐藏</h3><p>派生类中如果有同名变量（类型可不同），则实现了对积累成员的隐藏。在函数中，基类定义的函数处理的是积累的变量，子类实现的函数处理的是子类的变量。</p>
+<p>可以使用<code>super</code>来调用被隐藏的变量。super是该类的直接父亲。</p>
+<h3 id="方法的覆盖"><a href="#方法的覆盖" class="headerlink" title="方法的覆盖"></a>方法的覆盖</h3><p>同名&amp;同类型&amp;同参数列表，的方法会对基类方法进行覆盖(override)。这样会完全清除基类的对应方法，所以是override.</p>
+<h2 id="其他控制符"><a href="#其他控制符" class="headerlink" title="其他控制符"></a>其他控制符</h2><p>下面这两个控制符事实上不是本文章的重点，但是顺带提一下就过了。下面与上面的东西不是一回事，所修饰的东西也不是一个类型，所以不要搞混了。</p>
+<h3 id="static"><a href="#static" class="headerlink" title="static"></a>static</h3><ol>
+<li>静态的，可修饰变量、方法、符合语句。是属于类的，而不属于对象。</li>
+<li>静态函数只能处理静态变量，不能处理类内的非静态变量。</li>
+<li>静态变量初始化是由<code>static</code>修饰的符合语句来完成。可以直接声明并赋值也可以用下面的方式。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> a,b;</span><br><span class="line"><span class="keyword">static</span>&#123;</span><br><span class="line">    a = <span class="number">1</span>;</span><br><span class="line">    b = <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="final"><a href="#final" class="headerlink" title="final"></a>final</h3><p>常量修饰符，可修饰变量、方法、类。<br><code>final</code>修饰的方法不能被重写覆盖。<code>final</code>修饰的类不能派生子类。 </p>
+<h2 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h2><p>有了上面的内容就可以类推到这个上面也是一样的，只是会更简单一些。</p>
+<ol>
+<li>类和方法默认<code>public</code>。</li>
+<li>特殊的就是，同一个类的不同实例之间可以无限制直接互相访问。</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Talk is not cheap.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://115.28.164.8/Paladnix.github.io/alipay.jpg" alt="Paladnix Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C-C/" rel="tag"># C/C++</a>
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/PHP/" rel="tag"># PHP</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/thinking-1/" rel="next" title="随想-1">
+                <i class="fa fa-chevron-left"></i> 随想-1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/ACMRoad/" rel="prev" title="ACMRoad">
+                ACMRoad <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://paladnix.github.io/2017/AccessModifier/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Paladnix" />
+          <p class="site-author-name" itemprop="name">Paladnix</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Paladnix" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://115.28.164.8" title="SUMSC" target="_blank">SUMSC</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.mythsman.com" title="mythsman" target="_blank">mythsman</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#C-C"><span class="nav-number">1.</span> <span class="nav-text">C/C++</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#private-与-public"><span class="nav-number">1.2.</span> <span class="nav-text">private 与 public</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#protected"><span class="nav-number">1.3.</span> <span class="nav-text">protected</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#friend"><span class="nav-number">1.4.</span> <span class="nav-text">friend</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用作继承权限修饰符"><span class="nav-number">2.</span> <span class="nav-text">用作继承权限修饰符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#private"><span class="nav-number">2.1.</span> <span class="nav-text">private</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#protected-1"><span class="nav-number">2.2.</span> <span class="nav-text">protected</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#public"><span class="nav-number">2.3.</span> <span class="nav-text">public</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#using-改变权限"><span class="nav-number">2.4.</span> <span class="nav-text">using 改变权限</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java"><span class="nav-number">3.</span> <span class="nav-text">Java</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#public-1"><span class="nav-number">3.1.</span> <span class="nav-text">public</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#private-1"><span class="nav-number">3.2.</span> <span class="nav-text">private</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#protected-2"><span class="nav-number">3.3.</span> <span class="nav-text">protected</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#默认修饰符"><span class="nav-number">3.4.</span> <span class="nav-text">默认修饰符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#继承中的区别"><span class="nav-number">4.</span> <span class="nav-text">继承中的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基类成员隐藏"><span class="nav-number">4.1.</span> <span class="nav-text">基类成员隐藏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法的覆盖"><span class="nav-number">4.2.</span> <span class="nav-text">方法的覆盖</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他控制符"><span class="nav-number">5.</span> <span class="nav-text">其他控制符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#static"><span class="nav-number">5.1.</span> <span class="nav-text">static</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final"><span class="nav-number">5.2.</span> <span class="nav-text">final</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP"><span class="nav-number">6.</span> <span class="nav-text">PHP</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paladnix</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
