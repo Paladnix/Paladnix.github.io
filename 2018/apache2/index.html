@@ -113,7 +113,7 @@
 <meta property="og:site_name" content="Paladnix">
 <meta property="og:description" content="多端口多服务配置个人服务器和一些低访问量的服务，使用apache2比较方便。安装完以后打开默认的页面会看到有个介绍：  12345678910/etc/apache2/|-- apache2.conf|       `--  ports.conf|-- mods-enabled|       |-- *.load|       `-- *.conf|-- conf-enabled|       `">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-18T14:12:34.576Z">
+<meta property="og:updated_time" content="2018-06-18T14:21:10.605Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="apache2 配置多端口服务">
 <meta name="twitter:description" content="多端口多服务配置个人服务器和一些低访问量的服务，使用apache2比较方便。安装完以后打开默认的页面会看到有个介绍：  12345678910/etc/apache2/|-- apache2.conf|       `--  ports.conf|-- mods-enabled|       |-- *.load|       `-- *.conf|-- conf-enabled|       `">
@@ -394,7 +394,7 @@
 <p>对于之前添加的端口，我们要添加一个配置文件，文件名： <code>端口.conf</code>, 非必须。</p>
 <p><code>8088.conf</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;VirtualHost *:8088&gt;</span><br><span class="line"></span><br><span class="line">	ServerAdmin webmaster@localhost</span><br><span class="line">	DocumentRoot /var/www/html/</span><br><span class="line"></span><br><span class="line">	ErrorLog $&#123;APACHE_LOG_DIR&#125;/error.log</span><br><span class="line">	CustomLog $&#123;APACHE_LOG_DIR&#125;/access.log combined</span><br><span class="line"></span><br><span class="line">&lt;/VirtualHost&gt;</span><br></pre></td></tr></table></figure></p>
 <h2 id="4-sites-enabled"><a href="#4-sites-enabled" class="headerlink" title="4 sites-enabled"></a>4 sites-enabled</h2><p>所有在avaliable中的配置文件，如果没有在enabled中有连接，也都是不可访问的。</p>
-<p>所以要开放某个端口，最后做一步：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s sites-avalibale/8088.conf sites-enabled/8088.conf</span><br></pre></td></tr></table></figure></p>
+<p>所以要开放某个端口，最后做一步：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd sites-enabled</span><br><span class="line">ln -s ../sites-avalibale/8088.conf ./8088.conf</span><br></pre></td></tr></table></figure></p>
 <h2 id="5-重启apache服务"><a href="#5-重启apache服务" class="headerlink" title="5. 重启apache服务"></a>5. 重启apache服务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service apache2 restart</span><br></pre></td></tr></table></figure>
 
       
