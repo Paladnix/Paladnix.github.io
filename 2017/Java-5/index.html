@@ -113,7 +113,7 @@
 <meta property="og:site_name" content="Paladnix">
 <meta property="og:description" content="昨天开始拿到了一个很厉害的师兄的项目，最近几篇的博客文章都是与此有关，我主要的任务是将其中的一个异步调用的架构改成同步的。所以要先来学习一下这个异步到底是怎么实现的。 异步调用异步调用最主要的特点就是调用方并不等待函数的结果，而是继续进行下面的动作，函数自己去完成相应的过程。在函数完成以后将结果以某种方式返回给调用者。 实现异步的方式有很多，在前端的技术中使用的最多，这里我记录一下Java项目的内">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-16T15:14:41.240Z">
+<meta property="og:updated_time" content="2018-09-10T03:32:48.630Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 多线程实现异步调用">
 <meta name="twitter:description" content="昨天开始拿到了一个很厉害的师兄的项目，最近几篇的博客文章都是与此有关，我主要的任务是将其中的一个异步调用的架构改成同步的。所以要先来学习一下这个异步到底是怎么实现的。 异步调用异步调用最主要的特点就是调用方并不等待函数的结果，而是继续进行下面的动作，函数自己去完成相应的过程。在函数完成以后将结果以某种方式返回给调用者。 实现异步的方式有很多，在前端的技术中使用的最多，这里我记录一下Java项目的内">
@@ -384,7 +384,7 @@
       
         <p>昨天开始拿到了一个很厉害的师兄的项目，最近几篇的博客文章都是与此有关，我主要的任务是将其中的一个异步调用的架构改成同步的。所以要先来学习一下这个异步到底是怎么实现的。</p>
 <h2 id="异步调用"><a href="#异步调用" class="headerlink" title="异步调用"></a>异步调用</h2><p>异步调用最主要的特点就是调用方并不等待函数的结果，而是继续进行下面的动作，函数自己去完成相应的过程。在函数完成以后将结果以某种方式返回给调用者。</p>
-<p>实现异步的方式有很多，在前端的技术中使用的最多，这里我记录一下Java项目的内部自己一部调用某个函数的方式。</p>
+<p>实现异步的方式有很多，在前端的技术中使用的最多，这里我记录一下Java项目的内部自己异步调用某个函数的方式。</p>
 <h3 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h3><p>在异步调用中，有三个角色，分别是消费者、取货凭据、生产者。对应的就是调用方、数据返回方式、执行函数。</p>
 <p>举小蛋糕的例子非常好理解，订蛋糕、蛋糕店给你个取蛋糕的收据，或者也可以给你送到某个地方、蛋糕店生产蛋糕。</p>
 <h3 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h3><p>首先来看一下调用方的代码应该怎么写。</p>
@@ -556,7 +556,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">101</span>
+                <span class="site-state-item-count">105</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -578,7 +578,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">76</span>
+                <span class="site-state-item-count">77</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

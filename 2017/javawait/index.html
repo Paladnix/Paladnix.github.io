@@ -105,18 +105,18 @@
 
 
 
-<meta name="description" content="在一个异步改同步的工程中，有两种方式，一个是轮询，一个是中断。这里介绍一下终端的操作。 在看这一部分之前你可能先要看下一篇文章，关于synchronized同步锁的问题。下面会用到。 如果你的Java程序中有两个线程——即生产者和消费者，那么生产者可以通知消费者，让消费者开始消耗数据，因为队列缓冲区中有内容待消费（不为空）。相应的，消费者可以通知生产者可以开始生成更多的数据，因为当它消耗掉某些数据">
+<meta name="description" content="在一个异步改同步的工程中，有两种方式，一个是轮询，一个是中断。这里介绍一下中断的操作。 在看这一部分之前你可能先要看下一篇文章，关于synchronized同步锁的问题。下面会用到。 如果你的Java程序中有两个线程——即生产者和消费者，那么生产者可以通知消费者，让消费者开始消耗数据，因为队列缓冲区中有内容待消费（不为空）。相应的，消费者可以通知生产者可以开始生成更多的数据，因为当它消耗掉某些数据">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java wait一种线程通信方式">
 <meta property="og:url" content="http://paladnix.github.io/2017/javawait/index.html">
 <meta property="og:site_name" content="Paladnix">
-<meta property="og:description" content="在一个异步改同步的工程中，有两种方式，一个是轮询，一个是中断。这里介绍一下终端的操作。 在看这一部分之前你可能先要看下一篇文章，关于synchronized同步锁的问题。下面会用到。 如果你的Java程序中有两个线程——即生产者和消费者，那么生产者可以通知消费者，让消费者开始消耗数据，因为队列缓冲区中有内容待消费（不为空）。相应的，消费者可以通知生产者可以开始生成更多的数据，因为当它消耗掉某些数据">
+<meta property="og:description" content="在一个异步改同步的工程中，有两种方式，一个是轮询，一个是中断。这里介绍一下中断的操作。 在看这一部分之前你可能先要看下一篇文章，关于synchronized同步锁的问题。下面会用到。 如果你的Java程序中有两个线程——即生产者和消费者，那么生产者可以通知消费者，让消费者开始消耗数据，因为队列缓冲区中有内容待消费（不为空）。相应的，消费者可以通知生产者可以开始生成更多的数据，因为当它消耗掉某些数据">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-16T15:14:41.278Z">
+<meta property="og:updated_time" content="2018-09-10T03:32:48.635Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java wait一种线程通信方式">
-<meta name="twitter:description" content="在一个异步改同步的工程中，有两种方式，一个是轮询，一个是中断。这里介绍一下终端的操作。 在看这一部分之前你可能先要看下一篇文章，关于synchronized同步锁的问题。下面会用到。 如果你的Java程序中有两个线程——即生产者和消费者，那么生产者可以通知消费者，让消费者开始消耗数据，因为队列缓冲区中有内容待消费（不为空）。相应的，消费者可以通知生产者可以开始生成更多的数据，因为当它消耗掉某些数据">
+<meta name="twitter:description" content="在一个异步改同步的工程中，有两种方式，一个是轮询，一个是中断。这里介绍一下中断的操作。 在看这一部分之前你可能先要看下一篇文章，关于synchronized同步锁的问题。下面会用到。 如果你的Java程序中有两个线程——即生产者和消费者，那么生产者可以通知消费者，让消费者开始消耗数据，因为队列缓冲区中有内容待消费（不为空）。相应的，消费者可以通知生产者可以开始生成更多的数据，因为当它消耗掉某些数据">
 
 
 
@@ -382,7 +382,7 @@
       
 
       
-        <p>在一个异步改同步的工程中，有两种方式，一个是轮询，一个是中断。这里介绍一下终端的操作。</p>
+        <p>在一个异步改同步的工程中，有两种方式，一个是轮询，一个是中断。这里介绍一下中断的操作。</p>
 <p>在看这一部分之前你可能先要看下一篇文章，关于synchronized同步锁的问题。下面会用到。</p>
 <p>如果你的Java程序中有两个线程——即生产者和消费者，那么生产者可以通知消费者，让消费者开始消耗数据，因为队列缓冲区中有内容待消费（不为空）。相应的，消费者可以通知生产者可以开始生成更多的数据，因为当它消耗掉某些数据后缓冲区不再为满。</p>
 <h2 id="wait"><a href="#wait" class="headerlink" title="wait"></a>wait</h2><p>Object类中相关的方法有两个notify方法和三个wait方法：<br>因为wait和notify方法定义在Object类中，因此会被所有的类所继承。<br>这些方法都是final的，即它们都是不能被重写的，不能通过子类覆写去改变它们的行为。</p>
@@ -555,7 +555,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">101</span>
+                <span class="site-state-item-count">105</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -577,7 +577,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">76</span>
+                <span class="site-state-item-count">77</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

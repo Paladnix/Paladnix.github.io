@@ -113,7 +113,7 @@
 <meta property="og:site_name" content="Paladnix">
 <meta property="og:description" content="线程与池这两个东西在很多语言中都存在，这是一种编程模式。池的思维是根本。举个例子，如果某个数据库有一个远程交互的API允许你写代码来远程操作，那么你如果不用池，每条命令都重新发起一个连接，然后要数据库认证身份，然后执行命令。这样的效率不高，你会很当然的想到我要把连接保持住，让多个命令的执行只进行一次身份认证。这个时候就引入池的概念。每次从池中取出对应的连接，执行完命令再放回到池里。同样的思维在AC">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-16T15:14:41.277Z">
+<meta property="og:updated_time" content="2018-09-10T03:32:48.634Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java 线程与池">
 <meta name="twitter:description" content="线程与池这两个东西在很多语言中都存在，这是一种编程模式。池的思维是根本。举个例子，如果某个数据库有一个远程交互的API允许你写代码来远程操作，那么你如果不用池，每条命令都重新发起一个连接，然后要数据库认证身份，然后执行命令。这样的效率不高，你会很当然的想到我要把连接保持住，让多个命令的执行只进行一次身份认证。这个时候就引入池的概念。每次从池中取出对应的连接，执行完命令再放回到池里。同样的思维在AC">
@@ -382,7 +382,7 @@
       
 
       
-        <p>线程与池这两个东西在很多语言中都存在，这是一种编程模式。<br>池的思维是根本。举个例子，如果某个数据库有一个远程交互的API允许你写代码来远程操作，那么你如果不用池，每条命令都重新发起一个连接，然后要数据库认证身份，然后执行命令。这样的效率不高，你会很当然的想到我要把连接保持住，让多个命令的执行只进行一次身份认证。这个时候就引入池的概念。每次从池中取出对应的连接，执行完命令再放回到池里。<br>同样的思维在ACM中我们常用内存池的方法来避免频繁申请内存。</p>
+        <p>线程与池这两个东西在很多语言中都存在，这是一种编程模式。<br>池的思维是根本。举个例子，如果某个数据库有一个远程交互的API允许你写代码来远程操作，那么你如果不用池，每条命令都重新发起一个连接，然后要数据库认证身份，然后执行命令。这样的效率不高，你会很当然的想到我要把连接保持住，让多个命令的执行只进行一次身份认证。这个时候就引入池的概念。每次从池中取出对应的连接，执行完命令再放回到池里。<br>同样的思维在ACM比赛中我们常用内存池的方法来避免频繁申请内存。</p>
 <p>线程作为一种资源，也需要申请，申请也要开销，所以能将申请次数降低就可以提高效率，所以我们搞个池。<br>线程是一个进程的执行单元。一个进程中可以有若干线程，每个线程都是独立的执行单元。线程的调度比进程调度要快很多，因为线程调度的资源涉及更小。</p>
 <p>那么为什么要多线程？</p>
 <p>先来讲一下并行和并发。<br>并行：“真正的两个机器同时工作”；<br>并发：“看上去的同时执行的，实际上在同一个cpu上轮转执行的”；<br>并发的场景非常多，最基本的就是同时过来两个请求需要做，如果你是单线程的程序，就必须等待前一个完全做完再处理后面一个。如果你是多线程程序，就可以从线程池里取一个线程来处理新的请求，可以保证工作效率。这个地方其实有两个东西，一个是用户体验，一个是异步操作。前一个好理解，后一个讲一下我的理解。<br>现在很多时候我们都要将处理步骤拆成异步的来做，异步处理的实现方式其中就有多线程。同步就是我前一句代码没有做完，后面的代码后面的步骤就阻塞在那里了。如果我们用异步的方式，开一个新的线程来搞某个步骤。例如写日志和返回执行结果，我们就可以起一个线程去写日志，然后主线程直接返回处理结果，这个处理结果对日志是弱依赖的，日志写的如何并不影响我返回结果的操作，不能因为我日志写失败了我就不把结果返回去，有可能磁盘页被其他程序上锁了，一时半会儿都搞不完，这个时候多线程的优势就显现出来了。</p>
@@ -396,8 +396,15 @@
 <p>这样的调用，会让三个线程在同一个实例上运行，比如售票系统中，不同的线程是不同的用户，但是减的票数在同一个实例上。</p>
 <p>关于线程还有很多东西，才疏学浅，暂时不深究，因为没用到，在造轮子的时候就会用到了。</p>
 <h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>上面只是简单的写写多线程，并没有涉及到池，也就是一种暴力的多线程。<br>线程池在Java中也是封装好的一个类，也很方便。</p>
-<h4 id="创建线程池"><a href="#创建线程池" class="headerlink" title="创建线程池"></a>创建线程池</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ThreadPoolExecutor executor = <span class="keyword">new</span> ThreadPoolExecutor(corePoolSize, maximumPoolSize,</span><br><span class="line">            keepAliveTime, milliseconds,runnableTaskQueue, threadFactory,handler);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    参数说明</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    corePoolSize：核心池的大小，这个参数跟后面讲述的线程池的实现原理有非常大的关系。在创建了线程池后，默认情况下，线程池中并没有任何线程，而是等待有任务到来才创建线程去执行任务，除非调用了prestartAllCoreThreads()或者prestartCoreThread()方法，从这2个方法的名字就可以看出，是预创建线程的意思，即在没有任务到来之前就创建corePoolSize个线程或者一个线程。默认情况下，在创建了线程池后，线程池中的线程数为0，当有任务来之后，就会创建一个线程去执行任务，当线程池中的线程数目达到corePoolSize后，就会把到达的任务放到缓存队列当中；</span></span><br><span class="line"><span class="comment">    </span></span><br><span class="line"><span class="comment">    maximumPoolSize：线程池最大线程数，这个参数也是一个非常重要的参数，它表示在线程池中最多能创建多少个线程；</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    keepAliveTime：表示线程没有任务执行时最多保持多久时间会终止。默认情况下，只有当线程池中的线程数大于corePoolSize时，keepAliveTime才会起作用，直到线程池中的线程数不大于corePoolSize，即当线程池中的线程数大于corePoolSize时，如果一个线程空闲的时间达到keepAliveTime，则会终止，直到线程池中的线程数不超过corePoolSize。但是如果调用了allowCoreThreadTimeOut(boolean)方法，在线程池中的线程数不大于corePoolSize时，keepAliveTime参数也会起作用，直到线程池中的线程数为0；</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-<p>创建完线程池，要向线程池提交程序，跟多线程一样，你的类实现<code>Runable</code>接口，重写<code>run()</code> 函数就可以了。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">executor.execute(myTask);</span><br><span class="line"></span><br><span class="line"><span class="comment">// myTask 是你要多线程执行的类的实例</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="创建线程池"><a href="#创建线程池" class="headerlink" title="创建线程池"></a>创建线程池</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ThreadPoolExecutor executor = <span class="keyword">new</span> ThreadPoolExecutor(corePoolSize, maximumPoolSize,</span><br><span class="line">            keepAliveTime, milliseconds,runnableTaskQueue, threadFactory,handler);</span><br></pre></td></tr></table></figure>
+<p><strong>参数说明</strong></p>
+<pre><code>- corePoolSize：核心池的大小，这个参数跟后面讲述的线程池的实现原理有非常大的关系。在创建了线程池后，默认情况下，线程池中并没有任何线程，而是等待有任务到来才创建线程去执行任务，除非调用了prestartAllCoreThreads()或者prestartCoreThread()方法，从这2个方法的名字就可以看出，是预创建线程的意思，即在没有任务到来之前就创建corePoolSize个线程或者一个线程。默认情况下，在创建了线程池后，线程池中的线程数为0，当有任务来之后，就会创建一个线程去执行任务，当线程池中的线程数目达到corePoolSize后，就会把到达的任务放到缓存队列当中；
+
+- maximumPoolSize：线程池最大线程数，这个参数也是一个非常重要的参数，它表示在线程池中最多能创建多少个线程；
+
+- keepAliveTime：表示线程没有任务执行时最多保持多久时间会终止。默认情况下，只有当线程池中的线程数大于corePoolSize时，keepAliveTime才会起作用，直到线程池中的线程数不大于corePoolSize，即当线程池中的线程数大于corePoolSize时，如果一个线程空闲的时间达到keepAliveTime，则会终止，直到线程池中的线程数不超过corePoolSize。但是如果调用了allowCoreThreadTimeOut(boolean)方法，在线程池中的线程数不大于corePoolSize时，keepAliveTime参数也会起作用，直到线程池中的线程数为0；
+</code></pre><p>创建完线程池，要向线程池提交程序，跟多线程一样，你的类实现<code>Runable</code>接口，重写<code>run()</code> 函数就可以了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">executor.execute(myTask);</span><br><span class="line"></span><br><span class="line"><span class="comment">// myTask 是你要多线程执行的类的实例</span></span><br></pre></td></tr></table></figure>
 <p>简述了一些这方面的东西。一般我们在开发项目使用的时候都会初始化很多个线程池，不同的业务代码用不同的线程池，用线程的时候最重要的就是线程安全的问题。这个下次遇到再写，没有碰到过就理解不深刻。</p>
 
       
@@ -558,7 +565,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">101</span>
+                <span class="site-state-item-count">105</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -580,7 +587,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">76</span>
+                <span class="site-state-item-count">77</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -105,18 +105,18 @@
 
 
 
-<meta name="description" content="synchronized 修饰一个代码块，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象；  修饰一个方法，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象；  修改一个静态的方法，其作用的范围是整个静态方法，作用的对象是这个类的所有对象；  修改一个类，其作用的范围是synchronized后面括号括起来的部分">
+<meta name="description" content="synchronized 修饰一个代码块，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象；  修饰一个方法，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象；  修饰一个静态的方法，其作用的范围是整个静态方法，作用的对象是这个类的所有对象；  修饰一个类，其作用的范围是synchronized后面括号括起来的部分">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="synchronized 同步锁">
 <meta property="og:url" content="http://paladnix.github.io/2017/synchronized/index.html">
 <meta property="og:site_name" content="Paladnix">
-<meta property="og:description" content="synchronized 修饰一个代码块，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象；  修饰一个方法，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象；  修改一个静态的方法，其作用的范围是整个静态方法，作用的对象是这个类的所有对象；  修改一个类，其作用的范围是synchronized后面括号括起来的部分">
+<meta property="og:description" content="synchronized 修饰一个代码块，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象；  修饰一个方法，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象；  修饰一个静态的方法，其作用的范围是整个静态方法，作用的对象是这个类的所有对象；  修饰一个类，其作用的范围是synchronized后面括号括起来的部分">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-16T15:14:41.288Z">
+<meta property="og:updated_time" content="2018-09-10T03:32:48.637Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="synchronized 同步锁">
-<meta name="twitter:description" content="synchronized 修饰一个代码块，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象；  修饰一个方法，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象；  修改一个静态的方法，其作用的范围是整个静态方法，作用的对象是这个类的所有对象；  修改一个类，其作用的范围是synchronized后面括号括起来的部分">
+<meta name="twitter:description" content="synchronized 修饰一个代码块，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象；  修饰一个方法，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象；  修饰一个静态的方法，其作用的范围是整个静态方法，作用的对象是这个类的所有对象；  修饰一个类，其作用的范围是synchronized后面括号括起来的部分">
 
 
 
@@ -385,8 +385,8 @@
         <h2 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h2><ol>
 <li>修饰一个代码块，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象； </li>
 <li>修饰一个方法，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象； </li>
-<li>修改一个静态的方法，其作用的范围是整个静态方法，作用的对象是这个类的所有对象； </li>
-<li>修改一个类，其作用的范围是synchronized后面括号括起来的部分，作用主的对象是这个类的所有对象。</li>
+<li>修饰一个静态的方法，其作用的范围是整个静态方法，作用的对象是这个类的所有对象； </li>
+<li>修饰一个类，其作用的范围是synchronized后面括号括起来的部分，作用的对象是这个类的所有对象。</li>
 </ol>
 <h3 id="代码块加锁"><a href="#代码块加锁" class="headerlink" title="代码块加锁"></a>代码块加锁</h3><p>一个线程访问一个对象中的synchronized(this)同步代码块时，其他试图访问该对象的线程将被阻塞。我们看下面一个例子：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 同步线程</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SyncThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> count;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">SyncThread</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      count = <span class="number">0</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">synchronized</span>(<span class="keyword">this</span>) &#123;</span><br><span class="line">         <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">               System.out.println(Thread.currentThread().getName() + <span class="string">":"</span> + (count++));</span><br><span class="line">               Thread.sleep(<span class="number">100</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">               e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> count;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -564,7 +564,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">101</span>
+                <span class="site-state-item-count">105</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -586,7 +586,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">76</span>
+                <span class="site-state-item-count">77</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

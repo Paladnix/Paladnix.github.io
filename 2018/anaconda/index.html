@@ -108,14 +108,14 @@
 <meta name="description" content="什么是conda？anaconda是一个用于科学计算的python发行版。其中预置了一些用于科学计算的库，诸如numpy等。 并且包含一个包管理系统，可以方便的安装相关的库。 我使用conda主要是搭建机器学习的环境。 Install在conda的download页面找适合自己的安装包下载，在Ubuntu上会得到一个bash脚本文件。也可以使用命令：12wget https://repo.cont">
 <meta name="keywords" content="Python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Tutorial of anaconda">
+<meta property="og:title" content="Tutorial of anaconda &amp; 原生虚环境">
 <meta property="og:url" content="http://paladnix.github.io/2018/anaconda/index.html">
 <meta property="og:site_name" content="Paladnix">
 <meta property="og:description" content="什么是conda？anaconda是一个用于科学计算的python发行版。其中预置了一些用于科学计算的库，诸如numpy等。 并且包含一个包管理系统，可以方便的安装相关的库。 我使用conda主要是搭建机器学习的环境。 Install在conda的download页面找适合自己的安装包下载，在Ubuntu上会得到一个bash脚本文件。也可以使用命令：12wget https://repo.cont">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-16T15:14:41.270Z">
+<meta property="og:updated_time" content="2018-09-23T05:32:19.845Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tutorial of anaconda">
+<meta name="twitter:title" content="Tutorial of anaconda &amp; 原生虚环境">
 <meta name="twitter:description" content="什么是conda？anaconda是一个用于科学计算的python发行版。其中预置了一些用于科学计算的库，诸如numpy等。 并且包含一个包管理系统，可以方便的安装相关的库。 我使用conda主要是搭建机器学习的环境。 Install在conda的download页面找适合自己的安装包下载，在Ubuntu上会得到一个bash脚本文件。也可以使用命令：12wget https://repo.cont">
 
 
@@ -150,7 +150,7 @@
 
 
 
-  <title>Tutorial of anaconda | Paladnix</title>
+  <title>Tutorial of anaconda & 原生虚环境 | Paladnix</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -325,7 +325,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Tutorial of anaconda</h2>
+          <h2 class="post-title" itemprop="name headline">Tutorial of anaconda & 原生虚环境</h2>
         
 
         <div class="post-meta">
@@ -392,7 +392,31 @@
 <p>说明安装成功</p>
 <h1 id="使用conda创建自己的开发环境"><a href="#使用conda创建自己的开发环境" class="headerlink" title="使用conda创建自己的开发环境"></a>使用conda创建自己的开发环境</h1><p>学过python的都知道，py的版本兼容实在太随意了。因此py为了解决同一台电脑上需要不同py环境的问题，设计了一个虚环境。也就是我们可以创建一个虚环境，然后进入这个虚环境安装我们需要的包，这些包的作用范围就是在这个环境中。</p>
 <p>因此也就实现了环境隔离。<br>一般我们在开始一个开发的时候，都会先创建一个虚环境。</p>
-<h2 id="使用conda创建tenserflow训练环境"><a href="#使用conda创建tenserflow训练环境" class="headerlink" title="使用conda创建tenserflow训练环境"></a>使用conda创建tenserflow训练环境</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建名为:nlpcc-1.0 的虚环境</span></span><br><span class="line"><span class="comment"># 指定python版本为2.7, tensorflow版本为1.0的gpu版，</span></span><br><span class="line"><span class="comment"># 需要安装anaconda</span></span><br><span class="line">conda create -n nlpcc-1.0 -c anaconda tensorflow-gpu=1.0 python=2.7</span><br><span class="line"></span><br><span class="line"><span class="comment"># 为当前环境安装包</span></span><br><span class="line">conda install numpy</span><br><span class="line"></span><br><span class="line"><span class="comment"># 升级包的版本</span></span><br><span class="line">conda update numpy</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除包</span></span><br><span class="line">conda remove numpy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出当前环境的包</span></span><br><span class="line">conda list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除一个环境</span></span><br><span class="line">conda remove --name nlpcc-1.0 --all</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入一个环境</span></span><br><span class="line">activate nlpcc-1.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 离开当前环境</span></span><br><span class="line">deactivate</span><br></pre></td></tr></table></figure>
+<h2 id="使用conda创建tenserflow训练环境"><a href="#使用conda创建tenserflow训练环境" class="headerlink" title="使用conda创建tenserflow训练环境"></a>使用conda创建tenserflow训练环境</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建名为:nlpcc-1.0 的虚环境</span></span><br><span class="line"><span class="comment"># 指定python版本为2.7, tensorflow版本为1.0的gpu版，</span></span><br><span class="line"><span class="comment"># 需要安装anaconda</span></span><br><span class="line">conda create -n nlpcc-1.0 -c anaconda tensorflow-gpu=1.0 python=2.7</span><br><span class="line"></span><br><span class="line"><span class="comment"># 为当前环境安装包</span></span><br><span class="line">conda install numpy</span><br><span class="line"></span><br><span class="line"><span class="comment"># 升级包的版本</span></span><br><span class="line">conda update numpy</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除包</span></span><br><span class="line">conda remove numpy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出当前环境的包</span></span><br><span class="line">conda list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除一个环境</span></span><br><span class="line">conda remove --name nlpcc-1.0 --all</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入一个环境</span></span><br><span class="line"><span class="built_in">source</span> activate nlpcc-1.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 离开当前环境</span></span><br><span class="line">deactivate</span><br></pre></td></tr></table></figure>
+<h4 id="虚环境"><a href="#虚环境" class="headerlink" title="虚环境"></a>虚环境</h4><p>很多时候如果是普通的工程开发的python项目conda并不能很好的找到需要包，所以还是要回到pip上来。但是依然有隔离生产环境的需求，因此就出现了虚环境。</p>
+<p>虚环境通过一个第三方程序实现，其实非常简单，就是一个库的复制。</p>
+<ol>
+<li><p>安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install virtualenv</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建虚环境<br>在任何文件夹下运行下面的命令就会产生一个对应的文件夹，关于这个环境的一切都在这里。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">virtualenv my_project</span><br><span class="line"></span><br><span class="line"># 在当前文件夹下创建一个文件夹，并把python拷贝一份。</span><br><span class="line"></span><br><span class="line"># 可以在创建虚环境的时候制定使用的python的版本。</span><br><span class="line"></span><br><span class="line">virtualenv -p /usr/bin/python2.7  my_project</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用环境</p>
+</li>
+</ol>
+<p>首先就是激活一个环境<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source my_project/bin/activate</span><br></pre></td></tr></table></figure></p>
+<p>此后安装的包都是安装在当前的环境中的，因此是完全隔离的。</p>
+<p>结束使用该环境<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deactivate</span><br></pre></td></tr></table></figure></p>
+<ol start="4">
+<li>删除一个环境就只要删除对应的文件夹即可。</li>
+</ol>
+<h4 id="环境保持"><a href="#环境保持" class="headerlink" title="环境保持"></a>环境保持</h4><p>往往在开发的时候，我们使用的某个库的版本并不一定会被后来的版本完全兼容，python中这太常见了。</p>
+<p>因此为了方便我们在次还原环境，我们需要导出一份包的配置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip freeze &gt; requirements.txt</span><br></pre></td></tr></table></figure>
+<p>这样就备份了一份，回头可以直接安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -r requirements.txt</span><br></pre></td></tr></table></figure>
+<h4 id="更优雅的管理虚环境"><a href="#更优雅的管理虚环境" class="headerlink" title="更优雅的管理虚环境"></a>更优雅的管理虚环境</h4><p>这个可以使用：<code>virtualenvwrapper</code>的包来实现。</p>
 
       
     </div>
@@ -552,7 +576,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">101</span>
+                <span class="site-state-item-count">105</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -574,7 +598,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">76</span>
+                <span class="site-state-item-count">77</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -638,7 +662,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是conda？"><span class="nav-number">1.</span> <span class="nav-text">什么是conda？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Install"><span class="nav-number">2.</span> <span class="nav-text">Install</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#检查是否安装成功"><span class="nav-number">2.1.</span> <span class="nav-text">检查是否安装成功</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用conda创建自己的开发环境"><span class="nav-number">3.</span> <span class="nav-text">使用conda创建自己的开发环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用conda创建tenserflow训练环境"><span class="nav-number">3.1.</span> <span class="nav-text">使用conda创建tenserflow训练环境</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是conda？"><span class="nav-number">1.</span> <span class="nav-text">什么是conda？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Install"><span class="nav-number">2.</span> <span class="nav-text">Install</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#检查是否安装成功"><span class="nav-number">2.1.</span> <span class="nav-text">检查是否安装成功</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用conda创建自己的开发环境"><span class="nav-number">3.</span> <span class="nav-text">使用conda创建自己的开发环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用conda创建tenserflow训练环境"><span class="nav-number">3.1.</span> <span class="nav-text">使用conda创建tenserflow训练环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#虚环境"><span class="nav-number">3.1.0.1.</span> <span class="nav-text">虚环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#环境保持"><span class="nav-number">3.1.0.2.</span> <span class="nav-text">环境保持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更优雅的管理虚环境"><span class="nav-number">3.1.0.3.</span> <span class="nav-text">更优雅的管理虚环境</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
