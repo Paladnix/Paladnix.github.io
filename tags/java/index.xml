@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/java/</link>
+    <description>Recent content in Java on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 18 Aug 2017 17:45:34 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>apache curator</title>
+      <link>https://Paladnix.github.io/posts/others/curator/</link>
+      <pubDate>Fri, 18 Aug 2017 17:45:34 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/curator/</guid>
+      <description>&amp;ldquo;Guava is to java what Curator is to Zookeeper&amp;rdquo;.
+Start # Curator之前介绍过一些，是一个使用流式API方式实现的Zookeeper的Java客户端。
+Get a connection # connection的实例(CuratorFramework)是用工厂模式分配的(CuratorFrameworkFactory)，对于一个zk集群，你只需要一个连接的实例。 同时你可能会用到的是RetryPolicy 去设置失败重试的参数，一般你会这样使用：
+RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3) CuratorFramework client = CuratorFrameworkFactory.newClient(zookeeperConnectionString, retryPolicy); client.start(); 客户端需要显式的start并且在不用的时候显式的close.
+在链接成功以后就可以直接操作对应的集群。并且，如果在执行操作的过程中出现了连接错误，curator的manage会自动重新尝试操作。
+分布式锁 # 不可以对某个路径下的节点进行上锁：
+InterProcessMutex lock = new InterProcessMutex(client, lockPath); if ( lock.acquire(maxWait, waitUnit) ) { try { // do some work inside of the critical section here } finally { lock.release(); } } </description>
+    </item>
+    
+    <item>
+      <title>synchronized 同步锁</title>
+      <link>https://Paladnix.github.io/posts/others/synchronized/</link>
+      <pubDate>Fri, 18 Aug 2017 15:45:11 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/synchronized/</guid>
+      <description>synchronized # 修饰一个代码块，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象； 修饰一个方法，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象； 修饰一个静态的方法，其作用的范围是整个静态方法，作用的对象是这个类的所有对象； 修饰一个类，其作用的范围是synchronized后面括号括起来的部分，作用的对象是这个类的所有对象。 代码块加锁 # 一个线程访问一个对象中的synchronized(this)同步代码块时，其他试图访问该对象的线程将被阻塞。我们看下面一个例子：
+/** * 同步线程 */ class SyncThread implements Runnable { private static int count; public SyncThread() { count = 0; } public void run() { synchronized(this) { for (int i = 0; i &amp;lt; 5; i++) { try { System.out.println(Thread.currentThread().getName() + &amp;#34;:&amp;#34; + (count++)); Thread.sleep(100); } catch (InterruptedException e) { e.printStackTrace(); } } } } public int getCount() { return count; } } 调用的方式如下：</description>
+    </item>
+    
+    <item>
+      <title>java wait一种线程通信方式</title>
+      <link>https://Paladnix.github.io/posts/java/javawait/</link>
+      <pubDate>Fri, 18 Aug 2017 14:44:10 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/javawait/</guid>
+      <description>在一个异步改同步的工程中，有两种方式，一个是轮询，一个是中断。这里介绍一下中断的操作。
+在看这一部分之前你可能先要看下一篇文章，关于synchronized同步锁的问题。下面会用到。
+如果你的Java程序中有两个线程——即生产者和消费者，那么生产者可以通知消费者，让消费者开始消耗数据，因为队列缓冲区中有内容待消费（不为空）。相应的，消费者可以通知生产者可以开始生成更多的数据，因为当它消耗掉某些数据后缓冲区不再为满。
+wait # Object类中相关的方法有两个notify方法和三个wait方法： 因为wait和notify方法定义在Object类中，因此会被所有的类所继承。 这些方法都是final的，即它们都是不能被重写的，不能通过子类覆写去改变它们的行为。
+wait()方法使得当前线程必须要等待，等到另外一个线程调用notify()或者notifyAll()方法。 线程调用wait()方法，释放它对锁的拥有权，然后等待另外的线程来通知它（通知的方式是notify()或者notifyAll()方法），这样它才能重新获得锁的拥有权和恢复执行。
+要确保调用wait()方法的时候拥有锁，即，wait()方法的调用必须放在synchronized方法或synchronized块中。
+与sleep不同的是sleep不会释放锁。
+notify # notify()方法会唤醒一个等待当前对象的锁的线程。如果多个线程在等待，它们中的一个将会选择被唤醒。这种选择是随意的，和具体实现有关。(线程等待一个对象的锁是由于调用了wait方法中的一个)。
+被唤醒的县城也并不是直接就能执行，而是要进入到正常的线程竞争过程中。
+同样的你notify方法也要放在synchronized方法或者synchronized块中执行。
+正确的使用 # 除了要在同步的基础上使用以外，在书《Java并发实践》中，作者提出一定要在循环中使用wait。正确的代码应该是下面的样子：
+// The standard idiom for calling the wait method in Java synchronized (sharedObject) { while (condition) { sharedObject.wait(); // (Releases lock, and reacquires on wakeup) } // do action based upon condition e.g. take or put into queue } 在while循环里使用wait的目的，是在线程被唤醒的前后都持续检查条件是否被满足。如果条件并未改变，wait被调用之前notify的唤醒通知就来了，那么这个线程并不能保证被唤醒，有可能会导致死锁问题。
+这两个函数都是对于某个对象来说的，这个对象一定是一个多线程共享的对象。是同步，是利用锁的机制进行同步的。
+在生产者消费者的概念中，就是对产品的队列进行共享，所以wait()和notify()都是queue的动作，同时锁也是对于queue来说的。</description>
+    </item>
+    
+    <item>
+      <title>Java lamda 表达式</title>
+      <link>https://Paladnix.github.io/posts/java/lamda/</link>
+      <pubDate>Thu, 17 Aug 2017 16:27:43 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/lamda/</guid>
+      <description>本文大部分来自该博客，有些是自己的写代码的经验，觉得作者写的很清晰，非常棒。
+1. 什么是λ表达式 # λ表达式本质上是一个匿名方法。让我们来看下面这个例子：
+public int add(int x, int y) { return x + y; } 转成λ表达式后是这个样子：
+(int x, int y) -&amp;gt; x + y; 参数类型也可以省略，Java编译器会根据上下文推断出来：
+(x, y) -&amp;gt; x + y; //返回两数之和 或者
+(x, y) -&amp;gt; { return x + y; } //显式指明返回值 可见λ表达式有三部分组成：参数列表，箭头（-&amp;gt;），以及一个表达式或语句块。
+下面这个例子里的λ表达式没有参数，也没有返回值（相当于一个方法接受0个参数，返回void，其实就是Runnable里run方法的一个实现）：
+() -&amp;gt; { System.out.println(&amp;#34;Hello Lambda!&amp;#34;); } 如果只有一个参数且可以被Java推断出类型，那么参数列表的括号也可以省略：
+c -&amp;gt; { return c.size(); } 函数接口 # lamda表达式是什么？它不是一个object，而是一个函数接口。 在java8中引入的新特性，函数接口。定义如下：一个接口，如果只有一个显式声明的抽象方法，那么它就是一个函数接口。
+也就是你生命一个接口，这个接口只有一个显示的抽象函数，那么这个函数其实就是lamda表达式本身。你可以写个类来实现它，然后在传入lamda表达式的位置传入这个类的实例，效果与lamda表达式是一样的。 这个接口可以使用一个注解来注解出来:@FunctionalInterface。
+你可以用lamda表达式为一个函数接口赋值：
+Runnable r1 = () -&amp;gt; {System.</description>
+    </item>
+    
+    <item>
+      <title>ZooKeeper</title>
+      <link>https://Paladnix.github.io/posts/others/zookeeper/</link>
+      <pubDate>Thu, 17 Aug 2017 10:06:34 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/zookeeper/</guid>
+      <description>暂且将恼人的Tomcat放在一边，来解决新的问题，并学习新的玩意儿。
+Zookeeper 是啥 # 动物园管理员，分布式服务就像是一个动物园。
+Zookeeper是一个开源的分布式应用程序协调程序，为分布式应用程序提供一致性服务。 在分布式计算的应用中，最令人头疼的就是分布式锁的问题。同时各种同步问题也很让人崩溃，Zookeeper就是封装可一些算法，保证了其分布式服务的一致性，作为很多分布式服务的基础服务程序。
+ZooKeeper 的设计原理 # 官方称之为鸟瞰：
+第一段在百度百科上。 在特性上面，zookeeper有这样几个特点。
+使用文件系统的结构来存储数据。 数据在用户的角度来看，是以类似与unix文件系统的方式来组织的，所以其定位方式是使用路径来定位数据。但是与文件系统不同的是，每个结点都可以存储数据，没有文件夹和文件的区别概念。
+高并发低延迟。 存储的数据在每一个zookeeper服务节点上都是一样的，所以读数据只要连接一个服务器直接读取就可以。数据的大小被限制在1M以内。
+高可用，自动故障转移。 这个是其设计的精髓之一，下面重点会讲。
+下面概要的讲一下运行的逻辑。
+选举 第一个，非常重要的步骤就是选举，在集群上部署完zookeeper以后，他们便开始执行选举流程，使用选举算法Fast Paxos作为基础。选举会产生一个leader。
+客户端与server 当有客户端与一个服务器建立连接的之后，他们之间会维持一个tcp连接，客户端会给服务器发送心跳请求，告诉服务器自己还在线。如果一个server监测到一个客户端断线了，就会在本地清除相关的数据。而客户端会重新去找一个server建立连接。
+写请求 在客户端读取数据的时候只要在其对应的服务器上读取就可以了。当其要写数据的时候，server会将这个写请求转发给leader服务器，leader将这个写请求统一发给每一个server进行写数据操作，当确认有严格的大于一半的server都写入成功以后，就算是写请求成功，再返回给原server，由原server返回成功给客户端。
+重新选举 leader会给server之间保持通信，通常就是所说的心跳。leader通过心跳来确认server是否存活，同时，server也可以确认leader是否存活，如果leader挂了，servers就会重新进行选举，然后再提供服务。
+通知 watcher是zk比较特殊的设计，允许一个或多个客户端绑定多个节点数据。当zk上的数据发生变化的时候能够通知到相应的客户端。这个设计就可以用来做很多的应用啦。redis数据库同样也有提供这样的消息发布与订阅的功能，不过那个是特意实现的一个功能给应用使用的。
+实现上的诸多细节 # 在听之前的老司机分享的时候，他们探讨了很多实现细节上的问题，感觉实现这样的一个分布式系统还是非常有挑战的。
+比如，如果写请求进行中leader挂掉了怎么办，数据tcp丢包了怎么办。如何同步数据等等。有空很想看看其实现方式。
+使用 # (这里补充一下服务器版的安装。与使用)
+最主要的使用途径还是通过客户端程序来访问zk。客户端有Java、python、lua、Go等。 我用java，所以。。
+maven # &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.apache.zookeeper&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;zookeeper&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.3.5&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 不过，这个有一点低端，所以我使用另外一个客户端的实现：curator。也是一个开源的zk客户端的实现，封装层次更高，所以操作更简便。
+Curator框架提供了一套高级的API， 简化了ZooKeeper的操作。 它增加了很多使用ZooKeeper开发的特性，可以处理ZooKeeper集群复杂的连接管理和重试机制。 这些特性包括：
+自动化的连接管理: 重新建立到ZooKeeper的连接和重试机制存在一些潜在的错误case。 Curator帮助你处理这些事情，对你来说是透明的。 清理API: 简化了原生的ZooKeeper的方法，事件等 提供了一个现代的流式接口 (提供了Recipes实现： 如前面的文章介绍的那样，基于这些Recipes可以创建很多复杂的分布式应用.这部分不明白，待补充)。
+Curator框架通过CuratorFrameworkFactory以工厂模式和builder模式创建CuratorFramework实 例。 CuratorFramework实例都是线程安全的，你应该在你的应用中共享同一个CuratorFramework实例.
+工厂方法newClient()提供了一个简单方式创建实例。 而Builder提供了更多的参数控制。一旦你创建了一个CuratorFramework实例，你必须调用它的start()启动，在应用退出时调用close()方法关闭.
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.apache.curator&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;curator-recipes&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;2.7.0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 这个版本的API 是流式的API，也就是。。用的时候一句话里有一串的调用，不断的点操作符。 for 一个zample: client.</description>
+    </item>
+    
+    <item>
+      <title>tomcat Server.xml及其启动顺序</title>
+      <link>https://Paladnix.github.io/posts/web/tomcatserver/</link>
+      <pubDate>Wed, 16 Aug 2017 15:25:20 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/web/tomcatserver/</guid>
+      <description>欲仙又欲死。阿里巴巴真是一朵大奇葩。 一个写死的回调地址就能浪费我两天的时间去搞，还没有搞定。此坑绵绵无绝期。 一个sso的回调地址，写死的，要强行将应用部署到ROOT里中去。
+在tomcat中有一个配置文件经常被用到，conf/server.xml。这个配置文件描述了如何启动tomcat server。 tomcat是servlet的容器，也就是能够运行servlet的一个程序。作为一个http服务的程序，可以监听端口，处理请求等。
+配置文件结构 # &amp;lt;Server&amp;gt; &amp;lt;Listener /&amp;gt; &amp;lt;GlobaNamingResources&amp;gt; &amp;lt;/GlobaNamingResources &amp;lt;Service&amp;gt; &amp;lt;Connector /&amp;gt; &amp;lt;Engine&amp;gt; &amp;lt;Logger /&amp;gt; &amp;lt;Realm /&amp;gt; &amp;lt;host&amp;gt; &amp;lt;Logger /&amp;gt; &amp;lt;Context /&amp;gt; &amp;lt;/host&amp;gt; &amp;lt;/Engine&amp;gt; &amp;lt;/Service&amp;gt; &amp;lt;/Server&amp;gt; 对我们来说，内层的Service才是有操作意义的部分。主要的部分简介如下：
+元素 说明 service 提供服务的主体，默认的名字是Catalina Connector 客户端与服务端之间的连接，包括端口，协议版本，超时时间，等。 Engine 请求的处理机，接收和处理Connector的请求， 与host的联系比较大 Context 表示一个应用 host 表示一个虚拟主机 Tomcat Server处理一个http请求的过程 # 假设来自客户的请求为：http://localhost:8080/wsota/wsota_index.jsp
+在这里有一幅图我觉得非常清晰的说明了这个过程，但是其本身跟这个毫无关系。
+请求被发送到本机端口8080，被在那里侦听的Coyote HTTP/1.1 Connector获得 Connector把该请求交给它所在的Service的Engine来处理，并等待来自Engine的回应 Engine获得请求localhost/wsota/wsota_index.jsp，匹配它所拥有的所有虚拟主机Host Engine匹配到名为localhost的Host（即使匹配不到也把请求交给该Host处理，因为该Host被定义为该Engine的默认主机） localhost Host获得请求/wsota/wsota_index.jsp，匹配它所拥有的所有Context Host匹配到路径为/wsota的Context（如果匹配不到就把该请求交给路径名为&amp;quot;&amp;ldquo;的Context去处理） path=&amp;quot;/wsota&amp;quot;的Context获得请求/wsota_index.jsp，在它的mapping table中寻找对应的servlet Context匹配到URL PATTERN为.jsp的servlet，对应于JspServlet类 构造HttpServletRequest对象和HttpServletResponse对象，作为参数调用JspServlet的doGet或doPost方法 Context把执行完了之后的HttpServletResponse对象返回给Host Host把HttpServletResponse对象返回给Engine Engine把HttpServletResponse对象返回给Connector Connector把HttpServletResponse对象返回给客户browser Context # 来看最重要的Context， 一般我们为每个应用做的定制化的东西都是依靠这个来做的，就比如我们要把war包部署成一个默认的应用。</description>
+    </item>
+    
+    <item>
+      <title>Java Json And Object</title>
+      <link>https://Paladnix.github.io/posts/java/javajsonandobject/</link>
+      <pubDate>Tue, 15 Aug 2017 20:20:44 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/javajsonandobject/</guid>
+      <description>在写RESTFul风格的接口的时候最经常使用的就是Json和对象的互换。 今天记录一下阿里巴巴开源的FastJson的使用方式。
+FastJson号称最快的Json解析工具包。有幸听了作者的分享会，并且在前几天的转正答辩的时候，他作为我的面试官之一。花名很奇特，叫高铁，可能这就是FastJson为什么这么快的原因吧。
+在听分享会的时候，惊叹于其将一个小小的工具包中运用了如此多的优化方式。他曾是阿里安全团队的一元，对于Java底层非常了解，并且一些算法能力也很强，更是运用了产生式编程的神奇方式编写了这个工具包的某些部分。
+package # 这是开源的工具，听闻，据说是阿里对Java社区做的最大贡献了。
+import com.alibaba.fastjson.*;
+maven: # &amp;lt;!-- https://mvnrepository.com/artifact/com.alibaba/fastjson --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;com.alibaba&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;fastjson&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.2.36&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; Example # 其对于json的操作都是在几个静态类中进行的。 举几个常用的例子来说名用法：
+将Json文本数据信息转换为JsonObject对象，通过键值对获取值 # private static void json2JsonObject() { //一个JsonObject文本数据 String s = &amp;#34;{\&amp;#34;name\&amp;#34;:\&amp;#34;xxx\&amp;#34;}&amp;#34;; //将JsonObject数据转换为Json JSONObject object = JSON.parseObject(s); //利用键值对的方式获取到值 System.out.println(object.get(&amp;#34;name&amp;#34;)); } 将Json文本数据转换为JavaBean # 需要注意的是，Json文本信息中的键的名称必须和JavaBean中的字段名称一致。
+private static void json2BeanM2() { String s = &amp;#34;{\&amp;#34;id\&amp;#34;:\&amp;#34;xx\&amp;#34;,\&amp;#34;city\&amp;#34;:\&amp;#34;xxx\&amp;#34;}&amp;#34;; //一个简单方便 的方法将Json文本信息转换为JsonObject对象的同时转换为JavaBean对象！ Weibo weibo = JSON.parseObject(s, Weibo.class);//Weibo类在下边定义 System.out.println(weibo.getId()); System.out.println(weibo.getCity()); } Map类型的数据转换为JsonString # Map&amp;lt;Integer, Object&amp;gt; map = new HashMap&amp;lt;Integer,Object&amp;gt;(); map.</description>
+    </item>
+    
+    <item>
+      <title>Java HttpClient</title>
+      <link>https://Paladnix.github.io/posts/java/javahttp/</link>
+      <pubDate>Tue, 15 Aug 2017 20:07:20 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/javahttp/</guid>
+      <description>来记录一下Java 发起Http请求的方法。
+这里使用的是org.apache.http包中的一些封装工具。
+首先实例化一个client： CloseableHttpClient httpclient = HttpClients.createDefault(); 然后来实例化一个URIBuild： URIBuilder builder = new URIBuilder(url); 如果Http请求带有参数，就设置在uri中： builder.setParameter(key, value); 实例化一个Httpget/Httppost: HttpGet httpget = new HttpGet(builder.build()); HttpPost httppost = new HttpPost(builder.build()); 你可以设置请求的Header： httpget.setHeader(&amp;#34;Accept&amp;#34;, &amp;#34;application/json&amp;#34;); // 接收json数据格式 发送请求： CloseableHttpResponse response = httpclient.execute(httpget); 查看请求结果： if (response.getStatusLine().getStatusCode() == 200) { String content = EntityUtils.toString(response.getEntity(), &amp;#34;utf-8&amp;#34;); } 更多设置可以直接补全出来看。</description>
+    </item>
+    
+    <item>
+      <title>每天读点Spring(2)--Start</title>
+      <link>https://Paladnix.github.io/posts/java/spring-2/</link>
+      <pubDate>Sat, 12 Aug 2017 19:02:40 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/spring-2/</guid>
+      <description>在本章中，作者开篇就讲到，学习一个新的开发工具最难的就是不知道从哪里入手，尤其是Spring这样有很多选择的框架。但是幸好在这本书中是简单的，下面介绍一些必要的基本知识。
+这就是很人性的化的写技术书籍的方式，透露出考虑之周到。 我觉得很多时候，国内的教育体制总是要用比人家多的时间去学会一个东西。很多人看到老外中学成绩都很差，到了大学才开始学习。但是仔细想一下就会发现不太对劲，为什么人家学习的深度比我们还深呢？明明没有我们的基础好，也没有我们花费的时间多啊。
+我觉得很大一部分原因是国内的教材有问题。很多教材都是非常的笼统的介绍一个东西是什么，然后就搬上一大堆理论出来证明。但是让人看了很费劲，因为我不一定就具备了看懂这个知识的基础能力，可能我要先去了解一下什么东西再来看这个会效果更好。在我看的很多国外工程师写的文档或者是书中，都有这样的设定，要么会给出在你继续往下看之前你需要去了解的知识清单，要么就直接把需要的知识写在正式内容之前。这是一个非常负责的行为，在人家眼里是很正常的事情，在我们这里可能就是不在我的工作范围中。就像初中上高中的时候，初中老师说这个你们在以后上高中就知道了，高中老师说，你们应该在初中就学过了。有些老师会讲，这些老师的学生就会很轻松的就掌握这部分东西。
+不要觉得什么都要别人告诉你很low，学习就是一个这样的过程，你需要别人不断的告诉你一些东西，那些已经被解决的问题不是你主要要解决的问题，而是你要快速掌握的理论。你在学车的时候如果碰到一个什么都不教，直接让你把车开起来上路的师傅，你就会说：“如果我什么都知道还要来学嘛？”，就是这个道理。
+国内很多作者纯粹就是急于求成，这些看似不是自己的责任的事情就不做，默认你会。然后把那些确实是核心的问题官方的表述一下，就算是写完了一本技术著作。很不厚道，我作为学生非常鄙视这样的人。
+需要具备的知识 # 也不能算是知识，是关于Spring的一些更细节的信息，和设计。
+理解Spring的包 # 这部分介绍了Spring是由哪些模块构成，你可以按照自己的需求选择使用那些模块，并介绍了每个模块的基本功能。
+在Spring4.0.2发行版中一共有20个包。每个模块的包名格式如下，以aop为例：spring-aop-4.0.2.RELEASE.jar
+Jar File Description aop 如果你要用到AOP功能，或是你用到的Spring的其他模块用到了这个功能，你就需要把这个包添加进你的项目中 aspects 如果你用到了AspectJ AOP的功能就要包含这个包（Aspectj是Eclipse出的一个AOP的编程框架，Spring 兼容了它） bean 包含了所有用来实现Spring控制bean的类，其中很多类也都支持Spring的bean工程模式，例如解析xml和注解的类 context 这个包给Spring core提供了很多扩展能力，Spring的很多功能都依赖于此，并且实现交互的脚本语言也是集成在其中的 context-support 这个包有扩展了context的功能，例如邮件支持、模板引擎例如Velocity、FreeMaker，此外还有很多作业的执行和调度，例如CommonJ(计时器)和Quartz(作业调度)都打包在这里。 core 这是你必须包含的包，其中的类被用在很多其他的包中，并且有一些全局工具你也可以用在自己的代码中 expression 这个包是支持Spring Expression Language的，是一种强大而简洁的装配Bean的方式 instrument 这个模块包括Java虚拟机的引导(翻译有待确认)？当你在使用AspectJ时需要使用这个包 instrument-tomcat JVM Bootstrapping in the tomcat-server jdbc 数据库链接操作相关 messaging 是基于消息的应用相关的，以及支持STOMP消息文本协议 orm 扩展了JDBC，支持ORM框架，诸如Hibernate、JDO、JPA oxm 支持Object/XML Mapping (OXM) test 提供了强大的单元测试的功能，紧密集成了JUnit tx 支持分布式事物操作 web web功能的核心，支持了文件上传，参数解析等 web-mvc 支持MVC模式的web web-portlet 门户网站服务器部署支持（Not know） websocket 支持Java API for WebSocket（Not know） 随后讲了你可以用maven获取这些，就像你不知道maven一样</description>
+    </item>
+    
+    <item>
+      <title>每天读点Spring(1)--Introduction</title>
+      <link>https://Paladnix.github.io/posts/java/spring-1/</link>
+      <pubDate>Fri, 11 Aug 2017 19:04:41 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/spring-1/</guid>
+      <description>Java如果没有Spring，绝不会这么流行。 Spring将很多Java的设计模式框架化，使得Java的开发效率得到很大的增长。
+想系统的学习一下Java，但是又要与工作接轨，所以就选择了Spring这个中间的角色来开始学习。我学习的教材主要是英文版的《Pro Spring 4》，这本书在CSDN上有pdf版本，不是影印版，非常优质。 为什么不用中文的呢，一个是因为中文的书中在Introduction上就写得不好，无法从宏观上去解释这个框架的精髓，这个很致命，想比较外文版的读物，虽然偏长了一些，但是很对概念能够很清晰的表述，对于我这样的技术新人来说很重要。另一个原因是，本身的英语能力没有场景去使用，看看英文的技术专业书籍，有利于英语能力也更有利于以后看英文的代码注释。
+每天坚持看一点，是个很难的工作。
+What is Spring. # 在第一章中对Spring这个项目本身做了一些介绍。包括这个项目是在Java一片火热的情况下诞生的，并且诞生至今非常的优秀等等。
+我觉得最重要的是，作者解释了什么是轻量级这个问题。
+所谓轻量级并不是代码量很少也不是代码的框架设计很简单，而是一种传达除了Spring这个框架自己的思考哲学，就是让Java项目变得轻量化起来。
+随后介绍了Spring项目的两个最重要的技术基础，IOC(控制反转)或者在文中着重讲述的DI(依赖注入)的说法。在前面的文章中我已经介绍过这个概念，在设计模式上属于工厂模式的一种实现。还有一个就是AOP(面向切面编程)，也有人理解为面向方便编程。
+除了这两个重要的技术基础以外，介绍了Spring框架本身有非常多的方便的设计，兼容非常多的东西，在数据交互、xml、交互式脚本语言等方面都做了很多的工作，并且引起Java标准基金会的注意，影响了基金会的很多标准的制定等。
+介绍就是要这样，从宏观上去提纲挈领的介绍一个事物。</description>
+    </item>
+    
+    <item>
+      <title>Java 多线程实现异步调用</title>
+      <link>https://Paladnix.github.io/posts/java/java-5/</link>
+      <pubDate>Thu, 10 Aug 2017 16:53:28 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/java-5/</guid>
+      <description>异步调用最主要的特点就是调用方并不等待函数的结果，而是继续进行下面的动作，函数自己去完成相应的过程。在函数完成以后将结果以某种方式返回给调用者。
+实现异步的方式有很多，在前端的技术中使用的最多，这里我记录一下Java项目的内部自己异步调用某个函数的方式。
+角色 # 在异步调用中，有三个角色，分别是消费者、取货凭据、生产者。对应的就是调用方、数据返回方式、执行函数。
+举小蛋糕的例子非常好理解，订蛋糕、蛋糕店给你个取蛋糕的收据，或者也可以给你送到某个地方、蛋糕店生产蛋糕。
+消费者 # 首先来看一下调用方的代码应该怎么写。
+public class Customer { public static void main(String[] args) { System.out.println(&amp;#34;main BEGIN&amp;#34;); CakeShop host = new CakeShop(); Cake cake1 = host.request(10, &amp;#39;A&amp;#39;); Cake cake2 = host.request(20, &amp;#39;B&amp;#39;); Cake cake3 = host.request(30, &amp;#39;C&amp;#39;); System.out.println(&amp;#34;main otherJob BEGIN&amp;#34;); try { Thread.sleep(2000); } catch (InterruptedException e) { } System.out.println(&amp;#34;main otherJob END&amp;#34;); System.out.println(&amp;#34;cake1 = &amp;#34; + cake1.getCake()); System.out.println(&amp;#34;cake2 = &amp;#34; + cake2.getCake()); System.out.println(&amp;#34;cake3 = &amp;#34; + cake3.</description>
+    </item>
+    
+    <item>
+      <title>spring-shell</title>
+      <link>https://Paladnix.github.io/posts/java/spring-shell/</link>
+      <pubDate>Thu, 10 Aug 2017 13:59:53 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/spring-shell/</guid>
+      <description>这是一个spring框架提供的编写shell命令的一个工具，能够让你用spring的编程模式编写命令支持在shell运行。
+看一下这个工具的框架是怎么样的。documentation地址。
+核心组件 # spring shell 的最核心的组件是三个：plugin model、built-in commands and converters。
+Plugin Model # 插件模块我理解的就是将你写的命令加载进去。你的每个jar模块都要包含一个文件：META-INF/spring/spring-shell-plugin.xml。这个文件会在shell启动的时候被加载并生成Spring的上下文。 在这个文件里你需要定义你的命令相关的类。当然你也可以用spring的扫描功能去自己扫描一个包，然后自己将相关的类进行加载。
+这个文件可以写成这样：
+&amp;lt;beans xmlns=&amp;#34;http://www.springframework.org/schema/beans&amp;#34; xmlns:xsi=&amp;#34;http://www.w3.org/2001/XMLSchema-instance&amp;#34; xmlns:context=&amp;#34;http://www.springframework.org/schema/context&amp;#34; xsi:schemaLocation=&amp;#34;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd&amp;#34;&amp;gt; &amp;lt;context:component-scan base-package=&amp;#34;org.springframework.shell.samples.helloworld.commands&amp;#34; /&amp;gt; &amp;lt;/beans&amp;gt; 这里官方的文档说：所有的类都是用同一个类加载器加载的，所以建议提供一个类加载器进行隔离。
+这些命令是Spring组件，使用@Component注解进行划分。例如，HelloWorldCommands类的示例应用程序是这样的
+@Component public class HelloWorldCommands implements CommandMarker { // use any Spring annotations for Dependency Injection or other Spring // interfaces as required. @CliCommand(value = &amp;#34;delete-group&amp;#34;, help = &amp;#34;delete group&amp;#34;) public String deleteGroup(@CliOption(key = {&amp;#34;id&amp;#34;}, mandatory = true, help = &amp;#34;The id of &amp;#34; + &amp;#34;the group&amp;#34;) final String id) { ClientResponse response = RestClient.</description>
+    </item>
+    
+    <item>
+      <title>状态机编程</title>
+      <link>https://Paladnix.github.io/posts/java/status/</link>
+      <pubDate>Wed, 09 Aug 2017 15:32:16 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/status/</guid>
+      <description>状态机是一种程序设计模式。
+这种设计模式适合在一些场景下使用，比如一个任务可能拆开成不同的部分去做，这些动作可能是异步的也可能是同步的，这个时候我们用一个for循环来搞就会很麻烦，最重要的是很丑。
+我们希望能做成事件驱动的程序，这个时候一个很好的设计模式就是利用状态机的思路来写。
+问题特征 # 一个处理流程中一些部分都可以是异步的，并且每个步骤都有可能失败。
+其实最主要的就是这个问题可能失败，所以我们希望在我们将失败的原因搞定以后，再次启动这个程序的时候可以继续从上一次失败的地方继续执行而不是将原来的操作进行回退，然后再重新跑一遍。
+状态机编程 # 使用状态机的设计模式可以让程序直接跳到当前状态所处的位置，继续执行。
+其实是很简单的，我们给我们的每个步骤都设计几个状态，最常见的状态就是start、success、faild等。
+并且在一个状态结束以后会去回调一个函数去更改相关的事件的状态。将事件的状态保存在一个诸如数据库或是什么东西上。
+这种设计思路可以应用在很多场景下，比如一个用户的行为会触发一个后台流程，后台要在做完这个流程以后再把结果返回给用户。如果等待程序返回就会浪费很多时间，很可能中间的某个环节失败了，这样的话又要重新来搞一次。
+如果用状态机的设计模式，行为触发状态机的一个点，然后由状态机做后续的出发，等到收集到所有事件都成功以后再给用户返回个结果就可以了。同时用户也可以将这个请求做成异步的，不必等待程序的返回值。
+对于状态机编程的事件，有一个最重要的一个就是事件的触发是由于状态的改变来触发的，所以只要我们去更改一个事件的状态我们的这个动作就算是做完了，至于触发的动作什么时候做完我们不管，会有一个状态标识的方式的。
+思路就是这样的，具体的实现代码以后写其他的东西的时候再贴吧。</description>
+    </item>
+    
+    <item>
+      <title>SpringMVC</title>
+      <link>https://Paladnix.github.io/posts/java/springmvc/</link>
+      <pubDate>Wed, 02 Aug 2017 10:41:35 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/springmvc/</guid>
+      <description>本文是我的学习过程，但是我认为学习过程中并不适合写给别人看。所以本文只是一个临时的笔记，待以后进行深入整合。
+SpringMVC与Spring的关系是什么? SpringMVC是依托Spring框架开发的一个Web MVC框架，天生与Spring集成，也就是使用了Spring的依赖注入和切面编程。
+上一篇中讲解了Web.xml，这是Java Web的基础，也就是Servlet容器的工作方式，那个也作为本文的基础。
+SpringMVC整体可以看成是一个Servlet，事实上它就是一个Servlet。我们配置web.xml来启动这个Servlet，然后这个Servlet来负责处理每个请求。每个处理请求的类都是我们遵照SpringMVC的格式来写的类，由SpringMVC这个框架来调用完成整个请求的处理。
+与原本粗放的原生Java Web的开发模式相比，做了一个聚合。原本是每个请求你都写一个Servlet去处理，在web.xml中配置好一个请求与处理类的映射关系，由容器来完成调用。然后SpringMVC是分担了容器的压力，将容器的工作交给他来做，它利用Spring框架的依赖注入的特性，以及bean的工厂模式重新实现后端的实际处理流程。
+有好处也有坏处，我也不太清楚这样做的具体目的是什么，可能会有性能上的提升，因为毕竟工厂模式等特性的加入会提升一些性能和开发便利。坏处感觉也挺明显，首当其冲就是学习栈又深了，还不是深了一个单位是好几个单位。加入了新的配置等，开发过程的脑力成本又增加了。
+多说也没用，也是要以后逐步深入才能参透其中的奥妙。
+maven 配置项目 # 命令行使用mvn构建项目很简单。
+mvn archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-webapp -DarchetypeVersion=1.0 -DgroupId=com.demo -DartifactId=demo -Dversion=1.0 生成的目录如下：
+. ├── pom.xml └── src └── main ├── resources └── webapp ├── index.jsp └── WEB-INF └── web.xml 配置一下项目所需依赖关系pom.xml:
+&amp;lt;project xmlns=&amp;#34;http://maven.apache.org/POM/4.0.0&amp;#34; xmlns:xsi=&amp;#34;http://www.w3.org/2001/XMLSchema-instance&amp;#34; xsi:schemaLocation=&amp;#34;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&amp;#34;&amp;gt; &amp;lt;modelVersion&amp;gt;4.0.0&amp;lt;/modelVersion&amp;gt; &amp;lt;groupId&amp;gt;com.demo&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;demo&amp;lt;/artifactId&amp;gt; &amp;lt;packaging&amp;gt;war&amp;lt;/packaging&amp;gt; &amp;lt;version&amp;gt;1.0-SNAPSHOT&amp;lt;/version&amp;gt; &amp;lt;name&amp;gt;demo Maven Webapp&amp;lt;/name&amp;gt; &amp;lt;url&amp;gt;http://maven.apache.org&amp;lt;/url&amp;gt; &amp;lt;properties&amp;gt; &amp;lt;jdk.version&amp;gt;1.8&amp;lt;/jdk.version&amp;gt; &amp;lt;spring.version&amp;gt;4.3.9.RELEASE&amp;lt;/spring.version&amp;gt; &amp;lt;jstl.version&amp;gt;1.2&amp;lt;/jstl.version&amp;gt; &amp;lt;servletapi.version&amp;gt;3.1.0&amp;lt;/servletapi.version&amp;gt; &amp;lt;/properties&amp;gt; &amp;lt;dependencies&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;junit&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;junit&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.8.1&amp;lt;/version&amp;gt; &amp;lt;scope&amp;gt;test&amp;lt;/scope&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.</description>
+    </item>
+    
+    <item>
+      <title>web.xml</title>
+      <link>https://Paladnix.github.io/posts/web/web/</link>
+      <pubDate>Tue, 01 Aug 2017 20:59:50 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/web/web/</guid>
+      <description>其作用就是配置一个web程序的基本功能。容器在启动一个web项目的时候先读取这个配置文件，在配置文件读取无误后开始按照配置启动剩余的服务。
+加载顺序 # &amp;lt;context-param&amp;gt; -&amp;gt; &amp;lt;listener&amp;gt; -&amp;gt; &amp;lt;filter&amp;gt; -&amp;gt; &amp;lt;servlet&amp;gt; 容器会创建一个ServletContext，整个项目都会共用这个上下文。而&amp;lt;context-param&amp;gt;的内容以键值对的形式存在这个上下文中。 然后对读取&amp;lt;listener&amp;gt;，并实例化listener类，并初始化。 listener类中会有contextInitialized(ServletContextEvent args)初始化方法，启动Web应用时，系统调用Listener的该方法，在这个方法中获得：
+ServletContext application = ServletContextEvent.getServletContext(); context-param的值 = application.getInitParameter(&amp;#34;context-param的键&amp;#34;); 得到这个context-param的值之后，你就可以做一些操作了。 举例：你可能想在项目启动之前就打开数据库，那么这里就可以在&amp;lt;context-param&amp;gt;中设置数据库的连接方式（驱动、url、user、password），在监听类中初始化数据库的连接。这个监听是自己写的一个类，除了初始化方法，它还有销毁方法，用于关闭应用前释放资源。比如:说数据库连接的关闭，此时，调用contextDestroyed(ServletContextEvent args)，关闭Web应用时，系统调用Listener的该方法。
+所以归根结底，这个&amp;lt;context-param&amp;gt;就是用来存一些配置数据的地方。
+比如：定义一个管理员email地址用来从程序发送错误，或者与你整个应用程序有关的其他设置。使用自己定义的设置文件需要额外的代码和管理；直接在你的程序中使用硬编码（Hard-coding）参数值会给你之后修改程序带来麻烦，更困难的是，要根据不同的部署使用不同的设置；通过这种办法，可以让其他开发人员更容易找到相关的参数，因为它是一个用于设置这种参数的标准位置。
+web-app # 根元素，不用多说
+display-name # 应用的名称，这个在tomcat的维护信息中会出现。
+session # &amp;lt;session-config&amp;gt; &amp;lt;session-timeout&amp;gt;120&amp;lt;/session-timeout&amp;gt; &amp;lt;/session-config&amp;gt; listener # &amp;lt;!--****************************监听器配置*********************************--&amp;gt; &amp;lt;!-- Spring的log4j监听器 --&amp;gt; &amp;lt;listener&amp;gt; &amp;lt;listener-class&amp;gt;org.springframework.web.util.Log4jConfigListener&amp;lt;/listener-class&amp;gt; &amp;lt;/listener&amp;gt; &amp;lt;listener&amp;gt; &amp;lt;listener-class&amp;gt;org.springframework.web.context.ContextLoaderListener&amp;lt;/listener-class&amp;gt; &amp;lt;/listener&amp;gt; 监听器用来监听各种事件，比如：application和session事件，所有的监听器按照相同的方式定义，功能取决去它们各自实现的接口，常用的Web事件接口有如下几个：
+ServletContextListener：用于监听Web应用的启动和关闭； ServletContextAttributeListener：用于监听ServletContext范围（application）内属性的改变； ServletRequestListener：用于监听用户的请求； ServletRequestAttributeListener：用于监听ServletRequest范围（request）内属性的改变； HttpSessionListener：用于监听用户session的开始和结束； HttpSessionAttributeListener：用于监听HttpSession范围（session）内属性的改变。 listener类是实现了以下两个接口中任何一个接口的简单java类：javax.servlet.ServletContextListener或javax.servlet.http.HttpSessionListener，如果想让你的类监听应用的启动和停止事件，你就得实现ServletContextListener接口；想让你的类去监听Session的创建和失效事件，那你就得实现HttpSessionListener接口。
+有两种为应用配置listener的方式：
+使用@WebListener修饰Listener实现类即可。 在web.xml文档中使用&amp;lt;listener&amp;gt;进行配置。 在下一节配置spring的加载类的时候会给出例子。
+spring相关配置 # 配置spring，必须需要&amp;lt;listener&amp;gt;，&amp;lt;context-param&amp;gt;如果有就去加载配置的路径，没有就默认是/WEB-INF/applicationContext.xml。
+&amp;lt;!-- spring config --&amp;gt; &amp;lt;!-- if this node is not exist, --&amp;gt; &amp;lt;context-param&amp;gt; &amp;lt;param-name&amp;gt;contextConfigLocation&amp;lt;/param-name&amp;gt; &amp;lt;param-value&amp;gt;/WEB-INF/spring-configuration/*.</description>
+    </item>
+    
+    <item>
+      <title>Servlet</title>
+      <link>https://Paladnix.github.io/posts/web/servlet/</link>
+      <pubDate>Fri, 28 Jul 2017 11:22:45 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/web/servlet/</guid>
+      <description>这里有一些概念非常的恶心，一开始的时候不太好理解是什么。通过一段时间的实践，我逐渐理解，所以直到今天才开始写这一篇。
+容器Container # 这个概念从我一开始接触Java就让我很困惑。 首先你需要先去看一下我在后面的一篇关于tomcat的配置文件：server.xml。在那里了解一下配置文件的结构，你可以看懂下面的这张图片。 首先，容器这个东西是针对servlet来说的，也就是我们说的容器都是放置和运行servlet的程序。tomcat是个容器。但是上面的每一级都算是一种容器，只是大小不同。
+为什么要有容器 # 其实对于计算机软件体系来说，一切的东西的出现都是因为标准和规定。 所谓容器其实就是一个程序，这个程序按照servlet需要的标准实现了一些接口，使得当你写了一个servlet以后可以成功的放在这个程序中运行，再直白一点就是，你把你的servlet程序交给这个容器，容器可以成功的运行你的程序。
+他们之间通过约定一些标志物信息来实现无缝对接。 所以学习这写东西就是在学习了解他们之间约定的事物，以及，为什么这么约定，这样的约定有什么好处和坏处。
+容器是一段程序吗？ # 在tomcat中，并没有容器这个东西，所以容器并不是一个东西，就像水果并不是一个具体的苹果一样。容器是一个抽象的概念。
+在tomcat中，如上图，有很多的层。这些层就是一个容器结构。他们一起构成了一个完整的容器。
+Engine 是一段基础的引擎程序。我认为是整个tomcat的基础，所有的其他容器都在其的调度控制之下。
+Host 这是一个逻辑概念，但也有对应的实体。在讲tomcat的配置文件servers.xml 的时候，有提到这个host是什么回事。有了这一层，可以在一个tomcat容器中部署不同的项目，这些项目的域名都是不同的。也就是这个容器可以容纳很多的servlet并且这些servlet可以是几种粒度的。
+你可以是完全不同的两个网站，域名都不同，放在一个容器中运行。你也可以是一个网站的不同组件，放在不同的Context内运行。
+所以容器是个体系，不是一个东西。 其实按照这个思路，一切皆容器。因为一切的这些都是调度管理，操作系统调度进程，进程调度线程。一切都是接口和约定。所以万物皆容器。
+什么是servlet # 这是一个标准，你的程序符合这个标准就是一个servlet程序。 一个类其实就是一个servlet，但是很多个类在一起只要有一个servlet的接口，也是一个servlet。 （在此我们不再讨论tomcat的启动过程，我们更关心一个servlet放入tonmcat容器以后的过程）
+来看一下这个图片，这就是servlet主要关联的几个类。 **摘抄：** 从上图可以看出 Servlet 规范就是基于这几个类运转的，与 Servlet 主动关联的是三个类，分别是 ServletConfig、ServletRequest 和 ServletResponse。这三个类都是通过容器传递给 Servlet 的，其中 ServletConfig 是在 Servlet 初始化时就传给 Servlet 了，而后两个是在请求达到时调用 Servlet 时传递过来的。
+我们很清楚 ServletRequest 和 ServletResponse 在 Servlet 运行的意义，但是 ServletConfig 和 ServletContext 对 Servlet 有何价值？ 仔细查看 ServletConfig 接口中声明的方法发现，这些方法都是为了获取这个 Servlet 的一些配置属性，而这些配置属性可能在 Servlet 运行时被用到。 而 ServletContext 又是干什么的呢？ Servlet 的运行模式是一个典型的“握手型的交互式”运行模式。所谓“握手型的交互式”就是两个模块为了交换数据通常都会准备一个交易场景，这个场景一直跟随个这个交易过程直到这个交易完成为止。这个交易场景的初始化是根据这次交易对象指定的参数来定制的，这些指定参数通常就会是一个配置类。所以对号入座，交易场景就由 ServletContext 来描述，而定制的参数集合就由 ServletConfig 来描述。而 ServletRequest 和 ServletResponse 就是要交互的具体对象了，它们通常都是作为运输工具来传递交互结果。</description>
+    </item>
+    
+    <item>
+      <title>spring</title>
+      <link>https://Paladnix.github.io/posts/java/spring/</link>
+      <pubDate>Fri, 28 Jul 2017 10:24:01 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/spring/</guid>
+      <description>这篇文章原本是要完整的讲SpringMVC，现在觉得Spring自己要单独讲一下，SringMVC要单独写个瞎搞教程，混在一起不利于理解，而且写的太乱，所以本问只是介绍一些Spring的特性和一些概念。
+Spring 是为了解决企业应用程序开发复杂性而创建的。框架的主要优势之一就是其分层架构，分层架构允许选择使用哪一个组件，同时为 J2EE 应用程序开发提供集成的框架。
+之前在学习Spring框架的时候主要研究了两个概念，一个是：控制反转(IOC)，还有一个是：面向切面编程(AOP)。今天来整理一下。
+Spring 模块 # 学习框架或是其他的库，先概览一下这个东西是由什么组成，然后顺着这个设计思路就可以理解其工作方式。 据说Spring的模块化做的很好，每个模块都可以单独存在。下面这附图很直观的描述了其体系结构。 分两层，共7个模块，其他模块工作在Core模块之上。 每个模块的功能如下:
+核心容器：核心容器提供 Spring 框架的基本功能。核心容器的主要组件是 BeanFactory，它是工厂模式的实现。BeanFactory 使用控制反转 （IOC） 模式将应用程序的配置和依赖性规范与实际的应用程序代码分开。 Spring Context：Spring 上下文是一个配置文件，向 Spring 框架提供上下文信息。Spring 上下文包括企业服务，例如 JNDI、EJB、电子邮件、国际化、校验和调度功能。 Spring AOP：通过配置管理特性，Spring AOP 模块直接将面向切面的编程功能集成到了 Spring 框架中。所以，可以很容易地使 Spring 框架管理的任何对象支持 AOP。Spring AOP 模块为基于 Spring 的应用程序中的对象提供了事务管理服务。通过使用 Spring AOP，不用依赖 EJB 组件，就可以将声明性事务管理集成到应用程序中。 Spring DAO：JDBC DAO 抽象层提供了有意义的异常层次结构，可用该结构来管理异常处理和不同数据库供应商抛出的错误消息。异常层次结构简化了错误处理，并且极大地降低了需要编写的异常代码数量（例如打开和关闭连接）。Spring DAO 的面向 JDBC 的异常遵从通用的 DAO 异常层次结构。 Spring ORM：Spring 框架插入了若干个 ORM 框架，从而提供了 ORM 的对象关系工具，其中包括 JDO、Hibernate 和 iBatis SQL Map。所有这些都遵从 Spring 的通用事务和 DAO 异常层次结构。 Spring Web 模块：Web 上下文模块建立在应用程序上下文模块之上，为基于 Web 的应用程序提供了上下文。所以，Spring 框架支持与 Jakarta Struts 的集成。Web 模块还简化了处理多部分请求以及将请求参数绑定到域对象的工作。 Spring MVC 框架：MVC 框架是一个全功能的构建 Web 应用程序的 MVC 实现。通过策略接口，MVC 框架变成为高度可配置的，MVC 容纳了大量视图技术，其中包括 JSP、Velocity、Tiles、iText 和 POI。 就这一段我copy过来的东西就有很多新鲜的东西。解释一下： 工厂模式和bean 这个东西就很大，简单说，工厂模式是一种设计模式。程序设计，搞到现在终于体会到什么是程序设计了吧。跟工业革命是一个道理，从手工作坊到工厂生产。这种设计模式无非就是要简化你写代码的过程，而这个工厂模式就是用来简化对象创建过程的一个设计模式。 在创建一个复杂对象的时候，往往我们要先建一些辅助对象，然后把辅助对象塞进去才能把对象真正new出来。这就是传统手工生产。 但是工厂模式也不是就那么简单的，这个工厂模式还有一个发展过程</description>
+    </item>
+    
+    <item>
+      <title>Java-Log日志</title>
+      <link>https://Paladnix.github.io/posts/java/log/</link>
+      <pubDate>Wed, 26 Jul 2017 14:28:29 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/log/</guid>
+      <description>日志以我目前使用到的，有两个功能。 第一，在上线调试的时候查看问题所在。 第二，在线上运行的时候，出现故障回看日志查询问题所在。 总之就是查问题出在哪里，因为编译型的程序没有办法直接搞中间输出来确定问题所在，写在文件里是最好的方式了。
+Java中有很多日志系统，但是根据经验，一定有一个日志的抽象层来统一各个日志系统。没错，今天就直接来用这个抽象层的日志工具：SLF4J(Simple logging facade for Java)。它允许你在后台使用任意一个日志类库。如果是在编写供内外部都可以使用的API或者通用类库，那么你真不会希望使用你类库的客户端必须使用你选择的日志类库。
+如果一个项目已经使用了log4j，而你加载了一个类库，比方说 Apache Active MQ——它依赖于于另外一个日志类库logback，那么你就需要把它也加载进去。但如果Apache Active MQ使用了SLF4J，你可以继续使用你的日志类库而无需忍受加载和维护一个新的日志框架的痛苦。
+日志原理 # 一般的日志都是由三个部分组成：logger、appenders、layouts。logger负责捕获记录信息，转给appender去转发到配置的目的地，layouts负责定义日志的格式。
+下面就具体的介绍一下Log4j帮助理解。
+Log4j # log4j 有很多优点：
+Log4j是高度可配置的，并可通过在运行时的外部文件配置。它根据记录的优先级别，并提供机制，以指示记录信息到许多的目的地，诸如：数据库，文件，控制台，UNIX系统日志等。 已经扩展到C/C++、C#、Perl、Python等语言中。 线程安全、速度快 多输出 也有一些缺点，比如不能保证所有日志信息都送到目的地在其出现故障的时候，会减慢程序的速度，不过这是所有日志都面临的问题，貌似也没有什么好的解决办法。
+log4j 在使用的时候需要一个配置文件：log4j.properties或log4j.xml。
+如果是java project项目，则在项目的根目录下创建log4j.properties而不是在src目录下。 如果是java web项目，则在src目录下创建log4j.properties配置文件，因为这个时候tomcat会去默认的加载这个配置文件，而不需要我们手动的加载log4j的配置文件。 两种配置的基本配置选项都是一样的，log4j.properties的格式是更好理解的，奈何我拿到的是个该死的xml格式的项目。直观看很丑！非常丑！xml在我这的印象分又掉了一半。 还是先介绍各个选项的内容吧，形式不重要。
+选项参数 # 上面讲了日志的三个组成部分，其配置也就是针对这三个部分来搞的。 以properties的格式先介绍一下。
+#配置根Logger (Loggers) log4j.rootLogger = [ level ] , appenderName1 , appenderName2 , … #配置日志信息输出目的地 (Appenders) log4j.appender.appenderName = fully.qualified.name.of.appender.class log4j.appender.appenderName.option1 = value1 … log4j.appender.appenderName.optionN = valueN #配置日志信息的格式（Layouts） log4j.appender.appenderName.layout = fully.qualified.name.of.layout.class log4j.appender.appenderName.layout.option1 = value1 … log4j.</description>
+    </item>
+    
+    <item>
+      <title>java 线程与池</title>
+      <link>https://Paladnix.github.io/posts/java/java-4/</link>
+      <pubDate>Tue, 25 Jul 2017 15:45:44 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/java-4/</guid>
+      <description>线程与池这两个东西在很多语言中都存在，这是一种编程模式。 池的思维是根本。举个例子，如果某个数据库有一个远程交互的API允许你写代码来远程操作，那么你如果不用池，每条命令都重新发起一个连接，然后要数据库认证身份，然后执行命令。这样的效率不高，你会很当然的想到我要把连接保持住，让多个命令的执行只进行一次身份认证。这个时候就引入池的概念。每次从池中取出对应的连接，执行完命令再放回到池里。 同样的思维在ACM比赛中我们常用内存池的方法来避免频繁申请内存。
+线程作为一种资源，也需要申请，申请也要开销，所以能将申请次数降低就可以提高效率，所以我们搞个池。 线程是一个进程的执行单元。一个进程中可以有若干线程，每个线程都是独立的执行单元。线程的调度比进程调度要快很多，因为线程调度的资源涉及更小。
+那么为什么要多线程？
+先来讲一下并行和并发。 并行：“真正的两个机器同时工作”； 并发：“看上去的同时执行的，实际上在同一个cpu上轮转执行的”； 并发的场景非常多，最基本的就是同时过来两个请求需要做，如果你是单线程的程序，就必须等待前一个完全做完再处理后面一个。如果你是多线程程序，就可以从线程池里取一个线程来处理新的请求，可以保证工作效率。这个地方其实有两个东西，一个是用户体验，一个是异步操作。前一个好理解，后一个讲一下我的理解。 现在很多时候我们都要将处理步骤拆成异步的来做，异步处理的实现方式其中就有多线程。同步就是我前一句代码没有做完，后面的代码后面的步骤就阻塞在那里了。如果我们用异步的方式，开一个新的线程来搞某个步骤。例如写日志和返回执行结果，我们就可以起一个线程去写日志，然后主线程直接返回处理结果，这个处理结果对日志是弱依赖的，日志写的如何并不影响我返回结果的操作，不能因为我日志写失败了我就不把结果返回去，有可能磁盘页被其他程序上锁了，一时半会儿都搞不完，这个时候多线程的优势就显现出来了。
+感觉到这里讲了很多东西，都可以讲的很细的，但是讲的太细看的人都没兴趣了，我自己也不需要写太多。
+如何实现多线程 # 在Java中封装的很好，用起来也很简单。实现多线程有两种方法，一种是继承Thread类，一种是实现Runable 接口。
+Thread # class Thread1 extends Thread{ private String name; public Thread1(String name) { this.name=name; } public void run() { for (int i = 0; i &amp;lt; 5; i++) { System.out.println(name + &amp;#34;运行 : &amp;#34; + i); try { sleep((int) Math.random() * 10); } catch (InterruptedException e) { e.printStackTrace(); } } } } public class Main { public static void main(String[] args) { Thread1 mTh1=new Thread1(&amp;#34;A&amp;#34;); Thread1 mTh2=new Thread1(&amp;#34;B&amp;#34;); mTh1.</description>
+    </item>
+    
+    <item>
+      <title>iterator 迭代器</title>
+      <link>https://Paladnix.github.io/posts/java/iterator/</link>
+      <pubDate>Sun, 23 Jul 2017 19:14:14 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/iterator/</guid>
+      <description>迭代器是一种对数据结构数据进行遍历的模式，也成为游标(Cursor)模式。这种模式为了适应各种被封装了的复杂数据结构的完全顺序遍历而设计。其设计思想依旧是封装的思想，屏蔽各种数据结构底层的存储差异，使用统一的方法来遍历所有的数据。
+C++ # 先以C++中的迭代器的使用来说一下。举两个常用的容器的例子。
+vector # 遍历、删除元素 # vector&amp;lt;int&amp;gt;::iterator it; for( it = A.begin(); it!=A.end(); it++){ cout &amp;lt;&amp;lt; *it &amp;lt;&amp;lt; endl; if(*it == 3){ A.erase(it); } } /* 上面这种写法是有问题的，当你删掉3这元素的时候，it再++，直接就到了5了，4就跳过去了。 因为erase后，后面的元素都会前移。 从这里我们可以看到，vector中的迭代器应该就是指针。 正确的写法如下： */ vector&amp;lt;int&amp;gt;::iterator it; for( it = A.begin(); it!=A.end(); it++){ cout &amp;lt;&amp;lt; *it &amp;lt;&amp;lt; endl; if(*it == 3){ vector&amp;lt;int&amp;gt;::iterator it_tmp = it; it--; A.erase(it_tmp); } } set # set&amp;lt;int&amp;gt;::iterator it; for(it = S.begin(); it!=S.end(); it++){ cout &amp;lt;&amp;lt; *it &amp;lt;&amp;lt; endl; if(*it == 3){ set&amp;lt;int&amp;gt;::iterator it_tmp=it; it--; S.</description>
+    </item>
+    
+    <item>
+      <title>Java Exception &amp; Error</title>
+      <link>https://Paladnix.github.io/posts/java/java-exception/</link>
+      <pubDate>Thu, 13 Jul 2017 17:24:27 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/java-exception/</guid>
+      <description>你没有看错，这篇文章的tags中有人生。又一次开始思考人生，总有Bug想害朕。
+今天碰到了一个，算是一个BUG，跑出来是个ERROR，抛出了个Exception。讲道理，这些都是正常的，但是很不讲道理，这个错误报的我望而却步，这个异常更是一头雾水。Just A Fuck For You.
+当我拿到这个集群巡检程序的时候，我认为应该是很简单的部署上服务器就可以了，因为这是一个已经在线上运行的包，我只要改改参数在日常环境跑起来就可以了。然而，真正的魔术开始了。日常环境与线上环境居然差异很大，包括巡检的目标集群、结果数据库机器等都要改。这个还算好，虽然我不知道，但是有师兄在搞搞还是比较简单的，然后就上线，运行。
+第一个问题就是找不到主类。我懵逼，居然连启动都起不起来。好在还有进一步的报错信息，原来是找不到log的包。但是我在本地可以启动，我一直以为打jar包的时候会打依赖进去，结果是并不会打依赖包。这个是学艺不精，经验不足。于是把本地所有依赖包怼进服务器。这次顺利的启动起来了。
+然后就开始报错，几乎所有集群都拒绝访问。这尼玛就很尴尬了，我对整个项目一无所知啊。那就去问一下呗： “师兄，这个巡检被拒绝访问了，所有集群都访问不到。” &amp;ndash;“有点忙，你自己先看看。” “我看不懂啊，先给我讲讲这个整体逻辑啊” &amp;ndash;“没空” &amp;hellip;
+然后就开始了一下午的生不如死。哼，回家睡觉！不干了！ 第二天来到，我决定再深入看一下代码，应该能从代码中找到问题。作为ACM选手，从来就没有机器DEBUG的习惯，眼爆bug在C++100多行的代码里还是很快的，但是在Java里就有点懵逼了。Java的代码你说长，其实也不长。但就是会让你抓狂，自己看自己写的Java项目那是怎么看怎么喜欢。去看看其他人的Java项目，呵呵。写一个大工程当然就是要功能块分拆，功能隔离，减少代码内耦合，利于修改调整，兼具灵活性与健壮性。所以Java代码的特点就是不断的继承，类间调用，流程拆分……有的时候一个很简单的功能可能要涉及7、8个类和接口，所以看代码，就要有个够大的脑内栈空间。但是，就算难看，也不机器DEBUG，手动DEBUG的基本功还是有的。
+但凡报错靠谱点，都没有那么难，痛苦就在于，他报的错误与真正引起错误的地方相差太远，异常却又报的模模糊糊。首先是拒绝连接错误，现在代码里找到所有要访问的集群IP，打出来。然后找师兄去确认，集群是否在用，就这一个工作就前前后后搞了两个多小时，都在忙的不亦乐乎。集群有问题就好办多了，因为这锅就可以甩出去啦，偏偏机器没有问题。既然机器本身没有问题，那就只有代码的问题了。
+坑就坑在这次抛出的异常居然没有抛出一场的地点信息。或者说异常信息说明的地点距离异常真正发生的位置也有一段距离。主异常是有连接器客户端抛出的，抛出信息就是链接失败啦。然而依靠其抛出的异常栈只能找到发出链接请求的这个类，再往下就没有栈内信息了。然后就去看调用的函数，结果一进去发现这个类没有抛出异常，而是自己处理掉了。这本应该是非常值得表扬的，因为捕获了异常意味着这个异常是可以被预料并处理的，所以优秀的程序员都会在能处理的情况下都处理掉，如果是一些不好处理的，或需要根据使用者的需求来处理就继续向上抛，抛给函数使用者去处理。很多初级的Java程序员最常见的做法就是捕获这个异常，然后打印出来，交给运维去发现异常再回来改代码。我手里的这个类并没有抛出异常，而是把一场catch下来自己处理掉了。但是他只处理了其中的IO异常，还有一个可抛出异常也被他catch下来了，并且仅仅是打印到了log里，所以我就只能从日志中追踪到这里了。然而由于没有抛出，所以也就没有信息表明这个一场出现在上面的哪个位置，只能手动二分位置查错了。这个的原理很简单，就是发生异常位置以后的代码都不会被执行，所以只要在其中夹杂一些输出语句，就可以定位到出错的那句了。接下来定位到一个新的类中，至于这个类是干什么的我也不清楚，但是可以找bug。而这个函数就完全没有抛出异常也没有捕获异常，所以这个就要对函数里所有代码都做二分定位，而不是像刚才一样只定位try代码块中的代码就可以了。几个过大概5轮定位，又定位到了一个新的类里，通过对新的这个类的定位，可以基本确定异常就来源于这个函数中的某一句。异常信息中有一个是数字格式错误，通过上面的分析，我也基本上确定在这里发生的就是这个格式错误的异常，由于函数参数中只有一个double的参数，就重点找他的问题。先输出了他的值，发现没有问题。然后发现代码中他与另外一个变量做了比较，而定位异常位置也就发生在这个比较代码块中，参与比较的另外一个是从配置文件中提取的数据。经过往回找这个配置文件的参数选项，发现问题竟然是因为拼写错误导致找不到这个配置选项，所以这条语句的值变成了if( double &amp;gt; null ) 然后就有了这个数字格式错误的异常了。
+草泥马我的心好累。代码中写的是max_master_clients，然而配置文件中是master_max_clients，真不知道线上的那个代码是怎么跑的，害怕。
+异常 Exception # 通过上面的故事，你应该已经了解了Exception的一些特性了。下面具体的介绍一下，以及正确用法！</description>
+    </item>
+    
+    <item>
+      <title>tomcat</title>
+      <link>https://Paladnix.github.io/posts/web/tomcat/</link>
+      <pubDate>Wed, 12 Jul 2017 11:06:56 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/web/tomcat/</guid>
+      <description>日志 # Tomcat的日志系统还算很完善的。来看一下，当你的应用出现问题的时候要去哪里找原因吧。
+apache-tomcat/logs/ |_ catalina.2017-07-12.log |_ catalina.out |_ host-manager.2017-07-12.log |_ localhost.2017-07-12.log |_ localhost_access_log.2017-07-12.txt |_ manager.2017-07-10.log |_ 对应的App应用的log文件夹，取决与你项目用的日志工具。 catalina.out 这里的数据都是代码输出到标准输出流的重定向，所以你的SOUT都在这里。 localhost.DATE.log 是你的应用抛出的错误，如页面运行错误，servlet错误等，常用查错工具。 其实目前我也就用过以上两种日志，可能用法还是不太对，入门的时候查日志感觉日志乱的要死。其实这个也不影响使用就是很影响心情，找错误一般可以直接搜索字符串定位就好了。但是我自己感觉还是要在项目开发之前就做好日志的规划工作，什么时候要打log什么时候不打，log的格式是怎样的。心情必须照顾！
+tomcat 安装到发布应用 # 这一部分非常简单。
+安装 # 下载tomcat-core代码包,并解压。 到其bin/目录下，linux执行./startup.sh, windows执行startup.bat脚本。 前提是需要配置JDK到环境变量。 打开http://IP:8080 查看效果。 发布应用 # 将你的应用编译打包成一个war包，然后copy到其webapps文件夹下，通过http://IP:8080/NameOfWar访问。 如何开发Java Web？你需要了解：servlet、SpringMVC、maven、javaBean等。
+tomcat 源码梳理 # 打算看一下源码是怎么玩的，也有可能看不下去，坑先挖上&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>JDBC</title>
+      <link>https://Paladnix.github.io/posts/java/jdbc/</link>
+      <pubDate>Sun, 09 Jul 2017 15:25:31 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/jdbc/</guid>
+      <description>JDBC(Java DataBase Connectivity) 这是JDK中集成的一个数据库API，可以访问任何类型表列数据，特别是存储在关系数据库中的数据。 本文以mysql为例。
+所谓数据库交互，无非就是那么几个部分：建立连接，执行SQL，取回数据。JDBC的设计思路被Php借鉴过去后就产生了PDO，跟JDBC一曲同工，加之轻量级，然后就感觉很好的样子&amp;hellip; 与数据库交互体现在程序上，也无非就是那么几个部分：引入包，实例化对象，调用函数。
+那么学习JDBC学他的什么？学会了怎么用然后呢？可以学习其设计思路，有的时候，从设计思路来学习怎么用会比直接学怎么用要容易，Let me show you.
+架构 # 现在把自己当成设计者，从设计的角度出发来看JDBC。 你要做的事情是将市面上诸多数据库整合到一起，给Java程序提供一个格式统一的工具。用更学术的语言来表达就是将底层差异屏蔽掉，抽象出一个数据库抽象层，使得数据库对于Java程序透明（学术其实也是将事物统一整理成一个较高的层次，忽略底层实现差异，用思想指导实践。例如当你碰到一个新的问题，整体十分复杂，你不可能直接就想到一个实践方法将其实现，这个时候就需要知识来抽象这个问题，当问题抽象到了某个知识领域内，这个问题就可以再从抽象顺着这个知识往下拆解，最后落实到具体实践跟抽象知识已经没什么关系了）。
+要实现统一接口，我们借鉴操作系统与硬件之间的做法，就是每个数据库按照我给的一个标准来写你自己的驱动程序，这个标准就是初步将数据库之间的差异屏蔽，例如我规定所有的select语句由什么函数执行，返回什么格式的数据等。这就是底层的Driver。
+再往上，我们需要一个统一的入口。在Java中，不同数据库实现的Driver肯定是不同的类，这样的话难道我们要用什么数据库就用什么类吗？当然能透明就透明，最好是我在参数中体现我要用什么数据库，灵活性更大。所以这个时候我们在几个类上面在做一个抽象，抽出来一个Manager，这个Manage负责数据库的选择，动态实例化，连接等等乱七八糟的事情，然后这个manage在整理封装成JDBC API提供给Java程序使用。
+Over.
+但是你知道了怎么设计，还是没有卵用，哈哈哈呵呵！上面已经说过了，当你具体实践的时候已经跟上层知识没有什么关系了，但是你会很快理解具体该怎么做。
+实例 # jdbc简单的使用差不多在下面的代码中都有体现，另外我对于这个资源关闭的问题还有点迷惑，因为在jdbc的代码中实现了一个Autocloseable的接口，对于当前版本的JDBC要不要显示关闭资源的问题，有可能是不需要的。有待深入了解这个AutoCloseAble接口。
+//STEP 1. Import required packages import java.sql.*; public class FirstExample { // JDBC driver name and database URL static final String JDBC_DRIVER = &amp;#34;com.mysql.jdbc.Driver&amp;#34;; static final String DB_URL = &amp;#34;jdbc:mysql://localhost/emp&amp;#34;; // URL 格式(mysql)： jdbc:mysql://host:port/databaseName // Database credentials static final String USER = &amp;#34;root&amp;#34;; static final String PASS = &amp;#34;123456&amp;#34;; public static void main(String[] args) { Connection conn = null; PreparedStatement stmt = null; try{ //STEP 2: Register JDBC driver // JDBC要求要显式注册你要用的驱动类 // 这个代码就是让JVM加载对应的类，并执行其中的静态代码。 Class.</description>
+    </item>
+    
+    <item>
+      <title>Java-反射</title>
+      <link>https://Paladnix.github.io/posts/java/java-3/</link>
+      <pubDate>Tue, 04 Jul 2017 20:41:16 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/java-3/</guid>
+      <description>Java某些特性决定了他今天的地位，反射就是其中之一。
+反射是一种在运行过程中使用的，对于任意一个对象都可以获得他所属的类，进而都能够获取他的任意的方法和属性。我对反射的理解就是可以实现动态调用。 最常见的应用场景就是在Java的Web框架中，就是根据一些路由信息来定位到某个类的某个函数，定位到这个函数后就要启动这个函数。不可能写N多个if-else来匹配是否是当前类，是否是这个函数，我们希望的就是我传个参数，然后就能动态调用这个函数。至于类的实例化，函数的调用，交给JVM来做，这就是反射的意义。也是一种语言特性，很多解释型语言都具备这一特性，例如php等，其实java究其本质也算是一个解释型语言，只是有一个预编译的过程，编译出来的字节码也还是要用java虚拟机来解释执行。
+实例化对象并调用对应函数 # 使用反射可以根据类名称来实例化对象，调用函数，传递参数。 这一部分涉及到的内容还是很多的，比如可变长参数，反射的机制，函数的重载问题等。
+首先要获取我们要调用的函数，所以第一步先Class.forName()。这个函数是让JVM去加载这个类，然后获取其对应的函数getMethod()。在获取函数的时候会涉及重载的问题，多个函数名称一样的函数会被随机获取，我们可以通过制定参数类型的方式来确定我们要获取的函数具体是哪一个，下面的例子中就有这个问题的体现。后面还会有一个函数的重载的问题，有待求证。
+获得了函数，接下来就可以做调用了， invoke函数参数列表也是可变的，第一个参数是执行函数的实例，如果是静态函数第一个参数就是null。这里我是先new了一个实例，然后传进去的，一般也可以在第一个参数的位置上写class1.newInstance()，然后就是参数列表了，按照与原函数参数顺序一致的顺序填进去就可以了。我在例子中用的是另外一种方式，也是由于目标函数的参数列表并不是普通的参数导致的，这也是一个坑点。
+如果你要调用的函数有一个可变长的参数，你就得绕个弯。一般我们调用可变长参数的函数的时候就是传一个数组进去就可以了，但是这里并不可以，如果参数位置是一个数组的话就会报IllegalArgumentException: wrong number of arguments。然后就发现这个invoke本身就是一个参数可变长的函数，所以当我们把参数传进去之后被JVM拆成了单项，这样再往我们要调用的函数里传的时候就会参数数量不一致。这个是由于JVM会做拆分导致的，为了避免这个问题就把参数搞成JVM不会拆分的数据结构，这样做个整体传进去就可以了。下面的代码里就是使用Object来解决这个问题，可能也有其他的方式。
+package com.paladnix /** * Created by paladnix on 17-7-17. */ public class TestReflect { public static void main(String[] args) throws Exception { String className = &amp;#34;com.paladnix.TestReflect&amp;#34;; String methodName = &amp;#34;exec&amp;#34;; Class&amp;lt;?&amp;gt; class1 = Class.forName(className); TestReflect testInstance = new TestReflect(); Method method = class1.getMethod(methodName, String.class); // 调用exec(String args) // Method method = class1.getMethod(methodName, String[].class); // 调用exec(String... args) String[] params = new String[3]; params[0] = &amp;#34;123&amp;#34;; params[1] = &amp;#34;234&amp;#34;; params[2] = &amp;#34;345&amp;#34;; Object[] p = new Object[]{params}; System.</description>
+    </item>
+    
+    <item>
+      <title>Java 基础数据结构</title>
+      <link>https://Paladnix.github.io/posts/java/java-2/</link>
+      <pubDate>Mon, 03 Jul 2017 22:00:27 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/java-2/</guid>
+      <description>最近在高频率的开新坑，所以博客也就高频率的开新东西，但是由于精力有限而且需求不是很大，所以在很多问题上暂时是不求深解的。浅尝辄止，还要去快攻下一个堡垒。但是以后都是要补回来的。。
+但是这个应该不是浅尝，因为会经常用到。
+String # 其构造方法比较特殊，可以直接等于赋值，也可以用严格的Java面向对象的写法。
+构造 # String s = &amp;#34;abc&amp;#34;; s = &amp;#34;abc&amp;#34; String s = new String(&amp;#34;abc&amp;#34;); char[] data = {&amp;#39;a&amp;#39;,&amp;#39;b&amp;#39;,&amp;#39;c&amp;#39;}; String s = new String(data); String str = s.subString(1,2); //start from 1, length=2 方法 # charAt(int ); length(); replace(char old, char new); // 常见的对象转换成字符串与转换回去的问题。 // 待补充 String对象是不可改变的。每次使用 System.String类中的方法之一时，都要在内存中创建一个新的字符串对象，这就需要为该新对象分配新的空间。在需要对字符串执行重复修改的情况下，与创建新的 String对象相关的系统开销可能会非常昂贵。如果要修改字符串而不创建新的对象，则可以使用System.Text.StringBuilder类。例如，当在一个循环中将许多字符串连接在一起时，使用 StringBuilder类可以提升性能。
+StringBuilder # 其一般使用方式很简单。
+StringBuilder sb = new StringBuilder(); sb.append(&amp;#34;abc&amp;#34;+&amp;#34;bbc&amp;#34;); sb.append(1.0); System.out.println(sb.toString()); 至于StringBuffer，可以理解为线程安全的StringBuilder。Builder的是非线程安全的，Buffer是安全的。所以在单线程的时候就可以使用StringBuilder。在速度上是 Builder &amp;gt; Buffer &amp;gt; String 。</description>
+    </item>
+    
+    <item>
+      <title>Maven</title>
+      <link>https://Paladnix.github.io/posts/java/maven-1/</link>
+      <pubDate>Sun, 02 Jul 2017 21:48:02 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/maven-1/</guid>
+      <description>使用maven已经是不可避免的事情了，如果你是个java工程师的话。并且，使用maven基本上是你最好的选择。但是我并不喜欢用IDE来集成maven，这算是强迫症，命令行强迫症。
+Maven 是什么？ # 传说他的功能十分强大，目前我感受到的是如下几个功能：
+自动构建项目结构，根据不同的框架需求 自动包依赖管理 自动编译工程 自动启动测试 总而言之就是恰到好处的做了你觉得很麻烦又没有必要自己做的事情。 安装 # 跟JDK是一个思路的，在环境变量中添加M2_HOME即可。
+使用 # # 创建Java Web 项目 mvn archetype:generate -DgroupId=com.hello -DartifactId=hello -DarchetypeArtifactId=maven-archetype-webapp # 生成项目 mvn install # 发布到tomcat # 复制生成的./target/xxx.war到tomcat目录下的webapps中去，如果不能访问就重启一下tomcat。 上述是将项目自带的helloworld页面显示出来，我们自己使用会用到一个更核心的方法&amp;ndash;配置文件。
+pom.xml # 这个配置文件是maven的核心。
+在创建好的文件夹中有一个pom.xml 这里的内容分成两部分，一部分是你的项目基本信心，叫啥，啥版本的等等；还有一部分是我们要配置的部分。这一部分又分成好几部分，有依赖关系(dependencies)、生成(build)等等。
+下面是一个Maven的基本结构
+&amp;lt;project xmlns=&amp;#34;http://maven.apache.org/POM/4.0.0&amp;#34; xmlns:xsi=&amp;#34;http://www.w3.org/2001/XMLSchema-instance&amp;#34; xsi:schemaLocation=&amp;#34;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&amp;#34;&amp;gt; &amp;lt;modelVersion&amp;gt;4.0.0&amp;lt;/modelVersion&amp;gt; &amp;lt;!-- The Basics --&amp;gt; &amp;lt;groupId&amp;gt;...&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;...&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;...&amp;lt;/version&amp;gt; &amp;lt;packaging&amp;gt;...&amp;lt;/packaging&amp;gt; &amp;lt;dependencies&amp;gt;...&amp;lt;/dependencies&amp;gt; &amp;lt;parent&amp;gt;...&amp;lt;/parent&amp;gt; &amp;lt;dependencyManagement&amp;gt;...&amp;lt;/dependencyManagement&amp;gt; &amp;lt;modules&amp;gt;...&amp;lt;/modules&amp;gt; &amp;lt;properties&amp;gt;...&amp;lt;/properties&amp;gt; &amp;lt;!-- Build Settings --&amp;gt; &amp;lt;build&amp;gt;...&amp;lt;/build&amp;gt; &amp;lt;reporting&amp;gt;...&amp;lt;/reporting&amp;gt; &amp;lt;!-- More Project Information --&amp;gt; &amp;lt;name&amp;gt;...&amp;lt;/name&amp;gt; &amp;lt;description&amp;gt;.</description>
+    </item>
+    
+    <item>
+      <title>jersey</title>
+      <link>https://Paladnix.github.io/posts/java/jersey/</link>
+      <pubDate>Sat, 01 Jul 2017 20:32:52 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/jersey/</guid>
+      <description>jersy是一个Web Service的框架，据说是符合RESTful架构的一种框架，这是一种新的思路，而不是新的技术，是对于前端的各种技术而言，所设计的后台实现方式，力图以一种统一的方便的方式组织为前端提供数据。 jersey的官网.
+此次接触这个框架是业务需要了，但是，觉得这个框架比较简单，正好也有时间，所以就做一个学习实验，探索一下在资源短缺的情况下如何学习一个新的东西。事实上资源也确实不是很多，这一次主要依靠官方文档学习使用。
+原本打算直接上代码的，但是在官网上看了一会后就发现有好多名词解释的问题。那就先来看几个名词。
+首先第一个就是JAX-RS，这是JAVA EE6引进的新技术，全称Java api for RESTful Web Service. 主要是使用了注解的形式来简化Web开发和部署。然后跟Jersey的关系是Jersey实现了JAX-RS的框架接口，并且扩展了更多的东西，提供了自己的API。
+然后学习Jersey的第一步就是搞懂他的路由方式，在这里就是注解了。
+在讲注解之前还有一个不是很重要的名词：POJO(Plain Old Java Object), 称之为简单一般Java对象，这个概念是与JavaBean做区分的。其实没有什么必要，引用Martin Fowler的一句话：
+“我们疑惑为什么人们不喜欢在他们的系统中使用普通的对象，我们得到的结论是——普通的对象缺少一个响亮的名字，因此我们给它们起了一个，并且取得了很好的效果。” ——Martin Fowler
+所以事实上也就是个名词，所谓简单Java对象就是不包含业务逻辑的对象，一般用于描述数据实体。具体的区别等到写JavaBean的时候就看出来了，这里不讲了。
+在我手中的项目使用了其中的两个包，maven代码如下：
+&amp;lt;!-- jersey --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.glassfish.jersey.containers&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;jersey-container-servlet&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;2.25&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.glassfish.jersey.core&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;jersey-client&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;2.25&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 可以看到一个是servlet的Container，另外一个是client客户端。具体的用法，等到用到再说。
+注解路由 # 这里用的路由就是JAX-RS的规范。（一次写不完，慢慢补充）。
+@Path # 这个注解的原文解释非常好，所以有时间的还是去看一下原文是怎么写的吧，下面我就结合自己理解写一下。
+这个@Path注解的内容是一个相对的URI路径，由其注解的类会被相应的路径访问到。
+在下面这个例子中可以看到，这个类被一个@Path注解为&amp;quot;printers&amp;quot;，当URL路径为/printers的时候就会路由到这个类中，那么这个类有那么多函数，调用那个函数呢？下面还有子路径以及路径的通信方式。
+首先HTTP-Methods都是被支持的，常用的有：
+@POST @GET @PUT @DELETE 并且对于每个函数都可以进行@Path的进一步注解，有过Web开发经验的人都知道是怎么玩的。如果你的URL路径是/printers/list， 就会定位到getListOfPrinters()函数。同理可知其他的用法。 需要说的可能是如果一个函数没有注解而其他的函数有注解，在路径为printers的时候就会定位那个没有注解的，因为其他的都是精确匹配的，按照精确匹配无法匹配到其他的函数，这个是不精确匹配的，所以就过来了。 对于/，开始和结尾的位置可以加可以不加，都能够被解析。除此以外，这里还有些内容你可能看不太懂，下面会讲。
+@Path(&amp;#34;/printers&amp;#34;) public class PrintersResource { @GET @Produces({&amp;#34;application/json&amp;#34;, &amp;#34;application/xml&amp;#34;}) public WebResourceList getMyResources() { ... } @GET @Path(&amp;#34;/list&amp;#34;) @Produces({&amp;#34;application/json&amp;#34;, &amp;#34;application/xml&amp;#34;}) public WebResourceList getListOfPrinters() { .</description>
+    </item>
+    
+    <item>
+      <title>Java 抽象与接口</title>
+      <link>https://Paladnix.github.io/posts/java/java-1/</link>
+      <pubDate>Mon, 29 May 2017 04:24:56 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/java-1/</guid>
+      <description>在使用Java的过程中最主要的就是接口、继承这些东西。其实概念十分的简单，只是名字特殊了点，设计的技巧性较强。
+之前听到有人在思考抽象类和接口的区别，以及为什么要两个都存在。但是，可能是我的见识太短，并没有这样的疑问。
+抽象 # 面向对象编程抽象是避不开的内容，最经典的动物类，没有任何一种生物你可以说他就是动物，但是就是有动物这个概念，所以动物就是思维的抽象。良好的设计就要这样从抽象一步一步实例化最后具象为实体。 那么对于抽象的类来说，有一些东西就没有办法确定，比如动物的行走是用腿还是用腹？这个在动物类中无法确定，所以就需要先抽象着。
+抽象类用修饰符abstract 修饰，并且抽象类不可以实例化，所以就不能用final来叠加修饰。抽象类可以没有抽象函数，但是有抽象函数的类必须定义为抽象类。
+抽象函数 # 就是只有声明没有定义的函数，声明如下：
+public abstract boolean Update(); 抽象类 # public abstract class A{ ... } 接口 # 与抽象类最大的不同就是，这并不是个类。接口不是类。所以这两个东西在本质上就不一样，所以我不认为二者有什么好冲突的。
+而且最重要的就是，在Java中类是单一继承的，也就是说一个类只有一个父亲。那么对于从动物类派生出来的陆地动物、水生动物来说是没有什么问题，但是对于一个两栖动物就很尴尬，他没办法从上面的两个类中做继承，你要单独分出一个两栖动物也不是不可以，但是如果在一个系统中这样的复杂类型非常多就非常的麻烦了，然而在C++中是可以多继承的，于是就出现了接口这个东西。
+接口是一种特殊的、完全没有实现的类。其中所有的方法都是没有实现的，且其中的域全都是常量。
+接口的定义 # public interface interfaceName [extends superInterface1, superInterface2, ...]{ // 常量定义(类型已经默认，可以省略不写) [public] [static] [final] type Name = constValue; // 方法定义 [public] [abstract] returnType functionName(params)[throws exceptionList]{ ... } } 在子接口中对父接口的函数可以进行覆盖。
+接口的实现 # public class A implements Interface1, Interface2, ...{ // 必须实现所有的接口函数 } public abstract class A implements Interface1, Interface2, .</description>
+    </item>
+    
+    <item>
+      <title>OOP中的-控制修饰符</title>
+      <link>https://Paladnix.github.io/posts/c&#43;&#43;/accessmodifier/</link>
+      <pubDate>Sat, 27 May 2017 15:55:04 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/c&#43;&#43;/accessmodifier/</guid>
+      <description>面向对象编程(Object-Oriented Programming)中,最初开始接触到的就是访问控制修饰符。访问控制修饰是几乎所有的OOP语言都会涉及到的，下面就整理三个我熟悉的语言。
+C/C++ # 更详细的内容可以参考《C++ primer》-类 这一章。
+概述 # 有三种修饰符，分别：private、public、protected。其中最后一个protected是在继承出现以后才有效的。对于无论是成员变量还是成员函数，这些修饰符都具有相同的作用，即访问控制。其设计的主要作用是为了防止封装的类内成员被类的使用者无意更改或误操作，同时，对访问权限的限制可以实现代码间的松耦合。在类内算法做调整的过程中保持使用者可调用的代码接口，只更改私有函数等。 在详述各个控制符之前要讲一下struct 和class的区别。二者都可以用来定义类，唯一的不同就是默认的访问权限不同。struct的第一个修饰符之前定义的成员默认是public的，但是class是默认private的。
+private 与 public # 这两个要一起来说，因为二相相生。private就是将控制权限制在类内，只能是类内的函数访问。public完全没有限制。这两个是最容易理解的，也没有什么好说的。
+protected # 比上面两个略复杂一点点。在没有继承的情况下，protected与private是一样的，所以protect之所以与private不同在于派生类的访问。其修饰的成员可以被派生类直接访问，但是不被派生类对象访问。这个有些博客写的不太严谨，protected无论什么时候都不能与public一样，也就是类的使用者不能直接访问。 换句话说，派生类可以将其修饰的成员当成自己的亲成员来访问，派生类内部可以用对象实例来访问，但是类外不行。
+举个例子：
+class Base{ protected: int m; ... } class A : public Base{ public: // Note-1 void Add(A &amp;amp; tmp){ tmp.m += 1; } ... } int main(){ A tmp; // Note-2 int x = tmp.m; return 0; } /* * 其中，Note-1的写法没有问题，但是Note-2的写法就是非法的。 */ friend # 有的时候我们的类成员不能被使用者直接访问，但是我需要让其他的一些非类内成员函数来访问，如重载运算符的时候需要被模板函数访问，所以又有了一个新的控制访问修饰符，这个修饰符只用来修饰一些函数或类的声明，也就是说可以让一些类或函数成为该类的友元，使得其可以访问类内的成员变量和成员函数，不受其他修饰符的限制。
+只能修饰非成员函数的声明，或其他类。 只能在类内修饰。 其声明不受其他几个修饰符影响。 友元关系不能传递, 也不可继承。 友元声明，只是声明了访问权限，并没有实际声明，如要使用该函数，仍然需要显示用普通声明再声明一次。 用作继承权限修饰符 # 除了用于成员权限声明，此三个修饰符海可以用来修饰类的继承方式，不同的继承方式使得基类成员在派生类中的权限不同。</description>
+    </item>
+    
+  </channel>
+</rss>

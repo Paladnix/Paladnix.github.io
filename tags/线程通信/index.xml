@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>线程通信 on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/%E7%BA%BF%E7%A8%8B%E9%80%9A%E4%BF%A1/</link>
+    <description>Recent content in 线程通信 on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 18 Aug 2017 14:44:10 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/%E7%BA%BF%E7%A8%8B%E9%80%9A%E4%BF%A1/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>java wait一种线程通信方式</title>
+      <link>https://Paladnix.github.io/posts/java/javawait/</link>
+      <pubDate>Fri, 18 Aug 2017 14:44:10 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/javawait/</guid>
+      <description>在一个异步改同步的工程中，有两种方式，一个是轮询，一个是中断。这里介绍一下中断的操作。
+在看这一部分之前你可能先要看下一篇文章，关于synchronized同步锁的问题。下面会用到。
+如果你的Java程序中有两个线程——即生产者和消费者，那么生产者可以通知消费者，让消费者开始消耗数据，因为队列缓冲区中有内容待消费（不为空）。相应的，消费者可以通知生产者可以开始生成更多的数据，因为当它消耗掉某些数据后缓冲区不再为满。
+wait # Object类中相关的方法有两个notify方法和三个wait方法： 因为wait和notify方法定义在Object类中，因此会被所有的类所继承。 这些方法都是final的，即它们都是不能被重写的，不能通过子类覆写去改变它们的行为。
+wait()方法使得当前线程必须要等待，等到另外一个线程调用notify()或者notifyAll()方法。 线程调用wait()方法，释放它对锁的拥有权，然后等待另外的线程来通知它（通知的方式是notify()或者notifyAll()方法），这样它才能重新获得锁的拥有权和恢复执行。
+要确保调用wait()方法的时候拥有锁，即，wait()方法的调用必须放在synchronized方法或synchronized块中。
+与sleep不同的是sleep不会释放锁。
+notify # notify()方法会唤醒一个等待当前对象的锁的线程。如果多个线程在等待，它们中的一个将会选择被唤醒。这种选择是随意的，和具体实现有关。(线程等待一个对象的锁是由于调用了wait方法中的一个)。
+被唤醒的县城也并不是直接就能执行，而是要进入到正常的线程竞争过程中。
+同样的你notify方法也要放在synchronized方法或者synchronized块中执行。
+正确的使用 # 除了要在同步的基础上使用以外，在书《Java并发实践》中，作者提出一定要在循环中使用wait。正确的代码应该是下面的样子：
+// The standard idiom for calling the wait method in Java synchronized (sharedObject) { while (condition) { sharedObject.wait(); // (Releases lock, and reacquires on wakeup) } // do action based upon condition e.g. take or put into queue } 在while循环里使用wait的目的，是在线程被唤醒的前后都持续检查条件是否被满足。如果条件并未改变，wait被调用之前notify的唤醒通知就来了，那么这个线程并不能保证被唤醒，有可能会导致死锁问题。
+这两个函数都是对于某个对象来说的，这个对象一定是一个多线程共享的对象。是同步，是利用锁的机制进行同步的。
+在生产者消费者的概念中，就是对产品的队列进行共享，所以wait()和notify()都是queue的动作，同时锁也是对于queue来说的。</description>
+    </item>
+    
+  </channel>
+</rss>

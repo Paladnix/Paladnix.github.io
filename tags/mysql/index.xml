@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mysql on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/mysql/</link>
+    <description>Recent content in Mysql on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 09 Jul 2017 15:26:31 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SQL进阶</title>
+      <link>https://Paladnix.github.io/posts/others/sql/</link>
+      <pubDate>Sun, 09 Jul 2017 15:26:31 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/sql/</guid>
+      <description>本文不介绍最简单的增删改查，而是对于SQL的进阶语句的介绍，顺便研究一下其内部实现。
+Join # 由浅入深，从使用到优化。
+概述 # Join一般会有人称为级联查询，我表示这个名称还算直观。其应用场景有那么几种：
+某个表中的某些字段需要另一个表来做精细描述。比如职工表中职工等级需要等级表来进一步详细描述该等级的权限、福利等。当我们需要某个人的信息的时候一定是从职工表拉取记录并且需要再从等级表中拉取具体信息合并呈现。 某个人的全方位信息存放在不同的表中，要想得到完整信息就要多表查询合并结果。 上面两种场景都是涉及了两个及以上的表，这就是join的使用场景特点。
+SQL语句 # select col_a, col_b, ... from tb_1 join tb_2 on tb_1.col_a = tb_2.col_a where ... ; 其最主要的特点就是from的来源发生了变化，所以我们可以理解为这个sql语句生成了一个新的表，并从这个新表中获取了符合where条件的记录。所以这个join我们看作是对表的一种运算，运算的结果是一张新的表。 这个join运算有一个on的条件，也就是在这个on的基础上进行运算。
+Join 运算一共有四种：
+inner join （内连接） outer join （外连接） left outer join （左外连接） right outer join （右外连接） 在讲这四种运算之前先要有一个笛卡尔积的概念。 笛卡尔积来源于离散数学中的集合操作，对于两个集合做笛卡尔积就是将两个集合中元素两两组合，生成一个新的集合，新集合中的每一项都是一个二元组(可以理解为一个数据包， 并且这个数据包是有序的，总是某一个集合的元素在前，另一个在后)。所以，如果两个集合的size分别是n,m， 那么笛卡尔积生成的集合size=n*m; 对于表做笛卡尔积，同理就是将两个表的记录两两组合生成一个巨大的新表，每条记录都是由两个表的记录拼接而成。 该概念仅用于理解运算结果的组成，并不是其实现方式。以下的操作可以理解为是在此基础上进行条件筛选，但事实上SQL使用的是循环的方式去查找结果。
+inner join # 其结果为：笛卡尔积中，符合on 条件的记录。
+outer join # 对于一条A表的记录，如果没有找到符合on条件的对应的B表记录，那么A表的此记录依然出现在结果集中，其对应的B表部分为NULL。 The same to B.
+left outer join # 根据outer join 的意思，可想而知，对于A找不到B的情况，保留A的记录，而对于B则滤掉相应记录。</description>
+    </item>
+    
+  </channel>
+</rss>

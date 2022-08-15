@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/posts/linux/</link>
+    <description>Recent content on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 13 Mar 2018 13:45:32 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/posts/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tutorial of Taskwarrior</title>
+      <link>https://Paladnix.github.io/posts/linux/taskwarrior/</link>
+      <pubDate>Tue, 13 Mar 2018 13:45:32 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/linux/taskwarrior/</guid>
+      <description>Taskwarrior 是一款命令行的TODO应用，功能强大，且使用逻辑简单方便，命令行的操作非常适合程序员。 （基本上能在命令行解决的问题就不要用GUI， 能用键盘解决的就不要用鼠标。）
+目前我使用到的功能有：
+添加task 给task修改所属的project、截至日期 更改task的状态，如：start、done 修改task的priority 添加tags给task 给task添加task依赖关系 &amp;hellip; 基本使用 # 添加 task task add xxxx [project:xxx] [priority:xx] [due:xx] 修改task状态 task ID start task ID done 修改task信息
+task ID modify [project:xx] [due:xx] [priority:xx] 其中due常用的选项有：
+eom : end of month 添加tags
+task ID modify +house +problem 其中有个特殊的tag是：next， 这回提升这个task的优先级。
+task ID modify +next 添加依赖关系 task ID modify depends:OTHER_ID 命令格式 # task [filter] [command] [modifications | miscellaneous]
+如果将Task比作一个类，可以把每个task都理解成一个实例。我们将实例存储在一个文件中，task就是用来处理这个文件的改动、信息筛选的命令。
+filter-筛选器 通过一些条件，筛选出我们每次操作的对象。 # 筛选所有pending的task，并计数 # task status:pending count # 筛选所有tag是work的，并计数 # task +work count # 筛选所有tag不包含work的，并计数 # task -work count 如果有多个条件，可以使and、or来进行连接</description>
+    </item>
+    
+    <item>
+      <title>Linux 定时任务</title>
+      <link>https://Paladnix.github.io/posts/linux/linux-timing/</link>
+      <pubDate>Fri, 05 Jan 2018 01:20:02 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/linux/linux-timing/</guid>
+      <description>很久以前就想找到一种定时执行任务的方法，下面介绍一种在Linux下通用的，也是最方便的方式。
+cron # 这是Linux内核自带的一个定时执行任务的服务。默认是不打开，可以设置成开机自动启动。
+要把cron设为在开机的时候自动启动，在 /etc/rc.d/rc.local 脚本中加入 /sbin/service crond start。
+这是一个周期性执行某个程序的服务，与at不同，at是一次性的服务。显然这个服务更常用一些。 很多周期性的任务，如定期清缓存，写磁盘，做备份等等。
+我用这个命令来自动更新我github.io上的博客代码。
+crontab # 这是cron提供的一个命令，用来设定定时任务。 定时任务非常的简单，就是利用配置文件来描述什么时候执行什么动作，所以设定任务也就要写明白这些参数就可以了。
+配置文件的基本格式 # 配置文件可以有很多个，存放在固定的目录下。服务启动以后会一起读取然后执行。
+配置文件每行是一个定时任务的描述，包括6个字段：
+分(0-59), 小时(0-23), 天(1-31), 月(1-12), 星期(0-7,0和7都是周日) 要执行的命令 举个例子：
+0 8,22 * * 1-5 echo &amp;#34;Hello&amp;#34; // 在周一到周五的8点和22点的时候输出”Hello“ // // * 通配符 // 同一个字段多个值，用逗号隔开。 // 1-5表示一个区间 这个配置文件很好写，就不多举例子了。
+启动服务 # sudo /etc/init.d/cron start // start sudo /etc/init.d/cron stop // stop sudo /etc/init.d/cron restart // restart crontab 用法 # 使用：
+crontab –e : 修改 crontab 文件，如果文件不存在会自动创建。 crontab –l : 显示 crontab 文件。 crontab -r : 删除 crontab 文件。 crontab -ir : 删除 crontab 文件前提醒用户。 其中，-e是编辑当前用户的配置文件，默认是存放在/var/spool/cron/crontabs/目录下。 只要服务启动着，编辑保存这个文件，定时任务就设定好了，有的时候可能真正执行会有1-2分钟的延时。</description>
+    </item>
+    
+    <item>
+      <title>《Linux 编程实践教程》- 1</title>
+      <link>https://Paladnix.github.io/posts/linux/linuxprogramming-1/</link>
+      <pubDate>Tue, 02 Jan 2018 16:15:13 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/linux/linuxprogramming-1/</guid>
+      <description>2018年恢复写博客的第一篇博客。
+「·最近在看书，主要是Linux相关的书，尽管即将要进行NLP的研究生阶段，但是回首自己的本科计算机编程经历其实非常浅薄。这两年的积淀在常用算法和数据结构上有一些，在一些基础理论上有一些，但是距离成为一个程序员还有很大的距离。综合各种因素，我选择将Linux学习更透彻作为程序员的落脚点。这是我作为程序员的自我修养。·」
+关于这本书 # 这是一本Linux的基础教材，2004翻译过来的。但是国内貌似很少用，作为了课外读物。
+这本书的落脚点是编程实践。其中贯穿着Linux的一些原理和使用，以及编程思维。
+包括：用户，文件系统，连接，事件驱动，进程通信，多线程，服务，协议等。以Linux的一些已经实现的功能为基础，进行讲解，再实现。 会涉及很多的编程细节的东西，这是上课不会讲到的。都非常的有意思。做到“知其然，知其所以然”。
+本书的风格和套路 # 此书适合初学者，但是任何初学者的书都不是完全适合初学者， 有很多概念和细节都需要读者有些了解才能更好读懂。 我在读本书之前的一天读了一部分《Linux系统编程》。这是一个偏底层概念和细节的书，主要在文件系统，I/O，进程，内存，信号，时间上去为Linux系统编程打细节基础，看起来没那么有趣，因为细节太多，但是确实把文件和I/O的概念给我打通了。 有了这些基础再看本书的第一章，并实现其中的more实例就省力很多。此前一个月左右我看过这一章，但是在写代码的时候还是非常不能理解一些细节。
+书中会给出全部的实现，但是并不是完整功能的实现，是一部分功能的完整实现。并将剩下的一些功能的实现作为扩展的作业。 在给出实现的时候，会讲相关的基础知识。
+比如在第二章讲Who命令的时候，会先告诉你man命令怎么用，以及文档各个部分是什么，怎么去看相关条目，从man手册的那些部分获得什么信息等。
+第一章：more命令的实现 # more命令比较简单的功能就是把文件的内容投射到终端上，并且可以向下翻页或翻行。要能从文件中读取也可以从管道中读取内容。
+在Linux一切皆文件的设计理念下，要知道各种I/O都可以作为文件来使用，也就是可以用打开文件的方式来打开。无论是文件、管道、设备(键盘)、重定向数据，都可以作为文件来打开读取。
+那么实现这样的功能就没有那么困难了。 整体逻辑就是：
+打开文件 读取一定的行数 提示翻页或下一行，接受键盘动作 作出反应，重复。 代码中用到了终端设置接口termios.h，让用户输入的操作不被显示，不用回车，直接进入程序。 用到了与终端用文件交互的方式tty。
+Code # #include &amp;lt;bits/stdc++.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;termios.h&amp;gt; using namespace std; const int PAGELEN = 24; const int LINELEN = 512; int see_more(FILE * cmd){ int c; printf(&amp;#34;\033[7m more? \033[m&amp;#34;); // 白色底色 while( (c = getc(cmd)) != EOF ){ if( c == &amp;#39;q&amp;#39; ){ return 0; } else if( c == &amp;#39; &amp;#39; ) return PAGELEN; else if(c == &amp;#39;\n&amp;#39;){ return 1; } } return 0; } void do_more( FILE * fp ){ char line[LINELEN]; int num_of_lines = 0; FILE * fp_tty = fopen(&amp;#34;/dev/tty&amp;#34;, &amp;#34;r&amp;#34;); // 一切皆文件，这个文件标志就是与终端交互。 struct termios initial_settings, new_settings; tcgetattr(fileno(fp_tty), &amp;amp;initial_settings); new_settings = initial_settings; // clflag 局部模式，只在本程序中有效。 new_settings.</description>
+    </item>
+    
+    <item>
+      <title>ubuntu-core</title>
+      <link>https://Paladnix.github.io/posts/linux/ubuntu-core/</link>
+      <pubDate>Wed, 15 Nov 2017 20:34:05 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/linux/ubuntu-core/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>curl</title>
+      <link>https://Paladnix.github.io/posts/linux/curl/</link>
+      <pubDate>Tue, 11 Jul 2017 17:37:47 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/linux/curl/</guid>
+      <description>linux下面自带的一个命令行工具，很常用，关键是很强大。
+supports # DICT, FILE, FTP, FTPS, Gopher, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, POP3, POP3S, RTMP, RTSP, SCP, SFTP, SMB, SMBS, SMTP, SMTPS, Telnet and TFTP.
+supports SSL certificates, HTTP POST, HTTP PUT, FTP uploading, HTTP form based upload, proxies, HTTP/2, cookies, user+password authentication (Basic, Plain, Digest, CRAM-MD5, NTLM, Negotiate and Kerberos)
+file transfer resume, proxy tunneling and more.
+基本上无所不能了。。。 这里是cURL的PDF版本说明文档，不是很难看懂，里面介绍了这个项目的起源发展、网络协议、如何使用等等。作者还有个很帅的名字：丹尼尔·斯坦伯格。
+作者写了这样一段话：
+Running curl from the command line was natural and Daniel never considered anything else than that it would output data on stdout, to the terminal, by default.</description>
+    </item>
+    
+  </channel>
+</rss>

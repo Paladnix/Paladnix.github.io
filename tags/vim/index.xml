@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vim on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/vim/</link>
+    <description>Recent content in Vim on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 24 Jul 2017 20:36:46 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/vim/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>VIM 花式进阶</title>
+      <link>https://Paladnix.github.io/posts/vim/vim/</link>
+      <pubDate>Mon, 24 Jul 2017 20:36:46 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/vim/vim/</guid>
+      <description>据说Vim在程序员鄙视链的顶端，呵呵，连编辑器都能用来鄙视别人的程序员肯定是个菜鸡。 但是一个Vim修炼之路真的是挺好玩的，一个编辑器居然能这么炫酷的写代码，这么强的扩展能力，和这么顺畅的操作，站上顶端也不是空有其名的，当然用Vim写代码的工程师的代码能力也不是浪得虚名。
+IDE有IDE的好处，个人喜欢Vim。
+所谓花式，就是没有章法，一点一点积累。
+Vim的剪切板-寄存器 # Vim有大概47块剪切板，牛逼坏了。也就是说你可以存N份不同的东西在不同的剪切板中，当要用那个东西的时候直接一键粘出来。这其中有一个误会，就是以前总以为Vim默认不支持系统剪切板，其实系统剪切板是这N块中的一块，只不过不是默认剪切板而已，怎么想都不可能没有系统剪切板的，只是自己不会用。 在Vim中，这些其实并不叫剪切板，而叫寄存器，功能比剪切板大很多。
+Vim中有10种寄存器，命令模式下：:help registers 就可以调出帮助文档。至于这10种寄存器具体的区别就不说了，列举一下都有那些寄存器。 寄存器的标志是&amp;quot;开头加寄存器名称。
+默认的无名寄存器&amp;quot;&amp;quot;，就是引号所代表的寄存器 &amp;quot;0-&amp;quot;9号寄存器 &amp;quot;a-&amp;quot;z 或&amp;quot;A-Z&amp;quot; 字母寄存器 &amp;quot;+ 寄存器，就是系统剪切板 其中默认的无名寄存器是我们平时剪切dd和复制yy用的剪切板。 如果我们要把一个东西存到某个寄存器，例如将某两行存在1号寄存器中，在普通模式下： 2&amp;quot;1y 这个命令地一个2是要复制的行数，然后是1号寄存器，然后是y复制。 要粘贴1号寄存器中的内容就在普通模式下： &amp;quot;1p 要想将系统剪切板的内容剪切到vim中就把&amp;quot;1换成&amp;quot;+ 就可以了。</description>
+    </item>
+    
+    <item>
+      <title>VIM 在ACM/ICPC中的非最佳实践</title>
+      <link>https://Paladnix.github.io/posts/acm/acm-vim/</link>
+      <pubDate>Sun, 23 Jul 2017 21:05:54 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/acm/acm-vim/</guid>
+      <description>5月份在看今年的Final直播，看到了ITMO队的屏幕的时候，看到一些骚操作，感觉自己是拿着冲锋枪当鸟枪使了。
+Vim确实十分强大，其强大是有原因的。最主要的原因是他本是依托终端存在的，他与终端有着非常强的联通。终端的强大一定程度上让vim变的很牛逼。不需要插件就可以在内置命令行。
+打比赛两年了，现在也算是个退役狗了，才发现自己并没有好好用vim这个神器，不仅仅是装逼。 第一年的时候简单会用vim来写代码，会简单的配置，会用一点点的快捷键。 第二年的时候会用更多的快捷键，并没有什么本质上的突破，除了会用一点bash脚本来加快测试等。
+本文将以ACM比赛场景作为线索，介绍一下Vim应该怎么用，以及，你为什么不要用IDE。
+比赛开始 # 按照我们队的分工，我在前2分钟负责配置vim环境和代码环境。这里推荐一个简明配置清单：
+vim ~/.vimrc set nu &amp;#34; 行号 set mouse=a &amp;#34; 鼠标可用 set shiftwidth=4 &amp;#34; 与tab宽度相关的 set tabstop=4 &amp;#34; tab宽度 set cindent &amp;#34; c语言风格缩进 set autoindent &amp;#34; 自动缩进 set cul &amp;#34; 高亮当前行 colorscheme desert &amp;#34; 配色，选用你平时用的最好 syntax on &amp;#34; 开启语法高亮 &amp;#34; 以下配置自己酌情 set noswapfile &amp;#34; 不产生交换文件，在意外退出没有保存的情况下刚写的代码就没有了。 &amp;#34; 好处就是不会在打开文件的时候提醒你交换文件，下面会讲怎么处理这种请况。 在配置完vim后，我会写一个头文件和主函数的模板，然后命令行给每一题都复制一份。 模板会写：所有会用到的头文件、主函数、输入格式、输出Case、常用的#define、typedef、const等。
+用一个四行的脚本来复制：
+#!/bin/bash for name in {A..M}; do cp a.cpp $name.cpp done # 我写的模板文件是a.cpp # 脚本名为copy.</description>
+    </item>
+    
+  </channel>
+</rss>

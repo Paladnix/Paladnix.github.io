@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/posts/git/</link>
+    <description>Recent content on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 21 Jan 2018 03:20:12 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/posts/git/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>git 进阶一</title>
+      <link>https://Paladnix.github.io/posts/git/advanced-git-1/</link>
+      <pubDate>Sun, 21 Jan 2018 03:20:12 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/git/advanced-git-1/</guid>
+      <description>最近总是在沉迷游戏，而且笔记本太老了，开枪太卡。 这样下去太影响学习了。 决定组个台式机，顺畅的打游戏。
+工作进度保存与恢复 # 这个功能主要针对的是工作区和暂存区，版本库是不需要保存的，因为他本身就是一种保存进度。
+使用git stash 命令会将工作区和暂存区的状态进行保存。 其完整版的命令是这样的:git stash [save [--patch] [-k | --[no-] keep-index] [-q | --quiet] [&amp;lt;message&amp;gt;] ] 其中，-k 参数会保留当前的暂存区，默认会重置暂存区。 这个命令会将工作区和暂存区的内容都重置到上一次提交的状态！ 这个也很好理解，按照我们模块化开发的思路，当我们写某个东西写到一半的时候，突然需要中断，然后去写另外一个东西，这个时候，不能把这个一半的东西放到代码中，所以会被重置会上一个提交。
+使用git stash list 命令可以查看已经保存的工作进度。
+使用git stash pop [--index] [&amp;lt;stash&amp;gt;] 可以恢复进度，--index参数指暂存区也恢复，否则只恢复工作区。stash参数就是list中的选项，可以定点恢复，否则恢复最近的一次。
+git stash clear
+git stash drop delete the newest one.
+git stash apply 恢复但是不删除。类似于pop;
+git stash branch &amp;lt;branch&amp;gt; 基于进度创建分支。
+需要注意的是，还没有被跟踪的文件是没有办法被保存的。
+Git 忽略追踪 # 很多文件诸如编译出来的文件，我们不应该放在git仓库中，这个时候要避免这类文件被追踪到，我们可以写一个文档来标注这些文件。
+在仓库的目录下写一个.gitignore 的文件，文件每一行写一条规则，对应匹配到的文件就会被忽略。这个文件的有效范围是包含其子目录的。
+gitignore 语法 # #开始或空行都会被忽略 可以使用通配符， *, ?, [abc]等。 以/开头，表示要忽略的文件在本目录中，而不是在子目录中 以/结尾，表示忽略整个文件夹, 不以/结尾的，同名的文件和文件夹都忽略。 以！开头表示本文件或目录不忽略，尽管之前有相关规则匹配到。 如果我们将这个文件加入到版本库中就会被版本库共享，给这个文件自己加一个忽略规则就不会被加入到版本库。</description>
+    </item>
+    
+    <item>
+      <title>git 进阶</title>
+      <link>https://Paladnix.github.io/posts/git/advanced-git/</link>
+      <pubDate>Sat, 06 Jan 2018 00:28:07 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/git/advanced-git/</guid>
+      <description>仓库概念 # 在git中，仓库的概念十分简单，也是最核心的概念之一。 仓库用一个文件夹来存储和描述，这个文件夹就在你项目的那个目录下，是个隐藏文件.git/。除此以外没有其他的位置存储这个仓库想关的信息。 这种仓库的概念非常的简约，会有一个问题，就是不小心删除的话就丢失了。因此，git的一般使用要至少进行多机备份仓库，这个备份是很简单的，在git的系统中，只是一个命令。
+概念的简约，是Linus设计作品的一个特点，linux的操作系统的很多概念都非常简约。例如文件系统的概念，无论是文件夹还是设备，统一使用文件的概念去设计和使用。在这里，一个版本控制的单元使用仓库的概念，且没有那么多复杂的控制文件，就在一个小小的文件夹里，拷贝走也完全可以使用。
+这种分布式仓库的概念中，没有主从关系，也没有中心关系，彼此是独立的，可以做仓库同步和融合，但是都是可控制的。
+工作区 &amp;amp; 暂存区 &amp;amp; 版本库 # 这三个概念是git的核心逻辑。
+工作区 ： 就是你的实际的目录和文件。 暂存区 ： 就是中间的一个过渡区，连接了版本库和工作区。 版本库 ： 就是实际存放各个版本和分支的地方。
+其原理是这样的，暂存区维护一份目录树，没有实际的文件。这个目录树与工作区的目录树是不一样的。工作区的目录树是操作系统中文件系统的目录树。暂存区就是存了一些文件名，时间戳，文件长度等信息。
+很多时候我们会有这样的经历，我想把一些密码设置的东西，或是笔记放在我当前的目录下，但是我并不想把这部分放到仓库中，因为我会把仓库共享出去的嘛。这个时候，这个文件是存在我的工作区的，但是并不在我的暂存区，由于仓库的目录树必须由暂存区的内容来写入，所以在版本库中也不会有。
+当我们对一些问件做了修改之后，使用git status -s就可以查看我们的当前哪些文件被修改但是没有提交到暂存区。
+使用git add XXX 可以将当前在工作区修改的部分提交到暂存区，这个时候暂存区的目录树会做出修改，更新相关文件的时间戳等信息。 同时，我们的文件内容会被写入到对象库中，生成一个新的对象。并且这个对象会有和ID，这个ID会被写入到暂存区的目录树中。
+使用git commit 的时候，会把暂存区的目录树更新到版本库中对应的分支的目录树中。 这个时候才是真正的写到了版本库中。
+使用git reset HEAD 的时候，暂存区的目录树会被版本库中的目录树覆盖，也就是还原到了上次你提交的版本。但是此时工作区的修改是不会受到影响的。
+使用git rm --cache &amp;lt;file&amp;gt; 的时候，会直接把暂存区的目录中对应的文件删除，但是工作区不受影响，不加--cache会将工作区的一并删除。
+使用git checkout 或 git checkout -- &amp;lt;file&amp;gt; 命令的时候，会用暂存区中的文件去替换工作区的文件。 也就是当你写一个东西，写着写着发现不好，需要去掉，但是你已经修改了很多个文件的很多个部分，手动删除不可能做到，你可以使用这个命令来把你工作区的内容回退到你之前提交到暂存区的时候的样子。 因此，选择合适的时机进行提交操作十分重要。要在自己的开发节点上及时add，及时commit。这样可以方便回退。
+使用git checkout HEAD 或 git checkout HEAD &amp;lt;file&amp;gt;，会用版本库中的对应分支的文件来替换暂存区和工作区的文件，这个动作可以参考上面一条，都是十分危险的动作。
+有了这三个东西， 会发现，你好像什么都可以得到。 你可以历史查看你每次提交的改动，每个文件的每次提交后的样子你都可以得到。你拥有了一个结构合理，体积很小，速度很快的，无所不知的版本控制系统。 优秀的设计！
+Git 对象 # 贯穿在git的各个元素中，都有40位的SHA1字符串的ID。每个ID都标志了一个对象，每个对象其实都是一个文件。 在git仓库的/objects/ 文件夹下，有一堆两个字母命名的文件夹，打开这些文件夹，里面是一些38位字符命名的文件，所以就是这40位的用法。</description>
+    </item>
+    
+    <item>
+      <title>git实战指南</title>
+      <link>https://Paladnix.github.io/posts/git/git/</link>
+      <pubDate>Tue, 01 Aug 2017 16:18:03 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/git/git/</guid>
+      <description>今天在往公司的gitlab上push项目的时候死活无法push上去，总是显示没有权限。报错信息上显示sshkey的问题，但是我在github上面都是好好的，搞了半天，我都翻出里git的配置文件改了好几遍都没有用，总之就是个垃圾。。。，后来我放弃了git协议，使用http协议手动认证身份就可以了。傻逼的错误信息如下：
+sign_and_send_pubkey: signing failed: agent refused operation Permission denied (publickey). fatal: Could not read from remote repository. Please make sure you have the correct access rights and the repository exists. 虽然体验不是很好但是用到了很多以前没有机会用的命令，实践出真知，今天就来总结一下实战中的git是怎么玩的。
+安装 # $ sudo apt install git 配置config # 在终端直接输入以下命令：
+$ git config --global user.name &amp;#34;John Doe&amp;#34; $ git config --global user.email johndoe@example.com 这个一般我们安装好就会配置一下，这个是全局的配置，如果你的项目中没有自己的配置就会使用这个配置。关于git的配置，你可以用如下的命令查看都有那些信息：
+$ git config -l 这会列出全局+当前目录下的git仓库的信息。如果你所在的目录不是个git仓库就只列出全局的配置信息。 当你不加-l的选项的时候，就会列出config常用的选项，其中有一些选项可以用来修改配置信息。这个当你需要用的时候自己在终端看一下就可以了。
+其中也告诉我们，git的配置可以每个项目都有一个配置，这个配置就在你的仓库.git/文件夹下的config文件中。全局的配置在~/.gitconfig文件中。
+ssh key # 在终端生成一个ssh key的命令如下：
+$ ssh-keygen -t rsa -C &amp;#34;e-mail@xxx.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://Paladnix.github.io/posts/git/git-checkout/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/git/git-checkout/</guid>
+      <description> checkout 主要用于 分支的切换 # 以当前(HEAD)分支为基础新建分支
+git checkout -b &amp;lt;NEW_BRANCH&amp;gt; 以某一分支为基础新建
+git checkout -b 新分支 基础分支 放弃修改 # 放弃未commit的修改
+git checkout -- filename 放弃所有未add到暂存区的修改
+git checkout . </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://Paladnix.github.io/posts/git/git-log/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/git/git-log/</guid>
+      <description>git log 是查看 当前分支 的commit记录的工具。
+以树状图的形式查看log记录。可以清晰的看出commit之间的关系。
+git log --graph 查看某个文件的历史修改记录
+git log -p [FILE_PATH] 如果不带[FILE_PATH]， 则显示commit的整体修改记录。
+查看commit的简要修改记录
+git log --name-status </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://Paladnix.github.io/posts/git/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/git/readme/</guid>
+      <description> Git 的使用主要包含几个方面： # Git 版本控制 Git 协同开发 TODO # rebase合并commit: https://kinboyw.github.io/2019/04/09/Git-%E5%8E%8B%E7%BC%A9%E5%A4%9A%E4%B8%AAcommit%E4%B8%BA%E5%8D%95%E4%B8%AAcommit/ </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://Paladnix.github.io/posts/git/rebase/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/git/rebase/</guid>
+      <description>参考文献： https://zhuanlan.zhihu.com/p/34197548
+rebase 常用于在分支之间进行合并，但是这个合并比merge要灵活很多。
+经常我们会创建新的分支feature来开发新的功能，有的时候我们的新功能要依赖于master上的新特性，或者为了master方便合并分支。我们需要拉去master上最新的代码。我们可以使用
+git checkout feature git rebase master 以上的代码，会找到feature与master分支的最近公共祖先LCA结点。然后以master的最新分支为基础重新提交feature上所有LCA之后的修改。得到一个新的提交。宏观上来看，相当于换基。
+git pull origin master --rebase 也可以使用这种方式来更新本地分支到最新。
+另一种用法 - 压缩本地commit # 在一个分支上开发的时候，经常会有多次commit，主要是为了方便进行回滚操作，但是对于提交来说，子分支带着过多的提交记录并不是一件好事情。因此我们可以将我们的一段线性提交压缩成一个提交。
+git rebase -i [start_commit_id] [end_commit_id] 上述代码将会打开一个交互模式的编辑器，罗列start至end之间的所有commit，你可以手动配置每个commit的处理方式。具体的有：
+p, pick &amp;lt;提交&amp;gt; = 使用提交 r, reword &amp;lt;提交&amp;gt; = 使用提交，但修改提交说明 e, edit &amp;lt;提交&amp;gt; = 使用提交，进入 shell 以便进行提交修补 s, squash &amp;lt;提交&amp;gt; = 使用提交，但融合到前一个提交 f, fixup &amp;lt;提交&amp;gt; = 类似于 &amp;ldquo;squash&amp;rdquo;，但丢弃提交说明日志 x, exec &amp;lt;命令&amp;gt; = 使用 shell 运行命令（此行剩余部分） b, break = 在此处停止（使用 &amp;lsquo;git rebase &amp;ndash;continue&amp;rsquo; 继续变基） d, drop &amp;lt;提交&amp;gt; = 删除提交 我们可以按照需求定制每个commit的去留。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://Paladnix.github.io/posts/git/reset/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/git/reset/</guid>
+      <description>reset 用于在仓库的历史版本中穿梭。但是要明确的一点，reset与工作区和暂存区没有半毛钱关系。仅仅是更改了仓库中的记录点。
+reset 有三种不同的模式：mixed（默认）、soft、hard
+场景1 - 希望删除最近几次的commit记录 # 注意这个场景仅仅是我们对于最近几次的commit记录的删除，而这几次commit所修改的内容是不会撤销的，依然体现在文件中。只是仓库的记录里没有这些改动。这些改动将会随着你的下一次commit重新提交到仓库。
+git reset commit_id # 撤销最近一次的commit，修改记录回到工作区 git reset HEAD^ 场景2 - 希望所有的一切回退到某个历史时刻 # 这就需要使用hard模式，可以将历史的commit记录连同文件的修改都扔掉，包括你的工作区、暂存区。一切都回到某个commit的时刻。 慎用
+git reset --hard commit_id 场景3 - 希望撤销某个文件的commit # 某个文件被误修改了一个空格，并且被带入了commit，因此要单独撤销某个文件的commit，回到之前的状态。
+git reset e32535157ac44 src/server/Processor.hpp 总结 # 通过上面的使用，我们可以发现，mixed就是将所有的变动都放入工作区，hard是将所有的变动删除，soft则是将commit的变动放入暂存区，工作区不动。
+Git clean # 清除未被跟踪的文件。
+git clean -n // 只查看将被删除的稳健列表，不真正删除。 </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://Paladnix.github.io/posts/git/summary/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/git/summary/</guid>
+      <description>Git 基本逻辑 # 几个核心的概念要把握住：工作区、暂存区、仓库</description>
+    </item>
+    
+  </channel>
+</rss>

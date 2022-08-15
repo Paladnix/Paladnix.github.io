@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/categories/</link>
+    <description>Recent content in Categories on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 27 Jun 2022 15:46:07 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ACM</title>
+      <link>https://Paladnix.github.io/categories/acm/</link>
+      <pubDate>Mon, 27 Jun 2022 15:46:07 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/categories/acm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>study</title>
+      <link>https://Paladnix.github.io/categories/study/</link>
+      <pubDate>Wed, 25 May 2022 10:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/categories/study/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>生活</title>
+      <link>https://Paladnix.github.io/categories/%E7%94%9F%E6%B4%BB/</link>
+      <pubDate>Fri, 07 Jul 2017 23:20:15 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/categories/%E7%94%9F%E6%B4%BB/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>PHP</title>
+      <link>https://Paladnix.github.io/categories/php/</link>
+      <pubDate>Wed, 17 May 2017 21:56:06 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/categories/php/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>公告</title>
+      <link>https://Paladnix.github.io/categories/%E5%85%AC%E5%91%8A/</link>
+      <pubDate>Wed, 17 May 2017 18:12:01 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/categories/%E5%85%AC%E5%91%8A/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

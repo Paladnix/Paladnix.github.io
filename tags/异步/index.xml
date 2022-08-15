@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>异步 on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/%E5%BC%82%E6%AD%A5/</link>
+    <description>Recent content in 异步 on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 10 Aug 2017 16:53:28 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/%E5%BC%82%E6%AD%A5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java 多线程实现异步调用</title>
+      <link>https://Paladnix.github.io/posts/java/java-5/</link>
+      <pubDate>Thu, 10 Aug 2017 16:53:28 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/java-5/</guid>
+      <description>异步调用最主要的特点就是调用方并不等待函数的结果，而是继续进行下面的动作，函数自己去完成相应的过程。在函数完成以后将结果以某种方式返回给调用者。
+实现异步的方式有很多，在前端的技术中使用的最多，这里我记录一下Java项目的内部自己异步调用某个函数的方式。
+角色 # 在异步调用中，有三个角色，分别是消费者、取货凭据、生产者。对应的就是调用方、数据返回方式、执行函数。
+举小蛋糕的例子非常好理解，订蛋糕、蛋糕店给你个取蛋糕的收据，或者也可以给你送到某个地方、蛋糕店生产蛋糕。
+消费者 # 首先来看一下调用方的代码应该怎么写。
+public class Customer { public static void main(String[] args) { System.out.println(&amp;#34;main BEGIN&amp;#34;); CakeShop host = new CakeShop(); Cake cake1 = host.request(10, &amp;#39;A&amp;#39;); Cake cake2 = host.request(20, &amp;#39;B&amp;#39;); Cake cake3 = host.request(30, &amp;#39;C&amp;#39;); System.out.println(&amp;#34;main otherJob BEGIN&amp;#34;); try { Thread.sleep(2000); } catch (InterruptedException e) { } System.out.println(&amp;#34;main otherJob END&amp;#34;); System.out.println(&amp;#34;cake1 = &amp;#34; + cake1.getCake()); System.out.println(&amp;#34;cake2 = &amp;#34; + cake2.getCake()); System.out.println(&amp;#34;cake3 = &amp;#34; + cake3.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/posts/others/</link>
+    <description>Recent content on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 21 Sep 2018 13:37:29 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/posts/others/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>cuda</title>
+      <link>https://Paladnix.github.io/posts/others/cuda/</link>
+      <pubDate>Fri, 21 Sep 2018 13:37:29 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/cuda/</guid>
+      <description>任何事情都不是突然出现的，曾经有一段时间，关注了很多公众号，突然就发现有些框架和库突然就出现了并就非常热了。 但是后来渐渐发现，其实这个东西应该很早就出现了，只是那个时候还没有公众号做推力，只是在小范围内知名。 但是这突然的大热让我非常的惶恐，深深的感觉自己跟不上时代的脚步，当然实际上，我也确实没跟上。
+NVIDIA 在2006年就推出了CUDA，而我知道这个东西，是在2017年。 用于使用GPU进行并行计算。使得普通搭载Geforce显卡的笔记本也具有大规模并行处理的能力。 传统的并行计算基于大规模集群的CPU进行，成本高，而使用GPU进行并行计算的成本就小很多。 CUDA的开发并不难，其提供了一个编译器，和一些C语言的库。我们使用C语言结合库，编写代码，然后使用nvcc进行编译，得到可执行文件，然后运行就可以了。 封装了对GPU的操作。
+Ubuntu安装Nvidia # 主要的安装须知都在这个文档里说明了：Nvidia Cuda Installation for Linux
+前期准备，下载cuda Toolkit
+Disabling Nouveau
+Create a file at /etc/modprobe.d/blacklist-nouveau.conf with the following contents: blacklist nouveau options nouveau modeset=0 Regenerate the kernel initramfs: $ sudo update-initramfs -u 重启，进入命令终端启动cuda。 直接Alt + &amp;lt;F3&amp;gt;就进入了。然后找到cuda开始运行。按照提示一点一点装就可以了.
+重启。</description>
+    </item>
+    
+    <item>
+      <title>shadowsocks 搭建</title>
+      <link>https://Paladnix.github.io/posts/others/shadowsocks/</link>
+      <pubDate>Fri, 29 Jun 2018 16:59:05 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/shadowsocks/</guid>
+      <description>正常的上网需要三个部分。
+server local SwitchOmega shadowsocks server # 租一个境外的服务器vps，然后搭建如下：
+sudo apt install git python python-pip pyton3 python3-pip pip install git+https://github.com/shadowsocks/shadowsocks.git@master # 编辑配置文件： # sudo vim /etc/shadowsocks.json { &amp;#34;server&amp;#34;: &amp;#34;149.28.194.217&amp;#34;, # 服务器IP &amp;#34;server_port&amp;#34;: 8964, # 服务器上的服务端口 &amp;#34;local_address&amp;#34;: &amp;#34;127.0.0.1&amp;#34;, # 本地地址 &amp;#34;local_port&amp;#34;: 1080, # 本地需要代理的使用的端口 &amp;#34;password&amp;#34;: &amp;#34;www1964878036&amp;#34;, # 密码 &amp;#34;timeout&amp;#34;: 300, # 超时时间 &amp;#34;method&amp;#34;: &amp;#34;aes-256-cfb&amp;#34; # 加密方法： aes-256-cfb, 还有一种比较快的：salsa20 } # 直接启动： ssserver -c /etc/shadowsocks.json # 后台运行： ssserver -c /etc/shadowsocks.json -d start # 停止服务 ssserver -c /etc/shadowsocks.</description>
+    </item>
+    
+    <item>
+      <title>ngrok服务端与客户端</title>
+      <link>https://Paladnix.github.io/posts/others/ngrok/</link>
+      <pubDate>Sat, 16 Jun 2018 23:19:50 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/ngrok/</guid>
+      <description>自己搭建Ngrok服务器 # 使用平台：Ali云 Ubuntu 16.04 Go编译器版本： 1.9.1 依赖： gcc、cmake、build-essential、git 1. Ubuntu安装Go编译器 # wget https://dl.google.com/go/go1.9.7.linux-amd64.tar.gz tar -zxvf go1.9.7.linux-amd64.tar.gz mv go/ /usr/local/ # vim /etc/profile export GOROOT=/usr/local/go export GOPATH=$HOME/go export PATH=$PATH:$GOROOT/bin:$GOPATH/bin # save &amp;amp; exit vim source /etc/profile go version # 显示Go的版本即安装成功 2. 安装其他依赖 # sudo apt install -y git gcc cmake build-essential screen 3. 下载ngrok源码并编译 # git clone https://github.com/inconshreveable/ngrok.git ngrok cd ngrok # 生成ssl自签名证书， 需要被编译进最终可执行文件中 NGROK_DOMAIN=&amp;#34;tunnel.paladnix.top&amp;#34; # 注意域名换成你自己的 openssl genrsa -out base.</description>
+    </item>
+    
+    <item>
+      <title>tensorflow</title>
+      <link>https://Paladnix.github.io/posts/others/tensorflow/</link>
+      <pubDate>Thu, 12 Apr 2018 00:32:42 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/tensorflow/</guid>
+      <description>引言 # Tensorflow究其本质还是一个编程框架，只是这个框架主要面向机器学习和深度学习领域。我们应该还是要使用学习框架的方法来学习他。
+很多时候我们要先分清楚问题的主要矛盾是什么。 在很久以前，我学习视频剪辑。那个时候我对于视频剪辑一窍不通，好不容易安装上pr又要开始漫长的学习怎么使用。 我看了很多的视频和博客，教我如何使用这个软件，面对错综复杂的按钮和组合操作，我不知道什么东西在哪，有什么作用。当我明白了什么工具在什么位置的时候，我发现我依然不会做视频。 后来，我想到了，我从来就不懂如何剪辑视频，而不是不会使用这个软件。 如果我清楚的明白调整alpha通道会产生什么效果等一系列参数的作用，我自然就会明白的当前需要做什么，需要改变什么值，去找对应的按钮，而找对应的按钮只要很简单的搜索一下就可以了。 所以，软件并非是为了我这样的小白设计的，而是为专业的人设计的，因此我才会看着琳琅满目的按钮不知所措。
+很多刚准备入门机器学习和深度学习的同学，大家的问题可能并不是不会使用Tensorflow这个框架，而是不会设计Model，不懂一个Model需要先做什么后做什么，在什么层次需要应用什么函数来达到效果。 换个角度来说，就算熟悉的掌握了Tensorflow的每个函数如何调用，也未必就能实现神经网络。 因此，Tensorflow做为一个框架，并不是让你对每个函数都了如指掌，而是当你想做什么动作的时候，知道框架中已经实现了这个功能，你知道要去寻找什么。而寻找对应的函数，就是很简单的问题了，然后再经过几次使用，你就完全可以记住了。
+学习框架就是要理解它的哲学 # 框架为我们提供了一些功能上的便利，为了实现功能的通用性和可扩展性，框架需要一些辅助机制，来确保可扩展性和通用性。
+Tensorflow这类算法的框架，相比较复杂的业务工程类框架要简单很多。
+Tensor: 张量 flow ： 流
+他的名字已经揭示了他的核心逻辑。Tensorflow 中的计算使用一个有向图(计算图)来表示。其中每个运算操作作为一个点，点与点之间连边，数据就是这里的Tensor，Tensor在其中流转，最终完成计算。
+一个计算图描述了一个计算的流程，没个点可以有任意多的输入和输出。有一些边并不是用来流转数据的，而是用来依赖控制，用来保持数据在正确的时间被运算。
+因此我们的代码中，大部分是在描述一个计算图，而当这个计算图被描述完毕后，需要触发一个Session来执行这个计算图。
+我们不能事无巨细的讲解框架中的设计逻辑。这里我们简要介绍比较重要的几个元素，是深入学习之前必须先搞透的东西。
+Variable # Variable是一类特殊的运算操作，每次执行计算图后，Variable中的数据tensor会被保存下来，同时在计算的过程中也会被更新，比如神经网络的系数，每次训练都会被更新，最后会被保存下来。
+Session # TensorFlow执行计算图需要实例化一个Session类来执行。调用Session的run方法，他可以自动计算所需计算的节点并按照依赖顺序计算他们，并且每个Session持有一些资源， 比如Variable，在计算结束的时候，我们要关闭Session以减少开销。
+小经验 # 学习框架有一些方法，是很多实践总结下来的经验，分享一下。
+过程 # 学习框架的过程大致是这样的：
+理解核心概念/理念 -------&amp;gt; 入门经典代码/项目 -------&amp;gt; 核心类的代码 （设计哲学） （加深理解） (这些代码会大体勾勒出整个框架的逻辑) | | V ----------&amp;gt; 更复杂的代码/项目 | （学习如何使用/最佳实践） | | | | | V |__________ 更多核心类的实现 (会让你对每个部分设计目的更清晰， 帮助你融会贯通) 方法 # 前期刚接触的时候，多看博客，开始接触代码后，学会用好源码。
+注意！这里的源码并不代码，而是源代码中的注释！
+框架的代码都是相对规范的，在核心的类中都有非常详细的注释，解释了该类的作用、调用方式、特点、注意事项等，还可以直观的看到参数的情况。很多框架的API文档其实就是这些注释换个地方给你而已。 因此与其看文档，有的时候源代码会更好用。当然你需要熟练的使用IDE和代码跳转。</description>
+    </item>
+    
+    <item>
+      <title>Vimium - Google-Chrome-Plugin</title>
+      <link>https://Paladnix.github.io/posts/others/vimium/</link>
+      <pubDate>Tue, 20 Mar 2018 17:34:37 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/vimium/</guid>
+      <description> What&amp;rsquo;s this # Vimium 你可以认为这是一个Chrome下的快捷键设置集合。这个快捷键集合继承了Vim的快捷键方式，力图做到全键盘流畅使用浏览器。
+How to use it # 这里介绍默认的快捷键设置，你也可以添加自己的快捷键。对于你的Chrome帐号，这些是会被同步的，也就是你在不同的电脑上使用登录了你的账户的Chrome浏览器都可以使用这个设置。
+可以打开这个插件，看到下面这个图片。
+快捷键 功能说明 j 向上滚动 k 向下滚动 h 向左滚动 l 向右滚动 gg 到达Top G 到达bottom d 向下滚动半页 u 向上滚动半页 r 重新加载这一页 yy 复制当前页的链接到粘贴板 p 在当前页打开粘贴板中的链接，如果复制的是文字直接使用默认搜索引擎搜索 P 在新的标签页做上一操作 gi 使当前焦点换到页面的第一个输入框中 f 显示当前页面所有可点击部分，并在当前页打开对应链接 F 在新的标签页打开 gf （没用过，也不知道有啥用，用来选择下一个结构?） o 出现一个输入框，用来打开history or bookmark 中的链接，备选与你输入的东西相匹配的 O In a new Tab b 同o差不多，只备选bookmark中的链接 B In a new Tab T 在你已经打开的Tab里面搜索，可以直接跳转 / 搜索 n/N 跳至下一个/上一个搜索到的点 H 历史后退 L 历史前进 J 跳到左边一个Tab K 跳到右边一个Tab t 打开新的Tab ^ 跳到上一次你停留的Tab x 关闭当前Tab X 重新打开关闭的标签页 </description>
+    </item>
+    
+    <item>
+      <title>Lucene（一）</title>
+      <link>https://Paladnix.github.io/posts/others/lucene-1/</link>
+      <pubDate>Tue, 06 Mar 2018 11:21:33 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/lucene-1/</guid>
+      <description>Lucene 是apache基金会下的一个项目，用于匹配搜索的库。可以方便的集成进入各种应用中，并在不同的应用场景下有不同的衍生子项目。是基于Java的全文索引引擎。</description>
+    </item>
+    
+    <item>
+      <title>树莓派 - 入坑指南(1)</title>
+      <link>https://Paladnix.github.io/posts/others/raspberrypi/</link>
+      <pubDate>Wed, 15 Nov 2017 20:00:05 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/raspberrypi/</guid>
+      <description>我手里的是pi3。
+基础概念 # 树莓派作为一个微型电脑，基本具备冯诺依慢体系结构，其单机唯一不具备的就是硬盘，也就是我们插进去的tf卡。 除此以外，这用的是一个amd架构的处理器，所以在安装系统的时候我们需要选择支持amd架构的操作系统。
+树莓派没有开关， 换句话说，通电就是开，断电就是关。但是在关机的时候不能直接断电，要先停止操作系统才行，也就是先关机再拔电源。
+他可以做为一个性能不高的微型电脑，但是我们一般不将其作为个人电脑使用，而是用来运行一些程序使之成为实现特定功能的处理中心。 在此之前，我们要实现一个特定功能的产品或是设备，我们需要特别定制一个主控板来运行我们的程序，这些主控板具有特殊性，无法重用，并且设计成本高。 在有了这个微型电脑以后，其计算能力比一般板载处理器的性能要好，使用的是标准的冯诺依曼体系结构，使用的操作系统也以linux为主，因此可以运行几乎所有程序。 是一个低成本，可复用，灵活的硬件设备。同时其集成的网络模块、蓝牙模块，等，更适合改造成一个物联网设备的控制核心，对于实验和创新实践非常适合。
+安装操作系统 # 如果你不需要界面，可以安装Ubuntu Core。如果你需要界面，可以安装Ubuntu Mate。
+因为这两种都是linux系列的操作系统，我使用起来比较顺手，所以没有使用官方的那个系统。不过这都不重要。
+在安装Ubuntu Core这里有详细的安装过程。 如果你是ubuntu用户的话，下载下来镜像文件，直接右击用Disk manager writer 打开就可以写入TF卡，就算是安装好了。
+开机 # 安装好系统就装到板子上，然后通电。 这个时候你可能需要先接一个键盘和显示器， 因为等一下有直接操作的部分。
+开机后会正常的加载操作系统，随后会出现让你连接网络的部分。 你可以用有线连接，也可以开无线，不过我的板子开无线开不开，所以只能先用有线网。
+随后就会开机成功，让你用ubuntu one的帐号登录。 集体操作过程在上面的页面中有：
+申请帐号 将你的电脑的ssh key上传到ubuntu one网站上 在树莓派上验证帐号。 验证成功。 此时树莓派会给你他的内网地址和帐号，你用你的电脑远程登录就可以了。
+吐槽 # 就这一点， 我第一次拿到树莓派以后捣鼓了30多小时。
+这个过程会出现：
+内存卡写入系统树莓派加载不了，重新写。 不知道什么问题加载到一半卡住不动，重新写。 打开了错误关机，损坏数据，重写。 无线模块打不开，找网线。 。。。。 随后你获得的是通往新Ubuntu的大门。
+Ubuntu Core是一个更新概念的操作系统组成方式。其系统本身跨平台，其应用打包方式跨平台，也就是snap。 既然你有意接触了新的事物，就别眷恋过往，勇敢的尝试新的东西，什么学习曲线陡峭，都不是问题。</description>
+    </item>
+    
+    <item>
+      <title>apache curator</title>
+      <link>https://Paladnix.github.io/posts/others/curator/</link>
+      <pubDate>Fri, 18 Aug 2017 17:45:34 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/curator/</guid>
+      <description>&amp;ldquo;Guava is to java what Curator is to Zookeeper&amp;rdquo;.
+Start # Curator之前介绍过一些，是一个使用流式API方式实现的Zookeeper的Java客户端。
+Get a connection # connection的实例(CuratorFramework)是用工厂模式分配的(CuratorFrameworkFactory)，对于一个zk集群，你只需要一个连接的实例。 同时你可能会用到的是RetryPolicy 去设置失败重试的参数，一般你会这样使用：
+RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3) CuratorFramework client = CuratorFrameworkFactory.newClient(zookeeperConnectionString, retryPolicy); client.start(); 客户端需要显式的start并且在不用的时候显式的close.
+在链接成功以后就可以直接操作对应的集群。并且，如果在执行操作的过程中出现了连接错误，curator的manage会自动重新尝试操作。
+分布式锁 # 不可以对某个路径下的节点进行上锁：
+InterProcessMutex lock = new InterProcessMutex(client, lockPath); if ( lock.acquire(maxWait, waitUnit) ) { try { // do some work inside of the critical section here } finally { lock.release(); } } </description>
+    </item>
+    
+    <item>
+      <title>synchronized 同步锁</title>
+      <link>https://Paladnix.github.io/posts/others/synchronized/</link>
+      <pubDate>Fri, 18 Aug 2017 15:45:11 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/synchronized/</guid>
+      <description>synchronized # 修饰一个代码块，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象； 修饰一个方法，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象； 修饰一个静态的方法，其作用的范围是整个静态方法，作用的对象是这个类的所有对象； 修饰一个类，其作用的范围是synchronized后面括号括起来的部分，作用的对象是这个类的所有对象。 代码块加锁 # 一个线程访问一个对象中的synchronized(this)同步代码块时，其他试图访问该对象的线程将被阻塞。我们看下面一个例子：
+/** * 同步线程 */ class SyncThread implements Runnable { private static int count; public SyncThread() { count = 0; } public void run() { synchronized(this) { for (int i = 0; i &amp;lt; 5; i++) { try { System.out.println(Thread.currentThread().getName() + &amp;#34;:&amp;#34; + (count++)); Thread.sleep(100); } catch (InterruptedException e) { e.printStackTrace(); } } } } public int getCount() { return count; } } 调用的方式如下：</description>
+    </item>
+    
+    <item>
+      <title>ZooKeeper</title>
+      <link>https://Paladnix.github.io/posts/others/zookeeper/</link>
+      <pubDate>Thu, 17 Aug 2017 10:06:34 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/zookeeper/</guid>
+      <description>暂且将恼人的Tomcat放在一边，来解决新的问题，并学习新的玩意儿。
+Zookeeper 是啥 # 动物园管理员，分布式服务就像是一个动物园。
+Zookeeper是一个开源的分布式应用程序协调程序，为分布式应用程序提供一致性服务。 在分布式计算的应用中，最令人头疼的就是分布式锁的问题。同时各种同步问题也很让人崩溃，Zookeeper就是封装可一些算法，保证了其分布式服务的一致性，作为很多分布式服务的基础服务程序。
+ZooKeeper 的设计原理 # 官方称之为鸟瞰：
+第一段在百度百科上。 在特性上面，zookeeper有这样几个特点。
+使用文件系统的结构来存储数据。 数据在用户的角度来看，是以类似与unix文件系统的方式来组织的，所以其定位方式是使用路径来定位数据。但是与文件系统不同的是，每个结点都可以存储数据，没有文件夹和文件的区别概念。
+高并发低延迟。 存储的数据在每一个zookeeper服务节点上都是一样的，所以读数据只要连接一个服务器直接读取就可以。数据的大小被限制在1M以内。
+高可用，自动故障转移。 这个是其设计的精髓之一，下面重点会讲。
+下面概要的讲一下运行的逻辑。
+选举 第一个，非常重要的步骤就是选举，在集群上部署完zookeeper以后，他们便开始执行选举流程，使用选举算法Fast Paxos作为基础。选举会产生一个leader。
+客户端与server 当有客户端与一个服务器建立连接的之后，他们之间会维持一个tcp连接，客户端会给服务器发送心跳请求，告诉服务器自己还在线。如果一个server监测到一个客户端断线了，就会在本地清除相关的数据。而客户端会重新去找一个server建立连接。
+写请求 在客户端读取数据的时候只要在其对应的服务器上读取就可以了。当其要写数据的时候，server会将这个写请求转发给leader服务器，leader将这个写请求统一发给每一个server进行写数据操作，当确认有严格的大于一半的server都写入成功以后，就算是写请求成功，再返回给原server，由原server返回成功给客户端。
+重新选举 leader会给server之间保持通信，通常就是所说的心跳。leader通过心跳来确认server是否存活，同时，server也可以确认leader是否存活，如果leader挂了，servers就会重新进行选举，然后再提供服务。
+通知 watcher是zk比较特殊的设计，允许一个或多个客户端绑定多个节点数据。当zk上的数据发生变化的时候能够通知到相应的客户端。这个设计就可以用来做很多的应用啦。redis数据库同样也有提供这样的消息发布与订阅的功能，不过那个是特意实现的一个功能给应用使用的。
+实现上的诸多细节 # 在听之前的老司机分享的时候，他们探讨了很多实现细节上的问题，感觉实现这样的一个分布式系统还是非常有挑战的。
+比如，如果写请求进行中leader挂掉了怎么办，数据tcp丢包了怎么办。如何同步数据等等。有空很想看看其实现方式。
+使用 # (这里补充一下服务器版的安装。与使用)
+最主要的使用途径还是通过客户端程序来访问zk。客户端有Java、python、lua、Go等。 我用java，所以。。
+maven # &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.apache.zookeeper&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;zookeeper&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.3.5&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 不过，这个有一点低端，所以我使用另外一个客户端的实现：curator。也是一个开源的zk客户端的实现，封装层次更高，所以操作更简便。
+Curator框架提供了一套高级的API， 简化了ZooKeeper的操作。 它增加了很多使用ZooKeeper开发的特性，可以处理ZooKeeper集群复杂的连接管理和重试机制。 这些特性包括：
+自动化的连接管理: 重新建立到ZooKeeper的连接和重试机制存在一些潜在的错误case。 Curator帮助你处理这些事情，对你来说是透明的。 清理API: 简化了原生的ZooKeeper的方法，事件等 提供了一个现代的流式接口 (提供了Recipes实现： 如前面的文章介绍的那样，基于这些Recipes可以创建很多复杂的分布式应用.这部分不明白，待补充)。
+Curator框架通过CuratorFrameworkFactory以工厂模式和builder模式创建CuratorFramework实 例。 CuratorFramework实例都是线程安全的，你应该在你的应用中共享同一个CuratorFramework实例.
+工厂方法newClient()提供了一个简单方式创建实例。 而Builder提供了更多的参数控制。一旦你创建了一个CuratorFramework实例，你必须调用它的start()启动，在应用退出时调用close()方法关闭.
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.apache.curator&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;curator-recipes&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;2.7.0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 这个版本的API 是流式的API，也就是。。用的时候一句话里有一串的调用，不断的点操作符。 for 一个zample: client.</description>
+    </item>
+    
+    <item>
+      <title>Latex写工作日志的实践</title>
+      <link>https://Paladnix.github.io/posts/others/diary/</link>
+      <pubDate>Tue, 25 Jul 2017 10:26:38 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/diary/</guid>
+      <description>最近1个月手里同时在日常环境上跑通6个应用，脑内存实在不够用，现实在召唤新的工作模式的诞生。于是有了这篇文章。
+一直在寻找一种方法，能满足我记录各种东西的需求又不要太凌乱，还要不时画一下软件结构图等。我需要一种可以一站解决这个问题的解决方案，但是很遗憾，貌似并没有。所以还是决定自己搞最原始的方案，使用latex直接写工作日志吧。
+工作日志不同于其他笔记，相对比较机密，也不好写在其他地方。也为以后开发日志打个基础。
+Latex的Ubuntu安装 # 除了体积略大以外，并没有什么太大的缺点。latex支持的东西貌似更多，用户也更多。
+顺序执行以下命令：
+sudo apt install texlive-latex-base sudo apt install latex-cjk-all sudo apt install texlive-latex-extra sudo apt install texlive-xetex 四个包加起来不到2G，其中第二个是中文支持包。我使用的方式是用命令行直接编译，用vim写代码。
+在后续的使用过程中，你有可能会遇到有些包没有，这些包都是以xxx.sty 的形式命名的，这个时候这样来安装缺少的包：
+sudo apt search xxx # 查找到对应的包名，因为有的时候软件库中的名字可能不一致，有些前缀什么的。 # 从查出来的列表中选择你要的那个包然后安装就可以了 sudo apt install xxx 缺少包的情况会在编译的时候报错报出来。 还有的时候是因为缺少一些字体，在Ubuntu 上安装字体的方式如下：
+# 下载你的字体包到本地。 # 你可以将自己的字体都放在一起，例如~/.share/fonts/ 文件夹中，没有这个文件夹就自己建。 # 然后将字体放进来，终端进入这个文件夹后执行下面的命令 sudo mkfontscale sudo mkfontdir sudo fc-cache -fv 提醒你success就安装成功了，重新编译就可以了。
+编译Latex # 编译的命令是xelatex filename.tex。编译完成以后可以打开来看效果，我一般直接使用一个makefile文件来完成这一系列操作: 编译、后台打开，清除多余文件 Makefile代码如下：
+all: xelatex T.tex evince T.pdf &amp;amp; clean: rm *.</description>
+    </item>
+    
+    <item>
+      <title>SQL进阶</title>
+      <link>https://Paladnix.github.io/posts/others/sql/</link>
+      <pubDate>Sun, 09 Jul 2017 15:26:31 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/sql/</guid>
+      <description>本文不介绍最简单的增删改查，而是对于SQL的进阶语句的介绍，顺便研究一下其内部实现。
+Join # 由浅入深，从使用到优化。
+概述 # Join一般会有人称为级联查询，我表示这个名称还算直观。其应用场景有那么几种：
+某个表中的某些字段需要另一个表来做精细描述。比如职工表中职工等级需要等级表来进一步详细描述该等级的权限、福利等。当我们需要某个人的信息的时候一定是从职工表拉取记录并且需要再从等级表中拉取具体信息合并呈现。 某个人的全方位信息存放在不同的表中，要想得到完整信息就要多表查询合并结果。 上面两种场景都是涉及了两个及以上的表，这就是join的使用场景特点。
+SQL语句 # select col_a, col_b, ... from tb_1 join tb_2 on tb_1.col_a = tb_2.col_a where ... ; 其最主要的特点就是from的来源发生了变化，所以我们可以理解为这个sql语句生成了一个新的表，并从这个新表中获取了符合where条件的记录。所以这个join我们看作是对表的一种运算，运算的结果是一张新的表。 这个join运算有一个on的条件，也就是在这个on的基础上进行运算。
+Join 运算一共有四种：
+inner join （内连接） outer join （外连接） left outer join （左外连接） right outer join （右外连接） 在讲这四种运算之前先要有一个笛卡尔积的概念。 笛卡尔积来源于离散数学中的集合操作，对于两个集合做笛卡尔积就是将两个集合中元素两两组合，生成一个新的集合，新集合中的每一项都是一个二元组(可以理解为一个数据包， 并且这个数据包是有序的，总是某一个集合的元素在前，另一个在后)。所以，如果两个集合的size分别是n,m， 那么笛卡尔积生成的集合size=n*m; 对于表做笛卡尔积，同理就是将两个表的记录两两组合生成一个巨大的新表，每条记录都是由两个表的记录拼接而成。 该概念仅用于理解运算结果的组成，并不是其实现方式。以下的操作可以理解为是在此基础上进行条件筛选，但事实上SQL使用的是循环的方式去查找结果。
+inner join # 其结果为：笛卡尔积中，符合on 条件的记录。
+outer join # 对于一条A表的记录，如果没有找到符合on条件的对应的B表记录，那么A表的此记录依然出现在结果集中，其对应的B表部分为NULL。 The same to B.
+left outer join # 根据outer join 的意思，可想而知，对于A找不到B的情况，保留A的记录，而对于B则滤掉相应记录。</description>
+    </item>
+    
+    <item>
+      <title>Hexo</title>
+      <link>https://Paladnix.github.io/posts/others/hexo/</link>
+      <pubDate>Sun, 28 May 2017 14:24:05 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/hexo/</guid>
+      <description>这是一个经济又快速又好看的博客搭建教程。
+你的博客将会有一个后缀为github.io的域名，并且在该域名下有300M的存储空间。但是，本教程只写给Linux用户，其他用户参考自行摸索，原理一致，操作类似。
+你看到的我的这篇博客就是最后的效果，当然你也可以自行修改样式。
+博客使用Hexo博客生成系统，其优点如下：
+简单快速，无需服务器端架设环境。 可选样式众多，易于修改。 扩展插件众多，且使用方便。 使用markdown语法编写博客，易于上手。 生成博客为纯静态代码，无需运行环境可直接移植，不依赖数据库。 本机环境的准备 # 你需要以下几个软件的环境：
+Node.js Git Hexo 安装node.js # 在安装这个的时候卡了很久，然后才知道自己装的是Node.js, 然而需要的是Node！正确的结果是在命令行输入node -v 如果可以看到版本号就可以了。 正确的安装命令是：sudo apt install nodejs-legacy，害怕。。。就是有这样的操作，当你install nodejs的时候，对不起，这个并不是你要的node.js， 哈，我也很绝望啊！
+然后要安装一下这个npm工具：
+$ sudo apt install npm $ npm -v #看npm版本，如果结果显示版本号则安装成功 安装git # $ sudo apt install git 有的时候在安装完git后依旧在项目中无法使用，后面发布博客到github上面的时候会使用到git，如果报错：Deploy not found git 之类的，就需要再搞一下这个玩意儿！这就是软件版本混乱的锅，想说爱你不容易！
+$ npm install hexo-deployer-git 安装Hexo # $ npm install hexo-cli -g 当然这个在安装的时候也有坑出现各种问题，那就只好去百度了，我是因为前面的东西出问题后来修好后就好了。一般也不会有啥问题了。
+使用 # 其使用逻辑非常简单而且封装很好，命令操作也十分简洁，重点在于配置文件的修改。这是个强配置的框架，事实上好的框架就应该这样，甚至可以将软件由不懂程序设计的人来使用，但是前提得有一个个很清晰的配置文件设计思路以及详细的说明书……
+建立工作区 # $ hexo init Blog $ cd Blog 新建一篇博文 # 在Blog文件夹内执行：</description>
+    </item>
+    
+  </channel>
+</rss>

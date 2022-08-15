@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SQL on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/sql/</link>
+    <description>Recent content in SQL on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 09 Jul 2017 15:26:31 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/sql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SQL进阶</title>
+      <link>https://Paladnix.github.io/posts/others/sql/</link>
+      <pubDate>Sun, 09 Jul 2017 15:26:31 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/sql/</guid>
+      <description>本文不介绍最简单的增删改查，而是对于SQL的进阶语句的介绍，顺便研究一下其内部实现。
+Join # 由浅入深，从使用到优化。
+概述 # Join一般会有人称为级联查询，我表示这个名称还算直观。其应用场景有那么几种：
+某个表中的某些字段需要另一个表来做精细描述。比如职工表中职工等级需要等级表来进一步详细描述该等级的权限、福利等。当我们需要某个人的信息的时候一定是从职工表拉取记录并且需要再从等级表中拉取具体信息合并呈现。 某个人的全方位信息存放在不同的表中，要想得到完整信息就要多表查询合并结果。 上面两种场景都是涉及了两个及以上的表，这就是join的使用场景特点。
+SQL语句 # select col_a, col_b, ... from tb_1 join tb_2 on tb_1.col_a = tb_2.col_a where ... ; 其最主要的特点就是from的来源发生了变化，所以我们可以理解为这个sql语句生成了一个新的表，并从这个新表中获取了符合where条件的记录。所以这个join我们看作是对表的一种运算，运算的结果是一张新的表。 这个join运算有一个on的条件，也就是在这个on的基础上进行运算。
+Join 运算一共有四种：
+inner join （内连接） outer join （外连接） left outer join （左外连接） right outer join （右外连接） 在讲这四种运算之前先要有一个笛卡尔积的概念。 笛卡尔积来源于离散数学中的集合操作，对于两个集合做笛卡尔积就是将两个集合中元素两两组合，生成一个新的集合，新集合中的每一项都是一个二元组(可以理解为一个数据包， 并且这个数据包是有序的，总是某一个集合的元素在前，另一个在后)。所以，如果两个集合的size分别是n,m， 那么笛卡尔积生成的集合size=n*m; 对于表做笛卡尔积，同理就是将两个表的记录两两组合生成一个巨大的新表，每条记录都是由两个表的记录拼接而成。 该概念仅用于理解运算结果的组成，并不是其实现方式。以下的操作可以理解为是在此基础上进行条件筛选，但事实上SQL使用的是循环的方式去查找结果。
+inner join # 其结果为：笛卡尔积中，符合on 条件的记录。
+outer join # 对于一条A表的记录，如果没有找到符合on条件的对应的B表记录，那么A表的此记录依然出现在结果集中，其对应的B表部分为NULL。 The same to B.
+left outer join # 根据outer join 的意思，可想而知，对于A找不到B的情况，保留A的记录，而对于B则滤掉相应记录。</description>
+    </item>
+    
+    <item>
+      <title>JDBC</title>
+      <link>https://Paladnix.github.io/posts/java/jdbc/</link>
+      <pubDate>Sun, 09 Jul 2017 15:25:31 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/jdbc/</guid>
+      <description>JDBC(Java DataBase Connectivity) 这是JDK中集成的一个数据库API，可以访问任何类型表列数据，特别是存储在关系数据库中的数据。 本文以mysql为例。
+所谓数据库交互，无非就是那么几个部分：建立连接，执行SQL，取回数据。JDBC的设计思路被Php借鉴过去后就产生了PDO，跟JDBC一曲同工，加之轻量级，然后就感觉很好的样子&amp;hellip; 与数据库交互体现在程序上，也无非就是那么几个部分：引入包，实例化对象，调用函数。
+那么学习JDBC学他的什么？学会了怎么用然后呢？可以学习其设计思路，有的时候，从设计思路来学习怎么用会比直接学怎么用要容易，Let me show you.
+架构 # 现在把自己当成设计者，从设计的角度出发来看JDBC。 你要做的事情是将市面上诸多数据库整合到一起，给Java程序提供一个格式统一的工具。用更学术的语言来表达就是将底层差异屏蔽掉，抽象出一个数据库抽象层，使得数据库对于Java程序透明（学术其实也是将事物统一整理成一个较高的层次，忽略底层实现差异，用思想指导实践。例如当你碰到一个新的问题，整体十分复杂，你不可能直接就想到一个实践方法将其实现，这个时候就需要知识来抽象这个问题，当问题抽象到了某个知识领域内，这个问题就可以再从抽象顺着这个知识往下拆解，最后落实到具体实践跟抽象知识已经没什么关系了）。
+要实现统一接口，我们借鉴操作系统与硬件之间的做法，就是每个数据库按照我给的一个标准来写你自己的驱动程序，这个标准就是初步将数据库之间的差异屏蔽，例如我规定所有的select语句由什么函数执行，返回什么格式的数据等。这就是底层的Driver。
+再往上，我们需要一个统一的入口。在Java中，不同数据库实现的Driver肯定是不同的类，这样的话难道我们要用什么数据库就用什么类吗？当然能透明就透明，最好是我在参数中体现我要用什么数据库，灵活性更大。所以这个时候我们在几个类上面在做一个抽象，抽出来一个Manager，这个Manage负责数据库的选择，动态实例化，连接等等乱七八糟的事情，然后这个manage在整理封装成JDBC API提供给Java程序使用。
+Over.
+但是你知道了怎么设计，还是没有卵用，哈哈哈呵呵！上面已经说过了，当你具体实践的时候已经跟上层知识没有什么关系了，但是你会很快理解具体该怎么做。
+实例 # jdbc简单的使用差不多在下面的代码中都有体现，另外我对于这个资源关闭的问题还有点迷惑，因为在jdbc的代码中实现了一个Autocloseable的接口，对于当前版本的JDBC要不要显示关闭资源的问题，有可能是不需要的。有待深入了解这个AutoCloseAble接口。
+//STEP 1. Import required packages import java.sql.*; public class FirstExample { // JDBC driver name and database URL static final String JDBC_DRIVER = &amp;#34;com.mysql.jdbc.Driver&amp;#34;; static final String DB_URL = &amp;#34;jdbc:mysql://localhost/emp&amp;#34;; // URL 格式(mysql)： jdbc:mysql://host:port/databaseName // Database credentials static final String USER = &amp;#34;root&amp;#34;; static final String PASS = &amp;#34;123456&amp;#34;; public static void main(String[] args) { Connection conn = null; PreparedStatement stmt = null; try{ //STEP 2: Register JDBC driver // JDBC要求要显式注册你要用的驱动类 // 这个代码就是让JVM加载对应的类，并执行其中的静态代码。 Class.</description>
+    </item>
+    
+  </channel>
+</rss>

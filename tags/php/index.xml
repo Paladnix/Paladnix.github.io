@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PHP on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/php/</link>
+    <description>Recent content in PHP on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 27 May 2017 15:55:04 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/php/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OOP中的-控制修饰符</title>
+      <link>https://Paladnix.github.io/posts/c&#43;&#43;/accessmodifier/</link>
+      <pubDate>Sat, 27 May 2017 15:55:04 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/c&#43;&#43;/accessmodifier/</guid>
+      <description>面向对象编程(Object-Oriented Programming)中,最初开始接触到的就是访问控制修饰符。访问控制修饰是几乎所有的OOP语言都会涉及到的，下面就整理三个我熟悉的语言。
+C/C++ # 更详细的内容可以参考《C++ primer》-类 这一章。
+概述 # 有三种修饰符，分别：private、public、protected。其中最后一个protected是在继承出现以后才有效的。对于无论是成员变量还是成员函数，这些修饰符都具有相同的作用，即访问控制。其设计的主要作用是为了防止封装的类内成员被类的使用者无意更改或误操作，同时，对访问权限的限制可以实现代码间的松耦合。在类内算法做调整的过程中保持使用者可调用的代码接口，只更改私有函数等。 在详述各个控制符之前要讲一下struct 和class的区别。二者都可以用来定义类，唯一的不同就是默认的访问权限不同。struct的第一个修饰符之前定义的成员默认是public的，但是class是默认private的。
+private 与 public # 这两个要一起来说，因为二相相生。private就是将控制权限制在类内，只能是类内的函数访问。public完全没有限制。这两个是最容易理解的，也没有什么好说的。
+protected # 比上面两个略复杂一点点。在没有继承的情况下，protected与private是一样的，所以protect之所以与private不同在于派生类的访问。其修饰的成员可以被派生类直接访问，但是不被派生类对象访问。这个有些博客写的不太严谨，protected无论什么时候都不能与public一样，也就是类的使用者不能直接访问。 换句话说，派生类可以将其修饰的成员当成自己的亲成员来访问，派生类内部可以用对象实例来访问，但是类外不行。
+举个例子：
+class Base{ protected: int m; ... } class A : public Base{ public: // Note-1 void Add(A &amp;amp; tmp){ tmp.m += 1; } ... } int main(){ A tmp; // Note-2 int x = tmp.m; return 0; } /* * 其中，Note-1的写法没有问题，但是Note-2的写法就是非法的。 */ friend # 有的时候我们的类成员不能被使用者直接访问，但是我需要让其他的一些非类内成员函数来访问，如重载运算符的时候需要被模板函数访问，所以又有了一个新的控制访问修饰符，这个修饰符只用来修饰一些函数或类的声明，也就是说可以让一些类或函数成为该类的友元，使得其可以访问类内的成员变量和成员函数，不受其他修饰符的限制。
+只能修饰非成员函数的声明，或其他类。 只能在类内修饰。 其声明不受其他几个修饰符影响。 友元关系不能传递, 也不可继承。 友元声明，只是声明了访问权限，并没有实际声明，如要使用该函数，仍然需要显示用普通声明再声明一次。 用作继承权限修饰符 # 除了用于成员权限声明，此三个修饰符海可以用来修饰类的继承方式，不同的继承方式使得基类成员在派生类中的权限不同。</description>
+    </item>
+    
+    <item>
+      <title>Husky - A Light Web MVC Framework</title>
+      <link>https://Paladnix.github.io/posts/web/husky/</link>
+      <pubDate>Wed, 17 May 2017 21:56:06 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/web/husky/</guid>
+      <description>这篇文章是对我自己编写的PHP MVC 框架：Husky 的详细说明， 算作是官方说明文档。
+项目的GitHub地址
+Husky是什么？ # Husky 是一个使用PHP语言编写的Web MVC微框架，此项目最初是作者偶然看到的一篇博客中的教学项目。我对项目的代码进行了一些修改和整理，删除了一些不必要的内容，添加了部分设计，目前框架处于第一个版本(Husky-0.9)，框架将会长期维护更新。目前只在Linux开发环境下测试可用。
+如果你是一个初出茅庐的Web开发者，那么本框架就十分适合你来使用了。相比较很多成熟的PHP框架来说，Husky的体积小，逻辑简单，还没有加入很多集成的自动化功能。整个框架按照一个既定的数据格式实现了MVC开发的需求，更主要的是，在一定程度上说，这个框架还处于比较原始的状态， 这对新手深入了解框架的体系结构十分有利，你可以按照自己的想法对框架进行修改，甚至可能在此基础上改写出更出色的框架。
+本框架的开发初衷是为作者所在的学生社团开发网站，多人合作模式下编写网站没有一个框架实在太乱了。但是衡量工作内容，于是决定自己开发一个微框架来辅助网站的开发，就有了这个项目。
+你需要掌握什么？ # 此框架需要一定的php网站开发经验才能熟练的使用。所以在使用之前，你需要具备以下的知识或能力:
+配置apache2 的Rewrite功能 数据库SQL语句 php基本语法 面向对象编程的基本知识 简要了解http协议与请求url链接 清楚的了解软件 MVC 架构的组成 在进一步开发框架之前，你需要进一步具备以下的知识或能力:
+apache2 的更多配置选项 熟练掌握http协议 深入理解 MVC 框架结构 熟练使用php语言进行面向对象编程 熟练使用PDO数据库操作库 良好的编程习惯 Husky 做了什么？ # Husky 实现了下面几个功能：
+唯一的网站入口，url地址重定向 自动化加载MVC控制类，自动化解决类间依赖 过滤SQL注入攻击的安全问题， 使用PDO进行数据库操作 Controller、Model、View模块分离 定义数据参数等的格式 配置环境 # 框架需要软件环境：
+Linux apache2 php(&amp;gt;=5.4) mysql 开启apache2 rewrite 功能 # 默认的Ubuntu apache2是没有开启这个功能的，要先去看一下 /etc/apache2/mods-enabled/ 文件夹下是否存在rewrite.load 模块的链接，如果没有，要去看一下 /etc/apache2/mods-available/ 中是否存在对应的文件，如果有，则使用下面的命令建立一个链接到 ../mods-enabled/ 文件夹下：
+$ ln -s /etc/apache2/mods-available/rewrite.</description>
+    </item>
+    
+  </channel>
+</rss>

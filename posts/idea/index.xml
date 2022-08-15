@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/posts/idea/</link>
+    <description>Recent content on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 01 Jul 2017 20:14:58 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/posts/idea/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>IDEA常用快捷键</title>
+      <link>https://Paladnix.github.io/posts/idea/ideakey/</link>
+      <pubDate>Sat, 01 Jul 2017 20:14:58 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/idea/ideakey/</guid>
+      <description>&amp;lt;Ctrl&amp;gt;+ &amp;lt;click&amp;gt; 定位到变量声明处
+&amp;lt;Ctrl&amp;gt; + &amp;lt;\B&amp;gt; 返回上一次浏览的位置
+&amp;lt;Ctrl&amp;gt; + &amp;lt;Alt&amp;gt; + &amp;lt;L&amp;gt; 自动对齐
+&amp;lt;Ctrl&amp;gt; + &amp;lt;F12&amp;gt; 显示类成员
+&amp;lt;Alt&amp;gt; + Left\Right 切换标签页
+&amp;lt;Alt&amp;gt; + &amp;lt;Enter&amp;gt; 光标在错误上调出自动错误处理列表
+&amp;lt;Ctrl&amp;gt; + &amp;lt;-&amp;gt; 折叠光标所在的方法
+&amp;lt;Ctrl&amp;gt; + &amp;lt;Shift&amp;gt; + &amp;lt;-&amp;gt; 折叠所有方法
+&amp;lt;Ctrl&amp;gt; + &amp;lt;=&amp;gt; 展开光标所在的方法
+&amp;lt;Ctrl&amp;gt; + &amp;lt;Shift&amp;gt; + &amp;lt;=&amp;gt; 展开所有方法</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://Paladnix.github.io/posts/idea/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/idea/readme/</guid>
+      <description> IDEA 配置远程同步 # 经常使用mac系统进行开发，但是需要项目在Linux系统上进行编译、运行。可以使用JetBrains家的Remote Deployment的功能。
+1. 设置远程服务器 # Settings -&amp;gt; Build,Execution,Deployment -&amp;gt; Deployment -&amp;gt; +(添加)
+设置SFTP, 使用ssh configuration的更多设置，设置好登陆的ssh-key登陆密钥。
+最后一步最重要，选中这个remote deployment，右键，Use As Default
+2. 设置自动上传 # 同样在Depolyment下面，找到Upload changed files automatically to the default server 选择Always。
+3. 第一次需要手动触发 # 选择项目结构的根目录，然后右键在最下方找到Deployment，选择刚刚设置的Remote Server即可第一次触发自动上传。
+4. 日常使用 # 自动上传可以将本地的变化同步到远程server，实时性非常高。 编译的操作直接登陆远程服务器进行编译，一般写成GNU风格的脚本一键编译、测试等。编译产生的文件不会反向回传到本地。 </description>
+    </item>
+    
+  </channel>
+</rss>

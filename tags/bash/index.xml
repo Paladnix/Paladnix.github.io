@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bash on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/bash/</link>
+    <description>Recent content in Bash on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 18 May 2018 15:45:40 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/bash/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>编写Bash脚本</title>
+      <link>https://Paladnix.github.io/posts/bash/bash/</link>
+      <pubDate>Fri, 18 May 2018 15:45:40 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/bash/bash/</guid>
+      <description>作为一个Linux用户，不会自己写Bash脚本，简直太讽刺了，跟windows用户有什么区别，用鼠标点一点。 使用Bash脚本来解放生产力非常重要。不要做重复性的无意义的劳动。
+Bash 脚本头（shebang） # 这个东西汉语里叫&amp;quot;蛇棒&amp;quot;，难听。 以#! 开头的，在没有指定解释器的情况下，使用后面路径的解释器运行。
+常用的bash命令解释器： #! /bin/bash
+Command arguments # Variables About Example $# The number of arguments. while [[ $# -gt 0 ]] do &amp;hellip; done $1 The first argument. echo &amp;ldquo;$1&amp;rdquo;; KEY=&amp;quot;$1&amp;quot; $@ All arguments as a list. for i in &amp;ldquo;$@&amp;rdquo; shift Past one string of commands that splited by space. shift # one line </description>
+    </item>
+    
+  </channel>
+</rss>

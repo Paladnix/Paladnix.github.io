@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/posts/rocksdb/</link>
+    <description>Recent content on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 25 May 2022 10:00:00 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/posts/rocksdb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>skip list原理与实现</title>
+      <link>https://Paladnix.github.io/posts/rocksdb/skip-list/</link>
+      <pubDate>Wed, 25 May 2022 10:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/rocksdb/skip-list/</guid>
+      <description>原理 # 跳表作为一个没有被正规教材收录的数据结构，在工业场景下的用途非常广泛，常常用来媲美红黑树等一系列平衡二叉查找树。其核心的原理是通过多级索引层层二分构建一个支持二分查找的有序链表。
+有序链表无法进行二分查找的原因在于无法随机访问，一个完美的跳表应该类似一个平衡二叉树的模样。
+我们通过间隔一个选一个点复制出来，构成一个一级索引，针对一级索引链表，再通过间隔一个的方式构建二级索引，以此类推，最多$$log_2 n$$层就可以只剩两个点，这就是一个极其类似平衡二叉查找树的结构。查询的复杂度必然也是$$$log_2 n$$$。
+但是上述的结构在insert和delete的时候动态调整的代价非常大，甚至无法通过log级别的复杂度完成。因此在实现的时候，并没有按照这个完美的结构来实现。而是采用了一个随机化抽点的方式来构建索引。事实验证的效率是令人满意的。
+顺带提一下空间复杂度，虽然复制了一些点，但是依然是$O(n)$的复杂度，计算方式非常简单。并且索引部分并不需要记录完整的数据，只需要记录用于比较大小的score即可，因此索引与数据节点之间的空间比起来微不足道了。
+实现原理 # 我们定义最底层的链表是原始的有序链表，向上一层为一级索引，再上一层为二级索引，以此类推。
+我们基于完美形态的跳表可以发现，一级索引的点数为$n$， 二级索引点数为$n/2$, 三级索引的点数为$n/4$, 换个角度来看，一个点出现在一级索引中的概率是1， 出现在二级索引中的概率是1/2， 出现在三级索引中的概率是1/4。因此在插入数据的时候，我们只要按照概率分布，随机出这个点需要出现在哪几级索引中，然后按照索引层去查找和插入即可。
+如何随机出一个点需要被插入的索引层？直接看代码：
+// 该 randomLevel 方法会随机生成 1~MAX_LEVEL 之间的数，且 ： // 1/2 的概率返回 1 // 1/4 的概率返回 2 // 1/8 的概率返回 3 以此类推 private int randomLevel() { int level = 1; // 当 level &amp;lt; MAX_LEVEL，且随机数小于设定的晋升概率时，level + 1 while (Math.random() &amp;lt; 0.5 &amp;amp;&amp;amp; level &amp;lt; MAX_LEVEL) level += 1; return level; } 代码的逻辑非常简单：</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://Paladnix.github.io/posts/rocksdb/rocksdb%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/rocksdb/rocksdb%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://Paladnix.github.io/posts/rocksdb/summary/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/rocksdb/summary/</guid>
+      <description> rocksDB 的逻辑框架 # 作为一个单机版的基于LSM-Tree模式的K-V数据库，具有较好的写入性能。其核心结构包含三个部分：memTable(缓存表), SSTable(持久化表), WAL(命令日志, write ahead log)。
+其核心的部分就是写入链路。
+write 写入链路 # </description>
+    </item>
+    
+  </channel>
+</rss>
