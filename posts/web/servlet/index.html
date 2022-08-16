@@ -1,0 +1,2777 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="这里有一些概念非常的恶心，一开始的时候不太好理解是什么。通过一段时间的实践，我逐渐理解，所以直到今天才开始写这一篇。
+容器Container # 这个概念从我一开始接触Java就让我很困惑。 首先你需要先去看一下我在后面的一篇关于tomcat的配置文件：server.xml。在那里了解一下配置文件的结构，你可以看懂下面的这张图片。 首先，容器这个东西是针对servlet来说的，也就是我们说的容器都是放置和运行servlet的程序。tomcat是个容器。但是上面的每一级都算是一种容器，只是大小不同。
+为什么要有容器 # 其实对于计算机软件体系来说，一切的东西的出现都是因为标准和规定。 所谓容器其实就是一个程序，这个程序按照servlet需要的标准实现了一些接口，使得当你写了一个servlet以后可以成功的放在这个程序中运行，再直白一点就是，你把你的servlet程序交给这个容器，容器可以成功的运行你的程序。
+他们之间通过约定一些标志物信息来实现无缝对接。 所以学习这写东西就是在学习了解他们之间约定的事物，以及，为什么这么约定，这样的约定有什么好处和坏处。
+容器是一段程序吗？ # 在tomcat中，并没有容器这个东西，所以容器并不是一个东西，就像水果并不是一个具体的苹果一样。容器是一个抽象的概念。
+在tomcat中，如上图，有很多的层。这些层就是一个容器结构。他们一起构成了一个完整的容器。
+Engine 是一段基础的引擎程序。我认为是整个tomcat的基础，所有的其他容器都在其的调度控制之下。
+Host 这是一个逻辑概念，但也有对应的实体。在讲tomcat的配置文件servers.xml 的时候，有提到这个host是什么回事。有了这一层，可以在一个tomcat容器中部署不同的项目，这些项目的域名都是不同的。也就是这个容器可以容纳很多的servlet并且这些servlet可以是几种粒度的。
+你可以是完全不同的两个网站，域名都不同，放在一个容器中运行。你也可以是一个网站的不同组件，放在不同的Context内运行。
+所以容器是个体系，不是一个东西。 其实按照这个思路，一切皆容器。因为一切的这些都是调度管理，操作系统调度进程，进程调度线程。一切都是接口和约定。所以万物皆容器。
+什么是servlet # 这是一个标准，你的程序符合这个标准就是一个servlet程序。 一个类其实就是一个servlet，但是很多个类在一起只要有一个servlet的接口，也是一个servlet。 （在此我们不再讨论tomcat的启动过程，我们更关心一个servlet放入tonmcat容器以后的过程）
+来看一下这个图片，这就是servlet主要关联的几个类。 **摘抄：** 从上图可以看出 Servlet 规范就是基于这几个类运转的，与 Servlet 主动关联的是三个类，分别是 ServletConfig、ServletRequest 和 ServletResponse。这三个类都是通过容器传递给 Servlet 的，其中 ServletConfig 是在 Servlet 初始化时就传给 Servlet 了，而后两个是在请求达到时调用 Servlet 时传递过来的。
+我们很清楚 ServletRequest 和 ServletResponse 在 Servlet 运行的意义，但是 ServletConfig 和 ServletContext 对 Servlet 有何价值？ 仔细查看 ServletConfig 接口中声明的方法发现，这些方法都是为了获取这个 Servlet 的一些配置属性，而这些配置属性可能在 Servlet 运行时被用到。 而 ServletContext 又是干什么的呢？ Servlet 的运行模式是一个典型的“握手型的交互式”运行模式。所谓“握手型的交互式”就是两个模块为了交换数据通常都会准备一个交易场景，这个场景一直跟随个这个交易过程直到这个交易完成为止。这个交易场景的初始化是根据这次交易对象指定的参数来定制的，这些指定参数通常就会是一个配置类。所以对号入座，交易场景就由 ServletContext 来描述，而定制的参数集合就由 ServletConfig 来描述。而 ServletRequest 和 ServletResponse 就是要交互的具体对象了，它们通常都是作为运输工具来传递交互结果。">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Servlet" />
+<meta property="og:description" content="这里有一些概念非常的恶心，一开始的时候不太好理解是什么。通过一段时间的实践，我逐渐理解，所以直到今天才开始写这一篇。
+容器Container # 这个概念从我一开始接触Java就让我很困惑。 首先你需要先去看一下我在后面的一篇关于tomcat的配置文件：server.xml。在那里了解一下配置文件的结构，你可以看懂下面的这张图片。 首先，容器这个东西是针对servlet来说的，也就是我们说的容器都是放置和运行servlet的程序。tomcat是个容器。但是上面的每一级都算是一种容器，只是大小不同。
+为什么要有容器 # 其实对于计算机软件体系来说，一切的东西的出现都是因为标准和规定。 所谓容器其实就是一个程序，这个程序按照servlet需要的标准实现了一些接口，使得当你写了一个servlet以后可以成功的放在这个程序中运行，再直白一点就是，你把你的servlet程序交给这个容器，容器可以成功的运行你的程序。
+他们之间通过约定一些标志物信息来实现无缝对接。 所以学习这写东西就是在学习了解他们之间约定的事物，以及，为什么这么约定，这样的约定有什么好处和坏处。
+容器是一段程序吗？ # 在tomcat中，并没有容器这个东西，所以容器并不是一个东西，就像水果并不是一个具体的苹果一样。容器是一个抽象的概念。
+在tomcat中，如上图，有很多的层。这些层就是一个容器结构。他们一起构成了一个完整的容器。
+Engine 是一段基础的引擎程序。我认为是整个tomcat的基础，所有的其他容器都在其的调度控制之下。
+Host 这是一个逻辑概念，但也有对应的实体。在讲tomcat的配置文件servers.xml 的时候，有提到这个host是什么回事。有了这一层，可以在一个tomcat容器中部署不同的项目，这些项目的域名都是不同的。也就是这个容器可以容纳很多的servlet并且这些servlet可以是几种粒度的。
+你可以是完全不同的两个网站，域名都不同，放在一个容器中运行。你也可以是一个网站的不同组件，放在不同的Context内运行。
+所以容器是个体系，不是一个东西。 其实按照这个思路，一切皆容器。因为一切的这些都是调度管理，操作系统调度进程，进程调度线程。一切都是接口和约定。所以万物皆容器。
+什么是servlet # 这是一个标准，你的程序符合这个标准就是一个servlet程序。 一个类其实就是一个servlet，但是很多个类在一起只要有一个servlet的接口，也是一个servlet。 （在此我们不再讨论tomcat的启动过程，我们更关心一个servlet放入tonmcat容器以后的过程）
+来看一下这个图片，这就是servlet主要关联的几个类。 **摘抄：** 从上图可以看出 Servlet 规范就是基于这几个类运转的，与 Servlet 主动关联的是三个类，分别是 ServletConfig、ServletRequest 和 ServletResponse。这三个类都是通过容器传递给 Servlet 的，其中 ServletConfig 是在 Servlet 初始化时就传给 Servlet 了，而后两个是在请求达到时调用 Servlet 时传递过来的。
+我们很清楚 ServletRequest 和 ServletResponse 在 Servlet 运行的意义，但是 ServletConfig 和 ServletContext 对 Servlet 有何价值？ 仔细查看 ServletConfig 接口中声明的方法发现，这些方法都是为了获取这个 Servlet 的一些配置属性，而这些配置属性可能在 Servlet 运行时被用到。 而 ServletContext 又是干什么的呢？ Servlet 的运行模式是一个典型的“握手型的交互式”运行模式。所谓“握手型的交互式”就是两个模块为了交换数据通常都会准备一个交易场景，这个场景一直跟随个这个交易过程直到这个交易完成为止。这个交易场景的初始化是根据这次交易对象指定的参数来定制的，这些指定参数通常就会是一个配置类。所以对号入座，交易场景就由 ServletContext 来描述，而定制的参数集合就由 ServletConfig 来描述。而 ServletRequest 和 ServletResponse 就是要交互的具体对象了，它们通常都是作为运输工具来传递交互结果。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Paladnix.github.io/posts/web/servlet/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-07-28T11:22:45+00:00" />
+<meta property="article:modified_time" content="2017-07-28T11:22:45+00:00" />
+
+<title>Servlet | Paladnix Blog Site</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.82c5dbd23447cee0b4c2aa3ed08ce0961faa40e1fa370eee4f8c9f02e0d46b5f.css" integrity="sha256-gsXb0jRHzuC0wqo&#43;0Izglh&#43;qQOH6Nw7uT4yfAuDUa18=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.32aac9bd6b24494aac3806f4c120c12d400590c29ddb2ac42f0ba71f77227fc0.js" integrity="sha256-MqrJvWskSUqsOAb0wSDBLUAFkMKd2yrELwunH3cif8A=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><img src="/images/paladnix-github.jpeg" alt="Logo" /><span>Paladnix Blog Site</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Blog Article</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-19f10fbb697c334a3284dd2194bc29f3" class="toggle"  />
+    <label for="section-19f10fbb697c334a3284dd2194bc29f3" class="flex justify-between">
+      <a role="button" class="">Acm</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Atcoder</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/atcoder/abc-256-f/" class="">ABC-256-F 题解</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/atcoder/abc-255_e/" class="">Lucky Number 题解</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/bit-%E5%8C%BA%E9%97%B4%E6%B1%82%E5%92%8C/" class="">多棵树状数组处理区间问题</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acm-collection/" class="">ACM-collection</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/cf855-c/" class="">Codeforces 855-C 树形DP</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/fft/" class="">FFT 快速傅立叶变换</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acm-vim/" class="">VIM 在ACM/ICPC中的非最佳实践</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acm-contest-1/" class="">比赛题解-2017苏大暑假集训个人赛(13)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acmroad/" class="">ACMRoad</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-456a039e07b28260a08b7fc62b92dfd7" class="toggle"  />
+    <label for="section-456a039e07b28260a08b7fc62b92dfd7" class="flex justify-between">
+      <a role="button" class="">Rocks Db</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/rocksdb/skip-list/" class="">skip list原理与实现</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/rocksdb/summary/" class="">Summary</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-58201612638e1ea8bc6dbd0ba8468161" class="toggle"  />
+    <label for="section-58201612638e1ea8bc6dbd0ba8468161" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/python/python-type/" class="">python type</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/python/python-multithreaded/" class="">python 多线程和异步</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/python/anaconda/" class="">Tutorial of anaconda &amp; 原生虚环境</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d4afb3cb60fce6f19da24b63c311e48e" class="toggle"  />
+    <label for="section-d4afb3cb60fce6f19da24b63c311e48e" class="flex justify-between">
+      <a role="button" class="">Others</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/cuda/" class="">cuda</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/shadowsocks/" class="">shadowsocks 搭建</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/ngrok/" class="">ngrok服务端与客户端</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/tensorflow/" class="">tensorflow</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/vimium/" class="">Vimium - Google-Chrome-Plugin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/lucene-1/" class="">Lucene（一）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/raspberrypi/" class="">树莓派 - 入坑指南(1)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/curator/" class="">apache curator</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/synchronized/" class="">synchronized 同步锁</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/zookeeper/" class="">ZooKeeper</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/diary/" class="">Latex写工作日志的实践</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/sql/" class="">SQL进阶</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/hexo/" class="">Hexo</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6dcc8fdde13341c88dddf304b2c4c793" class="toggle"  />
+    <label for="section-6dcc8fdde13341c88dddf304b2c4c793" class="flex justify-between">
+      <a role="button" class="">Self</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/fight/" class="">创业者</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/self-2/" class="">再出发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/self-1/" class="">阶段性总结</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/myheart/" class="">一个决定</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/alibaba/" class="">实习转正答辩</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/internship/" class="">关于实习-alibaba Middle Ware</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/howtolearn/" class="">关于计算机科学的学习</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/baiji/" class="">百技</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/thinking-1/" class="">随想-1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/before/" class="">学习更深C/C&#43;&#43;语言之前的思想准备</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/begining/" class="">Begining</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/%E4%B8%A4%E7%B1%BB%E4%BA%BA/" class="">两类人</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/%E7%A4%BE%E4%BC%9A%E5%88%86%E5%B7%A5/" class="">社会分工</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-859a76a0227ac62639bc2dad75336fc7" class="toggle" checked />
+    <label for="section-859a76a0227ac62639bc2dad75336fc7" class="flex justify-between">
+      <a role="button" class="">Web</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/apache2/" class="">apache2 配置多端口服务</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/less/" class="">less 笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react-2/" class="">react 设计概念</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/mobx/" class="">mobx - redux的优秀替代品</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react-router-dom/" class="">react-router tutorial</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react-1/" class="">使用react开发的优秀实践</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/es6/" class="">ES 6</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/node/" class="">node nodejs npm 傻傻分不清楚on Ubuntu</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/cors/" class="">CORS Cross-Origin Resource Sharing</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/tomcatserver/" class="">tomcat Server.xml及其启动顺序</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/cookie/" class="">Cookie</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/sso/" class="">sso 单点登录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/web/" class="">web.xml</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/angular/" class="">angular</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react/" class="">react 初探-一些基础概念</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/cgi/" class="">CGI 通用网关协议</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/servlet/" class="active">Servlet</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/chrome/" class="">chrome 控制台</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/tomcat/" class="">tomcat</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/http/" class="">你所不知道的http协议之优秀</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/rest-framework/" class="">rest_framework</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/django/" class="">Django</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/husky/" class="">Husky - A Light Web MVC Framework</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fd6cd2d4bc98c7c7e2bc50b28778314" class="toggle"  />
+    <label for="section-9fd6cd2d4bc98c7c7e2bc50b28778314" class="flex justify-between">
+      <a role="button" class="">Bash</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/bash/bash/" class="">编写Bash脚本</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/bash/awk/" class="">awk - Linux文本处理大杀器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/bash/commands/" class="">真正的老司机如何用Linux文本命令</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ac08f61dce7ad61dd2ea7ad4910367cb" class="toggle"  />
+    <label for="section-ac08f61dce7ad61dd2ea7ad4910367cb" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/taskwarrior/" class="">Tutorial of Taskwarrior</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/linux-timing/" class="">Linux 定时任务</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/linuxprogramming-1/" class="">《Linux 编程实践教程》- 1</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/curl/" class="">curl</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-371dae9a8dd24e9c6ca13652146b9046" class="toggle"  />
+    <label for="section-371dae9a8dd24e9c6ca13652146b9046" class="flex justify-between">
+      <a role="button" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/advanced-git-1/" class="">git 进阶一</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/advanced-git/" class="">git 进阶</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/git/" class="">git实战指南</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/git-checkout/" class="">Git Checkout</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/git-log/" class="">Git Log</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/rebase/" class="">Rebase</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/reset/" class="">Reset</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/summary/" class="">Summary</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-069647d66c3986a88c683691b95ae841" class="toggle"  />
+    <label for="section-069647d66c3986a88c683691b95ae841" class="flex justify-between">
+      <a role="button" class="">C</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/effectivec-1/" class="">Effective C&#43;&#43; 读书笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/funcp/" class="">C 函数指针</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/cpp-1/" class="">cpp lamda &amp; for_each</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c/" class="">随想-关于语言的一些感受</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c-oop-3/" class="">C&#43;&#43; OOP--const、引用、指针</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c-oop-2/" class="">C&#43;&#43; OOP--函数解析过程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c-oop-1/" class="">C&#43;&#43; OOP基础--动态绑定</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/accessmodifier/" class="">OOP中的-控制修饰符</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/debug/" class="">Debug</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/epoll/" class="">Epoll</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/gccclang/" class="">Gcc&amp; Clang</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/rand/" class="">Rand</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/scopeguard/" class="">Scope Guard</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/thread/" class="">Thread</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/" class="">内存检测</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" class="">智能指针</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/%E7%81%AB%E7%84%B0%E5%9B%BE/" class="">火焰图</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4badfc46eeb07d2a91fe2b336a095056" class="toggle"  />
+    <label for="section-4badfc46eeb07d2a91fe2b336a095056" class="flex justify-between">
+      <a role="button" class="">Java</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/javawait/" class="">java wait一种线程通信方式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/lamda/" class="">Java lamda 表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/javajsonandobject/" class="">Java Json And Object</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/javahttp/" class="">Java HttpClient</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-2/" class="">每天读点Spring(2)--Start</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-1/" class="">每天读点Spring(1)--Introduction</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-5/" class="">Java 多线程实现异步调用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-shell/" class="">spring-shell</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/status/" class="">状态机编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/springmvc/" class="">SpringMVC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring/" class="">spring</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/log/" class="">Java-Log日志</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-4/" class="">java 线程与池</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/iterator/" class="">iterator 迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-exception/" class="">Java Exception &amp; Error</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/jdbc/" class="">JDBC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-3/" class="">Java-反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-2/" class="">Java 基础数据结构</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/maven-1/" class="">Maven</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/jersey/" class="">jersey</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-1/" class="">Java 抽象与接口</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-test-powermockito/" class="">Java Test Power Mockito</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/jdk/" class="">Jdk</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/maven/" class="">Maven</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/netty-io/" class="">Netty Io</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-boot/" class="">Spring Boot</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/util-concurrent/" class="">Util Concurrent</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-bcb64d436ed9c02263a1b9b3269d8223" class="toggle"  />
+    <label for="section-bcb64d436ed9c02263a1b9b3269d8223" class="flex justify-between">
+      <a role="button" class="">Redis</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/redis-1/" class="">Redis 深度学习(1)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/hyperloglog/" class="">HyperLogLog 基数估计算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/geohash/" class="">GeoHash</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/redis/" class="">redis</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-5370d5473c2ed1e3d784bba01e464d1f" class="toggle"  />
+    <label for="section-5370d5473c2ed1e3d784bba01e464d1f" class="flex justify-between">
+      <a role="button" class="">Vim</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/vim/vim/" class="">VIM 花式进阶</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/vim/install/" class="">Install</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/vim/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-c8fc425ee75853771b6ba2bb2652a518" class="toggle"  />
+    <label for="section-c8fc425ee75853771b6ba2bb2652a518" class="flex justify-between">
+      <a role="button" class="">ID Ea</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/idea/ideakey/" class="">IDEA常用快捷键</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/idea/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1927baaa335601867ef5539b8d4b652e" class="toggle"  />
+    <label for="section-1927baaa335601867ef5539b8d4b652e" class="flex justify-between">
+      <a role="button" class="">Cmake</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/libs/" class="">Libs</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/makefile/" class="">Makefile</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/project-struct/" class="">Project Struct</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-01bc7a3f69f55c45502271dc2ed2272b" class="toggle"  />
+    <label for="section-01bc7a3f69f55c45502271dc2ed2272b" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/docker/build-image/" class="">Build Image</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/docker/docker-limit/" class="">Docker Limit</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/docker/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/about/" class="">关于我</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-a30b8e1d093c7132d046c0cf50833535" class="toggle"  />
+    <label for="section-a30b8e1d093c7132d046c0cf50833535" class="flex justify-between">
+      <a role="button" class="">Shark</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/2.28/" class="">2.28</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/algorithm-a/" class="">Algorithm A</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/atcoder/" class="">Atcoder</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/mui-v4-to-v5/" class="">Mui V4 to V5</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/testing-stl/" class="">Testing Stl</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/testing2-4/" class="">Testing2 4</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/week_11.8-12/" class="">Week 11.8 12</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>_drafts</span>
+  
+
+          
+  <ul>
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/_drafts/latex/" class="">Tutorial of Latex - The difference with .cls and .sty</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Docs</span>
+  
+
+          
+  <ul>
+    
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Servlet</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#容器container">容器Container</a>
+      <ul>
+        <li><a href="#为什么要有容器">为什么要有容器</a></li>
+        <li><a href="#容器是一段程序吗">容器是一段程序吗？</a></li>
+      </ul>
+    </li>
+    <li><a href="#什么是servlet">什么是servlet</a>
+      <ul>
+        <li><a href="#一个web应用是如何被初始化的">一个web应用是如何被初始化的</a></li>
+        <li><a href="#创建servlet对象">创建servlet对象</a></li>
+        <li><a href="#初始化-servlet">初始化 Servlet</a></li>
+      </ul>
+    </li>
+    <li><a href="#servlet-是如何工作的">servlet 是如何工作的</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown">
+  <h1>
+    <a href="/posts/web/servlet/">Servlet</a>
+  </h1>
+  
+  <h5>July 28, 2017</h5>
+
+
+
+  
+
+  
+  <div>
+    
+      <a href="/tags/java/">Java</a>, 
+      <a href="/tags/web/">Web</a>, 
+      <a href="/tags/servlet/">Servlet</a>
+  </div>
+  
+
+
+
+<p>这里有一些概念非常的恶心，一开始的时候不太好理解是什么。通过一段时间的实践，我逐渐理解，所以直到今天才开始写这一篇。</p>
+<h2 id="容器container">
+  容器Container
+  <a class="anchor" href="#%e5%ae%b9%e5%99%a8container">#</a>
+</h2>
+<p>这个概念从我一开始接触Java就让我很困惑。
+首先你需要先去看一下我在后面的一篇关于tomcat的配置文件：server.xml。在那里了解一下配置文件的结构，你可以看懂下面的这张图片。
+<img src="/img/tomcat-1.jpg" alt="pic" /></p>
+<p>首先，容器这个东西是针对servlet来说的，也就是我们说的容器都是放置和运行servlet的程序。tomcat是个容器。但是上面的每一级都算是一种容器，只是大小不同。</p>
+<h3 id="为什么要有容器">
+  为什么要有容器
+  <a class="anchor" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e6%9c%89%e5%ae%b9%e5%99%a8">#</a>
+</h3>
+<p>其实对于计算机软件体系来说，一切的东西的出现都是因为标准和规定。
+所谓容器其实就是一个程序，这个程序按照servlet需要的标准实现了一些接口，使得当你写了一个servlet以后可以成功的放在这个程序中运行，再直白一点就是，你把你的servlet程序交给这个容器，容器可以成功的运行你的程序。</p>
+<p>他们之间通过约定一些标志物信息来实现无缝对接。
+所以学习这写东西就是在学习了解他们之间约定的事物，以及，为什么这么约定，这样的约定有什么好处和坏处。</p>
+<h3 id="容器是一段程序吗">
+  容器是一段程序吗？
+  <a class="anchor" href="#%e5%ae%b9%e5%99%a8%e6%98%af%e4%b8%80%e6%ae%b5%e7%a8%8b%e5%ba%8f%e5%90%97">#</a>
+</h3>
+<p>在tomcat中，并没有容器这个东西，所以容器并不是一个东西，就像水果并不是一个具体的苹果一样。容器是一个抽象的概念。</p>
+<p>在tomcat中，如上图，有很多的层。这些层就是一个容器结构。他们一起构成了一个完整的容器。</p>
+<p><strong>Engine</strong>
+是一段基础的引擎程序。我认为是整个tomcat的基础，所有的其他容器都在其的调度控制之下。</p>
+<p><strong>Host</strong>
+这是一个逻辑概念，但也有对应的实体。在讲tomcat的配置文件servers.xml 的时候，有提到这个host是什么回事。有了这一层，可以在一个tomcat容器中部署不同的项目，这些项目的域名都是不同的。也就是这个容器可以容纳很多的servlet并且这些servlet可以是几种粒度的。</p>
+<p>你可以是完全不同的两个网站，域名都不同，放在一个容器中运行。你也可以是一个网站的不同组件，放在不同的Context内运行。</p>
+<p>所以容器是个体系，不是一个东西。
+其实按照这个思路，一切皆容器。因为一切的这些都是调度管理，操作系统调度进程，进程调度线程。一切都是接口和约定。所以万物皆容器。</p>
+<h2 id="什么是servlet">
+  什么是servlet
+  <a class="anchor" href="#%e4%bb%80%e4%b9%88%e6%98%afservlet">#</a>
+</h2>
+<p>这是一个标准，你的程序符合这个标准就是一个servlet程序。
+一个类其实就是一个servlet，但是很多个类在一起只要有一个servlet的接口，也是一个servlet。
+（在此我们不再讨论tomcat的启动过程，我们更关心一个servlet放入tonmcat容器以后的过程）</p>
+<p>来看一下这个图片，这就是servlet主要关联的几个类。
+<img src="/img/servlet-1.jpg" alt="pic" /></p>
+<pre><code>**摘抄：**
+</code></pre>
+<p>从上图可以看出 Servlet 规范就是基于这几个类运转的，与 Servlet 主动关联的是三个类，分别是 ServletConfig、ServletRequest 和 ServletResponse。这三个类都是通过容器传递给 Servlet 的，其中 ServletConfig 是在 Servlet 初始化时就传给 Servlet 了，而后两个是在请求达到时调用 Servlet 时传递过来的。</p>
+<p>我们很清楚 ServletRequest 和 ServletResponse 在 Servlet 运行的意义，但是 ServletConfig 和 ServletContext 对 Servlet 有何价值？
+仔细查看 ServletConfig 接口中声明的方法发现，这些方法都是为了获取这个 Servlet 的一些配置属性，而这些配置属性可能在 Servlet 运行时被用到。
+而 ServletContext 又是干什么的呢？ Servlet 的运行模式是一个典型的“握手型的交互式”运行模式。所谓“握手型的交互式”就是两个模块为了交换数据通常都会准备一个交易场景，这个场景一直跟随个这个交易过程直到这个交易完成为止。这个交易场景的初始化是根据这次交易对象指定的参数来定制的，这些指定参数通常就会是一个配置类。所以对号入座，交易场景就由 ServletContext 来描述，而定制的参数集合就由 ServletConfig 来描述。而 ServletRequest 和 ServletResponse 就是要交互的具体对象了，它们通常都是作为运输工具来传递交互结果。</p>
+<h3 id="一个web应用是如何被初始化的">
+  一个web应用是如何被初始化的
+  <a class="anchor" href="#%e4%b8%80%e4%b8%aaweb%e5%ba%94%e7%94%a8%e6%98%af%e5%a6%82%e4%bd%95%e8%a2%ab%e5%88%9d%e5%a7%8b%e5%8c%96%e7%9a%84">#</a>
+</h3>
+<p>对于tomcat来说，会一层一层的往下进行初始化，第一件要做的事情就是去找配置文件。
+对于一个应用来说，首先会找到他的<code>web.xml</code>。tomcat会把这个文件解析成一个属性的类的对象WebXml。随后根据这个WebXml去设置这个context的容器环境。
+这个时候就会创建对应的servlet对象，filter，listener等等。</p>
+<p>这里有一个小的点，我看到了，写一下：
+创建servlet对象的时候，并不是直接实例化成一个servlet对象，而是包装成StandardWrapper。
+为什么要将 Servlet 包装成 StandardWrapper 而不直接是 Servlet 对象。这里 StandardWrapper 是 Tomcat 容器中的一部分，它具有容器的特征，而 Servlet 为了一个独立的 web 开发标准，不应该强耦合在 Tomcat 中。</p>
+<p>但是初始化还并没有完成。</p>
+<h3 id="创建servlet对象">
+  创建servlet对象
+  <a class="anchor" href="#%e5%88%9b%e5%bb%baservlet%e5%af%b9%e8%b1%a1">#</a>
+</h3>
+<p>如果 Servlet 的 load-on-startup 配置项大于 0，那么在 Context 容器启动的时候就会被实例化, 在 conf 下的 web.xml 文件中定义了一些默认的配置项，其定义了两个 Servlet，分别是：org.apache.catalina.servlets.DefaultServlet 和 org.apache.jasper.servlet.JspServlet 它们的 load-on-startup 分别是 1 和 3，也就是当 Tomcat 启动时这两个 Servlet 就会被启动。</p>
+<p>创建 Servlet 实例的方法是从 Wrapper. loadServlet 开始的。
+loadServlet 方法要完成的就是获取 servletClass 然后把它交给 InstanceManager 去创建一个基于 servletClass.class 的对象。如果这个 Servlet 配置了 jsp-file，那么这个 servletClass 就是 conf/web.xml 中定义的 org.apache.jasper.servlet.JspServlet 了。</p>
+<h3 id="初始化-servlet">
+  初始化 Servlet
+  <a class="anchor" href="#%e5%88%9d%e5%a7%8b%e5%8c%96-servlet">#</a>
+</h3>
+<p>初始化 Servlet 在 StandardWrapper 的 initServlet 方法中，这个方法很简单就是调用 Servlet 的 init 的方法，同时把包装了 StandardWrapper 对象的 StandardWrapperFacade 作为 ServletConfig 传给 Servlet。Tomcat 容器为何要传 StandardWrapperFacade 给 Servlet 对象将在后面做详细解析。</p>
+<p>如果该 Servlet 关联的是一个 jsp 文件，那么前面初始化的就是 JspServlet，接下去会模拟一次简单请求，请求调用这个 jsp 文件，以便编译这个 jsp 文件为 class，并初始化这个 class。</p>
+<p>这样 Servlet 对象就初始化完成了，事实上 Servlet 从被 web.xml 中解析到完成初始化，这个过程非常复杂，中间有很多过程，包括各种容器状态的转化引起的监听事件的触发、各种访问权限的控制和一些不可预料的错误发生的判断行为等等。我们这里只抓了一些关键环节进行阐述，试图让大家有个总体脉络。</p>
+<h2 id="servlet-是如何工作的">
+  servlet 是如何工作的
+  <a class="anchor" href="#servlet-%e6%98%af%e5%a6%82%e4%bd%95%e5%b7%a5%e4%bd%9c%e7%9a%84">#</a>
+</h2>
+<p>当用户从浏览器向服务器发起一个请求，通常会包含如下信息：
+<code>http://hostname: port /contextpath/servletpath</code>，
+<code>hostname</code>和 <code>port</code> 是用来与服务器建立 TCP 连接，而后面的 URL 才是用来选择服务器中那个子容器服务用户的请求。那服务器是如何根据这个 URL 来达到正确的 Servlet 容器中的呢？</p>
+<p>Tomcat7.0 中这件事很容易解决，因为这种映射工作有专门一个类来完成的，这个就是 org.apache.tomcat.util.http.mapper，这个类保存了 Tomcat 的 Container 容器中的所有子容器的信息，当 org.apache.catalina.connector. Request 类在进入 Container 容器之前，mapper 将会根据这次请求的 hostnane 和 contextpath 将 host 和 context 容器设置到 Request 的 mappingData 属性中。所以当 Request 进入 Container 容器之前，它要访问那个子容器这时就已经确定了。</p>
+<p>下面这幅图就解释了整个流程
+<img src="/img/servlet-2.jpg" alt="pic" /></p>
+<p>我们现正知道了请求是如何达到正确的 Wrapper 容器，但是请求到达最终的 Servlet 还要完成一些步骤，必须要执行 Filter 链，以及要通知你在 web.xml 中定义的 listener。</p>
+<p>接下去就要执行 Servlet 的 service 方法了，通常情况下，我们自己定义的 servlet 并不是直接去实现 javax.servlet.servlet 接口，而是去继承更简单的 HttpServlet 类或者 GenericServlet 类，我们可以有选择的覆盖相应方法去实现我们要完成的工作。</p>
+<p>上面是基础的servlet原理，现在也很少有人直接这样用了，大多数会使用spring这样的框架来完成，在我的每天读点spring中去详细解释。</p>
+<p>在使用spring的时候，我们往往只要配置一个spring的分发器的servlet。然后剩余的工作就交给这个分发器继续管理。所以我们可以使用注解来定义spring框架下的servlet。以及其他的特性。</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+    window.MathJaxReady = false;
+    window.MathJax = {
+        startup: {
+            ready: () => {
+            MathJax.startup.defaultReady();
+            MathJax.startup.promise.then(() => {
+            console.log('MathJax initial typesetting complete');
+          });
+        },
+        elements: null,          
+        typeset: true,           
+        pageReady: () => {
+          return MathJax.startup.defaultPageReady().then(() => {
+            window.MathJaxReady = true;
+            console.log('MathJax initial typesetting complete');
+          });
+        },
+        document: document,      
+        input: [],               
+        output: null,            
+        handler: null,           
+        adaptor: null            
+      },
+      tex: {
+        inlineMath: [['$', '$'], ['$$$', '$$$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+      },
+        options:{
+            ignoreHtmlClass: "CodeMirror|language-cpp|ace_editor|noJax",
+            skipHtmlTags: ['script', 'style', 'textarea', 'input'],
+        },
+      chtml:{
+          scale: 1.1
+      }
+    };
+</script>
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#容器container">容器Container</a>
+      <ul>
+        <li><a href="#为什么要有容器">为什么要有容器</a></li>
+        <li><a href="#容器是一段程序吗">容器是一段程序吗？</a></li>
+      </ul>
+    </li>
+    <li><a href="#什么是servlet">什么是servlet</a>
+      <ul>
+        <li><a href="#一个web应用是如何被初始化的">一个web应用是如何被初始化的</a></li>
+        <li><a href="#创建servlet对象">创建servlet对象</a></li>
+        <li><a href="#初始化-servlet">初始化 Servlet</a></li>
+      </ul>
+    </li>
+    <li><a href="#servlet-是如何工作的">servlet 是如何工作的</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,3223 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="awk 已经不是一种命令了，而是一种语言。用于在linux/unix下对文本和数据进行处理。数据可以来自标准输入(stdin)、一个或多个文件，或其它命令的输出。
+在最开始，我的文本处理方式就是写一个c语言去读文件然后在处理完输出来。刚开始学程序的时候觉得自己很厉害的样子。这样做过几次以后就发现并没有这么好用，因为每次都要写一个很麻烦。
+在后来就是学习用脚本来处理。
+关于Linux命令，推荐一个小站点，写的东西都还非常细致。
+命令形式 # awk [options] &#39;script&#39; var=value file(s) awk [options] -f scriptfile var=value file(s) 命令选项
+-F fs fs指定输入分隔符，fs可以是字符串或正则表达式，如-F: -v var=value 赋值一个用户定义变量，将外部变量传递给awk脚本 -f scripfile 从脚本文件中读取awk命令 脚本模式和操作 # awk的脚本主要由模式和操作组成：
+模式 # /正则表达式/：使用通配符的扩展集。 关系表达式：使用运算符进行操作，可以是字符串或数字的比较测试。 模式匹配表达式：用运算符~（匹配）和~!（不匹配）。 BEGIN语句块、pattern语句块、END语句块 操作 # 操作由一个或多个命令、函数、表达式组成，之间由换行符或分号隔开，并位于大括号内，主要部分是：
+变量或数组赋值 输出命令 内置函数 控制流语句 awk脚本的基本结构 # awk &#39;BEGIN{ print &#34;start&#34; } pattern{ commands } END{ print &#34;end&#34; }&#39; file 一个awk脚本通常由：BEGIN语句块、能够使用模式匹配的通用语句块、END语句块3部分组成，这三个部分是可选的。任意一个部分都可以不出现在脚本中，脚本通常是被单引号或双引号中，例如：
+awk &#39;BEGIN{ i=0 } { i&#43;&#43; } END{ print i }&#39; filename awk &#34;BEGIN{ i=0 } { i&#43;&#43; } END{ print i }&#34; filename 工作原理 # 第一步：执行BEGIN{ commands }语句块中的语句； 第二步：从文件或标准输入(stdin)读取一行，然后执行pattern{ commands }语句块，它逐行扫描文件，从第一行到最后一行重复这个过程，直到文件全部被读取完毕 第三步：当读至输入流末尾时，执行END{ commands }语句块。 BEGIN语句块 在awk开始从输入流中读取行之前被执行，这是一个可选的语句块，比如变量初始化、打印输出表格的表头等语句通常可以写在BEGIN语句块中。 END语句块 在awk从输入流中读取完所有的行之后即被执行，比如打印所有行的分析结果这类信息汇总都是在END语句块中完成，它也是一个可选语句块。 pattern语句块 中的通用命令是最重要的部分，它也是可选的。如果没有提供pattern语句块，则默认执行{ print }，即打印每一个读取到的行，awk读取的每一行都会执行该语句块。">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="awk - Linux文本处理大杀器" />
+<meta property="og:description" content="awk 已经不是一种命令了，而是一种语言。用于在linux/unix下对文本和数据进行处理。数据可以来自标准输入(stdin)、一个或多个文件，或其它命令的输出。
+在最开始，我的文本处理方式就是写一个c语言去读文件然后在处理完输出来。刚开始学程序的时候觉得自己很厉害的样子。这样做过几次以后就发现并没有这么好用，因为每次都要写一个很麻烦。
+在后来就是学习用脚本来处理。
+关于Linux命令，推荐一个小站点，写的东西都还非常细致。
+命令形式 # awk [options] &#39;script&#39; var=value file(s) awk [options] -f scriptfile var=value file(s) 命令选项
+-F fs fs指定输入分隔符，fs可以是字符串或正则表达式，如-F: -v var=value 赋值一个用户定义变量，将外部变量传递给awk脚本 -f scripfile 从脚本文件中读取awk命令 脚本模式和操作 # awk的脚本主要由模式和操作组成：
+模式 # /正则表达式/：使用通配符的扩展集。 关系表达式：使用运算符进行操作，可以是字符串或数字的比较测试。 模式匹配表达式：用运算符~（匹配）和~!（不匹配）。 BEGIN语句块、pattern语句块、END语句块 操作 # 操作由一个或多个命令、函数、表达式组成，之间由换行符或分号隔开，并位于大括号内，主要部分是：
+变量或数组赋值 输出命令 内置函数 控制流语句 awk脚本的基本结构 # awk &#39;BEGIN{ print &#34;start&#34; } pattern{ commands } END{ print &#34;end&#34; }&#39; file 一个awk脚本通常由：BEGIN语句块、能够使用模式匹配的通用语句块、END语句块3部分组成，这三个部分是可选的。任意一个部分都可以不出现在脚本中，脚本通常是被单引号或双引号中，例如：
+awk &#39;BEGIN{ i=0 } { i&#43;&#43; } END{ print i }&#39; filename awk &#34;BEGIN{ i=0 } { i&#43;&#43; } END{ print i }&#34; filename 工作原理 # 第一步：执行BEGIN{ commands }语句块中的语句； 第二步：从文件或标准输入(stdin)读取一行，然后执行pattern{ commands }语句块，它逐行扫描文件，从第一行到最后一行重复这个过程，直到文件全部被读取完毕 第三步：当读至输入流末尾时，执行END{ commands }语句块。 BEGIN语句块 在awk开始从输入流中读取行之前被执行，这是一个可选的语句块，比如变量初始化、打印输出表格的表头等语句通常可以写在BEGIN语句块中。 END语句块 在awk从输入流中读取完所有的行之后即被执行，比如打印所有行的分析结果这类信息汇总都是在END语句块中完成，它也是一个可选语句块。 pattern语句块 中的通用命令是最重要的部分，它也是可选的。如果没有提供pattern语句块，则默认执行{ print }，即打印每一个读取到的行，awk读取的每一行都会执行该语句块。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Paladnix.github.io/posts/bash/awk/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-09-07T17:44:07+00:00" />
+<meta property="article:modified_time" content="2017-09-07T17:44:07+00:00" />
+
+<title>awk - Linux文本处理大杀器 | Paladnix Blog Site</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.82c5dbd23447cee0b4c2aa3ed08ce0961faa40e1fa370eee4f8c9f02e0d46b5f.css" integrity="sha256-gsXb0jRHzuC0wqo&#43;0Izglh&#43;qQOH6Nw7uT4yfAuDUa18=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.32aac9bd6b24494aac3806f4c120c12d400590c29ddb2ac42f0ba71f77227fc0.js" integrity="sha256-MqrJvWskSUqsOAb0wSDBLUAFkMKd2yrELwunH3cif8A=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><img src="/images/paladnix-github.jpeg" alt="Logo" /><span>Paladnix Blog Site</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Blog Article</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-19f10fbb697c334a3284dd2194bc29f3" class="toggle"  />
+    <label for="section-19f10fbb697c334a3284dd2194bc29f3" class="flex justify-between">
+      <a role="button" class="">Acm</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Atcoder</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/atcoder/abc-256-f/" class="">ABC-256-F 题解</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/atcoder/abc-255_e/" class="">Lucky Number 题解</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/bit-%E5%8C%BA%E9%97%B4%E6%B1%82%E5%92%8C/" class="">多棵树状数组处理区间问题</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acm-collection/" class="">ACM-collection</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/cf855-c/" class="">Codeforces 855-C 树形DP</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/fft/" class="">FFT 快速傅立叶变换</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acm-vim/" class="">VIM 在ACM/ICPC中的非最佳实践</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acm-contest-1/" class="">比赛题解-2017苏大暑假集训个人赛(13)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acmroad/" class="">ACMRoad</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-456a039e07b28260a08b7fc62b92dfd7" class="toggle"  />
+    <label for="section-456a039e07b28260a08b7fc62b92dfd7" class="flex justify-between">
+      <a role="button" class="">Rocks Db</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/rocksdb/skip-list/" class="">skip list原理与实现</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/rocksdb/summary/" class="">Summary</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-58201612638e1ea8bc6dbd0ba8468161" class="toggle"  />
+    <label for="section-58201612638e1ea8bc6dbd0ba8468161" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/python/python-type/" class="">python type</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/python/python-multithreaded/" class="">python 多线程和异步</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/python/anaconda/" class="">Tutorial of anaconda &amp; 原生虚环境</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d4afb3cb60fce6f19da24b63c311e48e" class="toggle"  />
+    <label for="section-d4afb3cb60fce6f19da24b63c311e48e" class="flex justify-between">
+      <a role="button" class="">Others</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/cuda/" class="">cuda</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/shadowsocks/" class="">shadowsocks 搭建</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/ngrok/" class="">ngrok服务端与客户端</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/tensorflow/" class="">tensorflow</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/vimium/" class="">Vimium - Google-Chrome-Plugin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/lucene-1/" class="">Lucene（一）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/raspberrypi/" class="">树莓派 - 入坑指南(1)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/curator/" class="">apache curator</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/synchronized/" class="">synchronized 同步锁</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/zookeeper/" class="">ZooKeeper</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/diary/" class="">Latex写工作日志的实践</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/sql/" class="">SQL进阶</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/hexo/" class="">Hexo</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6dcc8fdde13341c88dddf304b2c4c793" class="toggle"  />
+    <label for="section-6dcc8fdde13341c88dddf304b2c4c793" class="flex justify-between">
+      <a role="button" class="">Self</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/fight/" class="">创业者</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/self-2/" class="">再出发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/self-1/" class="">阶段性总结</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/myheart/" class="">一个决定</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/alibaba/" class="">实习转正答辩</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/internship/" class="">关于实习-alibaba Middle Ware</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/howtolearn/" class="">关于计算机科学的学习</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/baiji/" class="">百技</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/thinking-1/" class="">随想-1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/before/" class="">学习更深C/C&#43;&#43;语言之前的思想准备</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/begining/" class="">Begining</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/%E4%B8%A4%E7%B1%BB%E4%BA%BA/" class="">两类人</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/%E7%A4%BE%E4%BC%9A%E5%88%86%E5%B7%A5/" class="">社会分工</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-859a76a0227ac62639bc2dad75336fc7" class="toggle"  />
+    <label for="section-859a76a0227ac62639bc2dad75336fc7" class="flex justify-between">
+      <a role="button" class="">Web</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/apache2/" class="">apache2 配置多端口服务</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/less/" class="">less 笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react-2/" class="">react 设计概念</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/mobx/" class="">mobx - redux的优秀替代品</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react-router-dom/" class="">react-router tutorial</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react-1/" class="">使用react开发的优秀实践</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/es6/" class="">ES 6</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/node/" class="">node nodejs npm 傻傻分不清楚on Ubuntu</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/cors/" class="">CORS Cross-Origin Resource Sharing</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/tomcatserver/" class="">tomcat Server.xml及其启动顺序</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/cookie/" class="">Cookie</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/sso/" class="">sso 单点登录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/web/" class="">web.xml</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/angular/" class="">angular</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react/" class="">react 初探-一些基础概念</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/cgi/" class="">CGI 通用网关协议</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/servlet/" class="">Servlet</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/chrome/" class="">chrome 控制台</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/tomcat/" class="">tomcat</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/http/" class="">你所不知道的http协议之优秀</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/rest-framework/" class="">rest_framework</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/django/" class="">Django</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/husky/" class="">Husky - A Light Web MVC Framework</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fd6cd2d4bc98c7c7e2bc50b28778314" class="toggle" checked />
+    <label for="section-9fd6cd2d4bc98c7c7e2bc50b28778314" class="flex justify-between">
+      <a role="button" class="">Bash</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/bash/bash/" class="">编写Bash脚本</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/bash/awk/" class="active">awk - Linux文本处理大杀器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/bash/commands/" class="">真正的老司机如何用Linux文本命令</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ac08f61dce7ad61dd2ea7ad4910367cb" class="toggle"  />
+    <label for="section-ac08f61dce7ad61dd2ea7ad4910367cb" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/taskwarrior/" class="">Tutorial of Taskwarrior</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/linux-timing/" class="">Linux 定时任务</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/linuxprogramming-1/" class="">《Linux 编程实践教程》- 1</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/curl/" class="">curl</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-371dae9a8dd24e9c6ca13652146b9046" class="toggle"  />
+    <label for="section-371dae9a8dd24e9c6ca13652146b9046" class="flex justify-between">
+      <a role="button" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/advanced-git-1/" class="">git 进阶一</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/advanced-git/" class="">git 进阶</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/git/" class="">git实战指南</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/git-checkout/" class="">Git Checkout</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/git-log/" class="">Git Log</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/rebase/" class="">Rebase</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/reset/" class="">Reset</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/summary/" class="">Summary</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-069647d66c3986a88c683691b95ae841" class="toggle"  />
+    <label for="section-069647d66c3986a88c683691b95ae841" class="flex justify-between">
+      <a role="button" class="">C</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/effectivec-1/" class="">Effective C&#43;&#43; 读书笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/funcp/" class="">C 函数指针</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/cpp-1/" class="">cpp lamda &amp; for_each</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c/" class="">随想-关于语言的一些感受</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c-oop-3/" class="">C&#43;&#43; OOP--const、引用、指针</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c-oop-2/" class="">C&#43;&#43; OOP--函数解析过程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c-oop-1/" class="">C&#43;&#43; OOP基础--动态绑定</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/accessmodifier/" class="">OOP中的-控制修饰符</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/debug/" class="">Debug</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/epoll/" class="">Epoll</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/gccclang/" class="">Gcc&amp; Clang</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/rand/" class="">Rand</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/scopeguard/" class="">Scope Guard</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/thread/" class="">Thread</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/" class="">内存检测</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" class="">智能指针</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/%E7%81%AB%E7%84%B0%E5%9B%BE/" class="">火焰图</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4badfc46eeb07d2a91fe2b336a095056" class="toggle"  />
+    <label for="section-4badfc46eeb07d2a91fe2b336a095056" class="flex justify-between">
+      <a role="button" class="">Java</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/javawait/" class="">java wait一种线程通信方式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/lamda/" class="">Java lamda 表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/javajsonandobject/" class="">Java Json And Object</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/javahttp/" class="">Java HttpClient</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-2/" class="">每天读点Spring(2)--Start</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-1/" class="">每天读点Spring(1)--Introduction</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-5/" class="">Java 多线程实现异步调用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-shell/" class="">spring-shell</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/status/" class="">状态机编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/springmvc/" class="">SpringMVC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring/" class="">spring</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/log/" class="">Java-Log日志</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-4/" class="">java 线程与池</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/iterator/" class="">iterator 迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-exception/" class="">Java Exception &amp; Error</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/jdbc/" class="">JDBC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-3/" class="">Java-反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-2/" class="">Java 基础数据结构</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/maven-1/" class="">Maven</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/jersey/" class="">jersey</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-1/" class="">Java 抽象与接口</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-test-powermockito/" class="">Java Test Power Mockito</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/jdk/" class="">Jdk</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/maven/" class="">Maven</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/netty-io/" class="">Netty Io</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-boot/" class="">Spring Boot</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/util-concurrent/" class="">Util Concurrent</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-bcb64d436ed9c02263a1b9b3269d8223" class="toggle"  />
+    <label for="section-bcb64d436ed9c02263a1b9b3269d8223" class="flex justify-between">
+      <a role="button" class="">Redis</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/redis-1/" class="">Redis 深度学习(1)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/hyperloglog/" class="">HyperLogLog 基数估计算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/geohash/" class="">GeoHash</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/redis/" class="">redis</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-5370d5473c2ed1e3d784bba01e464d1f" class="toggle"  />
+    <label for="section-5370d5473c2ed1e3d784bba01e464d1f" class="flex justify-between">
+      <a role="button" class="">Vim</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/vim/vim/" class="">VIM 花式进阶</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/vim/install/" class="">Install</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/vim/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-c8fc425ee75853771b6ba2bb2652a518" class="toggle"  />
+    <label for="section-c8fc425ee75853771b6ba2bb2652a518" class="flex justify-between">
+      <a role="button" class="">ID Ea</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/idea/ideakey/" class="">IDEA常用快捷键</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/idea/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1927baaa335601867ef5539b8d4b652e" class="toggle"  />
+    <label for="section-1927baaa335601867ef5539b8d4b652e" class="flex justify-between">
+      <a role="button" class="">Cmake</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/libs/" class="">Libs</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/makefile/" class="">Makefile</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/project-struct/" class="">Project Struct</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-01bc7a3f69f55c45502271dc2ed2272b" class="toggle"  />
+    <label for="section-01bc7a3f69f55c45502271dc2ed2272b" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/docker/build-image/" class="">Build Image</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/docker/docker-limit/" class="">Docker Limit</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/docker/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/about/" class="">关于我</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-a30b8e1d093c7132d046c0cf50833535" class="toggle"  />
+    <label for="section-a30b8e1d093c7132d046c0cf50833535" class="flex justify-between">
+      <a role="button" class="">Shark</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/2.28/" class="">2.28</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/algorithm-a/" class="">Algorithm A</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/atcoder/" class="">Atcoder</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/mui-v4-to-v5/" class="">Mui V4 to V5</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/testing-stl/" class="">Testing Stl</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/testing2-4/" class="">Testing2 4</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/week_11.8-12/" class="">Week 11.8 12</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>_drafts</span>
+  
+
+          
+  <ul>
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/_drafts/latex/" class="">Tutorial of Latex - The difference with .cls and .sty</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Docs</span>
+  
+
+          
+  <ul>
+    
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>awk - Linux文本处理大杀器</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#命令形式">命令形式</a></li>
+    <li><a href="#脚本模式和操作">脚本模式和操作</a>
+      <ul>
+        <li><a href="#模式">模式</a></li>
+        <li><a href="#操作">操作</a></li>
+      </ul>
+    </li>
+    <li><a href="#awk脚本的基本结构">awk脚本的基本结构</a></li>
+    <li><a href="#工作原理">工作原理</a></li>
+    <li><a href="#print">print</a></li>
+    <li><a href="#awk-内置变量">awk 内置变量</a></li>
+    <li><a href="#将外部变量值传递给awk">将外部变量值传递给awk</a></li>
+    <li><a href="#运算">运算</a></li>
+    <li><a href="#高级输入输出">高级输入输出</a></li>
+    <li><a href="#getline">getline</a></li>
+    <li><a href="#file">file</a></li>
+    <li><a href="#设置字段定界符">设置字段定界符</a></li>
+    <li><a href="#控制语句">控制语句</a>
+      <ul>
+        <li><a href="#条件判断语句">条件判断语句</a></li>
+        <li><a href="#for循环">for循环</a></li>
+        <li><a href="#while">While</a></li>
+        <li><a href="#do-while">do while</a></li>
+        <li><a href="#其他">其他</a></li>
+      </ul>
+    </li>
+    <li><a href="#数组">数组</a>
+      <ul>
+        <li><a href="#定义">定义</a></li>
+        <li><a href="#遍历数组">遍历数组</a></li>
+        <li><a href="#相关操作">相关操作</a></li>
+      </ul>
+    </li>
+    <li><a href="#内置函数">内置函数</a>
+      <ul>
+        <li><a href="#gsubsub使用">gsub,sub使用</a></li>
+        <li><a href="#查找字符串index使用">查找字符串（index使用）</a></li>
+        <li><a href="#正则表达式匹配查找match使用">正则表达式匹配查找(match使用）</a></li>
+        <li><a href="#截取字符串substr使用">截取字符串(substr使用）</a></li>
+        <li><a href="#格式化字符串输出sprintf使用">格式化字符串输出（sprintf使用）</a></li>
+        <li><a href="#调用外部命令的方式">调用外部命令的方式</a></li>
+        <li><a href="#指定时间mktime使用">指定时间(mktime使用）</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown">
+  <h1>
+    <a href="/posts/bash/awk/">awk - Linux文本处理大杀器</a>
+  </h1>
+  
+  <h5>September 7, 2017</h5>
+
+
+
+  
+
+  
+  <div>
+    
+      <a href="/tags/linux/">Linux</a>
+  </div>
+  
+
+
+
+<p>awk 已经不是一种命令了，而是一种语言。用于在linux/unix下对文本和数据进行处理。数据可以来自标准输入(stdin)、一个或多个文件，或其它命令的输出。</p>
+<p>在最开始，我的文本处理方式就是写一个c语言去读文件然后在处理完输出来。刚开始学程序的时候觉得自己很厉害的样子。这样做过几次以后就发现并没有这么好用，因为每次都要写一个很麻烦。</p>
+<p>在后来就是学习用脚本来处理。</p>
+<p>关于Linux命令，推荐一个小<a href="http://man.linuxde.net/">站点</a>，写的东西都还非常细致。</p>
+<h2 id="命令形式">
+  命令形式
+  <a class="anchor" href="#%e5%91%bd%e4%bb%a4%e5%bd%a2%e5%bc%8f">#</a>
+</h2>
+<pre tabindex="0"><code>awk [options] &#39;script&#39; var=value file(s)
+awk [options] -f scriptfile var=value file(s)
+</code></pre><p><strong>命令选项</strong></p>
+<ul>
+<li><code>-F fs</code>   fs指定输入分隔符，fs可以是字符串或正则表达式，如-F:</li>
+<li><code>-v var=value</code>   赋值一个用户定义变量，将外部变量传递给awk脚本</li>
+<li><code>-f scripfile</code>  从脚本文件中读取awk命令</li>
+</ul>
+<h2 id="脚本模式和操作">
+  脚本模式和操作
+  <a class="anchor" href="#%e8%84%9a%e6%9c%ac%e6%a8%a1%e5%bc%8f%e5%92%8c%e6%93%8d%e4%bd%9c">#</a>
+</h2>
+<p>awk的脚本主要由模式和操作组成：</p>
+<h3 id="模式">
+  模式
+  <a class="anchor" href="#%e6%a8%a1%e5%bc%8f">#</a>
+</h3>
+<ul>
+<li>/正则表达式/：使用通配符的扩展集。</li>
+<li>关系表达式：使用运算符进行操作，可以是字符串或数字的比较测试。</li>
+<li>模式匹配表达式：用运算符~（匹配）和~!（不匹配）。</li>
+<li>BEGIN语句块、pattern语句块、END语句块</li>
+</ul>
+<h3 id="操作">
+  操作
+  <a class="anchor" href="#%e6%93%8d%e4%bd%9c">#</a>
+</h3>
+<p>操作由一个或多个命令、函数、表达式组成，之间由换行符或分号隔开，并位于大括号内，主要部分是：</p>
+<ul>
+<li>变量或数组赋值</li>
+<li>输出命令</li>
+<li>内置函数</li>
+<li>控制流语句</li>
+</ul>
+<h2 id="awk脚本的基本结构">
+  awk脚本的基本结构
+  <a class="anchor" href="#awk%e8%84%9a%e6%9c%ac%e7%9a%84%e5%9f%ba%e6%9c%ac%e7%bb%93%e6%9e%84">#</a>
+</h2>
+<pre tabindex="0"><code>awk &#39;BEGIN{ print &#34;start&#34; } pattern{ commands } END{ print &#34;end&#34; }&#39; file
+</code></pre><p>一个awk脚本通常由：BEGIN语句块、能够使用模式匹配的通用语句块、END语句块3部分组成，这三个部分是可选的。任意一个部分都可以不出现在脚本中，脚本通常是被单引号或双引号中，例如：</p>
+<pre tabindex="0"><code>awk &#39;BEGIN{ i=0 } { i++ } END{ print i }&#39; filename
+awk &#34;BEGIN{ i=0 } { i++ } END{ print i }&#34; filename
+</code></pre><h2 id="工作原理">
+  工作原理
+  <a class="anchor" href="#%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86">#</a>
+</h2>
+<ul>
+<li>第一步：执行BEGIN{ commands }语句块中的语句；</li>
+<li>第二步：从文件或标准输入(stdin)读取一行，然后执行pattern{ commands }语句块，它逐行扫描文件，从第一行到最后一行重复这个过程，直到文件全部被读取完毕</li>
+<li>第三步：当读至输入流末尾时，执行END{ commands }语句块。</li>
+</ul>
+<p><strong>BEGIN语句块</strong> 在awk开始从输入流中读取行之前被执行，这是一个可选的语句块，比如变量初始化、打印输出表格的表头等语句通常可以写在BEGIN语句块中。
+<strong>END语句块</strong> 在awk从输入流中读取完所有的行之后即被执行，比如打印所有行的分析结果这类信息汇总都是在END语句块中完成，它也是一个可选语句块。
+<strong>pattern语句块</strong> 中的通用命令是最重要的部分，它也是可选的。如果没有提供pattern语句块，则默认执行{ print }，即打印每一个读取到的行，awk读取的每一行都会执行该语句块。</p>
+<h2 id="print">
+  print
+  <a class="anchor" href="#print">#</a>
+</h2>
+<p>当使用不带参数的print时，它就打印当前行，当print的参数是以逗号进行分隔时，打印时则以空格作为定界符。在awk的print语句块中双引号是被当作拼接符使用，例如：</p>
+<pre tabindex="0"><code>echo | awk &#39;{ var1=&#34;v1&#34;; var2=&#34;v2&#34;; var3=&#34;v3&#34;; print var1,var2,var3; }&#39; 
+
+# out:
+v1 v2 v3
+</code></pre><p>双引号：</p>
+<pre tabindex="0"><code>echo | awk &#39;{ var1=&#34;v1&#34;; var2=&#34;v2&#34;; var3=&#34;v3&#34;; print var1&#34;=&#34;var2&#34;=&#34;var3; }&#39;
+
+# out:
+v1=v2=v3
+</code></pre><h2 id="awk-内置变量">
+  awk 内置变量
+  <a class="anchor" href="#awk-%e5%86%85%e7%bd%ae%e5%8f%98%e9%87%8f">#</a>
+</h2>
+<p><strong>说明：</strong> <code>[A][N][P][G]</code>表示第一个支持变量的工具，[A]=awk、[N]=nawk、[P]=POSIXawk、[G]=gawk</p>
+<pre tabindex="0"><code>    $n          当前记录的第n个字段，比如n为1表示第一个字段，n为2表示第二个字段。 
+    $0          这个变量包含执行过程中当前行的文本内容。
+[N] ARGC        命令行参数的数目。
+[G] ARGIND      命令行中当前文件的位置（从0开始算）。
+[N] ARGV        包含命令行参数的数组。
+[G] CONVFMT     数字转换格式（默认值为%.6g）。
+[P] ENVIRON     环境变量关联数组。
+[N] ERRNO       最后一个系统错误的描述。
+[G] FIELDWIDTHS 字段宽度列表（用空格键分隔）。
+[A] FILENAME    当前输入文件的名。
+[P] FNR         同NR，但相对于当前文件。
+[A] FS          字段分隔符（默认是任何空格）。
+[G] IGNORECASE  如果为真，则进行忽略大小写的匹配。
+[A] NF          表示字段数，在执行过程中对应于当前的字段数。
+[A] NR          表示记录数，在执行过程中对应于当前的行号。
+[A] OFMT        数字的输出格式（默认值是%.6g）。
+[A] OFS         输出字段分隔符（默认值是一个空格）。
+[A] ORS         输出记录分隔符（默认值是一个换行符）。
+[A] RS          记录分隔符（默认是一个换行符）。
+[N] RSTART      由match函数所匹配的字符串的第一个位置。
+[N] RLENGTH     由match函数所匹配的字符串的长度。
+[N] SUBSEP      数组下标分隔符（默认值是34）。
+</code></pre><p><strong>示例</strong></p>
+<pre tabindex="0"><code>echo -e &#34;line1 f2 f3\nline2 f4 f5\nline3 f6 f7&#34; | awk &#39;{print &#34;Line No:&#34;NR&#34;, No of fields:&#34;NF, &#34;$0=&#34;$0, &#34;$1=&#34;$1, &#34;$2=&#34;$2, &#34;$3=&#34;$3}&#39; 
+
+# out:
+Line No:1, No of fields:3 $0=line1 f2 f3 $1=line1 $2=f2 $3=f3
+Line No:2, No of fields:3 $0=line2 f4 f5 $1=line2 $2=f4 $3=f5
+Line No:3, No of fields:3 $0=line3 f6 f7 $1=line3 $2=f6 $3=f7
+</code></pre><p>使用print $NF可以打印出一行中的最后一个字段，使用$(NF-1)则是打印倒数第二个字段，其他以此类推：</p>
+<p>统计文件中的行数：</p>
+<pre tabindex="0"><code>awk &#39;END{ print NR }&#39; filename
+</code></pre><p>以上命令只使用了END语句块，在读入每一行的时，awk会将NR更新为对应的行号，当到达最后一行NR的值就是最后一行的行号，所以END语句块中的NR就是文件的行数。</p>
+<p>一个每一行中第一个字段值累加的例子：</p>
+<pre tabindex="0"><code>seq 5 | awk &#39;BEGIN{ sum=0; print &#34;总和：&#34; } { print $1&#34;+&#34;; sum+=$1 } END{ print &#34;等于&#34;; print sum }&#39;
+</code></pre><h2 id="将外部变量值传递给awk">
+  将外部变量值传递给awk
+  <a class="anchor" href="#%e5%b0%86%e5%a4%96%e9%83%a8%e5%8f%98%e9%87%8f%e5%80%bc%e4%bc%a0%e9%80%92%e7%bb%99awk">#</a>
+</h2>
+<p>借助-v选项，可以将外部值（并非来自stdin）传递给awk：(在bash脚本中这样写)</p>
+<pre tabindex="0"><code>VAR=10000
+echo | awk -v VARIABLE=$VAR &#39;{ print VARIABLE }&#39;
+</code></pre><p>another</p>
+<pre tabindex="0"><code>var1=&#34;aaa&#34;
+var2=&#34;bbb&#34;
+echo | awk &#39;{ print v1,v2 }&#39; v1=$var1 v2=$var2
+</code></pre><p>or</p>
+<pre tabindex="0"><code>awk &#39;{ print v1,v2 }&#39; v1=$var1 v2=$var2 filename
+</code></pre><p>以上方法中，变量之间用空格分隔作为awk的命令行参数跟随在BEGIN、{}和END语句块之后。</p>
+<h2 id="运算">
+  运算
+  <a class="anchor" href="#%e8%bf%90%e7%ae%97">#</a>
+</h2>
+<p>作为一种程序设计语言所应具有的特点之一，awk支持多种运算，这些运算与C语言提供的基本相同。awk还提供了一系列内置的运算函数（如log、sqr、cos、sin等）和一些用于对字符串进行操作（运算）的函数（如length、substr等等）。这些函数的引用大大的提高了awk的运算功能。作为对条件转移指令的一部分，关系判断是每种程序设计语言都具备的功能，awk也不例外，awk中允许进行多种测试，作为样式匹配，还提供了模式匹配表达式~（匹配）和~!（不匹配）。作为对测试的一种扩充，awk也支持用逻辑运算符。</p>
+<p><img src="/img/awk-1.png" alt="pic" /></p>
+<pre><code>```
+awk 'BEGIN{a=&quot;b&quot;;print a++,++a;}' 
+0 2
+```
+</code></pre>
+<p><img src="/img/awk-2.png" alt="pic" />
+<code>a+=5; 等价于：a=a+5; 其它同类</code></p>
+<p><img src="/img/awk-3.png" alt="pic" />
+<code>awk 'BEGIN{a=1;b=2;print (a&gt;5 &amp;&amp; b&lt;=2),(a&gt;5 || b&lt;=2);}' 0 1</code>
+<img src="/img/awk-4.png" alt="pic" />
+<code>awk 'BEGIN{a=&quot;100testa&quot;;if(a ~ /^100*/){print &quot;ok&quot;;}}' ok</code>
+<img src="/img/awk-5.png" alt="pic" />
+<code>awk 'BEGIN{a=11;if(a &gt;= 9){print &quot;ok&quot;;}}' ok</code>
+<img src="/img/awk-6.png" alt="pic" />
+```
+awk &lsquo;BEGIN{a=&ldquo;b&rdquo;;print a==&ldquo;b&rdquo;?&ldquo;ok&rdquo;:&ldquo;err&rdquo;;}&rsquo;
+ok</p>
+<p>awk &lsquo;BEGIN{a=&ldquo;b&rdquo;;arr[0]=&ldquo;b&rdquo;;arr[1]=&ldquo;c&rdquo;;print (a in arr);}&rsquo;
+0</p>
+<p>awk &lsquo;BEGIN{a=&ldquo;b&rdquo;;arr[0]=&ldquo;b&rdquo;;arr[&ldquo;b&rdquo;]=&ldquo;c&rdquo;;print (a in arr);}&rsquo;
+1
+```
+<img src="/img/awk-7.png" alt="pic" /></p>
+<h2 id="高级输入输出">
+  高级输入输出
+  <a class="anchor" href="#%e9%ab%98%e7%ba%a7%e8%be%93%e5%85%a5%e8%be%93%e5%87%ba">#</a>
+</h2>
+<p>awk中next语句使用：在循环逐行匹配，如果遇到next，就会跳过当前行，直接忽略下面语句。而进行下一行匹配。net语句一般用于多行合并：</p>
+<pre tabindex="0"><code>cat text.txt
+a
+b
+c
+d
+e
+
+awk &#39;NR%2==1{next}{print NR,$0;}&#39; text.txt
+2 b
+4 d
+</code></pre><p>分析发现需要将包含有“web”行进行跳过，然后需要将内容与下面行合并为一行：</p>
+<pre tabindex="0"><code>cat text.txt
+web01[192.168.2.100]
+httpd            ok
+tomcat               ok
+sendmail               ok
+web02[192.168.2.101]
+httpd            ok
+postfix               ok
+web03[192.168.2.102]
+mysqld            ok
+httpd               ok
+0
+awk &#39;/^web/{T=$0;next;}{print T&#34;:t&#34;$0;}&#39; test.txt
+web01[192.168.2.100]:   httpd            ok
+web01[192.168.2.100]:   tomcat               ok
+web01[192.168.2.100]:   sendmail               ok
+web02[192.168.2.101]:   httpd            ok
+web02[192.168.2.101]:   postfix               ok
+web03[192.168.2.102]:   mysqld            ok
+web03[192.168.2.102]:   httpd               ok
+</code></pre><h2 id="getline">
+  getline
+  <a class="anchor" href="#getline">#</a>
+</h2>
+<p>执行linux的date命令，并通过管道输出给getline，然后再把输出赋值给自定义变量out，并打印它：</p>
+<pre tabindex="0"><code>awk &#39;BEGIN{ &#34;date&#34; | getline out; print out }&#39; 
+</code></pre><p>执行shell的date命令，并通过管道输出给getline，然后getline从管道中读取并将输入赋值给out，split函数把变量out转化成数组mon，然后打印数组mon的第二个元素：</p>
+<pre tabindex="0"><code>awk &#39;BEGIN{ &#34;date&#34; | getline out; split(out,mon); print mon[2] }&#39;
+</code></pre><p>命令ls的输出传递给geline作为输入，循环使getline从ls的输出中读取一行，并把它打印到屏幕。</p>
+<pre tabindex="0"><code>awk &#39;BEGIN{ while( &#34;ls&#34; | getline) print }&#39;
+</code></pre><h2 id="file">
+  file
+  <a class="anchor" href="#file">#</a>
+</h2>
+<p><strong>输出到一个文件</strong>：</p>
+<pre tabindex="0"><code>echo | awk &#39;{printf(&#34;hello word!n&#34;) &gt; &#34;datafile&#34;}&#39;
+或
+echo | awk &#39;{printf(&#34;hello word!n&#34;) &gt;&gt; &#34;datafile&#34;}&#39;
+</code></pre><p><strong>关闭文件</strong>：</p>
+<pre tabindex="0"><code>close(&#34;filename&#34;)
+</code></pre><h2 id="设置字段定界符">
+  设置字段定界符
+  <a class="anchor" href="#%e8%ae%be%e7%bd%ae%e5%ad%97%e6%ae%b5%e5%ae%9a%e7%95%8c%e7%ac%a6">#</a>
+</h2>
+<p>默认的字段定界符是空格，可以使用-F &ldquo;定界符&rdquo; 明确指定一个定界符：</p>
+<pre tabindex="0"><code>awk -F: &#39;{ print $NF }&#39; /etc/passwd
+或
+awk &#39;BEGIN{ FS=&#34;:&#34; } { print $NF }&#39; /etc/passwd
+</code></pre><h2 id="控制语句">
+  控制语句
+  <a class="anchor" href="#%e6%8e%a7%e5%88%b6%e8%af%ad%e5%8f%a5">#</a>
+</h2>
+<p>在linux awk的while、do-while和for语句中允许使用break,continue语句来控制流程走向，也允许使用exit这样的语句来退出。break中断当前正在执行的循环并跳到循环外执行下一条语句。if 是流程选择用法。awk中，流程控制语句，语法结构，与c语言类型。有了这些语句，其实很多shell程序都可以交给awk，而且性能是非常快的。下面是各个语句用法。</p>
+<h3 id="条件判断语句">
+  条件判断语句
+  <a class="anchor" href="#%e6%9d%a1%e4%bb%b6%e5%88%a4%e6%96%ad%e8%af%ad%e5%8f%a5">#</a>
+</h3>
+<pre tabindex="0"><code>awk &#39;BEGIN{ 
+    test=100; 
+    if(test&gt;90){ 
+        print &#34;very good&#34;; 
+    } else if(test&gt;60){ 
+        print &#34;good&#34;; 
+    } else{ 
+        print &#34;no pass&#34;; 
+    } 
+}&#39; 
+
+very good 
+</code></pre><h3 id="for循环">
+  for循环
+  <a class="anchor" href="#for%e5%be%aa%e7%8e%af">#</a>
+</h3>
+<p>Type 1.</p>
+<pre tabindex="0"><code>
+awk &#39;BEGIN{
+for(k in ENVIRON){
+  print k&#34;=&#34;ENVIRON[k];
+}
+
+}&#39;
+
+TERM=linux
+G_BROKEN_FILENAMES=1
+SHLVL=1
+pwd=/root/text
+...
+logname=root
+HOME=/root
+SSH_CLIENT=192.168.1.21 53087 22
+</code></pre><p>Type 2.</p>
+<pre tabindex="0"><code>awk &#39;BEGIN{
+total=0;
+for(i=0;i&lt;=100;i++){
+  total+=i;
+}
+print total;
+}&#39;
+5050
+</code></pre><h3 id="while">
+  While
+  <a class="anchor" href="#while">#</a>
+</h3>
+<pre tabindex="0"><code>awk &#39;BEGIN{
+test=100;
+total=0;
+while(i&lt;=test){
+  total+=i;
+  i++;
+}
+print total;
+}&#39;
+5050
+</code></pre><h3 id="do-while">
+  do while
+  <a class="anchor" href="#do-while">#</a>
+</h3>
+<pre tabindex="0"><code>awk &#39;BEGIN{ 
+total=0;
+i=0;
+do {total+=i;i++;} while(i&lt;=100)
+  print total;
+}&#39;
+5050
+</code></pre><h3 id="其他">
+  其他
+  <a class="anchor" href="#%e5%85%b6%e4%bb%96">#</a>
+</h3>
+<ul>
+<li><strong>break</strong> 当 break 语句用于 while 或 for 语句时，导致退出程序循环。</li>
+<li><strong>continue</strong> 当 continue 语句用于 while 或 for 语句时，使程序循环移动到下一个迭代。</li>
+<li><strong>next</strong> 能能够导致读入下一个输入行，并返回到脚本的顶部。这可以避免对当前输入行执行其他的操作过程。</li>
+<li><strong>exit</strong> 语句使主输入循环退出并将控制转移到END,如果END存在的话。如果没有定义END规则，或在END中应用exit语句，则终止脚本的执行。</li>
+</ul>
+<h2 id="数组">
+  数组
+  <a class="anchor" href="#%e6%95%b0%e7%bb%84">#</a>
+</h2>
+<p>数组是awk的灵魂，处理文本中最不能少的就是它的数组处理。因为数组索引（下标）可以是数字和字符串在awk中数组叫做关联数组(associative arrays)。awk 中的数组不必提前声明，也不必声明大小。数组元素用0或空字符串来初始化，这根据上下文而定。</p>
+<h3 id="定义">
+  定义
+  <a class="anchor" href="#%e5%ae%9a%e4%b9%89">#</a>
+</h3>
+<p>两种方式，数字索引和字符串索引</p>
+<pre tabindex="0"><code>Array[1]=&#34;sun&#34;
+Array[2]=&#34;kai&#34;
+
+
+Array[&#34;first&#34;]=&#34;www&#34;
+Array[&#34;last&#34;]=&#34;name&#34;
+Array[&#34;birth&#34;]=&#34;1987&#34;
+</code></pre><p>使用中print Array[1]会打印出sun；使用print Array[2]会打印出kai；使用print[&ldquo;birth&rdquo;]会得到1987。</p>
+<h3 id="遍历数组">
+  遍历数组
+  <a class="anchor" href="#%e9%81%8d%e5%8e%86%e6%95%b0%e7%bb%84">#</a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">{</span> <span style="color:#66d9ef">for</span><span style="color:#f92672">(</span>item in array<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>print array<span style="color:#f92672">[</span>item<span style="color:#f92672">]}</span>; <span style="color:#f92672">}</span>       <span style="color:#75715e">#输出的顺序是随机的</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span> <span style="color:#66d9ef">for</span><span style="color:#f92672">(</span>i<span style="color:#f92672">=</span>1;i&lt;<span style="color:#f92672">=</span>len;i++<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>print array<span style="color:#f92672">[</span>i<span style="color:#f92672">]}</span>; <span style="color:#f92672">}</span>         <span style="color:#75715e">#Len是数组的长度</span>
+</span></span></code></pre></div><h3 id="相关操作">
+  相关操作
+  <a class="anchor" href="#%e7%9b%b8%e5%85%b3%e6%93%8d%e4%bd%9c">#</a>
+</h3>
+<h4 id="length">
+  length
+  <a class="anchor" href="#length">#</a>
+</h4>
+<p>length返回字符串以及数组长度，split进行分割字符串为数组，也会返回分割得到数组长度。</p>
+<pre tabindex="0"><code>awk &#39;BEGIN{info=&#34;it is a test&#34;;lens=split(info,tA,&#34; &#34;);print length(tA),lens;}&#39;
+4 4
+</code></pre><h4 id="asort">
+  asort
+  <a class="anchor" href="#asort">#</a>
+</h4>
+<p>asort对数组进行排序，返回数组长度。</p>
+<pre tabindex="0"><code>awk &#39;BEGIN{info=&#34;it is a test&#34;;split(info,tA,&#34; &#34;);for(k in tA){print k,tA[k];}}&#39;
+4 test
+1 it
+2 is
+3 a
+</code></pre><p>for…in输出，因为数组是关联数组，默认是无序的。所以通过for…in得到是无序的数组。如果需要得到有序数组，需要通过下标获得。</p>
+<pre tabindex="0"><code>awk &#39;BEGIN{info=&#34;it is a test&#34;;tlen=split(info,tA,&#34; &#34;);for(k=1;k&lt;=tlen;k++){print k,tA[k];}}&#39;
+1 it
+2 is
+3 a
+4 test
+</code></pre><h4 id="判断键值存在以及删除键值">
+  判断键值存在以及删除键值：
+  <a class="anchor" href="#%e5%88%a4%e6%96%ad%e9%94%ae%e5%80%bc%e5%ad%98%e5%9c%a8%e4%bb%a5%e5%8f%8a%e5%88%a0%e9%99%a4%e9%94%ae%e5%80%bc">#</a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;BEGIN{tB[&#34;a&#34;]=&#34;a1&#34;;tB[&#34;b&#34;]=&#34;b1&#34;;if( &#34;c&#34; in tB){print &#34;ok&#34;;};for(k in tB){print k,tB[k];}}&#39;</span>  
+</span></span><span style="display:flex;"><span>a a1
+</span></span><span style="display:flex;"><span>b b1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#删除键值：</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>chengmo@localhost ~<span style="color:#f92672">]</span>$ awk <span style="color:#e6db74">&#39;BEGIN{tB[&#34;a&#34;]=&#34;a1&#34;;tB[&#34;b&#34;]=&#34;b1&#34;;delete tB[&#34;a&#34;];for(k in tB){print k,tB[k];}}&#39;</span>                     
+</span></span><span style="display:flex;"><span>b b1
+</span></span></code></pre></div><h4 id="二维多维数组使用">
+  二维、多维数组使用
+  <a class="anchor" href="#%e4%ba%8c%e7%bb%b4%e5%a4%9a%e7%bb%b4%e6%95%b0%e7%bb%84%e4%bd%bf%e7%94%a8">#</a>
+</h4>
+<p>awk的多维数组在本质上是一维数组，更确切一点，awk在存储上并不支持多维数组。awk提供了逻辑上模拟二维数组的访问方式。例如，array[2,4]=1这样的访问是允许的。awk使用一个特殊的字符串SUBSEP(34)作为分割字段，在上面的例子中，关联数组array存储的键值实际上是2344。</p>
+<p>类似一维数组的成员测试，多维数组可以使用if ( (i,j) in array)这样的语法，但是下标必须放置在圆括号中。类似一维数组的循环访问，多维数组使用for ( item in array )这样的语法遍历数组。与一维数组不同的是，多维数组必须使用split()函数来访问单独的下标分量。</p>
+<pre tabindex="0"><code>awk &#39;BEGIN{
+for(i=1;i&lt;=9;i++){
+  for(j=1;j&lt;=9;j++){
+    tarr[i,j]=i*j; print i,&#34;*&#34;,j,&#34;=&#34;,tarr[i,j];
+  }
+}
+}&#39;
+1 * 1 = 1
+1 * 2 = 2
+1 * 3 = 3
+1 * 4 = 4
+1 * 5 = 5
+1 * 6 = 6 
+...
+9 * 6 = 54
+9 * 7 = 63
+9 * 8 = 72
+9 * 9 = 81
+</code></pre><p>Another</p>
+<pre tabindex="0"><code>awk &#39;BEGIN{
+for(i=1;i&lt;=9;i++){
+  for(j=1;j&lt;=9;j++){
+    tarr[i,j]=i*j;
+  }
+}
+for(m in tarr){
+  split(m,tarr2,SUBSEP); print tarr2[1],&#34;*&#34;,tarr2[2],&#34;=&#34;,tarr[m];
+}
+}&#39;
+</code></pre><h2 id="内置函数">
+  内置函数
+  <a class="anchor" href="#%e5%86%85%e7%bd%ae%e5%87%bd%e6%95%b0">#</a>
+</h2>
+<p>awk内置函数，主要分以下3种类似：算数函数、字符串函数、其它一般函数、时间函数。</p>
+<p><img src="/img/awk-8.png" alt="pic" /></p>
+<pre tabindex="0"><code>awk &#39;BEGIN{OFMT=&#34;%.3f&#34;;fs=sin(1);fe=exp(10);fl=log(10);fi=int(3.1415);print fs,fe,fl,fi;}&#39; 
+
+0.841 22026.466 2.303 3
+</code></pre><p>OFMT 设置输出数据格式是保留3位小数。</p>
+<p><strong>Random</strong></p>
+<pre tabindex="0"><code>awk &#39;BEGIN{srand();fr=int(100*rand());print fr;}&#39;
+78
+awk &#39;BEGIN{srand();fr=int(100*rand());print fr;}&#39;
+31
+awk &#39;BEGIN{srand();fr=int(100*rand());print fr;}&#39;
+41
+</code></pre><p><img src="/img/awk-9.png" alt="pic" /></p>
+<h3 id="gsubsub使用">
+  gsub,sub使用
+  <a class="anchor" href="#gsubsub%e4%bd%bf%e7%94%a8">#</a>
+</h3>
+<pre tabindex="0"><code>awk &#39;BEGIN{info=&#34;this is a test2010test!&#34;;gsub(/[0-9]+/,&#34;!&#34;,info);print info}&#39;
+
+this is a test!test!
+</code></pre><p>在 info中查找满足正则表达式，/[0-9]+/ 用””替换，并且替换后的值，赋值给info 未给info值，默认是$0</p>
+<h3 id="查找字符串index使用">
+  查找字符串（index使用）
+  <a class="anchor" href="#%e6%9f%a5%e6%89%be%e5%ad%97%e7%ac%a6%e4%b8%b2index%e4%bd%bf%e7%94%a8">#</a>
+</h3>
+<pre tabindex="0"><code>awk &#39;BEGIN{info=&#34;this is a test2010test!&#34;;print index(info,&#34;test&#34;)?&#34;ok&#34;:&#34;no found&#34;;}&#39;
+ok
+</code></pre><p>未找到，返回0</p>
+<h3 id="正则表达式匹配查找match使用">
+  正则表达式匹配查找(match使用）
+  <a class="anchor" href="#%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f%e5%8c%b9%e9%85%8d%e6%9f%a5%e6%89%bematch%e4%bd%bf%e7%94%a8">#</a>
+</h3>
+<pre tabindex="0"><code>awk &#39;BEGIN{info=&#34;this is a test2010test!&#34;;print match(info,/[0-9]+/)?&#34;ok&#34;:&#34;no found&#34;;}&#39;
+ok
+</code></pre><h3 id="截取字符串substr使用">
+  截取字符串(substr使用）
+  <a class="anchor" href="#%e6%88%aa%e5%8f%96%e5%ad%97%e7%ac%a6%e4%b8%b2substr%e4%bd%bf%e7%94%a8">#</a>
+</h3>
+<pre tabindex="0"><code>awk &#39;BEGIN{info=&#34;this is a test2010test!&#34;;print substr(info,4,10);}&#39;
+s is a tes
+</code></pre><h3 id="格式化字符串输出sprintf使用">
+  格式化字符串输出（sprintf使用）
+  <a class="anchor" href="#%e6%a0%bc%e5%bc%8f%e5%8c%96%e5%ad%97%e7%ac%a6%e4%b8%b2%e8%be%93%e5%87%basprintf%e4%bd%bf%e7%94%a8">#</a>
+</h3>
+<p>其中格式化字符串包括两部分内容：一部分是正常字符，这些字符将按原样输出; 另一部分是格式化规定字符，以&quot;%&ldquo;开始，后跟一个或几个规定字符,用来确定输出内容格式。</p>
+<p><img src="/img/awk-10.png" alt="pic" /></p>
+<pre tabindex="0"><code>awk &#39;BEGIN{n1=124.113;n2=-1.224;n3=1.2345; printf(&#34;%.2f,%.2u,%.2g,%X,%on&#34;,n1,n2,n3,n1,n1);}&#39; 124.11,18446744073709551615,1.2,7C,174
+</code></pre><p><img src="/img/awk-11.png" alt="pic" /></p>
+<h3 id="调用外部命令的方式">
+  调用外部命令的方式
+  <a class="anchor" href="#%e8%b0%83%e7%94%a8%e5%a4%96%e9%83%a8%e5%91%bd%e4%bb%a4%e7%9a%84%e6%96%b9%e5%bc%8f">#</a>
+</h3>
+<pre tabindex="0"><code>awk &#39;BEGIN{b=system(&#34;ls -al&#34;);print b;}&#39; total 42092 drwxr-xr-x 14 chengmo chengmo 4096 09-30 17:47 . drwxr-xr-x 95 root root 4096 10-08 14:01 ..
+</code></pre><p><img src="/img/awk-12.png" alt="pic" /></p>
+<h3 id="指定时间mktime使用">
+  指定时间(mktime使用）
+  <a class="anchor" href="#%e6%8c%87%e5%ae%9a%e6%97%b6%e9%97%b4mktime%e4%bd%bf%e7%94%a8">#</a>
+</h3>
+<pre><code>         ```
+</code></pre>
+<p>awk &lsquo;BEGIN{tstamp=mktime(&ldquo;2001 01 01 12 12 12&rdquo;);print strftime(&quot;%c&rdquo;,tstamp);}&rsquo;
+2001年01月01日 星期一 12时12分12秒
+<code> </code>
+awk &lsquo;BEGIN{tstamp1=mktime(&ldquo;2001 01 01 12 12 12&rdquo;);tstamp2=mktime(&ldquo;2001 02 01 0 0 0&rdquo;);print tstamp2-tstamp1;}&rsquo;
+2634468</p>
+<p>awk &lsquo;BEGIN{tstamp1=mktime(&ldquo;2001 01 01 12 12 12&rdquo;);tstamp2=systime();print tstamp2-tstamp1;}&rsquo;
+308201392
+```
+<img src="/img/awk-13.png" alt="pic" /></p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+    window.MathJaxReady = false;
+    window.MathJax = {
+        startup: {
+            ready: () => {
+            MathJax.startup.defaultReady();
+            MathJax.startup.promise.then(() => {
+            console.log('MathJax initial typesetting complete');
+          });
+        },
+        elements: null,          
+        typeset: true,           
+        pageReady: () => {
+          return MathJax.startup.defaultPageReady().then(() => {
+            window.MathJaxReady = true;
+            console.log('MathJax initial typesetting complete');
+          });
+        },
+        document: document,      
+        input: [],               
+        output: null,            
+        handler: null,           
+        adaptor: null            
+      },
+      tex: {
+        inlineMath: [['$', '$'], ['$$$', '$$$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+      },
+        options:{
+            ignoreHtmlClass: "CodeMirror|language-cpp|ace_editor|noJax",
+            skipHtmlTags: ['script', 'style', 'textarea', 'input'],
+        },
+      chtml:{
+          scale: 1.1
+      }
+    };
+</script>
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#命令形式">命令形式</a></li>
+    <li><a href="#脚本模式和操作">脚本模式和操作</a>
+      <ul>
+        <li><a href="#模式">模式</a></li>
+        <li><a href="#操作">操作</a></li>
+      </ul>
+    </li>
+    <li><a href="#awk脚本的基本结构">awk脚本的基本结构</a></li>
+    <li><a href="#工作原理">工作原理</a></li>
+    <li><a href="#print">print</a></li>
+    <li><a href="#awk-内置变量">awk 内置变量</a></li>
+    <li><a href="#将外部变量值传递给awk">将外部变量值传递给awk</a></li>
+    <li><a href="#运算">运算</a></li>
+    <li><a href="#高级输入输出">高级输入输出</a></li>
+    <li><a href="#getline">getline</a></li>
+    <li><a href="#file">file</a></li>
+    <li><a href="#设置字段定界符">设置字段定界符</a></li>
+    <li><a href="#控制语句">控制语句</a>
+      <ul>
+        <li><a href="#条件判断语句">条件判断语句</a></li>
+        <li><a href="#for循环">for循环</a></li>
+        <li><a href="#while">While</a></li>
+        <li><a href="#do-while">do while</a></li>
+        <li><a href="#其他">其他</a></li>
+      </ul>
+    </li>
+    <li><a href="#数组">数组</a>
+      <ul>
+        <li><a href="#定义">定义</a></li>
+        <li><a href="#遍历数组">遍历数组</a></li>
+        <li><a href="#相关操作">相关操作</a></li>
+      </ul>
+    </li>
+    <li><a href="#内置函数">内置函数</a>
+      <ul>
+        <li><a href="#gsubsub使用">gsub,sub使用</a></li>
+        <li><a href="#查找字符串index使用">查找字符串（index使用）</a></li>
+        <li><a href="#正则表达式匹配查找match使用">正则表达式匹配查找(match使用）</a></li>
+        <li><a href="#截取字符串substr使用">截取字符串(substr使用）</a></li>
+        <li><a href="#格式化字符串输出sprintf使用">格式化字符串输出（sprintf使用）</a></li>
+        <li><a href="#调用外部命令的方式">调用外部命令的方式</a></li>
+        <li><a href="#指定时间mktime使用">指定时间(mktime使用）</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

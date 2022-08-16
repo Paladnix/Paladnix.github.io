@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Distributed on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/distributed/</link>
+    <description>Recent content in Distributed on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 18 Aug 2017 17:45:34 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/distributed/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>apache curator</title>
+      <link>https://Paladnix.github.io/posts/others/curator/</link>
+      <pubDate>Fri, 18 Aug 2017 17:45:34 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/curator/</guid>
+      <description>&amp;ldquo;Guava is to java what Curator is to Zookeeper&amp;rdquo;.
+Start # Curator之前介绍过一些，是一个使用流式API方式实现的Zookeeper的Java客户端。
+Get a connection # connection的实例(CuratorFramework)是用工厂模式分配的(CuratorFrameworkFactory)，对于一个zk集群，你只需要一个连接的实例。 同时你可能会用到的是RetryPolicy 去设置失败重试的参数，一般你会这样使用：
+RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3) CuratorFramework client = CuratorFrameworkFactory.newClient(zookeeperConnectionString, retryPolicy); client.start(); 客户端需要显式的start并且在不用的时候显式的close.
+在链接成功以后就可以直接操作对应的集群。并且，如果在执行操作的过程中出现了连接错误，curator的manage会自动重新尝试操作。
+分布式锁 # 不可以对某个路径下的节点进行上锁：
+InterProcessMutex lock = new InterProcessMutex(client, lockPath); if ( lock.acquire(maxWait, waitUnit) ) { try { // do some work inside of the critical section here } finally { lock.release(); } } </description>
+    </item>
+    
+    <item>
+      <title>ZooKeeper</title>
+      <link>https://Paladnix.github.io/posts/others/zookeeper/</link>
+      <pubDate>Thu, 17 Aug 2017 10:06:34 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/zookeeper/</guid>
+      <description>暂且将恼人的Tomcat放在一边，来解决新的问题，并学习新的玩意儿。
+Zookeeper 是啥 # 动物园管理员，分布式服务就像是一个动物园。
+Zookeeper是一个开源的分布式应用程序协调程序，为分布式应用程序提供一致性服务。 在分布式计算的应用中，最令人头疼的就是分布式锁的问题。同时各种同步问题也很让人崩溃，Zookeeper就是封装可一些算法，保证了其分布式服务的一致性，作为很多分布式服务的基础服务程序。
+ZooKeeper 的设计原理 # 官方称之为鸟瞰：
+第一段在百度百科上。 在特性上面，zookeeper有这样几个特点。
+使用文件系统的结构来存储数据。 数据在用户的角度来看，是以类似与unix文件系统的方式来组织的，所以其定位方式是使用路径来定位数据。但是与文件系统不同的是，每个结点都可以存储数据，没有文件夹和文件的区别概念。
+高并发低延迟。 存储的数据在每一个zookeeper服务节点上都是一样的，所以读数据只要连接一个服务器直接读取就可以。数据的大小被限制在1M以内。
+高可用，自动故障转移。 这个是其设计的精髓之一，下面重点会讲。
+下面概要的讲一下运行的逻辑。
+选举 第一个，非常重要的步骤就是选举，在集群上部署完zookeeper以后，他们便开始执行选举流程，使用选举算法Fast Paxos作为基础。选举会产生一个leader。
+客户端与server 当有客户端与一个服务器建立连接的之后，他们之间会维持一个tcp连接，客户端会给服务器发送心跳请求，告诉服务器自己还在线。如果一个server监测到一个客户端断线了，就会在本地清除相关的数据。而客户端会重新去找一个server建立连接。
+写请求 在客户端读取数据的时候只要在其对应的服务器上读取就可以了。当其要写数据的时候，server会将这个写请求转发给leader服务器，leader将这个写请求统一发给每一个server进行写数据操作，当确认有严格的大于一半的server都写入成功以后，就算是写请求成功，再返回给原server，由原server返回成功给客户端。
+重新选举 leader会给server之间保持通信，通常就是所说的心跳。leader通过心跳来确认server是否存活，同时，server也可以确认leader是否存活，如果leader挂了，servers就会重新进行选举，然后再提供服务。
+通知 watcher是zk比较特殊的设计，允许一个或多个客户端绑定多个节点数据。当zk上的数据发生变化的时候能够通知到相应的客户端。这个设计就可以用来做很多的应用啦。redis数据库同样也有提供这样的消息发布与订阅的功能，不过那个是特意实现的一个功能给应用使用的。
+实现上的诸多细节 # 在听之前的老司机分享的时候，他们探讨了很多实现细节上的问题，感觉实现这样的一个分布式系统还是非常有挑战的。
+比如，如果写请求进行中leader挂掉了怎么办，数据tcp丢包了怎么办。如何同步数据等等。有空很想看看其实现方式。
+使用 # (这里补充一下服务器版的安装。与使用)
+最主要的使用途径还是通过客户端程序来访问zk。客户端有Java、python、lua、Go等。 我用java，所以。。
+maven # &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.apache.zookeeper&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;zookeeper&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.3.5&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 不过，这个有一点低端，所以我使用另外一个客户端的实现：curator。也是一个开源的zk客户端的实现，封装层次更高，所以操作更简便。
+Curator框架提供了一套高级的API， 简化了ZooKeeper的操作。 它增加了很多使用ZooKeeper开发的特性，可以处理ZooKeeper集群复杂的连接管理和重试机制。 这些特性包括：
+自动化的连接管理: 重新建立到ZooKeeper的连接和重试机制存在一些潜在的错误case。 Curator帮助你处理这些事情，对你来说是透明的。 清理API: 简化了原生的ZooKeeper的方法，事件等 提供了一个现代的流式接口 (提供了Recipes实现： 如前面的文章介绍的那样，基于这些Recipes可以创建很多复杂的分布式应用.这部分不明白，待补充)。
+Curator框架通过CuratorFrameworkFactory以工厂模式和builder模式创建CuratorFramework实 例。 CuratorFramework实例都是线程安全的，你应该在你的应用中共享同一个CuratorFramework实例.
+工厂方法newClient()提供了一个简单方式创建实例。 而Builder提供了更多的参数控制。一旦你创建了一个CuratorFramework实例，你必须调用它的start()启动，在应用退出时调用close()方法关闭.
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.apache.curator&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;curator-recipes&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;2.7.0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 这个版本的API 是流式的API，也就是。。用的时候一句话里有一串的调用，不断的点操作符。 for 一个zample: client.</description>
+    </item>
+    
+  </channel>
+</rss>

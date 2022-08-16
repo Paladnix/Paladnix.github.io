@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/linux/</link>
+    <description>Recent content in Linux on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 18 Jun 2018 21:48:42 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>apache2 配置多端口服务</title>
+      <link>https://Paladnix.github.io/posts/web/apache2/</link>
+      <pubDate>Mon, 18 Jun 2018 21:48:42 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/web/apache2/</guid>
+      <description>多端口多服务配置 # 个人服务器和一些低访问量的服务，使用apache2比较方便。 安装完以后打开默认的页面会看到有个介绍：
+/etc/apache2/ |-- apache2.conf | `-- ports.conf |-- mods-enabled | |-- *.load | `-- *.conf |-- conf-enabled | `-- *.conf |-- sites-enabled | `-- *.conf 这就是apache2的基本配置文件
+1. apache.conf # 这个文件基本不用动，是apache的总配置文件。我只修改一项：
+&amp;lt;Directory /var/www/&amp;gt; Options Indexes FollowSymLinks AllowOverride all # default is None, change to all. Require all granted &amp;lt;/Directory&amp;gt; 2. ports.conf # 这个文件用来添加监听的端口：
+# If you just change the port or add more ports here, you will likely also # have to change the VirtualHost statement in # /etc/apache2/sites-enabled/000-default.</description>
+    </item>
+    
+    <item>
+      <title>ngrok服务端与客户端</title>
+      <link>https://Paladnix.github.io/posts/others/ngrok/</link>
+      <pubDate>Sat, 16 Jun 2018 23:19:50 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/ngrok/</guid>
+      <description>自己搭建Ngrok服务器 # 使用平台：Ali云 Ubuntu 16.04 Go编译器版本： 1.9.1 依赖： gcc、cmake、build-essential、git 1. Ubuntu安装Go编译器 # wget https://dl.google.com/go/go1.9.7.linux-amd64.tar.gz tar -zxvf go1.9.7.linux-amd64.tar.gz mv go/ /usr/local/ # vim /etc/profile export GOROOT=/usr/local/go export GOPATH=$HOME/go export PATH=$PATH:$GOROOT/bin:$GOPATH/bin # save &amp;amp; exit vim source /etc/profile go version # 显示Go的版本即安装成功 2. 安装其他依赖 # sudo apt install -y git gcc cmake build-essential screen 3. 下载ngrok源码并编译 # git clone https://github.com/inconshreveable/ngrok.git ngrok cd ngrok # 生成ssl自签名证书， 需要被编译进最终可执行文件中 NGROK_DOMAIN=&amp;#34;tunnel.paladnix.top&amp;#34; # 注意域名换成你自己的 openssl genrsa -out base.</description>
+    </item>
+    
+    <item>
+      <title>编写Bash脚本</title>
+      <link>https://Paladnix.github.io/posts/bash/bash/</link>
+      <pubDate>Fri, 18 May 2018 15:45:40 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/bash/bash/</guid>
+      <description>作为一个Linux用户，不会自己写Bash脚本，简直太讽刺了，跟windows用户有什么区别，用鼠标点一点。 使用Bash脚本来解放生产力非常重要。不要做重复性的无意义的劳动。
+Bash 脚本头（shebang） # 这个东西汉语里叫&amp;quot;蛇棒&amp;quot;，难听。 以#! 开头的，在没有指定解释器的情况下，使用后面路径的解释器运行。
+常用的bash命令解释器： #! /bin/bash
+Command arguments # Variables About Example $# The number of arguments. while [[ $# -gt 0 ]] do &amp;hellip; done $1 The first argument. echo &amp;ldquo;$1&amp;rdquo;; KEY=&amp;quot;$1&amp;quot; $@ All arguments as a list. for i in &amp;ldquo;$@&amp;rdquo; shift Past one string of commands that splited by space. shift # one line </description>
+    </item>
+    
+    <item>
+      <title>Tutorial of Taskwarrior</title>
+      <link>https://Paladnix.github.io/posts/linux/taskwarrior/</link>
+      <pubDate>Tue, 13 Mar 2018 13:45:32 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/linux/taskwarrior/</guid>
+      <description>Taskwarrior 是一款命令行的TODO应用，功能强大，且使用逻辑简单方便，命令行的操作非常适合程序员。 （基本上能在命令行解决的问题就不要用GUI， 能用键盘解决的就不要用鼠标。）
+目前我使用到的功能有：
+添加task 给task修改所属的project、截至日期 更改task的状态，如：start、done 修改task的priority 添加tags给task 给task添加task依赖关系 &amp;hellip; 基本使用 # 添加 task task add xxxx [project:xxx] [priority:xx] [due:xx] 修改task状态 task ID start task ID done 修改task信息
+task ID modify [project:xx] [due:xx] [priority:xx] 其中due常用的选项有：
+eom : end of month 添加tags
+task ID modify +house +problem 其中有个特殊的tag是：next， 这回提升这个task的优先级。
+task ID modify +next 添加依赖关系 task ID modify depends:OTHER_ID 命令格式 # task [filter] [command] [modifications | miscellaneous]
+如果将Task比作一个类，可以把每个task都理解成一个实例。我们将实例存储在一个文件中，task就是用来处理这个文件的改动、信息筛选的命令。
+filter-筛选器 通过一些条件，筛选出我们每次操作的对象。 # 筛选所有pending的task，并计数 # task status:pending count # 筛选所有tag是work的，并计数 # task +work count # 筛选所有tag不包含work的，并计数 # task -work count 如果有多个条件，可以使and、or来进行连接</description>
+    </item>
+    
+    <item>
+      <title>Linux 定时任务</title>
+      <link>https://Paladnix.github.io/posts/linux/linux-timing/</link>
+      <pubDate>Fri, 05 Jan 2018 01:20:02 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/linux/linux-timing/</guid>
+      <description>很久以前就想找到一种定时执行任务的方法，下面介绍一种在Linux下通用的，也是最方便的方式。
+cron # 这是Linux内核自带的一个定时执行任务的服务。默认是不打开，可以设置成开机自动启动。
+要把cron设为在开机的时候自动启动，在 /etc/rc.d/rc.local 脚本中加入 /sbin/service crond start。
+这是一个周期性执行某个程序的服务，与at不同，at是一次性的服务。显然这个服务更常用一些。 很多周期性的任务，如定期清缓存，写磁盘，做备份等等。
+我用这个命令来自动更新我github.io上的博客代码。
+crontab # 这是cron提供的一个命令，用来设定定时任务。 定时任务非常的简单，就是利用配置文件来描述什么时候执行什么动作，所以设定任务也就要写明白这些参数就可以了。
+配置文件的基本格式 # 配置文件可以有很多个，存放在固定的目录下。服务启动以后会一起读取然后执行。
+配置文件每行是一个定时任务的描述，包括6个字段：
+分(0-59), 小时(0-23), 天(1-31), 月(1-12), 星期(0-7,0和7都是周日) 要执行的命令 举个例子：
+0 8,22 * * 1-5 echo &amp;#34;Hello&amp;#34; // 在周一到周五的8点和22点的时候输出”Hello“ // // * 通配符 // 同一个字段多个值，用逗号隔开。 // 1-5表示一个区间 这个配置文件很好写，就不多举例子了。
+启动服务 # sudo /etc/init.d/cron start // start sudo /etc/init.d/cron stop // stop sudo /etc/init.d/cron restart // restart crontab 用法 # 使用：
+crontab –e : 修改 crontab 文件，如果文件不存在会自动创建。 crontab –l : 显示 crontab 文件。 crontab -r : 删除 crontab 文件。 crontab -ir : 删除 crontab 文件前提醒用户。 其中，-e是编辑当前用户的配置文件，默认是存放在/var/spool/cron/crontabs/目录下。 只要服务启动着，编辑保存这个文件，定时任务就设定好了，有的时候可能真正执行会有1-2分钟的延时。</description>
+    </item>
+    
+    <item>
+      <title>《Linux 编程实践教程》- 1</title>
+      <link>https://Paladnix.github.io/posts/linux/linuxprogramming-1/</link>
+      <pubDate>Tue, 02 Jan 2018 16:15:13 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/linux/linuxprogramming-1/</guid>
+      <description>2018年恢复写博客的第一篇博客。
+「·最近在看书，主要是Linux相关的书，尽管即将要进行NLP的研究生阶段，但是回首自己的本科计算机编程经历其实非常浅薄。这两年的积淀在常用算法和数据结构上有一些，在一些基础理论上有一些，但是距离成为一个程序员还有很大的距离。综合各种因素，我选择将Linux学习更透彻作为程序员的落脚点。这是我作为程序员的自我修养。·」
+关于这本书 # 这是一本Linux的基础教材，2004翻译过来的。但是国内貌似很少用，作为了课外读物。
+这本书的落脚点是编程实践。其中贯穿着Linux的一些原理和使用，以及编程思维。
+包括：用户，文件系统，连接，事件驱动，进程通信，多线程，服务，协议等。以Linux的一些已经实现的功能为基础，进行讲解，再实现。 会涉及很多的编程细节的东西，这是上课不会讲到的。都非常的有意思。做到“知其然，知其所以然”。
+本书的风格和套路 # 此书适合初学者，但是任何初学者的书都不是完全适合初学者， 有很多概念和细节都需要读者有些了解才能更好读懂。 我在读本书之前的一天读了一部分《Linux系统编程》。这是一个偏底层概念和细节的书，主要在文件系统，I/O，进程，内存，信号，时间上去为Linux系统编程打细节基础，看起来没那么有趣，因为细节太多，但是确实把文件和I/O的概念给我打通了。 有了这些基础再看本书的第一章，并实现其中的more实例就省力很多。此前一个月左右我看过这一章，但是在写代码的时候还是非常不能理解一些细节。
+书中会给出全部的实现，但是并不是完整功能的实现，是一部分功能的完整实现。并将剩下的一些功能的实现作为扩展的作业。 在给出实现的时候，会讲相关的基础知识。
+比如在第二章讲Who命令的时候，会先告诉你man命令怎么用，以及文档各个部分是什么，怎么去看相关条目，从man手册的那些部分获得什么信息等。
+第一章：more命令的实现 # more命令比较简单的功能就是把文件的内容投射到终端上，并且可以向下翻页或翻行。要能从文件中读取也可以从管道中读取内容。
+在Linux一切皆文件的设计理念下，要知道各种I/O都可以作为文件来使用，也就是可以用打开文件的方式来打开。无论是文件、管道、设备(键盘)、重定向数据，都可以作为文件来打开读取。
+那么实现这样的功能就没有那么困难了。 整体逻辑就是：
+打开文件 读取一定的行数 提示翻页或下一行，接受键盘动作 作出反应，重复。 代码中用到了终端设置接口termios.h，让用户输入的操作不被显示，不用回车，直接进入程序。 用到了与终端用文件交互的方式tty。
+Code # #include &amp;lt;bits/stdc++.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;termios.h&amp;gt; using namespace std; const int PAGELEN = 24; const int LINELEN = 512; int see_more(FILE * cmd){ int c; printf(&amp;#34;\033[7m more? \033[m&amp;#34;); // 白色底色 while( (c = getc(cmd)) != EOF ){ if( c == &amp;#39;q&amp;#39; ){ return 0; } else if( c == &amp;#39; &amp;#39; ) return PAGELEN; else if(c == &amp;#39;\n&amp;#39;){ return 1; } } return 0; } void do_more( FILE * fp ){ char line[LINELEN]; int num_of_lines = 0; FILE * fp_tty = fopen(&amp;#34;/dev/tty&amp;#34;, &amp;#34;r&amp;#34;); // 一切皆文件，这个文件标志就是与终端交互。 struct termios initial_settings, new_settings; tcgetattr(fileno(fp_tty), &amp;amp;initial_settings); new_settings = initial_settings; // clflag 局部模式，只在本程序中有效。 new_settings.</description>
+    </item>
+    
+    <item>
+      <title>awk - Linux文本处理大杀器</title>
+      <link>https://Paladnix.github.io/posts/bash/awk/</link>
+      <pubDate>Thu, 07 Sep 2017 17:44:07 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/bash/awk/</guid>
+      <description>awk 已经不是一种命令了，而是一种语言。用于在linux/unix下对文本和数据进行处理。数据可以来自标准输入(stdin)、一个或多个文件，或其它命令的输出。
+在最开始，我的文本处理方式就是写一个c语言去读文件然后在处理完输出来。刚开始学程序的时候觉得自己很厉害的样子。这样做过几次以后就发现并没有这么好用，因为每次都要写一个很麻烦。
+在后来就是学习用脚本来处理。
+关于Linux命令，推荐一个小站点，写的东西都还非常细致。
+命令形式 # awk [options] &amp;#39;script&amp;#39; var=value file(s) awk [options] -f scriptfile var=value file(s) 命令选项
+-F fs fs指定输入分隔符，fs可以是字符串或正则表达式，如-F: -v var=value 赋值一个用户定义变量，将外部变量传递给awk脚本 -f scripfile 从脚本文件中读取awk命令 脚本模式和操作 # awk的脚本主要由模式和操作组成：
+模式 # /正则表达式/：使用通配符的扩展集。 关系表达式：使用运算符进行操作，可以是字符串或数字的比较测试。 模式匹配表达式：用运算符~（匹配）和~!（不匹配）。 BEGIN语句块、pattern语句块、END语句块 操作 # 操作由一个或多个命令、函数、表达式组成，之间由换行符或分号隔开，并位于大括号内，主要部分是：
+变量或数组赋值 输出命令 内置函数 控制流语句 awk脚本的基本结构 # awk &amp;#39;BEGIN{ print &amp;#34;start&amp;#34; } pattern{ commands } END{ print &amp;#34;end&amp;#34; }&amp;#39; file 一个awk脚本通常由：BEGIN语句块、能够使用模式匹配的通用语句块、END语句块3部分组成，这三个部分是可选的。任意一个部分都可以不出现在脚本中，脚本通常是被单引号或双引号中，例如：
+awk &amp;#39;BEGIN{ i=0 } { i++ } END{ print i }&amp;#39; filename awk &amp;#34;BEGIN{ i=0 } { i++ } END{ print i }&amp;#34; filename 工作原理 # 第一步：执行BEGIN{ commands }语句块中的语句； 第二步：从文件或标准输入(stdin)读取一行，然后执行pattern{ commands }语句块，它逐行扫描文件，从第一行到最后一行重复这个过程，直到文件全部被读取完毕 第三步：当读至输入流末尾时，执行END{ commands }语句块。 BEGIN语句块 在awk开始从输入流中读取行之前被执行，这是一个可选的语句块，比如变量初始化、打印输出表格的表头等语句通常可以写在BEGIN语句块中。 END语句块 在awk从输入流中读取完所有的行之后即被执行，比如打印所有行的分析结果这类信息汇总都是在END语句块中完成，它也是一个可选语句块。 pattern语句块 中的通用命令是最重要的部分，它也是可选的。如果没有提供pattern语句块，则默认执行{ print }，即打印每一个读取到的行，awk读取的每一行都会执行该语句块。</description>
+    </item>
+    
+    <item>
+      <title>真正的老司机如何用Linux文本命令</title>
+      <link>https://Paladnix.github.io/posts/bash/commands/</link>
+      <pubDate>Thu, 27 Jul 2017 17:23:29 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/bash/commands/</guid>
+      <description>Tomcat是最烂的软件，没有之一！Over! 因为日志系统冲突的问题，这两天跟Tomcat斗争了好久，最终被其无耻下流卑鄙所折服，自信点，你就是最烂的！于是就诞生了上一篇长文来叙述日志是怎么搞，现在这一篇也是在实战中学习到的。
+曾经学这些命令的时候只知道这些命令有很多功能，也很困惑，一个命令搞这么多参数干嘛，有什么用啊，我反正不会用。然后今天就脸红了，是我不会用。 不得不说设计这些命令的前辈真的很厉害，然后发现windows就这么丢弃这些东西真的是自断后路。盖茨肯定意识到电脑以后会是标配，但是他一定没有意识到自己在让计算机变傻。或许他本身就很傻吧，不是很能懂，自己一个号称最优秀的程序员之一的人，在设计计算机的时候就这么把这些东西屏蔽掉，自己真的打算用吗？计算机是越来越多了，但是其真正强大的功能都被windows阉割了，也阉割了真正的优雅，一定程度上，我认为盖茨理解错了计算机处理信息的价值。
+我喜欢vim、latex、linux他们都有一个共同的特点，就是连通性非常强，而且操作简单。在工作过程中除了浏览网页，我基本上不会用鼠标，快捷键加命令可以无所不达。
+一般我会开两个终端窗口，一屏左右各占一个。开发服务器相关的应用的时候左边终端在本地，右侧终端ssh连进服务器。就单单这一个操作，在windows下就要复杂N倍，要安装软件才能支持ssh协议，还要软件模拟服务器终端，丑的要死不说，各种切换操作都要依靠鼠标&amp;hellip; 而在linux的终端下，每个操作都只是简单的一个命令的事情，可以用命令完整精准的描述你的想法，所想即所得。
+下面几个命令，很强大。 ps、less、head、tail、grep、watch&amp;hellip;
+ps # 你知道Tomcat自己的bin/shutdown.sh是无法把自己关闭的吗？很抱歉，我特么这么用了一天了。然后ps发现一堆tomcat进程在跑，顿时恐惧袭上心头。关不掉你就别写个shutdown.sh啊，坑死爸爸了。 下次要关tomcat就特么直接kill，就不用那么麻烦了。
+ps 命令是一个系统进程的快照。他通过读取/proc文件的方式获取信息。 使用man 命令获取内置说明文档：man ps，就可以看到各个参数的说明。这里会介绍一些参数的用法，但是仅仅是做个记录而已，有价值的东西是后面的实战例子。
+在参数中，ps命令支持三种命令格式：
+Unix 带短线(dash)：-a 参数 BSD 不带短线(dash)：a 参数 GNU 两个连续短线(two dash)：--a 参数 一般我用Unix格式的参数。 在解释这个命令之前还要解释一个东西就是Linux的进程。 在Linux中，一个进程组(process group)都是独一无二的会话(session)，这个session的ID就是这个session的第一个process的ID。这个进程也叫做the session leader。
+-e 获取所有的进程，与-A 一毛一样。 -aux 获取所有的进程的详细信息。包括没有tty的进程和leader进程。 包含一下信息： USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND -C cmdlist 获取对应cmd的进程 -p pidlist 获取对应pid的进程 -u userlist 获取对应user的进程 -f 获取格式化信息 --sort spec 根据spec排序输出，example：ps jax --sort=uid,-ppid,+pid + - 代表增序和降序 example: 按cpu时间排序 ps -aux --sort -pcpu example: 按内存使用排序 ps -aux --sort -pmem example: ps -aux --sort -pcpu,+pmem 多标准排序 k 与sort同等作用 -L pid 获取特定进程的所有线程 -jaxf 以树形显示进程 -eo 控制输出，可用来产看特定字段信息 example: ps -eo pid,user,args 查看谁登录了你的机器 -m 在进程后面输出线程 上面这些只是基础知识，下面在补充一些： 进程状态STAT代码</description>
+    </item>
+    
+    <item>
+      <title>curl</title>
+      <link>https://Paladnix.github.io/posts/linux/curl/</link>
+      <pubDate>Tue, 11 Jul 2017 17:37:47 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/linux/curl/</guid>
+      <description>linux下面自带的一个命令行工具，很常用，关键是很强大。
+supports # DICT, FILE, FTP, FTPS, Gopher, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, POP3, POP3S, RTMP, RTSP, SCP, SFTP, SMB, SMBS, SMTP, SMTPS, Telnet and TFTP.
+supports SSL certificates, HTTP POST, HTTP PUT, FTP uploading, HTTP form based upload, proxies, HTTP/2, cookies, user+password authentication (Basic, Plain, Digest, CRAM-MD5, NTLM, Negotiate and Kerberos)
+file transfer resume, proxy tunneling and more.
+基本上无所不能了。。。 这里是cURL的PDF版本说明文档，不是很难看懂，里面介绍了这个项目的起源发展、网络协议、如何使用等等。作者还有个很帅的名字：丹尼尔·斯坦伯格。
+作者写了这样一段话：
+Running curl from the command line was natural and Daniel never considered anything else than that it would output data on stdout, to the terminal, by default.</description>
+    </item>
+    
+  </channel>
+</rss>

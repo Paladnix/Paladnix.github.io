@@ -1,0 +1,2855 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="协议 # 协议就是数据格式&#43;确认策略。 你所需要知道的就是协议是如何分类的，一般我们按照其工作的层次来分类，分成：通信层协议、应用层协议、物理层协议等七个层次的协议。整个计算机网络体系是由这么多层次组成，但是发展到今天我们主要关心的其实就是两个层次上的协议：通信层、应用层。TCP/IP协议属于通信层，Http属于应用层，也有人认为http属于通信层。关于http属于什么层次，可以是两个架构之间的区别，一种就是RESTful模式的，也是我们常用的；还有一种就是SOA（面向服务的体系结构)他是将http当作通信层协议来使用的。这个关于什么是RESTful和SOA就可以写一篇，这里你只需要知道现在正在向RESTful模式迁移就可以了。
+(成熟的架构大局观&#43;敏锐的技术嗅觉，这是一个CTO必备的能力。)
+http协议 # http协议（超文本传输协议）是现代计算机网络最最重要的组成部分。其协议简洁、高效、灵活、强大，也是计算机应用下一步进化的方向。
+除了上面讲的几个你体会不到的特点以外，下面几个特点你要清楚：
+无连接： 不需要保持连接，一个请求干一件事，干完就过。 无状态： 换句话说就是没有记忆，这一点有利有弊。 内容 # http1.1的RFC文档在此，有兴趣的可以去看看。内容比你想的多得多，比我知道的也多得多。本文就简单的介绍一下http报文结构啊什么的，那些网上到处都是，没必要说太多。
+Request # 由于是应用层，所以我们就只关心数据而不关心其他的东西。 报文结构如下：
+GET /562f25980001b1b106000338.jpg HTTP/1.1 Host img.mukewang.com User-Agent Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36 Accept image/webp,image/*,*/*;q=0.8 Referer http://www.imooc.com/ Accept-Encoding gzip, deflate, sdch Accept-Language zh-CN,zh;q=0.8 xxx 报文由四个部分组成，请求行、请求头、空行、请求数据。
+第一行是请求行，包含三个数据，空格分隔：请求方法、请求资源(URL)、协议版本。 下面紧跟的是请求头，是n个键值对，空格分隔，包含其他的数据：请求的目的地、什么浏览器、该请求接受什么返回格式、什么编码&hellip; 空一行 请求数据。 Response # 返回报文一样四部分：状态行、消息报头、空行和响应正文。
+HTTP/1.1 200 OK Date: Fri, 22 May 2009 06:07:21 GMT Content-Type: text/html; charset=UTF-8 &lt;html&gt; &lt;head&gt;&lt;/head&gt; &lt;body&gt; &lt;!">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="你所不知道的http协议之优秀" />
+<meta property="og:description" content="协议 # 协议就是数据格式&#43;确认策略。 你所需要知道的就是协议是如何分类的，一般我们按照其工作的层次来分类，分成：通信层协议、应用层协议、物理层协议等七个层次的协议。整个计算机网络体系是由这么多层次组成，但是发展到今天我们主要关心的其实就是两个层次上的协议：通信层、应用层。TCP/IP协议属于通信层，Http属于应用层，也有人认为http属于通信层。关于http属于什么层次，可以是两个架构之间的区别，一种就是RESTful模式的，也是我们常用的；还有一种就是SOA（面向服务的体系结构)他是将http当作通信层协议来使用的。这个关于什么是RESTful和SOA就可以写一篇，这里你只需要知道现在正在向RESTful模式迁移就可以了。
+(成熟的架构大局观&#43;敏锐的技术嗅觉，这是一个CTO必备的能力。)
+http协议 # http协议（超文本传输协议）是现代计算机网络最最重要的组成部分。其协议简洁、高效、灵活、强大，也是计算机应用下一步进化的方向。
+除了上面讲的几个你体会不到的特点以外，下面几个特点你要清楚：
+无连接： 不需要保持连接，一个请求干一件事，干完就过。 无状态： 换句话说就是没有记忆，这一点有利有弊。 内容 # http1.1的RFC文档在此，有兴趣的可以去看看。内容比你想的多得多，比我知道的也多得多。本文就简单的介绍一下http报文结构啊什么的，那些网上到处都是，没必要说太多。
+Request # 由于是应用层，所以我们就只关心数据而不关心其他的东西。 报文结构如下：
+GET /562f25980001b1b106000338.jpg HTTP/1.1 Host img.mukewang.com User-Agent Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36 Accept image/webp,image/*,*/*;q=0.8 Referer http://www.imooc.com/ Accept-Encoding gzip, deflate, sdch Accept-Language zh-CN,zh;q=0.8 xxx 报文由四个部分组成，请求行、请求头、空行、请求数据。
+第一行是请求行，包含三个数据，空格分隔：请求方法、请求资源(URL)、协议版本。 下面紧跟的是请求头，是n个键值对，空格分隔，包含其他的数据：请求的目的地、什么浏览器、该请求接受什么返回格式、什么编码&hellip; 空一行 请求数据。 Response # 返回报文一样四部分：状态行、消息报头、空行和响应正文。
+HTTP/1.1 200 OK Date: Fri, 22 May 2009 06:07:21 GMT Content-Type: text/html; charset=UTF-8 &lt;html&gt; &lt;head&gt;&lt;/head&gt; &lt;body&gt; &lt;!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Paladnix.github.io/posts/web/http/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-07-10T19:02:33+00:00" />
+<meta property="article:modified_time" content="2017-07-10T19:02:33+00:00" />
+
+<title>你所不知道的http协议之优秀 | Paladnix Blog Site</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.82c5dbd23447cee0b4c2aa3ed08ce0961faa40e1fa370eee4f8c9f02e0d46b5f.css" integrity="sha256-gsXb0jRHzuC0wqo&#43;0Izglh&#43;qQOH6Nw7uT4yfAuDUa18=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.32aac9bd6b24494aac3806f4c120c12d400590c29ddb2ac42f0ba71f77227fc0.js" integrity="sha256-MqrJvWskSUqsOAb0wSDBLUAFkMKd2yrELwunH3cif8A=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><img src="/images/paladnix-github.jpeg" alt="Logo" /><span>Paladnix Blog Site</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Blog Article</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-19f10fbb697c334a3284dd2194bc29f3" class="toggle"  />
+    <label for="section-19f10fbb697c334a3284dd2194bc29f3" class="flex justify-between">
+      <a role="button" class="">Acm</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Atcoder</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/atcoder/abc-256-f/" class="">ABC-256-F 题解</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/atcoder/abc-255_e/" class="">Lucky Number 题解</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/bit-%E5%8C%BA%E9%97%B4%E6%B1%82%E5%92%8C/" class="">多棵树状数组处理区间问题</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acm-collection/" class="">ACM-collection</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/cf855-c/" class="">Codeforces 855-C 树形DP</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/fft/" class="">FFT 快速傅立叶变换</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acm-vim/" class="">VIM 在ACM/ICPC中的非最佳实践</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acm-contest-1/" class="">比赛题解-2017苏大暑假集训个人赛(13)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acmroad/" class="">ACMRoad</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-456a039e07b28260a08b7fc62b92dfd7" class="toggle"  />
+    <label for="section-456a039e07b28260a08b7fc62b92dfd7" class="flex justify-between">
+      <a role="button" class="">Rocks Db</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/rocksdb/skip-list/" class="">skip list原理与实现</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/rocksdb/summary/" class="">Summary</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-58201612638e1ea8bc6dbd0ba8468161" class="toggle"  />
+    <label for="section-58201612638e1ea8bc6dbd0ba8468161" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/python/python-type/" class="">python type</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/python/python-multithreaded/" class="">python 多线程和异步</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/python/anaconda/" class="">Tutorial of anaconda &amp; 原生虚环境</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d4afb3cb60fce6f19da24b63c311e48e" class="toggle"  />
+    <label for="section-d4afb3cb60fce6f19da24b63c311e48e" class="flex justify-between">
+      <a role="button" class="">Others</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/cuda/" class="">cuda</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/shadowsocks/" class="">shadowsocks 搭建</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/ngrok/" class="">ngrok服务端与客户端</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/tensorflow/" class="">tensorflow</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/vimium/" class="">Vimium - Google-Chrome-Plugin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/lucene-1/" class="">Lucene（一）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/raspberrypi/" class="">树莓派 - 入坑指南(1)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/curator/" class="">apache curator</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/synchronized/" class="">synchronized 同步锁</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/zookeeper/" class="">ZooKeeper</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/diary/" class="">Latex写工作日志的实践</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/sql/" class="">SQL进阶</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/hexo/" class="">Hexo</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6dcc8fdde13341c88dddf304b2c4c793" class="toggle"  />
+    <label for="section-6dcc8fdde13341c88dddf304b2c4c793" class="flex justify-between">
+      <a role="button" class="">Self</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/fight/" class="">创业者</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/self-2/" class="">再出发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/self-1/" class="">阶段性总结</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/myheart/" class="">一个决定</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/alibaba/" class="">实习转正答辩</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/internship/" class="">关于实习-alibaba Middle Ware</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/howtolearn/" class="">关于计算机科学的学习</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/baiji/" class="">百技</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/thinking-1/" class="">随想-1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/before/" class="">学习更深C/C&#43;&#43;语言之前的思想准备</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/begining/" class="">Begining</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/%E4%B8%A4%E7%B1%BB%E4%BA%BA/" class="">两类人</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/%E7%A4%BE%E4%BC%9A%E5%88%86%E5%B7%A5/" class="">社会分工</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-859a76a0227ac62639bc2dad75336fc7" class="toggle" checked />
+    <label for="section-859a76a0227ac62639bc2dad75336fc7" class="flex justify-between">
+      <a role="button" class="">Web</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/apache2/" class="">apache2 配置多端口服务</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/less/" class="">less 笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react-2/" class="">react 设计概念</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/mobx/" class="">mobx - redux的优秀替代品</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react-router-dom/" class="">react-router tutorial</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react-1/" class="">使用react开发的优秀实践</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/es6/" class="">ES 6</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/node/" class="">node nodejs npm 傻傻分不清楚on Ubuntu</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/cors/" class="">CORS Cross-Origin Resource Sharing</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/tomcatserver/" class="">tomcat Server.xml及其启动顺序</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/cookie/" class="">Cookie</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/sso/" class="">sso 单点登录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/web/" class="">web.xml</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/angular/" class="">angular</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react/" class="">react 初探-一些基础概念</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/cgi/" class="">CGI 通用网关协议</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/servlet/" class="">Servlet</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/chrome/" class="">chrome 控制台</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/tomcat/" class="">tomcat</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/http/" class="active">你所不知道的http协议之优秀</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/rest-framework/" class="">rest_framework</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/django/" class="">Django</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/husky/" class="">Husky - A Light Web MVC Framework</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fd6cd2d4bc98c7c7e2bc50b28778314" class="toggle"  />
+    <label for="section-9fd6cd2d4bc98c7c7e2bc50b28778314" class="flex justify-between">
+      <a role="button" class="">Bash</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/bash/bash/" class="">编写Bash脚本</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/bash/awk/" class="">awk - Linux文本处理大杀器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/bash/commands/" class="">真正的老司机如何用Linux文本命令</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ac08f61dce7ad61dd2ea7ad4910367cb" class="toggle"  />
+    <label for="section-ac08f61dce7ad61dd2ea7ad4910367cb" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/taskwarrior/" class="">Tutorial of Taskwarrior</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/linux-timing/" class="">Linux 定时任务</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/linuxprogramming-1/" class="">《Linux 编程实践教程》- 1</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/curl/" class="">curl</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-371dae9a8dd24e9c6ca13652146b9046" class="toggle"  />
+    <label for="section-371dae9a8dd24e9c6ca13652146b9046" class="flex justify-between">
+      <a role="button" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/advanced-git-1/" class="">git 进阶一</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/advanced-git/" class="">git 进阶</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/git/" class="">git实战指南</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/git-checkout/" class="">Git Checkout</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/git-log/" class="">Git Log</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/rebase/" class="">Rebase</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/reset/" class="">Reset</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/summary/" class="">Summary</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-069647d66c3986a88c683691b95ae841" class="toggle"  />
+    <label for="section-069647d66c3986a88c683691b95ae841" class="flex justify-between">
+      <a role="button" class="">C</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/effectivec-1/" class="">Effective C&#43;&#43; 读书笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/funcp/" class="">C 函数指针</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/cpp-1/" class="">cpp lamda &amp; for_each</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c/" class="">随想-关于语言的一些感受</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c-oop-3/" class="">C&#43;&#43; OOP--const、引用、指针</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c-oop-2/" class="">C&#43;&#43; OOP--函数解析过程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c-oop-1/" class="">C&#43;&#43; OOP基础--动态绑定</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/accessmodifier/" class="">OOP中的-控制修饰符</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/debug/" class="">Debug</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/epoll/" class="">Epoll</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/gccclang/" class="">Gcc&amp; Clang</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/rand/" class="">Rand</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/scopeguard/" class="">Scope Guard</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/thread/" class="">Thread</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/" class="">内存检测</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" class="">智能指针</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/%E7%81%AB%E7%84%B0%E5%9B%BE/" class="">火焰图</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4badfc46eeb07d2a91fe2b336a095056" class="toggle"  />
+    <label for="section-4badfc46eeb07d2a91fe2b336a095056" class="flex justify-between">
+      <a role="button" class="">Java</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/javawait/" class="">java wait一种线程通信方式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/lamda/" class="">Java lamda 表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/javajsonandobject/" class="">Java Json And Object</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/javahttp/" class="">Java HttpClient</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-2/" class="">每天读点Spring(2)--Start</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-1/" class="">每天读点Spring(1)--Introduction</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-5/" class="">Java 多线程实现异步调用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-shell/" class="">spring-shell</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/status/" class="">状态机编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/springmvc/" class="">SpringMVC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring/" class="">spring</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/log/" class="">Java-Log日志</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-4/" class="">java 线程与池</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/iterator/" class="">iterator 迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-exception/" class="">Java Exception &amp; Error</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/jdbc/" class="">JDBC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-3/" class="">Java-反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-2/" class="">Java 基础数据结构</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/maven-1/" class="">Maven</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/jersey/" class="">jersey</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-1/" class="">Java 抽象与接口</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-test-powermockito/" class="">Java Test Power Mockito</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/jdk/" class="">Jdk</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/maven/" class="">Maven</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/netty-io/" class="">Netty Io</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-boot/" class="">Spring Boot</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/util-concurrent/" class="">Util Concurrent</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-bcb64d436ed9c02263a1b9b3269d8223" class="toggle"  />
+    <label for="section-bcb64d436ed9c02263a1b9b3269d8223" class="flex justify-between">
+      <a role="button" class="">Redis</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/redis-1/" class="">Redis 深度学习(1)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/hyperloglog/" class="">HyperLogLog 基数估计算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/geohash/" class="">GeoHash</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/redis/" class="">redis</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-5370d5473c2ed1e3d784bba01e464d1f" class="toggle"  />
+    <label for="section-5370d5473c2ed1e3d784bba01e464d1f" class="flex justify-between">
+      <a role="button" class="">Vim</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/vim/vim/" class="">VIM 花式进阶</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/vim/install/" class="">Install</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/vim/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-c8fc425ee75853771b6ba2bb2652a518" class="toggle"  />
+    <label for="section-c8fc425ee75853771b6ba2bb2652a518" class="flex justify-between">
+      <a role="button" class="">ID Ea</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/idea/ideakey/" class="">IDEA常用快捷键</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/idea/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1927baaa335601867ef5539b8d4b652e" class="toggle"  />
+    <label for="section-1927baaa335601867ef5539b8d4b652e" class="flex justify-between">
+      <a role="button" class="">Cmake</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/libs/" class="">Libs</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/makefile/" class="">Makefile</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/project-struct/" class="">Project Struct</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-01bc7a3f69f55c45502271dc2ed2272b" class="toggle"  />
+    <label for="section-01bc7a3f69f55c45502271dc2ed2272b" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/docker/build-image/" class="">Build Image</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/docker/docker-limit/" class="">Docker Limit</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/docker/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/about/" class="">关于我</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-a30b8e1d093c7132d046c0cf50833535" class="toggle"  />
+    <label for="section-a30b8e1d093c7132d046c0cf50833535" class="flex justify-between">
+      <a role="button" class="">Shark</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/2.28/" class="">2.28</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/algorithm-a/" class="">Algorithm A</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/atcoder/" class="">Atcoder</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/mui-v4-to-v5/" class="">Mui V4 to V5</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/testing-stl/" class="">Testing Stl</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/testing2-4/" class="">Testing2 4</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/week_11.8-12/" class="">Week 11.8 12</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>_drafts</span>
+  
+
+          
+  <ul>
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/_drafts/latex/" class="">Tutorial of Latex - The difference with .cls and .sty</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Docs</span>
+  
+
+          
+  <ul>
+    
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>你所不知道的http协议之优秀</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#内容">内容</a>
+      <ul>
+        <li><a href="#request">Request</a></li>
+        <li><a href="#response">Response</a></li>
+      </ul>
+    </li>
+    <li><a href="#请求方法">请求方法</a>
+      <ul>
+        <li><a href="#get--post">GET &amp; POST</a></li>
+        <li><a href="#put--post">PUT &amp; POST</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#tcpdump">tcpdump</a></li>
+    <li><a href="#httpry">httpry</a></li>
+    <li><a href="#charles">charles</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown">
+  <h1>
+    <a href="/posts/web/http/">你所不知道的http协议之优秀</a>
+  </h1>
+  
+  <h5>July 10, 2017</h5>
+
+
+
+  
+
+  
+  <div>
+    
+      <a href="/tags/http/">Http</a>
+  </div>
+  
+
+
+
+<h1 id="协议">
+  协议
+  <a class="anchor" href="#%e5%8d%8f%e8%ae%ae">#</a>
+</h1>
+<p>协议就是数据格式+确认策略。
+你所需要知道的就是协议是如何分类的，一般我们按照其工作的层次来分类，分成：通信层协议、应用层协议、物理层协议等七个层次的协议。整个计算机网络体系是由这么多层次组成，但是发展到今天我们主要关心的其实就是两个层次上的协议：通信层、应用层。TCP/IP协议属于通信层，Http属于应用层，也有人认为http属于通信层。关于http属于什么层次，可以是两个架构之间的区别，一种就是RESTful模式的，也是我们常用的；还有一种就是SOA（面向服务的体系结构)他是将http当作通信层协议来使用的。这个关于什么是RESTful和SOA就可以写一篇，这里你只需要知道现在正在向RESTful模式迁移就可以了。</p>
+<p>(成熟的架构大局观+敏锐的技术嗅觉，这是一个CTO必备的能力。)</p>
+<h1 id="http协议">
+  http协议
+  <a class="anchor" href="#http%e5%8d%8f%e8%ae%ae">#</a>
+</h1>
+<p>http协议（超文本传输协议）是现代计算机网络最最重要的组成部分。其协议简洁、高效、灵活、强大，也是计算机应用下一步进化的方向。</p>
+<p>除了上面讲的几个你体会不到的特点以外，下面几个特点你要清楚：</p>
+<ul>
+<li>无连接： 不需要保持连接，一个请求干一件事，干完就过。</li>
+<li>无状态： 换句话说就是没有记忆，这一点有利有弊。</li>
+</ul>
+<h2 id="内容">
+  内容
+  <a class="anchor" href="#%e5%86%85%e5%ae%b9">#</a>
+</h2>
+<p><a href="https://tools.ietf.org/pdf/rfc2616.pdf">http1.1</a>的RFC文档在此，有兴趣的可以去看看。内容比你想的多得多，比我知道的也多得多。本文就简单的介绍一下http报文结构啊什么的，那些网上到处都是，没必要说太多。</p>
+<h3 id="request">
+  Request
+  <a class="anchor" href="#request">#</a>
+</h3>
+<p>由于是应用层，所以我们就只关心数据而不关心其他的东西。
+报文结构如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#a6e22e">GET</span> /562f25980001b1b106000338.jpg <span style="color:#66d9ef">HTTP</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1.1</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Host</span>    <span style="color:#ae81ff">img.mukewang.com</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">User-Agent</span>    <span style="color:#ae81ff">Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Accept</span>    <span style="color:#ae81ff">image/webp,image/*,*/*;q=0.8</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Referer</span>    <span style="color:#ae81ff">http://www.imooc.com/</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Accept-Encoding</span>    <span style="color:#ae81ff">gzip, deflate, sdch</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Accept-Language</span>    <span style="color:#ae81ff">zh-CN,zh;q=0.8</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>xxx
+</span></span></code></pre></div><p>报文由四个部分组成，请求行、请求头、空行、请求数据。</p>
+<ol>
+<li>第一行是请求行，包含三个数据，空格分隔：请求方法、请求资源(URL)、协议版本。</li>
+<li>下面紧跟的是请求头，是n个键值对，空格分隔，包含其他的数据：请求的目的地、什么浏览器、该请求接受什么返回格式、什么编码&hellip;</li>
+<li>空一行</li>
+<li>请求数据。</li>
+</ol>
+<h3 id="response">
+  Response
+  <a class="anchor" href="#response">#</a>
+</h3>
+<p>返回报文一样四部分：状态行、消息报头、空行和响应正文。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#66d9ef">HTTP</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1.1</span> <span style="color:#ae81ff">200</span> <span style="color:#a6e22e">OK</span>
+</span></span><span style="display:flex;"><span>Date<span style="color:#f92672">:</span> <span style="color:#ae81ff">Fri, 22 May 2009 06:07:21 GMT</span>
+</span></span><span style="display:flex;"><span>Content-Type<span style="color:#f92672">:</span> <span style="color:#ae81ff">text/html; charset=UTF-8</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">head</span>&gt;&lt;/<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">&lt;!--body goes here--&gt;</span>
+</span></span><span style="display:flex;"><span>      &lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
+</span></span></code></pre></div><ol>
+<li>状态行：协议版本、状态码、状态消息</li>
+<li>消息报头： Date:生成响应的日期和时间；
+Content-Type:指定了MIME类型的HTML(text/html),编码类型是UTF-8</li>
+<li>空行</li>
+<li>正文</li>
+</ol>
+<h4 id="状态码">
+  状态码
+  <a class="anchor" href="#%e7%8a%b6%e6%80%81%e7%a0%81">#</a>
+</h4>
+<ul>
+<li>1xx：指示信息&ndash;表示请求已接收，继续处理</li>
+<li>2xx：成功&ndash;表示请求已被成功接收、理解、接受</li>
+<li>3xx：重定向&ndash;要完成请求必须进行更进一步的操作</li>
+<li>4xx：客户端错误&ndash;请求有语法错误或请求无法实现</li>
+<li>5xx：服务器端错误&ndash;服务器未能实现合法的请求</li>
+</ul>
+<p>常用的：</p>
+<ul>
+<li>200 OK                        //客户端请求成功</li>
+<li>400 Bad Request               //客户端请求有语法错误，不能被服务器所理解</li>
+<li>401 Unauthorized              //请求未经授权，这个状态代码必须和WWW-Authenticate报头域一起使用</li>
+<li>403 Forbidden                 //服务器收到请求，但是拒绝提供服务</li>
+<li>404 Not Found                 //请求资源不存在，eg：输入了错误的URL</li>
+<li>500 Internal Server Error     //服务器发生不可预期的错误</li>
+<li>503 Server Unavailable        //服务器当前不能处理客户端的请求，一段时间后可能恢复正常</li>
+</ul>
+<h2 id="请求方法">
+  请求方法
+  <a class="anchor" href="#%e8%af%b7%e6%b1%82%e6%96%b9%e6%b3%95">#</a>
+</h2>
+<ul>
+<li>GET     请求获取Request-URI所标识的资源</li>
+<li>POST    在Request-URI所标识的资源后附加新的数据</li>
+<li>HEAD    请求获取由Request-URI所标识的资源的响应消息报头</li>
+<li>PUT     请求服务器存储一个资源，并用Request-URI作为其标识</li>
+<li>DELETE  请求服务器删除Request-URI所标识的资源</li>
+<li>TRACE   请求服务器回送收到的请求信息，主要用于测试或诊断</li>
+<li>CONNECT 保留将来使用</li>
+<li>OPTIONS 请求查询服务器的性能，或者查询与资源相关的选项和需求</li>
+</ul>
+<h3 id="get--post">
+  GET &amp; POST
+  <a class="anchor" href="#get--post">#</a>
+</h3>
+<p>老生长谈的问题，从来没有写下来过，写一次：
+This is GET:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#a6e22e">GET</span> /books/?sex=man&amp;name=Professional <span style="color:#66d9ef">HTTP</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1.1</span>
+</span></span><span style="display:flex;"><span>Host<span style="color:#f92672">:</span> <span style="color:#ae81ff">www.wrox.com</span>
+</span></span><span style="display:flex;"><span>User-Agent<span style="color:#f92672">:</span> <span style="color:#ae81ff">Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.6)</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Gecko/20050225</span> <span style="color:#ae81ff">Firefox/1.0.1</span>
+</span></span><span style="display:flex;"><span>Connection<span style="color:#f92672">:</span> <span style="color:#ae81ff">Keep-Alive</span>
+</span></span></code></pre></div><p>And this is POST:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#a6e22e">POST</span> / <span style="color:#66d9ef">HTTP</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1.1</span>
+</span></span><span style="display:flex;"><span>Host<span style="color:#f92672">:</span> <span style="color:#ae81ff">www.wrox.com</span>
+</span></span><span style="display:flex;"><span>User-Agent<span style="color:#f92672">:</span> <span style="color:#ae81ff">Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.6)</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Gecko/20050225</span> <span style="color:#ae81ff">Firefox/1.0.1</span>
+</span></span><span style="display:flex;"><span>Content-Type<span style="color:#f92672">:</span> <span style="color:#ae81ff">application/x-www-form-urlencoded</span>
+</span></span><span style="display:flex;"><span>Content-Length<span style="color:#f92672">:</span> <span style="color:#ae81ff">40</span>
+</span></span><span style="display:flex;"><span>Connection<span style="color:#f92672">:</span> <span style="color:#ae81ff">Keep-Alive</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>name=Professional%20Ajax&amp;publisher=Wiley
+</span></span></code></pre></div><p>That&rsquo;s all.</p>
+<p>GET 不安全，长度受到浏览器的限制。POST安全，不受限。</p>
+<p>POST还有一个加强版叫：<code>soap</code>，POST是无结构数据，就是简单的K-V数据。<code>soap</code>是个专用的POST版本，用于传输<code>xml</code>格式的数据。</p>
+<h3 id="put--post">
+  PUT &amp; POST
+  <a class="anchor" href="#put--post">#</a>
+</h3>
+<p>这两个的区别牵出了一个新的东西&ndash;幂等，而幂等又牵出了另外一个著名的问题&ndash;分布式服务的重复问题。</p>
+<p>幂等是个数学概念，后来是个计算机概念，意思就是<code>s*s=s</code>。</p>
+<p>其问题场景是这样的，在一个分布式系统中我们第一次发送的请求已经被正确执行，但是由于网络抖动请求返回报文客户端没有收到，客户端刷新了一下，于是就又发送了这个请求，这个请求又被做了一次，加入这个动作是付款的话。</p>
+<p>这就要求我们的操作要具有幂等性，也就是说相同的操作，对整个系统产生的副作用是相同的。幂等是个语义范畴的东西，无法被协议检测出来，但是http本身又是一个分布式的协议，所以这个幂等在http中具有举足轻重的地位。
+那么这个问题怎么解决？目前有两种方式，一种是引入分布式中间件。把复杂的验证问题交给中间件来解决，（据其他人说）中间件往往会架构笨重，事物容易被绑定在中间件上，不利于系统异构集成。另外就是性能上也很是问题。另一种就是利用幂等设计，很神奇。</p>
+<p>这个幂等就是PUT特有的，而POST不具备幂等的特性。
+所谓幂等设计就是说我对于一个请求，由服务端生成一个唯一的处理id，这个id用于为后续操作保证幂等，对于同一个id只做一次操作，但是每次都返回第一次操作的结果。这种设计相比中间件必然很轻量级。</p>
+<p>不过这个问题，我也没有深究，所以理解起来也不深刻。大家纠结最多的是POST和PUT什么时候该用哪个的问题，我也没有答案。哈。</p>
+<h1 id="协议分析利器">
+  协议分析利器
+  <a class="anchor" href="#%e5%8d%8f%e8%ae%ae%e5%88%86%e6%9e%90%e5%88%a9%e5%99%a8">#</a>
+</h1>
+<p>下面透露点真正的干货。
+不管是搞开发还是搞点乱七八糟的小研究，抓包都是程序员最喜欢玩的喽。介绍三个抓包的玩具。</p>
+<h2 id="tcpdump">
+  tcpdump
+  <a class="anchor" href="#tcpdump">#</a>
+</h2>
+<p>如你所见，tcp为基础的包都能抓，最长用来抓http的包。可以定点抓，定端口抓，输出到很多目标。
+其特点就是&ndash;多。信息流多到人力看不过来，所以一般都是配合提取工具比如<code>grep</code> 来获取想要的信息。
+这个是linux自带工具，不需要安装。
+怎么用，暂时<a href="http://blog.csdn.net/kofandlizi/article/details/8106841">可以看这里</a></p>
+<h2 id="httpry">
+  httpry
+  <a class="anchor" href="#httpry">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install httpry
+</span></span></code></pre></div><p>转为http搞的，用起来感觉信息不太够，可能是我不会用。</p>
+<p><a href="http://www.cnblogs.com/zhengah/p/4422786.html">扩展阅读</a></p>
+<h2 id="charles">
+  charles
+  <a class="anchor" href="#charles">#</a>
+</h2>
+<p>MAC上的工具，还是个付费的。不过也有免费版，去<a href="https://www.charlesproxy.com/download/">官网下载</a></p>
+<p>怎么用还没玩过呢。待补充。</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+    window.MathJaxReady = false;
+    window.MathJax = {
+        startup: {
+            ready: () => {
+            MathJax.startup.defaultReady();
+            MathJax.startup.promise.then(() => {
+            console.log('MathJax initial typesetting complete');
+          });
+        },
+        elements: null,          
+        typeset: true,           
+        pageReady: () => {
+          return MathJax.startup.defaultPageReady().then(() => {
+            window.MathJaxReady = true;
+            console.log('MathJax initial typesetting complete');
+          });
+        },
+        document: document,      
+        input: [],               
+        output: null,            
+        handler: null,           
+        adaptor: null            
+      },
+      tex: {
+        inlineMath: [['$', '$'], ['$$$', '$$$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+      },
+        options:{
+            ignoreHtmlClass: "CodeMirror|language-cpp|ace_editor|noJax",
+            skipHtmlTags: ['script', 'style', 'textarea', 'input'],
+        },
+      chtml:{
+          scale: 1.1
+      }
+    };
+</script>
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#内容">内容</a>
+      <ul>
+        <li><a href="#request">Request</a></li>
+        <li><a href="#response">Response</a></li>
+      </ul>
+    </li>
+    <li><a href="#请求方法">请求方法</a>
+      <ul>
+        <li><a href="#get--post">GET &amp; POST</a></li>
+        <li><a href="#put--post">PUT &amp; POST</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#tcpdump">tcpdump</a></li>
+    <li><a href="#httpry">httpry</a></li>
+    <li><a href="#charles">charles</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

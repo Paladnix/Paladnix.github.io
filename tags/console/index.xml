@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Console on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/console/</link>
+    <description>Recent content in Console on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 16 Jul 2017 12:56:55 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/console/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>chrome 控制台</title>
+      <link>https://Paladnix.github.io/posts/web/chrome/</link>
+      <pubDate>Sun, 16 Jul 2017 12:56:55 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/web/chrome/</guid>
+      <description>chrome是一个非常好用的Web开发的工具，而不仅仅是个好用的浏览器。 按下就可以调出控制台，控制台可以与页面分离成为一个单独的窗口。这个在调试大屏效果的时候很方便，但是我不是搞前端设计的，所以不管这个。
+这里可以看到有很多选项，常用的有以下几个：Elements、Console、Sources、Network。
+Elements 审查元素 # 这里可以看到你的HTML源码，和对应的css。在前端工程师的工作中经常会用到，不过现在自动化的工具越来越多了，也不一定非用这个了，但是这个一定是很强大的功能。 在这个框的最左上角有一个鼠标箭头的标志，点一下就可以到页面上定位某个元素的代码，很好用。 这一块没有什么技术含量
+Console 控制台 # 这是一个命令交互的控制台，语言是Javascript。下面就介绍一下常用的几个命令。
+console.log() # 这是一组四个命令分别是：console.log()、console.info()、console.error()、console.warn()。其作用就是在控制台中打印信息，在编写前端工程的时候可以这样在js代码中打印log信息来排查问题。
+$.cookieStorage.set(&amp;lsquo;id&amp;rsquo;, 1234) # 这是一个cookie操作函数。可以对应的设置cookie的参数值，如上，如果某个网站的用户登录验证使用cookie来做的，你又猜到了其参数的名字，就直接设置cookie就可以登录上去了，免密码呢。
+Sources # 这个在调试的时候可以看到自己的页面的每个资源的加载情况，包括时间、来源、是否加载成功等，也可以把资源down下来。
+NetWork # 这个我感觉是最好用的一个，他会记录你的异步请求。可以记录请求的地址，参数，返回值等等。
+Anything more?
+Nothing more&amp;hellip;</description>
+    </item>
+    
+  </channel>
+</rss>

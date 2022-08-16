@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Proxy on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/proxy/</link>
+    <description>Recent content in Proxy on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Jun 2018 16:59:05 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/proxy/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>shadowsocks 搭建</title>
+      <link>https://Paladnix.github.io/posts/others/shadowsocks/</link>
+      <pubDate>Fri, 29 Jun 2018 16:59:05 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/shadowsocks/</guid>
+      <description>正常的上网需要三个部分。
+server local SwitchOmega shadowsocks server # 租一个境外的服务器vps，然后搭建如下：
+sudo apt install git python python-pip pyton3 python3-pip pip install git+https://github.com/shadowsocks/shadowsocks.git@master # 编辑配置文件： # sudo vim /etc/shadowsocks.json { &amp;#34;server&amp;#34;: &amp;#34;149.28.194.217&amp;#34;, # 服务器IP &amp;#34;server_port&amp;#34;: 8964, # 服务器上的服务端口 &amp;#34;local_address&amp;#34;: &amp;#34;127.0.0.1&amp;#34;, # 本地地址 &amp;#34;local_port&amp;#34;: 1080, # 本地需要代理的使用的端口 &amp;#34;password&amp;#34;: &amp;#34;www1964878036&amp;#34;, # 密码 &amp;#34;timeout&amp;#34;: 300, # 超时时间 &amp;#34;method&amp;#34;: &amp;#34;aes-256-cfb&amp;#34; # 加密方法： aes-256-cfb, 还有一种比较快的：salsa20 } # 直接启动： ssserver -c /etc/shadowsocks.json # 后台运行： ssserver -c /etc/shadowsocks.json -d start # 停止服务 ssserver -c /etc/shadowsocks.</description>
+    </item>
+    
+  </channel>
+</rss>

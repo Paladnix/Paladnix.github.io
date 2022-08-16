@@ -1,0 +1,2782 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="这篇文章的标题写了很久都没有开始动笔去写，因为随着学习的宽度和深度不断的扩大，越来越不敢贸然的去写这么大的题目。
+首先这个文章是我自己的经验和思考，要适合个人的情况。
+如何学习新事物 # 抓住概念，触类旁通。
+上面这个两个词是一个高度的概括。扩展出来分成两个方面，一个是如何抓住概念，一个是什么是触类旁通。
+抓住概念 # 在传统的学科中，概念是十分清晰的，尤其是数学、物理学的表述。这样经过总结下来的概念是什么呢？ 就是描述这个事物的特点的严谨表述。 归根结底，现在科学发展的再高，也只是一种归纳，谁也无法确保数学的基础就是无法动摇的，物理学的基础还存在很多不同维度上的争议。所以现在的概念就是一种归纳。
+这种归纳将这个事物独有的特征组合进行描述。符合了这个描述的东西我们就可以认为是这个东西。
+所以当我们在分析事物的时候，除了我们本能主管可以判断的事物以外，我们就是利用这样的特征比对来进行分类判别。
+为什么我们要进行分类判断，给这个东西一个定义呢？
+为了应用前人的理论研究。举个例子，你知道一个直角三角形的两条直角边的长度，你想知道第三条边的长度，如果你不上升到理论的层次上去，你就只能去量。但是一旦你将这三个点上升到了直角三角形的理论分类中，接下来的思考就是理论上继续延伸出去，可以用三角函数、勾股定理等，在没有上升到理论层面的时候是直观的问题，上升到了理论上就是抽象的问题。
+所谓科学与经验的区别，我认为某种程度上是直观与抽象的区别。
+上面说的实际上是抓住概念的重要性。那么如何抓住概念。
+很简单就是去找概念，总有别人定下的概念。 但是！计算机科学有其特殊之处，而且非常的独特的地方，就是，这个领域的很多概念是个体的思维抽象，其他的理论基础非常少。会出现什么问题呢，就是同样的事情，第一个发明出这个概念的人有很清晰的概念。当别人看到了这个东西或是理论以后，他会有自己的理解。这个理解就让人很头疼。有的时候，有些人的理解很形象，相比于最初的概念来说，很容易被人们普遍直观理解。但是，如果这个时候这个人对于原概念或是事物本身并没有理解的非常深刻，没有完全抓住这个事物的特点，那就会产生信息的缺失。
+概念中的信息缺失是十分可怕的。
+就比如你学习牛顿第一定律：一切物体再不受外力作用时,总保持匀速直线运动状态或静止状态。这是原生的概念，如果我说在一个光滑的平面上，放一个小球，不推他，他就静止在那里，推他一下他就一直保持匀速往前滚。这就是牛顿第一定律。
+上面的这个表述对于一个初中生来说，确实很好理解啊。但是这个表示事实上出现了信息缺失，我说的是光滑的平面上，这并不是牛顿第一定律的特征，或者说只是符合条件的一个特殊情况。相比较原版的不受任何外力，对于这个定律的理解就会产生非常大的偏差，你可能会以为只有在平滑的平面上才是这样。
+就是这样，很多时候我们想去快速的了解一个东西或概念是什么意思，于是就去问别人，或是看别人的转述，别人的理解。但是很多情况下，写下这些东西的人本身可能理解了，但是在表述上又讲不完全，导致你的理解会有问题。
+所以你要去抓住概念本身，总结概念本身表述出来的特征，才能让你真正准确的理解这个问题。真正的概念和定理都是非常的简短且优美的，形式上的简单，思维上的复杂，所以需要花时间好好领悟出来。
+在以前学习计算机相关的知识的时候，我会经常去看别人的博客，也能学到很多东西，但是有些时候就无法掌握一个技术点的精髓，尤其是一些算法的精髓。好在在学习算法并实现算法的过程中自己根据实践的经验也能够弥补这些不解，在实践中总结规律和特征。
+在别人的博客中，学习的其实是经验，而概念，要找到源头去理解，好在那些发明了这些概念的人都还大部分建在。
+触类旁通 # 任何事物和理论都不是孤立的。 计算机的很多理论都是相通的，一切的发展也都是有原因的。
+当你知道了计算机的基本物理结构以后，你就应该能够想到一个程序的运行方式。计算机由运算器、控制器、存储器、输入、输出设备组成。那么代码一定是在运算器中运算，数据一定存在存储器中，程序如果要用数据一定也要从存储器中取到运算器中，从存储器到运算器之间的数据传输一定是需要时间的。所以你就知道为什么计算机要有内存和硬盘，因为要加速这个数据传输的过程。。。。
+计算机的很多硬件的设计，其根源就在计算机的基本结构中。这也算是要抓住概念，抓住计算机的物理结构。 同样的很多程序在做优化的时候要优化那些东西，也都是源于硬件的差异，什么部件速度慢，什么部件速度快。
+基本上从计算机的基本结构中我们可以触类旁通的拎出一串很长的技术线。
+这是硬件层，我们的注意点再换个层面，从程序语言这个角度来思考。
+低级的程序语言就是要操纵硬件和逻辑门，用什么来操作呢，用电压。高级的语言能不能被计算机理解，很明显不能，那为什么要有高级语言，因为要方便人的编写。那么高级语言势必要被某个东西转换成底层语言，这就是编译器的工作。怎么能让高级语言变成低级语言，这就要求高级语言一定不能太复杂，要有准确的规则，使得每句高级语言都能准确的翻译成一句底层语言而不能有二意性。
+很多高级语言会有很多高级特性，比如什么动态绑定啦、继承、多态，你去想一下这些是否具有二异性，很明显没有。所以才能实现这样的高级特性。但是在我们直观来看多态本身就是要做到根据运行时的情况的不同去执行不同的代码呀，代码一经编译就是死的了，怎么实现的呢？肯定是在编译的时候加了一些控制代码，程序不可能活的。，肯定是死的。这个代码就是编译器去加的了。所以不同的语言有不同的特性，因为他们用不同的编译器嘛。
+在此基础上在去理解什么设计模式，开发框架，就会简单很多。
+计算机还有一个重要的分支，就是计算机网络。
+从底层来说就是电信号或者是光信号转换成数字信号。所以每个设备都要具备一个转换器，有了转换器，我们就可以不去探讨物理上的问题了。回到计算机的问题。网络如何来认识目的地，肯定不能是单拉线，那么共用一个网络就要确认一下是不是到了目的地，就有了IP地址、Mac地址、路由、转发、协议等等。到了目的地怎么知道是发给哪个程序的呢？于是就有了端口，端口要实体的口嘛？当然不需要，因为你的电脑上没有那么多口嘛。
+。。。
+当你遇到一个上层的问题的时候，把这个问题往底层推，找到它的技术依赖点，然后你就可以懂了。
+如果你看其他人的博客或是什么，他们一般会基于自己的知识，没有必要往下推问题才能理解，以为其本身很熟悉这个层次的问题，只是在这个层次去讨论，所以也不适合你去学习。
+我觉得博客一定是要同一层次或者是略高一点层次的东西才有价值，过高的层次没有好的效果。
+计算机科学本身 # 计算机是一门实践的科学。
+在计算机中，一些工程上的设计思想其实非常简单。很多人只要逻辑思维清晰就很容易理解。这也是计算机行业的某些方面门槛很低的原因，也是很多培训机构看到的商机。
+但是计算机的很多科学理论也是非常难理解的，计算机是数学、物理学、离散数学的应用。其伟大的基础并不是那么简单的逻辑就能理解的，就比如设计一门语言，并不是我们想想这样设计就能保证正确了。我们的逻辑思维虽然很智能，但是不完备，我们无法用逻辑去思考到所有的情况，为了避免逻辑上的遗漏，语言这样的设计工作都要上升到理论层面，从闭包的理论上去证明语言的正确性，也就是保证编译出来的底层语言是准确的，无二意的。举C语言的例子，语法就那么一点点，但是却几乎构建了整个计算机世界。无数人写出的千变万化的C语言代码中，没有一句话会有问题，这不是几个设计者用脑子去想出来怎么设计的，而是用理论去证明出来的。
+计算机的理论可以很坚深，但是其应用也可以很简单。无论是哪一部分，都可以作出优秀的作品出来。
+同时我认为计算机业界的规范还非常混乱，这样很难将经验抽象成理论，没有理论化的基础，这个科学的发展很快就会到瓶颈，因为人脑的能力有限，靠人去搞清楚这些并在记住这些东西的基础上再去发明新的东西是很浪费的。
+学习计算机，关键还是要热爱，如果学着不快乐，活着有什么意义。">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="关于计算机科学的学习" />
+<meta property="og:description" content="这篇文章的标题写了很久都没有开始动笔去写，因为随着学习的宽度和深度不断的扩大，越来越不敢贸然的去写这么大的题目。
+首先这个文章是我自己的经验和思考，要适合个人的情况。
+如何学习新事物 # 抓住概念，触类旁通。
+上面这个两个词是一个高度的概括。扩展出来分成两个方面，一个是如何抓住概念，一个是什么是触类旁通。
+抓住概念 # 在传统的学科中，概念是十分清晰的，尤其是数学、物理学的表述。这样经过总结下来的概念是什么呢？ 就是描述这个事物的特点的严谨表述。 归根结底，现在科学发展的再高，也只是一种归纳，谁也无法确保数学的基础就是无法动摇的，物理学的基础还存在很多不同维度上的争议。所以现在的概念就是一种归纳。
+这种归纳将这个事物独有的特征组合进行描述。符合了这个描述的东西我们就可以认为是这个东西。
+所以当我们在分析事物的时候，除了我们本能主管可以判断的事物以外，我们就是利用这样的特征比对来进行分类判别。
+为什么我们要进行分类判断，给这个东西一个定义呢？
+为了应用前人的理论研究。举个例子，你知道一个直角三角形的两条直角边的长度，你想知道第三条边的长度，如果你不上升到理论的层次上去，你就只能去量。但是一旦你将这三个点上升到了直角三角形的理论分类中，接下来的思考就是理论上继续延伸出去，可以用三角函数、勾股定理等，在没有上升到理论层面的时候是直观的问题，上升到了理论上就是抽象的问题。
+所谓科学与经验的区别，我认为某种程度上是直观与抽象的区别。
+上面说的实际上是抓住概念的重要性。那么如何抓住概念。
+很简单就是去找概念，总有别人定下的概念。 但是！计算机科学有其特殊之处，而且非常的独特的地方，就是，这个领域的很多概念是个体的思维抽象，其他的理论基础非常少。会出现什么问题呢，就是同样的事情，第一个发明出这个概念的人有很清晰的概念。当别人看到了这个东西或是理论以后，他会有自己的理解。这个理解就让人很头疼。有的时候，有些人的理解很形象，相比于最初的概念来说，很容易被人们普遍直观理解。但是，如果这个时候这个人对于原概念或是事物本身并没有理解的非常深刻，没有完全抓住这个事物的特点，那就会产生信息的缺失。
+概念中的信息缺失是十分可怕的。
+就比如你学习牛顿第一定律：一切物体再不受外力作用时,总保持匀速直线运动状态或静止状态。这是原生的概念，如果我说在一个光滑的平面上，放一个小球，不推他，他就静止在那里，推他一下他就一直保持匀速往前滚。这就是牛顿第一定律。
+上面的这个表述对于一个初中生来说，确实很好理解啊。但是这个表示事实上出现了信息缺失，我说的是光滑的平面上，这并不是牛顿第一定律的特征，或者说只是符合条件的一个特殊情况。相比较原版的不受任何外力，对于这个定律的理解就会产生非常大的偏差，你可能会以为只有在平滑的平面上才是这样。
+就是这样，很多时候我们想去快速的了解一个东西或概念是什么意思，于是就去问别人，或是看别人的转述，别人的理解。但是很多情况下，写下这些东西的人本身可能理解了，但是在表述上又讲不完全，导致你的理解会有问题。
+所以你要去抓住概念本身，总结概念本身表述出来的特征，才能让你真正准确的理解这个问题。真正的概念和定理都是非常的简短且优美的，形式上的简单，思维上的复杂，所以需要花时间好好领悟出来。
+在以前学习计算机相关的知识的时候，我会经常去看别人的博客，也能学到很多东西，但是有些时候就无法掌握一个技术点的精髓，尤其是一些算法的精髓。好在在学习算法并实现算法的过程中自己根据实践的经验也能够弥补这些不解，在实践中总结规律和特征。
+在别人的博客中，学习的其实是经验，而概念，要找到源头去理解，好在那些发明了这些概念的人都还大部分建在。
+触类旁通 # 任何事物和理论都不是孤立的。 计算机的很多理论都是相通的，一切的发展也都是有原因的。
+当你知道了计算机的基本物理结构以后，你就应该能够想到一个程序的运行方式。计算机由运算器、控制器、存储器、输入、输出设备组成。那么代码一定是在运算器中运算，数据一定存在存储器中，程序如果要用数据一定也要从存储器中取到运算器中，从存储器到运算器之间的数据传输一定是需要时间的。所以你就知道为什么计算机要有内存和硬盘，因为要加速这个数据传输的过程。。。。
+计算机的很多硬件的设计，其根源就在计算机的基本结构中。这也算是要抓住概念，抓住计算机的物理结构。 同样的很多程序在做优化的时候要优化那些东西，也都是源于硬件的差异，什么部件速度慢，什么部件速度快。
+基本上从计算机的基本结构中我们可以触类旁通的拎出一串很长的技术线。
+这是硬件层，我们的注意点再换个层面，从程序语言这个角度来思考。
+低级的程序语言就是要操纵硬件和逻辑门，用什么来操作呢，用电压。高级的语言能不能被计算机理解，很明显不能，那为什么要有高级语言，因为要方便人的编写。那么高级语言势必要被某个东西转换成底层语言，这就是编译器的工作。怎么能让高级语言变成低级语言，这就要求高级语言一定不能太复杂，要有准确的规则，使得每句高级语言都能准确的翻译成一句底层语言而不能有二意性。
+很多高级语言会有很多高级特性，比如什么动态绑定啦、继承、多态，你去想一下这些是否具有二异性，很明显没有。所以才能实现这样的高级特性。但是在我们直观来看多态本身就是要做到根据运行时的情况的不同去执行不同的代码呀，代码一经编译就是死的了，怎么实现的呢？肯定是在编译的时候加了一些控制代码，程序不可能活的。，肯定是死的。这个代码就是编译器去加的了。所以不同的语言有不同的特性，因为他们用不同的编译器嘛。
+在此基础上在去理解什么设计模式，开发框架，就会简单很多。
+计算机还有一个重要的分支，就是计算机网络。
+从底层来说就是电信号或者是光信号转换成数字信号。所以每个设备都要具备一个转换器，有了转换器，我们就可以不去探讨物理上的问题了。回到计算机的问题。网络如何来认识目的地，肯定不能是单拉线，那么共用一个网络就要确认一下是不是到了目的地，就有了IP地址、Mac地址、路由、转发、协议等等。到了目的地怎么知道是发给哪个程序的呢？于是就有了端口，端口要实体的口嘛？当然不需要，因为你的电脑上没有那么多口嘛。
+。。。
+当你遇到一个上层的问题的时候，把这个问题往底层推，找到它的技术依赖点，然后你就可以懂了。
+如果你看其他人的博客或是什么，他们一般会基于自己的知识，没有必要往下推问题才能理解，以为其本身很熟悉这个层次的问题，只是在这个层次去讨论，所以也不适合你去学习。
+我觉得博客一定是要同一层次或者是略高一点层次的东西才有价值，过高的层次没有好的效果。
+计算机科学本身 # 计算机是一门实践的科学。
+在计算机中，一些工程上的设计思想其实非常简单。很多人只要逻辑思维清晰就很容易理解。这也是计算机行业的某些方面门槛很低的原因，也是很多培训机构看到的商机。
+但是计算机的很多科学理论也是非常难理解的，计算机是数学、物理学、离散数学的应用。其伟大的基础并不是那么简单的逻辑就能理解的，就比如设计一门语言，并不是我们想想这样设计就能保证正确了。我们的逻辑思维虽然很智能，但是不完备，我们无法用逻辑去思考到所有的情况，为了避免逻辑上的遗漏，语言这样的设计工作都要上升到理论层面，从闭包的理论上去证明语言的正确性，也就是保证编译出来的底层语言是准确的，无二意的。举C语言的例子，语法就那么一点点，但是却几乎构建了整个计算机世界。无数人写出的千变万化的C语言代码中，没有一句话会有问题，这不是几个设计者用脑子去想出来怎么设计的，而是用理论去证明出来的。
+计算机的理论可以很坚深，但是其应用也可以很简单。无论是哪一部分，都可以作出优秀的作品出来。
+同时我认为计算机业界的规范还非常混乱，这样很难将经验抽象成理论，没有理论化的基础，这个科学的发展很快就会到瓶颈，因为人脑的能力有限，靠人去搞清楚这些并在记住这些东西的基础上再去发明新的东西是很浪费的。
+学习计算机，关键还是要热爱，如果学着不快乐，活着有什么意义。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Paladnix.github.io/posts/self/howtolearn/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-07-09T15:29:05+00:00" />
+<meta property="article:modified_time" content="2017-07-09T15:29:05+00:00" />
+
+<title>关于计算机科学的学习 | Paladnix Blog Site</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.82c5dbd23447cee0b4c2aa3ed08ce0961faa40e1fa370eee4f8c9f02e0d46b5f.css" integrity="sha256-gsXb0jRHzuC0wqo&#43;0Izglh&#43;qQOH6Nw7uT4yfAuDUa18=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.32aac9bd6b24494aac3806f4c120c12d400590c29ddb2ac42f0ba71f77227fc0.js" integrity="sha256-MqrJvWskSUqsOAb0wSDBLUAFkMKd2yrELwunH3cif8A=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><img src="/images/paladnix-github.jpeg" alt="Logo" /><span>Paladnix Blog Site</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Blog Article</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-19f10fbb697c334a3284dd2194bc29f3" class="toggle"  />
+    <label for="section-19f10fbb697c334a3284dd2194bc29f3" class="flex justify-between">
+      <a role="button" class="">Acm</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Atcoder</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/atcoder/abc-256-f/" class="">ABC-256-F 题解</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/atcoder/abc-255_e/" class="">Lucky Number 题解</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/bit-%E5%8C%BA%E9%97%B4%E6%B1%82%E5%92%8C/" class="">多棵树状数组处理区间问题</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acm-collection/" class="">ACM-collection</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/cf855-c/" class="">Codeforces 855-C 树形DP</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/fft/" class="">FFT 快速傅立叶变换</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acm-vim/" class="">VIM 在ACM/ICPC中的非最佳实践</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acm-contest-1/" class="">比赛题解-2017苏大暑假集训个人赛(13)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acmroad/" class="">ACMRoad</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-456a039e07b28260a08b7fc62b92dfd7" class="toggle"  />
+    <label for="section-456a039e07b28260a08b7fc62b92dfd7" class="flex justify-between">
+      <a role="button" class="">Rocks Db</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/rocksdb/skip-list/" class="">skip list原理与实现</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/rocksdb/summary/" class="">Summary</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-58201612638e1ea8bc6dbd0ba8468161" class="toggle"  />
+    <label for="section-58201612638e1ea8bc6dbd0ba8468161" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/python/python-type/" class="">python type</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/python/python-multithreaded/" class="">python 多线程和异步</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/python/anaconda/" class="">Tutorial of anaconda &amp; 原生虚环境</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d4afb3cb60fce6f19da24b63c311e48e" class="toggle"  />
+    <label for="section-d4afb3cb60fce6f19da24b63c311e48e" class="flex justify-between">
+      <a role="button" class="">Others</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/cuda/" class="">cuda</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/shadowsocks/" class="">shadowsocks 搭建</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/ngrok/" class="">ngrok服务端与客户端</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/tensorflow/" class="">tensorflow</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/vimium/" class="">Vimium - Google-Chrome-Plugin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/lucene-1/" class="">Lucene（一）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/raspberrypi/" class="">树莓派 - 入坑指南(1)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/curator/" class="">apache curator</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/synchronized/" class="">synchronized 同步锁</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/zookeeper/" class="">ZooKeeper</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/diary/" class="">Latex写工作日志的实践</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/sql/" class="">SQL进阶</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/hexo/" class="">Hexo</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6dcc8fdde13341c88dddf304b2c4c793" class="toggle" checked />
+    <label for="section-6dcc8fdde13341c88dddf304b2c4c793" class="flex justify-between">
+      <a role="button" class="">Self</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/fight/" class="">创业者</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/self-2/" class="">再出发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/self-1/" class="">阶段性总结</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/myheart/" class="">一个决定</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/alibaba/" class="">实习转正答辩</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/internship/" class="">关于实习-alibaba Middle Ware</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/howtolearn/" class="active">关于计算机科学的学习</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/baiji/" class="">百技</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/thinking-1/" class="">随想-1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/before/" class="">学习更深C/C&#43;&#43;语言之前的思想准备</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/begining/" class="">Begining</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/%E4%B8%A4%E7%B1%BB%E4%BA%BA/" class="">两类人</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/%E7%A4%BE%E4%BC%9A%E5%88%86%E5%B7%A5/" class="">社会分工</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-859a76a0227ac62639bc2dad75336fc7" class="toggle"  />
+    <label for="section-859a76a0227ac62639bc2dad75336fc7" class="flex justify-between">
+      <a role="button" class="">Web</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/apache2/" class="">apache2 配置多端口服务</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/less/" class="">less 笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react-2/" class="">react 设计概念</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/mobx/" class="">mobx - redux的优秀替代品</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react-router-dom/" class="">react-router tutorial</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react-1/" class="">使用react开发的优秀实践</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/es6/" class="">ES 6</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/node/" class="">node nodejs npm 傻傻分不清楚on Ubuntu</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/cors/" class="">CORS Cross-Origin Resource Sharing</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/tomcatserver/" class="">tomcat Server.xml及其启动顺序</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/cookie/" class="">Cookie</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/sso/" class="">sso 单点登录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/web/" class="">web.xml</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/angular/" class="">angular</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react/" class="">react 初探-一些基础概念</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/cgi/" class="">CGI 通用网关协议</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/servlet/" class="">Servlet</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/chrome/" class="">chrome 控制台</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/tomcat/" class="">tomcat</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/http/" class="">你所不知道的http协议之优秀</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/rest-framework/" class="">rest_framework</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/django/" class="">Django</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/husky/" class="">Husky - A Light Web MVC Framework</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fd6cd2d4bc98c7c7e2bc50b28778314" class="toggle"  />
+    <label for="section-9fd6cd2d4bc98c7c7e2bc50b28778314" class="flex justify-between">
+      <a role="button" class="">Bash</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/bash/bash/" class="">编写Bash脚本</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/bash/awk/" class="">awk - Linux文本处理大杀器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/bash/commands/" class="">真正的老司机如何用Linux文本命令</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ac08f61dce7ad61dd2ea7ad4910367cb" class="toggle"  />
+    <label for="section-ac08f61dce7ad61dd2ea7ad4910367cb" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/taskwarrior/" class="">Tutorial of Taskwarrior</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/linux-timing/" class="">Linux 定时任务</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/linuxprogramming-1/" class="">《Linux 编程实践教程》- 1</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/curl/" class="">curl</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-371dae9a8dd24e9c6ca13652146b9046" class="toggle"  />
+    <label for="section-371dae9a8dd24e9c6ca13652146b9046" class="flex justify-between">
+      <a role="button" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/advanced-git-1/" class="">git 进阶一</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/advanced-git/" class="">git 进阶</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/git/" class="">git实战指南</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/git-checkout/" class="">Git Checkout</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/git-log/" class="">Git Log</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/rebase/" class="">Rebase</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/reset/" class="">Reset</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/summary/" class="">Summary</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-069647d66c3986a88c683691b95ae841" class="toggle"  />
+    <label for="section-069647d66c3986a88c683691b95ae841" class="flex justify-between">
+      <a role="button" class="">C</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/effectivec-1/" class="">Effective C&#43;&#43; 读书笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/funcp/" class="">C 函数指针</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/cpp-1/" class="">cpp lamda &amp; for_each</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c/" class="">随想-关于语言的一些感受</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c-oop-3/" class="">C&#43;&#43; OOP--const、引用、指针</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c-oop-2/" class="">C&#43;&#43; OOP--函数解析过程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c-oop-1/" class="">C&#43;&#43; OOP基础--动态绑定</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/accessmodifier/" class="">OOP中的-控制修饰符</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/debug/" class="">Debug</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/epoll/" class="">Epoll</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/gccclang/" class="">Gcc&amp; Clang</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/rand/" class="">Rand</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/scopeguard/" class="">Scope Guard</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/thread/" class="">Thread</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/" class="">内存检测</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" class="">智能指针</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/%E7%81%AB%E7%84%B0%E5%9B%BE/" class="">火焰图</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4badfc46eeb07d2a91fe2b336a095056" class="toggle"  />
+    <label for="section-4badfc46eeb07d2a91fe2b336a095056" class="flex justify-between">
+      <a role="button" class="">Java</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/javawait/" class="">java wait一种线程通信方式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/lamda/" class="">Java lamda 表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/javajsonandobject/" class="">Java Json And Object</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/javahttp/" class="">Java HttpClient</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-2/" class="">每天读点Spring(2)--Start</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-1/" class="">每天读点Spring(1)--Introduction</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-5/" class="">Java 多线程实现异步调用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-shell/" class="">spring-shell</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/status/" class="">状态机编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/springmvc/" class="">SpringMVC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring/" class="">spring</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/log/" class="">Java-Log日志</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-4/" class="">java 线程与池</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/iterator/" class="">iterator 迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-exception/" class="">Java Exception &amp; Error</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/jdbc/" class="">JDBC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-3/" class="">Java-反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-2/" class="">Java 基础数据结构</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/maven-1/" class="">Maven</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/jersey/" class="">jersey</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-1/" class="">Java 抽象与接口</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-test-powermockito/" class="">Java Test Power Mockito</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/jdk/" class="">Jdk</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/maven/" class="">Maven</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/netty-io/" class="">Netty Io</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-boot/" class="">Spring Boot</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/util-concurrent/" class="">Util Concurrent</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-bcb64d436ed9c02263a1b9b3269d8223" class="toggle"  />
+    <label for="section-bcb64d436ed9c02263a1b9b3269d8223" class="flex justify-between">
+      <a role="button" class="">Redis</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/redis-1/" class="">Redis 深度学习(1)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/hyperloglog/" class="">HyperLogLog 基数估计算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/geohash/" class="">GeoHash</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/redis/" class="">redis</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-5370d5473c2ed1e3d784bba01e464d1f" class="toggle"  />
+    <label for="section-5370d5473c2ed1e3d784bba01e464d1f" class="flex justify-between">
+      <a role="button" class="">Vim</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/vim/vim/" class="">VIM 花式进阶</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/vim/install/" class="">Install</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/vim/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-c8fc425ee75853771b6ba2bb2652a518" class="toggle"  />
+    <label for="section-c8fc425ee75853771b6ba2bb2652a518" class="flex justify-between">
+      <a role="button" class="">ID Ea</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/idea/ideakey/" class="">IDEA常用快捷键</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/idea/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1927baaa335601867ef5539b8d4b652e" class="toggle"  />
+    <label for="section-1927baaa335601867ef5539b8d4b652e" class="flex justify-between">
+      <a role="button" class="">Cmake</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/libs/" class="">Libs</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/makefile/" class="">Makefile</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/project-struct/" class="">Project Struct</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-01bc7a3f69f55c45502271dc2ed2272b" class="toggle"  />
+    <label for="section-01bc7a3f69f55c45502271dc2ed2272b" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/docker/build-image/" class="">Build Image</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/docker/docker-limit/" class="">Docker Limit</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/docker/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/about/" class="">关于我</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-a30b8e1d093c7132d046c0cf50833535" class="toggle"  />
+    <label for="section-a30b8e1d093c7132d046c0cf50833535" class="flex justify-between">
+      <a role="button" class="">Shark</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/2.28/" class="">2.28</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/algorithm-a/" class="">Algorithm A</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/atcoder/" class="">Atcoder</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/mui-v4-to-v5/" class="">Mui V4 to V5</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/testing-stl/" class="">Testing Stl</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/testing2-4/" class="">Testing2 4</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/week_11.8-12/" class="">Week 11.8 12</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>_drafts</span>
+  
+
+          
+  <ul>
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/_drafts/latex/" class="">Tutorial of Latex - The difference with .cls and .sty</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Docs</span>
+  
+
+          
+  <ul>
+    
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>关于计算机科学的学习</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#抓住概念">抓住概念</a></li>
+    <li><a href="#触类旁通">触类旁通</a></li>
+    <li><a href="#计算机科学本身">计算机科学本身</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown">
+  <h1>
+    <a href="/posts/self/howtolearn/">关于计算机科学的学习</a>
+  </h1>
+  
+  <h5>July 9, 2017</h5>
+
+
+
+  
+
+  
+  <div>
+    
+      <a href="/tags/%E6%96%B9%E6%B3%95/">方法</a>, 
+      <a href="/tags/%E8%A7%82%E7%82%B9/">观点</a>
+  </div>
+  
+
+
+
+<p>这篇文章的标题写了很久都没有开始动笔去写，因为随着学习的宽度和深度不断的扩大，越来越不敢贸然的去写这么大的题目。</p>
+<p>首先这个文章是我自己的经验和思考，要适合个人的情况。</p>
+<h1 id="如何学习新事物">
+  如何学习新事物
+  <a class="anchor" href="#%e5%a6%82%e4%bd%95%e5%ad%a6%e4%b9%a0%e6%96%b0%e4%ba%8b%e7%89%a9">#</a>
+</h1>
+<p>抓住概念，触类旁通。</p>
+<p>上面这个两个词是一个高度的概括。扩展出来分成两个方面，一个是如何抓住概念，一个是什么是触类旁通。</p>
+<h2 id="抓住概念">
+  抓住概念
+  <a class="anchor" href="#%e6%8a%93%e4%bd%8f%e6%a6%82%e5%bf%b5">#</a>
+</h2>
+<p>在传统的学科中，概念是十分清晰的，尤其是数学、物理学的表述。这样经过总结下来的概念是什么呢？
+就是描述这个事物的特点的严谨表述。
+归根结底，现在科学发展的再高，也只是一种归纳，谁也无法确保数学的基础就是无法动摇的，物理学的基础还存在很多不同维度上的争议。所以现在的概念就是一种归纳。</p>
+<p>这种归纳将这个事物独有的特征组合进行描述。符合了这个描述的东西我们就可以认为是这个东西。</p>
+<p>所以当我们在分析事物的时候，除了我们本能主管可以判断的事物以外，我们就是利用这样的特征比对来进行分类判别。</p>
+<p>为什么我们要进行分类判断，给这个东西一个定义呢？</p>
+<p>为了应用前人的理论研究。举个例子，你知道一个直角三角形的两条直角边的长度，你想知道第三条边的长度，如果你不上升到理论的层次上去，你就只能去量。但是一旦你将这三个点上升到了直角三角形的理论分类中，接下来的思考就是理论上继续延伸出去，可以用三角函数、勾股定理等，在没有上升到理论层面的时候是直观的问题，上升到了理论上就是抽象的问题。</p>
+<p>所谓科学与经验的区别，我认为某种程度上是直观与抽象的区别。</p>
+<p>上面说的实际上是抓住概念的重要性。那么如何抓住概念。</p>
+<p>很简单就是去找概念，总有别人定下的概念。
+但是！计算机科学有其特殊之处，而且非常的独特的地方，就是，这个领域的很多概念是个体的思维抽象，其他的理论基础非常少。会出现什么问题呢，就是同样的事情，第一个发明出这个概念的人有很清晰的概念。当别人看到了这个东西或是理论以后，他会有自己的理解。这个理解就让人很头疼。有的时候，有些人的理解很形象，相比于最初的概念来说，很容易被人们普遍直观理解。但是，如果这个时候这个人对于原概念或是事物本身并没有理解的非常深刻，没有完全抓住这个事物的特点，那就会产生信息的缺失。</p>
+<p>概念中的信息缺失是十分可怕的。</p>
+<p>就比如你学习牛顿第一定律：一切物体再不受外力作用时,总保持匀速直线运动状态或静止状态。这是原生的概念，如果我说在一个光滑的平面上，放一个小球，不推他，他就静止在那里，推他一下他就一直保持匀速往前滚。这就是牛顿第一定律。</p>
+<p>上面的这个表述对于一个初中生来说，确实很好理解啊。但是这个表示事实上出现了信息缺失，我说的是光滑的平面上，这并不是牛顿第一定律的特征，或者说只是符合条件的一个特殊情况。相比较原版的不受任何外力，对于这个定律的理解就会产生非常大的偏差，你可能会以为只有在平滑的平面上才是这样。</p>
+<p>就是这样，很多时候我们想去快速的了解一个东西或概念是什么意思，于是就去问别人，或是看别人的转述，别人的理解。但是很多情况下，写下这些东西的人本身可能理解了，但是在表述上又讲不完全，导致你的理解会有问题。</p>
+<p>所以你要去抓住概念本身，总结概念本身表述出来的特征，才能让你真正准确的理解这个问题。真正的概念和定理都是非常的简短且优美的，形式上的简单，思维上的复杂，所以需要花时间好好领悟出来。</p>
+<p>在以前学习计算机相关的知识的时候，我会经常去看别人的博客，也能学到很多东西，但是有些时候就无法掌握一个技术点的精髓，尤其是一些算法的精髓。好在在学习算法并实现算法的过程中自己根据实践的经验也能够弥补这些不解，在实践中总结规律和特征。</p>
+<p>在别人的博客中，学习的其实是经验，而概念，要找到源头去理解，好在那些发明了这些概念的人都还大部分建在。</p>
+<h2 id="触类旁通">
+  触类旁通
+  <a class="anchor" href="#%e8%a7%a6%e7%b1%bb%e6%97%81%e9%80%9a">#</a>
+</h2>
+<p>任何事物和理论都不是孤立的。
+计算机的很多理论都是相通的，一切的发展也都是有原因的。</p>
+<p>当你知道了计算机的基本物理结构以后，你就应该能够想到一个程序的运行方式。计算机由运算器、控制器、存储器、输入、输出设备组成。那么代码一定是在运算器中运算，数据一定存在存储器中，程序如果要用数据一定也要从存储器中取到运算器中，从存储器到运算器之间的数据传输一定是需要时间的。所以你就知道为什么计算机要有内存和硬盘，因为要加速这个数据传输的过程。。。。</p>
+<p>计算机的很多硬件的设计，其根源就在计算机的基本结构中。这也算是要抓住概念，抓住计算机的物理结构。
+同样的很多程序在做优化的时候要优化那些东西，也都是源于硬件的差异，什么部件速度慢，什么部件速度快。</p>
+<p>基本上从计算机的基本结构中我们可以触类旁通的拎出一串很长的技术线。</p>
+<p>这是硬件层，我们的注意点再换个层面，从程序语言这个角度来思考。</p>
+<p>低级的程序语言就是要操纵硬件和逻辑门，用什么来操作呢，用电压。高级的语言能不能被计算机理解，很明显不能，那为什么要有高级语言，因为要方便人的编写。那么高级语言势必要被某个东西转换成底层语言，这就是编译器的工作。怎么能让高级语言变成低级语言，这就要求高级语言一定不能太复杂，要有准确的规则，使得每句高级语言都能准确的翻译成一句底层语言而不能有二意性。</p>
+<p>很多高级语言会有很多高级特性，比如什么动态绑定啦、继承、多态，你去想一下这些是否具有二异性，很明显没有。所以才能实现这样的高级特性。但是在我们直观来看多态本身就是要做到根据运行时的情况的不同去执行不同的代码呀，代码一经编译就是死的了，怎么实现的呢？肯定是在编译的时候加了一些控制代码，程序不可能活的。，肯定是死的。这个代码就是编译器去加的了。所以不同的语言有不同的特性，因为他们用不同的编译器嘛。</p>
+<p>在此基础上在去理解什么设计模式，开发框架，就会简单很多。</p>
+<p>计算机还有一个重要的分支，就是计算机网络。</p>
+<p>从底层来说就是电信号或者是光信号转换成数字信号。所以每个设备都要具备一个转换器，有了转换器，我们就可以不去探讨物理上的问题了。回到计算机的问题。网络如何来认识目的地，肯定不能是单拉线，那么共用一个网络就要确认一下是不是到了目的地，就有了IP地址、Mac地址、路由、转发、协议等等。到了目的地怎么知道是发给哪个程序的呢？于是就有了端口，端口要实体的口嘛？当然不需要，因为你的电脑上没有那么多口嘛。</p>
+<p>。。。</p>
+<p>当你遇到一个上层的问题的时候，把这个问题往底层推，找到它的技术依赖点，然后你就可以懂了。</p>
+<p>如果你看其他人的博客或是什么，他们一般会基于自己的知识，没有必要往下推问题才能理解，以为其本身很熟悉这个层次的问题，只是在这个层次去讨论，所以也不适合你去学习。</p>
+<p>我觉得博客一定是要同一层次或者是略高一点层次的东西才有价值，过高的层次没有好的效果。</p>
+<h2 id="计算机科学本身">
+  计算机科学本身
+  <a class="anchor" href="#%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%a7%91%e5%ad%a6%e6%9c%ac%e8%ba%ab">#</a>
+</h2>
+<p>计算机是一门实践的科学。</p>
+<p>在计算机中，一些工程上的设计思想其实非常简单。很多人只要逻辑思维清晰就很容易理解。这也是计算机行业的某些方面门槛很低的原因，也是很多培训机构看到的商机。</p>
+<p>但是计算机的很多科学理论也是非常难理解的，计算机是数学、物理学、离散数学的应用。其伟大的基础并不是那么简单的逻辑就能理解的，就比如设计一门语言，并不是我们想想这样设计就能保证正确了。我们的逻辑思维虽然很智能，但是不完备，我们无法用逻辑去思考到所有的情况，为了避免逻辑上的遗漏，语言这样的设计工作都要上升到理论层面，从闭包的理论上去证明语言的正确性，也就是保证编译出来的底层语言是准确的，无二意的。举C语言的例子，语法就那么一点点，但是却几乎构建了整个计算机世界。无数人写出的千变万化的C语言代码中，没有一句话会有问题，这不是几个设计者用脑子去想出来怎么设计的，而是用理论去证明出来的。</p>
+<p>计算机的理论可以很坚深，但是其应用也可以很简单。无论是哪一部分，都可以作出优秀的作品出来。</p>
+<p>同时我认为计算机业界的规范还非常混乱，这样很难将经验抽象成理论，没有理论化的基础，这个科学的发展很快就会到瓶颈，因为人脑的能力有限，靠人去搞清楚这些并在记住这些东西的基础上再去发明新的东西是很浪费的。</p>
+<p>学习计算机，关键还是要热爱，如果学着不快乐，活着有什么意义。</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+    window.MathJaxReady = false;
+    window.MathJax = {
+        startup: {
+            ready: () => {
+            MathJax.startup.defaultReady();
+            MathJax.startup.promise.then(() => {
+            console.log('MathJax initial typesetting complete');
+          });
+        },
+        elements: null,          
+        typeset: true,           
+        pageReady: () => {
+          return MathJax.startup.defaultPageReady().then(() => {
+            window.MathJaxReady = true;
+            console.log('MathJax initial typesetting complete');
+          });
+        },
+        document: document,      
+        input: [],               
+        output: null,            
+        handler: null,           
+        adaptor: null            
+      },
+      tex: {
+        inlineMath: [['$', '$'], ['$$$', '$$$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+      },
+        options:{
+            ignoreHtmlClass: "CodeMirror|language-cpp|ace_editor|noJax",
+            skipHtmlTags: ['script', 'style', 'textarea', 'input'],
+        },
+      chtml:{
+          scale: 1.1
+      }
+    };
+</script>
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#抓住概念">抓住概念</a></li>
+    <li><a href="#触类旁通">触类旁通</a></li>
+    <li><a href="#计算机科学本身">计算机科学本身</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

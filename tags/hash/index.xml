@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hash on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/hash/</link>
+    <description>Recent content in Hash on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 28 Jul 2017 10:57:39 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/hash/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GeoHash</title>
+      <link>https://Paladnix.github.io/posts/redis/geohash/</link>
+      <pubDate>Fri, 28 Jul 2017 10:57:39 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/redis/geohash/</guid>
+      <description>在做Redis页面控制台命令支持的过程中，对于Redis的GEO模块突然很感兴趣，不明白这个数据结构为什么突然就跟Set、Sorted Set一起出现了。然后发现这个数据结构居然是用来存地理位置信息的，很不简单，要看一下到底是什么幺蛾子。
+Geo模块专用于存储地理位置信息，突出的有点是可以快速获取某一地理位置附近的相关位置信息。比如你要在某个地方找吃的，搜索附近2km的餐厅，后台使用的就是GeoHash的算法，Redis原生就支持这个数据算法结构，可见其应用场景支持非常丰富，有很大的应用空间。
+GeoHash算法 # 其实这个原理是很简单的，对于地理位置信息，一般我们用经纬度来表示，这就将球面转换成了一个二维平面。在二维平面快速的定位一个位置并查找周围位置信息，就是这个算法解决的主要问题。、
+传统的我们可能用一种树结构来搞，但是那样的时间效率和空间效率都不高。
+GeoHash过程 # Geohash的主要过程就是将经纬度信息Hash成一个字符串。
+将经纬度各自Hash成一个二进制串。 将两个串插叠，奇数位插维度串，偶数位插经度串。 将该串用base32进行编码生成字符串。 原理 # 在第一步中主要用二分的方法来Hash生成二进制串。例如对于维度：北纬30，其在北纬第一位设成1，由位于0-45所以第二位为0，这样一直做20次二分，就可以得到一个长度是20的串。 对于精度同样这样做一遍。
+然后插叠得到一个长度为40的二进制串，然后用base32方式编码生成一个长度为8的字符串。
+将这个字符串存下来就好啦。
+Geohash特性 # 由过程可以看出来，这个Hash出来的字符串的特性，就是相同区域的两个点的Hash结果前缀一致。这样当我们要查找某个位置周围2km的餐厅只要匹配到字符串的前5位相同就可以了。
+边缘误差 # 这个算法是存在边缘误差的，因为如果两个点相距的很近，但是在二分的过程中分在不同的两块中，这样的Hash结果就相差很大, 如下图中的红点位置与两个绿点位置。
+解决这个问题的方式也很直观。
+当我们在查找某一点周围的地理位置的时候，将其对应的周围8块区域的点都取出来，然后计算一下距离做个筛选就可以了。 这个区域的点并不会太大。
+这些小算法还是很好玩的。</description>
+    </item>
+    
+  </channel>
+</rss>

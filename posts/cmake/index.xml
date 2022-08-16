@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/posts/cmake/</link>
+    <description>Recent content on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://Paladnix.github.io/posts/cmake/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://Paladnix.github.io/posts/cmake/libs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/cmake/libs/</guid>
+      <description>列出所有动态连接库 # ldconfig -p nm 命令 # 查看静态库或动态库定义了哪些函数
+nm -n --defined-only xxxx.a nm -g -C --defined-only xxxx.so nm -D xxxx.so 显示hello.a 中的未定义符号，需要和其他对象文件进行链接.
+nm -u hello.o 在 ./ 目录下找出哪个库文件定义了close_socket函数.
+nm -A ./* 2&amp;gt;/dev/null | grep &amp;#34;T close_socket&amp;#34; objdump 命令 # 查看动态库有哪些符号，包括数据段、导出的函数和引用其他库的函数
+objdump -tT xxx.so objdump -x xxx.a 查看动态库依赖项
+objdump -x xxx.so | grep &amp;#34;NEEDED&amp;#34; 查看动态符号表
+objdump -T xxx.so 假如想知道 xxx.so 中是否导出了符号 yyy
+objdump -T xxx.so | grep &amp;#34;yyy&amp;#34; 。 查看动态符号表</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://Paladnix.github.io/posts/cmake/makefile/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/cmake/makefile/</guid>
+      <description>赋值 # = 是最基本的赋值 := 是覆盖之前的值 ?= 是如果没有被赋值过就赋予等号后面的值 += 是添加等号后面的值 注意点 1: 赋值语句的处理顺序 # &amp;ldquo;=&amp;rdquo; 赋值是等到最后才会执行的部分。
+x = foo y = $(x) bar x = xyz 在上例中，y的值将会是 xyz bar ，而不是 foo bar 。
+“:=”表示变量的值决定于它在makefile中的位置，而不是整个makefile展开后的最终值。
+x := foo y := $(x) bar x := xyz 在上例中，y的值将会是 foo bar ，而不是 xyz bar 了。
+基本全局变量 # MAKECMDGOALS, make xxx， 配置的目标：xxx。 OPT, make xxx -Dtest_ut, 后面的选项参数：-Dtest_ut CXXFLAGS, CXX编译器的选项参数，与上面的OPT不同的是，OPT是来自于命令行，FLAGS是传递给编译器 判断选择 # 使用逗号隔开ifneq条件的两个变量，空就是空。 常用的if包括：ifeq, ifneq, ifdef, ifndef</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://Paladnix.github.io/posts/cmake/project-struct/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/cmake/project-struct/</guid>
+      <description>一个较好的项目结构 # . ├── CMakeLists.txt # CMake项目文件 ├── bootstrap.sh # 一些常用的脚本，如编译、测试、clean ├── build # CMake的临时文件夹 ├── deps # 第三方依赖库 ├── include # 项目的头文件，lib项目中需要暴露出的interface │ └── union_find.hpp ├── log # 测试时的log文件 ├── src │ ├── main.cpp │ └── union_find.cpp └── test └── test-main.cpp 以上所以一个lib库常用的目录结构</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://Paladnix.github.io/posts/cmake/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/cmake/readme/</guid>
+      <description>CMake Tutorial # 由于不同平台的makefile写法不同，因此需要一个集大成者cmake来实现：“Write once, run everywhere”。cmake主要用于生成makefile，实际的编译组织工作还是由make来实现。
+在看了一些C++工程的CMake文件后，结合官网给的文档，对于CMake的设计思想有了一些理解。
+核心思想 # CMake的核心思想是通过对构建对象的描述来组织编译。我们的代码核心的构建对象只有两类: 库(lib)、可执行文件(exe)。
+因此我们需要了解CMake的两个核心函数：add_library, add_executable。分别对应了两类目标。一个常规的用法如下：
+# for lib set(SRC_FILES_LIB xxx.cpp xxx.cpp xxx.cpp ...) addlibrary(&amp;#34;xxx_lib&amp;#34; ${SRC_FILES_LIB}) # for exe set(SRC_FILES_EXEC xxx.cpp xxx.cpp xxx.cpp ...) add_executable(&amp;#34;xxx_exec&amp;#34; ${SRC_FILES_EXEC}) 以上的两个部分，仅仅是简单的描述了目标程序的来源构成
+一个简单完整的CMake项目 # # 设定cmake的最小版本 cmake_minimum_required(VERSION 3.21) # 设定允许指定项目的版本 cmake_policy(SET CMP0048 NEW) # 设定项目的&amp;lt;project_name, VERSION&amp;gt; project(codeshark VERSION 1.0.0) # 设定CXX编译标准 set(CMAKE_CXX_STANDARD 11) # 设定CXX编译器的标志 set(CMAKE_CXX_FLAGS_RELEASE &amp;#34;-g -O2 -DNDEBUG&amp;#34;) set(CMAKE_CXX_FLAGS &amp;#34;${CMAKE_CXX_FLAGS} -fPIC -Werror -Wno-format&amp;#34;) # 收集需要开放的头文件 set(SOURCE_HEADS_LIB include/union_find.</description>
+    </item>
+    
+  </channel>
+</rss>

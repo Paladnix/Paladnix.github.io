@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ubuntu Core on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/ubuntu-core/</link>
+    <description>Recent content in Ubuntu Core on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 15 Nov 2017 20:00:05 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/ubuntu-core/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>树莓派 - 入坑指南(1)</title>
+      <link>https://Paladnix.github.io/posts/others/raspberrypi/</link>
+      <pubDate>Wed, 15 Nov 2017 20:00:05 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/others/raspberrypi/</guid>
+      <description>我手里的是pi3。
+基础概念 # 树莓派作为一个微型电脑，基本具备冯诺依慢体系结构，其单机唯一不具备的就是硬盘，也就是我们插进去的tf卡。 除此以外，这用的是一个amd架构的处理器，所以在安装系统的时候我们需要选择支持amd架构的操作系统。
+树莓派没有开关， 换句话说，通电就是开，断电就是关。但是在关机的时候不能直接断电，要先停止操作系统才行，也就是先关机再拔电源。
+他可以做为一个性能不高的微型电脑，但是我们一般不将其作为个人电脑使用，而是用来运行一些程序使之成为实现特定功能的处理中心。 在此之前，我们要实现一个特定功能的产品或是设备，我们需要特别定制一个主控板来运行我们的程序，这些主控板具有特殊性，无法重用，并且设计成本高。 在有了这个微型电脑以后，其计算能力比一般板载处理器的性能要好，使用的是标准的冯诺依曼体系结构，使用的操作系统也以linux为主，因此可以运行几乎所有程序。 是一个低成本，可复用，灵活的硬件设备。同时其集成的网络模块、蓝牙模块，等，更适合改造成一个物联网设备的控制核心，对于实验和创新实践非常适合。
+安装操作系统 # 如果你不需要界面，可以安装Ubuntu Core。如果你需要界面，可以安装Ubuntu Mate。
+因为这两种都是linux系列的操作系统，我使用起来比较顺手，所以没有使用官方的那个系统。不过这都不重要。
+在安装Ubuntu Core这里有详细的安装过程。 如果你是ubuntu用户的话，下载下来镜像文件，直接右击用Disk manager writer 打开就可以写入TF卡，就算是安装好了。
+开机 # 安装好系统就装到板子上，然后通电。 这个时候你可能需要先接一个键盘和显示器， 因为等一下有直接操作的部分。
+开机后会正常的加载操作系统，随后会出现让你连接网络的部分。 你可以用有线连接，也可以开无线，不过我的板子开无线开不开，所以只能先用有线网。
+随后就会开机成功，让你用ubuntu one的帐号登录。 集体操作过程在上面的页面中有：
+申请帐号 将你的电脑的ssh key上传到ubuntu one网站上 在树莓派上验证帐号。 验证成功。 此时树莓派会给你他的内网地址和帐号，你用你的电脑远程登录就可以了。
+吐槽 # 就这一点， 我第一次拿到树莓派以后捣鼓了30多小时。
+这个过程会出现：
+内存卡写入系统树莓派加载不了，重新写。 不知道什么问题加载到一半卡住不动，重新写。 打开了错误关机，损坏数据，重写。 无线模块打不开，找网线。 。。。。 随后你获得的是通往新Ubuntu的大门。
+Ubuntu Core是一个更新概念的操作系统组成方式。其系统本身跨平台，其应用打包方式跨平台，也就是snap。 既然你有意接触了新的事物，就别眷恋过往，勇敢的尝试新的东西，什么学习曲线陡峭，都不是问题。</description>
+    </item>
+    
+  </channel>
+</rss>

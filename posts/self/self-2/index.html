@@ -1,0 +1,2726 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="永远都不要太乐观，也别放弃
+最近一段时间作为一个完整的开发工程师来做一个项目，一方便希望能经过一个完整的项目的锻炼把自己的工程底子建立一下，总不能一直飘在算法上，还是要掌握程序员的最低生存本钱的。
+这一次的工程算是一个比较熟悉的，依然是Online Judge，只是这次不再是以一个极客的思维来对待，而是以一个解决问题的工程师的身份。
+曾经用极客的思维去考虑这些部分，心里想的是怎么造出更好的轮子。在这个过程中其实需要学习很多底层的东西，尤其是对于Judge核心的设计和实现是要很多关于操作系统的交互。
+但是到最后也没能自己搞出来什么比较好的东西，只能说是搞了一些还不错的玩具出来了。同时对底层的一些机制有了个粗浅的理解。
+我本质是非常喜欢打通基本的原理的，有些东西没有搞懂总是不太想去动手，怕自己走歪了路，搞得不专业了。这样的追求是我的喜好，并不能作为一个常态存在，因为毕竟学无止境，更多的时候应该是做一个工程师存在。工程师是要 能够非常高效且优质的组织资源去解决问题的，而不是纠结在底层的原理如何如何。当然越是经验丰富、知识扎实的工程师的组织能力越强。
+这次我的主要尝试选择了两个我比较看好的，也处于中间状态的技术：
+前端： react、redux、node 后端： jerey、tomcat、redis、mysql、mybatis 前后端完全分离的架构 这样的技术选择其实是面有点大的，基本涵盖了整个前后端，因此这个项目的周期中会遇到许许多多的实际问题。 主要的会表现在：
+前端 # react体系的架构 项目结构的设计 UI操作 浏览器相关问题 异步请求 这其中前期已经基本能用起来的react体系，算是已经过了一关，后面的浏览器相关的异步请求让我感觉有点头大。 一方面用的不是传统的ajax，是新兴的fetch。在使用fetch的时候又使用了redux-api的库，这个库国内很少人使用，基本没有中文的文档也没有什么人踩坑的经验，所以在理解和使用的时候都很慢。 不过这个过程中也让我学会了怎么去接触一个新的库，其实看文档是一方面，更快速的方法是搭建起来，不断的输出一些东西，这些变量是什么，什么结构的，会比文档直观很多。这个也是在后期的理解的时候才想起来，所以导致前面的搞的还是很痛苦的。
+但是现在面临着一些问题，搞得我多线作战很是迷茫。
+问题是这样 ：
+fetch原生的操作会让浏览器自动的补全content-type， 但是不知道为什么，使用redux-api库的时候就无法补全这个项，导致一些请求的请求头有问题，需要手动编写。尤其是在上传文件上。 其次后台选取的java强类型语言，对请求的type要求非常严格，如果使用的是浏览器自动生成的type，可能会不匹配。同时后台也可以使用更原始的方式，就是直接接收context的内容，得到一个request自己再操作，其实这是以前的javaweb的操作方式。 现在就面临了一个选择的问题，到底是后端做出让步还是前端做出让步？ 虽然都是我在写，但是面临这样结构改动还是很纠结。
+~~ 出去吃了一顿饭。顿悟
+转变思维 # 不存在能解决一切问题的框架，所以不能一味的寻求框架解决方案。完美主义的人会比较痛苦。
+因为没有什么框架能解决你的所有问题，也不是什么问题都有正解的，所以要站的高才能获得好的设计。一定要站的足够高，如果不能高到技术之上，就高到需求之上，高到架构之上，才能在设计出合理的架构。
+抽出框架最优越的特性，用来实现一些需求，其他并不适合用这种框架来解决的问题就不要再死守在框架上了。
+问题迎刃而解。
+有的时候就是要跟自己多讲讲道理，就明白了。可能这就是分裂的好处吧。不是一个人在战斗。">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="再出发" />
+<meta property="og:description" content="永远都不要太乐观，也别放弃
+最近一段时间作为一个完整的开发工程师来做一个项目，一方便希望能经过一个完整的项目的锻炼把自己的工程底子建立一下，总不能一直飘在算法上，还是要掌握程序员的最低生存本钱的。
+这一次的工程算是一个比较熟悉的，依然是Online Judge，只是这次不再是以一个极客的思维来对待，而是以一个解决问题的工程师的身份。
+曾经用极客的思维去考虑这些部分，心里想的是怎么造出更好的轮子。在这个过程中其实需要学习很多底层的东西，尤其是对于Judge核心的设计和实现是要很多关于操作系统的交互。
+但是到最后也没能自己搞出来什么比较好的东西，只能说是搞了一些还不错的玩具出来了。同时对底层的一些机制有了个粗浅的理解。
+我本质是非常喜欢打通基本的原理的，有些东西没有搞懂总是不太想去动手，怕自己走歪了路，搞得不专业了。这样的追求是我的喜好，并不能作为一个常态存在，因为毕竟学无止境，更多的时候应该是做一个工程师存在。工程师是要 能够非常高效且优质的组织资源去解决问题的，而不是纠结在底层的原理如何如何。当然越是经验丰富、知识扎实的工程师的组织能力越强。
+这次我的主要尝试选择了两个我比较看好的，也处于中间状态的技术：
+前端： react、redux、node 后端： jerey、tomcat、redis、mysql、mybatis 前后端完全分离的架构 这样的技术选择其实是面有点大的，基本涵盖了整个前后端，因此这个项目的周期中会遇到许许多多的实际问题。 主要的会表现在：
+前端 # react体系的架构 项目结构的设计 UI操作 浏览器相关问题 异步请求 这其中前期已经基本能用起来的react体系，算是已经过了一关，后面的浏览器相关的异步请求让我感觉有点头大。 一方面用的不是传统的ajax，是新兴的fetch。在使用fetch的时候又使用了redux-api的库，这个库国内很少人使用，基本没有中文的文档也没有什么人踩坑的经验，所以在理解和使用的时候都很慢。 不过这个过程中也让我学会了怎么去接触一个新的库，其实看文档是一方面，更快速的方法是搭建起来，不断的输出一些东西，这些变量是什么，什么结构的，会比文档直观很多。这个也是在后期的理解的时候才想起来，所以导致前面的搞的还是很痛苦的。
+但是现在面临着一些问题，搞得我多线作战很是迷茫。
+问题是这样 ：
+fetch原生的操作会让浏览器自动的补全content-type， 但是不知道为什么，使用redux-api库的时候就无法补全这个项，导致一些请求的请求头有问题，需要手动编写。尤其是在上传文件上。 其次后台选取的java强类型语言，对请求的type要求非常严格，如果使用的是浏览器自动生成的type，可能会不匹配。同时后台也可以使用更原始的方式，就是直接接收context的内容，得到一个request自己再操作，其实这是以前的javaweb的操作方式。 现在就面临了一个选择的问题，到底是后端做出让步还是前端做出让步？ 虽然都是我在写，但是面临这样结构改动还是很纠结。
+~~ 出去吃了一顿饭。顿悟
+转变思维 # 不存在能解决一切问题的框架，所以不能一味的寻求框架解决方案。完美主义的人会比较痛苦。
+因为没有什么框架能解决你的所有问题，也不是什么问题都有正解的，所以要站的高才能获得好的设计。一定要站的足够高，如果不能高到技术之上，就高到需求之上，高到架构之上，才能在设计出合理的架构。
+抽出框架最优越的特性，用来实现一些需求，其他并不适合用这种框架来解决的问题就不要再死守在框架上了。
+问题迎刃而解。
+有的时候就是要跟自己多讲讲道理，就明白了。可能这就是分裂的好处吧。不是一个人在战斗。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Paladnix.github.io/posts/self/self-2/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-06-25T01:40:29+00:00" />
+<meta property="article:modified_time" content="2018-06-25T01:40:29+00:00" />
+
+<title>再出发 | Paladnix Blog Site</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.82c5dbd23447cee0b4c2aa3ed08ce0961faa40e1fa370eee4f8c9f02e0d46b5f.css" integrity="sha256-gsXb0jRHzuC0wqo&#43;0Izglh&#43;qQOH6Nw7uT4yfAuDUa18=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.32aac9bd6b24494aac3806f4c120c12d400590c29ddb2ac42f0ba71f77227fc0.js" integrity="sha256-MqrJvWskSUqsOAb0wSDBLUAFkMKd2yrELwunH3cif8A=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><img src="/images/paladnix-github.jpeg" alt="Logo" /><span>Paladnix Blog Site</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Blog Article</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-19f10fbb697c334a3284dd2194bc29f3" class="toggle"  />
+    <label for="section-19f10fbb697c334a3284dd2194bc29f3" class="flex justify-between">
+      <a role="button" class="">Acm</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Atcoder</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/atcoder/abc-256-f/" class="">ABC-256-F 题解</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/atcoder/abc-255_e/" class="">Lucky Number 题解</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/bit-%E5%8C%BA%E9%97%B4%E6%B1%82%E5%92%8C/" class="">多棵树状数组处理区间问题</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acm-collection/" class="">ACM-collection</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/cf855-c/" class="">Codeforces 855-C 树形DP</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/fft/" class="">FFT 快速傅立叶变换</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acm-vim/" class="">VIM 在ACM/ICPC中的非最佳实践</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acm-contest-1/" class="">比赛题解-2017苏大暑假集训个人赛(13)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acmroad/" class="">ACMRoad</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-456a039e07b28260a08b7fc62b92dfd7" class="toggle"  />
+    <label for="section-456a039e07b28260a08b7fc62b92dfd7" class="flex justify-between">
+      <a role="button" class="">Rocks Db</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/rocksdb/skip-list/" class="">skip list原理与实现</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/rocksdb/summary/" class="">Summary</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-58201612638e1ea8bc6dbd0ba8468161" class="toggle"  />
+    <label for="section-58201612638e1ea8bc6dbd0ba8468161" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/python/python-type/" class="">python type</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/python/python-multithreaded/" class="">python 多线程和异步</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/python/anaconda/" class="">Tutorial of anaconda &amp; 原生虚环境</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d4afb3cb60fce6f19da24b63c311e48e" class="toggle"  />
+    <label for="section-d4afb3cb60fce6f19da24b63c311e48e" class="flex justify-between">
+      <a role="button" class="">Others</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/cuda/" class="">cuda</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/shadowsocks/" class="">shadowsocks 搭建</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/ngrok/" class="">ngrok服务端与客户端</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/tensorflow/" class="">tensorflow</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/vimium/" class="">Vimium - Google-Chrome-Plugin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/lucene-1/" class="">Lucene（一）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/raspberrypi/" class="">树莓派 - 入坑指南(1)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/curator/" class="">apache curator</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/synchronized/" class="">synchronized 同步锁</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/zookeeper/" class="">ZooKeeper</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/diary/" class="">Latex写工作日志的实践</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/sql/" class="">SQL进阶</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/hexo/" class="">Hexo</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6dcc8fdde13341c88dddf304b2c4c793" class="toggle" checked />
+    <label for="section-6dcc8fdde13341c88dddf304b2c4c793" class="flex justify-between">
+      <a role="button" class="">Self</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/fight/" class="">创业者</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/self-2/" class="active">再出发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/self-1/" class="">阶段性总结</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/myheart/" class="">一个决定</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/alibaba/" class="">实习转正答辩</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/internship/" class="">关于实习-alibaba Middle Ware</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/howtolearn/" class="">关于计算机科学的学习</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/baiji/" class="">百技</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/thinking-1/" class="">随想-1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/before/" class="">学习更深C/C&#43;&#43;语言之前的思想准备</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/begining/" class="">Begining</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/%E4%B8%A4%E7%B1%BB%E4%BA%BA/" class="">两类人</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/%E7%A4%BE%E4%BC%9A%E5%88%86%E5%B7%A5/" class="">社会分工</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-859a76a0227ac62639bc2dad75336fc7" class="toggle"  />
+    <label for="section-859a76a0227ac62639bc2dad75336fc7" class="flex justify-between">
+      <a role="button" class="">Web</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/apache2/" class="">apache2 配置多端口服务</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/less/" class="">less 笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react-2/" class="">react 设计概念</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/mobx/" class="">mobx - redux的优秀替代品</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react-router-dom/" class="">react-router tutorial</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react-1/" class="">使用react开发的优秀实践</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/es6/" class="">ES 6</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/node/" class="">node nodejs npm 傻傻分不清楚on Ubuntu</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/cors/" class="">CORS Cross-Origin Resource Sharing</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/tomcatserver/" class="">tomcat Server.xml及其启动顺序</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/cookie/" class="">Cookie</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/sso/" class="">sso 单点登录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/web/" class="">web.xml</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/angular/" class="">angular</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react/" class="">react 初探-一些基础概念</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/cgi/" class="">CGI 通用网关协议</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/servlet/" class="">Servlet</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/chrome/" class="">chrome 控制台</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/tomcat/" class="">tomcat</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/http/" class="">你所不知道的http协议之优秀</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/rest-framework/" class="">rest_framework</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/django/" class="">Django</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/husky/" class="">Husky - A Light Web MVC Framework</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fd6cd2d4bc98c7c7e2bc50b28778314" class="toggle"  />
+    <label for="section-9fd6cd2d4bc98c7c7e2bc50b28778314" class="flex justify-between">
+      <a role="button" class="">Bash</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/bash/bash/" class="">编写Bash脚本</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/bash/awk/" class="">awk - Linux文本处理大杀器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/bash/commands/" class="">真正的老司机如何用Linux文本命令</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ac08f61dce7ad61dd2ea7ad4910367cb" class="toggle"  />
+    <label for="section-ac08f61dce7ad61dd2ea7ad4910367cb" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/taskwarrior/" class="">Tutorial of Taskwarrior</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/linux-timing/" class="">Linux 定时任务</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/linuxprogramming-1/" class="">《Linux 编程实践教程》- 1</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/curl/" class="">curl</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-371dae9a8dd24e9c6ca13652146b9046" class="toggle"  />
+    <label for="section-371dae9a8dd24e9c6ca13652146b9046" class="flex justify-between">
+      <a role="button" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/advanced-git-1/" class="">git 进阶一</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/advanced-git/" class="">git 进阶</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/git/" class="">git实战指南</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/git-checkout/" class="">Git Checkout</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/git-log/" class="">Git Log</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/rebase/" class="">Rebase</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/reset/" class="">Reset</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/summary/" class="">Summary</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-069647d66c3986a88c683691b95ae841" class="toggle"  />
+    <label for="section-069647d66c3986a88c683691b95ae841" class="flex justify-between">
+      <a role="button" class="">C</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/effectivec-1/" class="">Effective C&#43;&#43; 读书笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/funcp/" class="">C 函数指针</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/cpp-1/" class="">cpp lamda &amp; for_each</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c/" class="">随想-关于语言的一些感受</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c-oop-3/" class="">C&#43;&#43; OOP--const、引用、指针</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c-oop-2/" class="">C&#43;&#43; OOP--函数解析过程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c-oop-1/" class="">C&#43;&#43; OOP基础--动态绑定</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/accessmodifier/" class="">OOP中的-控制修饰符</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/debug/" class="">Debug</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/epoll/" class="">Epoll</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/gccclang/" class="">Gcc&amp; Clang</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/rand/" class="">Rand</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/scopeguard/" class="">Scope Guard</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/thread/" class="">Thread</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/" class="">内存检测</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" class="">智能指针</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/%E7%81%AB%E7%84%B0%E5%9B%BE/" class="">火焰图</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4badfc46eeb07d2a91fe2b336a095056" class="toggle"  />
+    <label for="section-4badfc46eeb07d2a91fe2b336a095056" class="flex justify-between">
+      <a role="button" class="">Java</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/javawait/" class="">java wait一种线程通信方式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/lamda/" class="">Java lamda 表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/javajsonandobject/" class="">Java Json And Object</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/javahttp/" class="">Java HttpClient</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-2/" class="">每天读点Spring(2)--Start</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-1/" class="">每天读点Spring(1)--Introduction</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-5/" class="">Java 多线程实现异步调用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-shell/" class="">spring-shell</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/status/" class="">状态机编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/springmvc/" class="">SpringMVC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring/" class="">spring</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/log/" class="">Java-Log日志</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-4/" class="">java 线程与池</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/iterator/" class="">iterator 迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-exception/" class="">Java Exception &amp; Error</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/jdbc/" class="">JDBC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-3/" class="">Java-反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-2/" class="">Java 基础数据结构</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/maven-1/" class="">Maven</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/jersey/" class="">jersey</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-1/" class="">Java 抽象与接口</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-test-powermockito/" class="">Java Test Power Mockito</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/jdk/" class="">Jdk</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/maven/" class="">Maven</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/netty-io/" class="">Netty Io</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-boot/" class="">Spring Boot</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/util-concurrent/" class="">Util Concurrent</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-bcb64d436ed9c02263a1b9b3269d8223" class="toggle"  />
+    <label for="section-bcb64d436ed9c02263a1b9b3269d8223" class="flex justify-between">
+      <a role="button" class="">Redis</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/redis-1/" class="">Redis 深度学习(1)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/hyperloglog/" class="">HyperLogLog 基数估计算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/geohash/" class="">GeoHash</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/redis/" class="">redis</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-5370d5473c2ed1e3d784bba01e464d1f" class="toggle"  />
+    <label for="section-5370d5473c2ed1e3d784bba01e464d1f" class="flex justify-between">
+      <a role="button" class="">Vim</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/vim/vim/" class="">VIM 花式进阶</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/vim/install/" class="">Install</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/vim/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-c8fc425ee75853771b6ba2bb2652a518" class="toggle"  />
+    <label for="section-c8fc425ee75853771b6ba2bb2652a518" class="flex justify-between">
+      <a role="button" class="">ID Ea</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/idea/ideakey/" class="">IDEA常用快捷键</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/idea/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1927baaa335601867ef5539b8d4b652e" class="toggle"  />
+    <label for="section-1927baaa335601867ef5539b8d4b652e" class="flex justify-between">
+      <a role="button" class="">Cmake</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/libs/" class="">Libs</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/makefile/" class="">Makefile</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/project-struct/" class="">Project Struct</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-01bc7a3f69f55c45502271dc2ed2272b" class="toggle"  />
+    <label for="section-01bc7a3f69f55c45502271dc2ed2272b" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/docker/build-image/" class="">Build Image</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/docker/docker-limit/" class="">Docker Limit</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/docker/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/about/" class="">关于我</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-a30b8e1d093c7132d046c0cf50833535" class="toggle"  />
+    <label for="section-a30b8e1d093c7132d046c0cf50833535" class="flex justify-between">
+      <a role="button" class="">Shark</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/2.28/" class="">2.28</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/algorithm-a/" class="">Algorithm A</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/atcoder/" class="">Atcoder</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/mui-v4-to-v5/" class="">Mui V4 to V5</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/testing-stl/" class="">Testing Stl</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/testing2-4/" class="">Testing2 4</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/week_11.8-12/" class="">Week 11.8 12</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>_drafts</span>
+  
+
+          
+  <ul>
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/_drafts/latex/" class="">Tutorial of Latex - The difference with .cls and .sty</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Docs</span>
+  
+
+          
+  <ul>
+    
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>再出发</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#前端">前端</a></li>
+    <li><a href="#转变思维">转变思维</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown">
+  <h1>
+    <a href="/posts/self/self-2/">再出发</a>
+  </h1>
+  
+  <h5>June 25, 2018</h5>
+
+
+
+  
+
+  
+  <div>
+    
+      <a href="/tags/growth/">Growth</a>
+  </div>
+  
+
+
+
+<blockquote>
+<p>永远都不要太乐观，也别放弃</p>
+</blockquote>
+<p>最近一段时间作为一个完整的开发工程师来做一个项目，一方便希望能经过一个完整的项目的锻炼把自己的工程底子建立一下，总不能一直飘在算法上，还是要掌握程序员的最低生存本钱的。</p>
+<p>这一次的工程算是一个比较熟悉的，依然是Online Judge，只是这次不再是以一个极客的思维来对待，而是以一个解决问题的工程师的身份。</p>
+<p>曾经用极客的思维去考虑这些部分，心里想的是怎么造出更好的轮子。在这个过程中其实需要学习很多底层的东西，尤其是对于Judge核心的设计和实现是要很多关于操作系统的交互。</p>
+<p>但是到最后也没能自己搞出来什么比较好的东西，只能说是搞了一些还不错的玩具出来了。同时对底层的一些机制有了个粗浅的理解。</p>
+<p>我本质是非常喜欢打通基本的原理的，有些东西没有搞懂总是不太想去动手，怕自己走歪了路，搞得不专业了。这样的追求是我的喜好，并不能作为一个常态存在，因为毕竟学无止境，更多的时候应该是做一个工程师存在。工程师是要
+能够非常高效且优质的组织资源去解决问题的，而不是纠结在底层的原理如何如何。当然越是经验丰富、知识扎实的工程师的组织能力越强。</p>
+<p>这次我的主要尝试选择了两个我比较看好的，也处于中间状态的技术：</p>
+<ul>
+<li>前端： react、redux、node</li>
+<li>后端： jerey、tomcat、redis、mysql、mybatis</li>
+<li>前后端完全分离的架构</li>
+</ul>
+<p>这样的技术选择其实是面有点大的，基本涵盖了整个前后端，因此这个项目的周期中会遇到许许多多的实际问题。
+主要的会表现在：</p>
+<h2 id="前端">
+  前端
+  <a class="anchor" href="#%e5%89%8d%e7%ab%af">#</a>
+</h2>
+<ul>
+<li>react体系的架构</li>
+<li>项目结构的设计</li>
+<li>UI操作</li>
+<li>浏览器相关问题</li>
+<li>异步请求</li>
+</ul>
+<p>这其中前期已经基本能用起来的react体系，算是已经过了一关，后面的浏览器相关的异步请求让我感觉有点头大。
+一方面用的不是传统的ajax，是新兴的fetch。在使用fetch的时候又使用了redux-api的库，这个库国内很少人使用，基本没有中文的文档也没有什么人踩坑的经验，所以在理解和使用的时候都很慢。
+不过这个过程中也让我学会了怎么去接触一个新的库，其实看文档是一方面，更快速的方法是搭建起来，不断的输出一些东西，这些变量是什么，什么结构的，会比文档直观很多。这个也是在后期的理解的时候才想起来，所以导致前面的搞的还是很痛苦的。</p>
+<p>但是现在面临着一些问题，搞得我多线作战很是迷茫。</p>
+<p><em><strong>问题是这样 ：</strong></em></p>
+<p>fetch原生的操作会让浏览器自动的补全content-type， 但是不知道为什么，使用redux-api库的时候就无法补全这个项，导致一些请求的请求头有问题，需要手动编写。尤其是在上传文件上。
+其次后台选取的java强类型语言，对请求的type要求非常严格，如果使用的是浏览器自动生成的type，可能会不匹配。同时后台也可以使用更原始的方式，就是直接接收context的内容，得到一个request自己再操作，其实这是以前的javaweb的操作方式。
+现在就面临了一个选择的问题，到底是后端做出让步还是前端做出让步？
+虽然都是我在写，但是面临这样结构改动还是很纠结。</p>
+<p>~~ 出去吃了一顿饭。顿悟</p>
+<h2 id="转变思维">
+  转变思维
+  <a class="anchor" href="#%e8%bd%ac%e5%8f%98%e6%80%9d%e7%bb%b4">#</a>
+</h2>
+<p>不存在能解决一切问题的框架，所以不能一味的寻求框架解决方案。完美主义的人会比较痛苦。</p>
+<p>因为没有什么框架能解决你的所有问题，也不是什么问题都有正解的，所以要站的高才能获得好的设计。一定要站的足够高，如果不能高到技术之上，就高到需求之上，高到架构之上，才能在设计出合理的架构。</p>
+<p>抽出框架最优越的特性，用来实现一些需求，其他并不适合用这种框架来解决的问题就不要再死守在框架上了。</p>
+<p>问题迎刃而解。</p>
+<blockquote>
+<p>有的时候就是要跟自己多讲讲道理，就明白了。可能这就是分裂的好处吧。不是一个人在战斗。</p>
+</blockquote>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+    window.MathJaxReady = false;
+    window.MathJax = {
+        startup: {
+            ready: () => {
+            MathJax.startup.defaultReady();
+            MathJax.startup.promise.then(() => {
+            console.log('MathJax initial typesetting complete');
+          });
+        },
+        elements: null,          
+        typeset: true,           
+        pageReady: () => {
+          return MathJax.startup.defaultPageReady().then(() => {
+            window.MathJaxReady = true;
+            console.log('MathJax initial typesetting complete');
+          });
+        },
+        document: document,      
+        input: [],               
+        output: null,            
+        handler: null,           
+        adaptor: null            
+      },
+      tex: {
+        inlineMath: [['$', '$'], ['$$$', '$$$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+      },
+        options:{
+            ignoreHtmlClass: "CodeMirror|language-cpp|ace_editor|noJax",
+            skipHtmlTags: ['script', 'style', 'textarea', 'input'],
+        },
+      chtml:{
+          scale: 1.1
+      }
+    };
+</script>
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#前端">前端</a></li>
+    <li><a href="#转变思维">转变思维</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

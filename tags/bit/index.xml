@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>BIT on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/bit/</link>
+    <description>Recent content in BIT on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 27 Jun 2022 15:46:07 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/bit/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>多棵树状数组处理区间问题</title>
+      <link>https://Paladnix.github.io/posts/acm/bit-%E5%8C%BA%E9%97%B4%E6%B1%82%E5%92%8C/</link>
+      <pubDate>Mon, 27 Jun 2022 15:46:07 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/acm/bit-%E5%8C%BA%E9%97%B4%E6%B1%82%E5%92%8C/</guid>
+      <description>单点修改，区间求和 # 区间求和可以优化为前缀和之差。因此问题转换为如何求前缀和。
+当我们对$a_i$ 做 加x 操作时，只需要在树状数组上add(i, x); 对于一个$j(j &amp;gt;= i)$， 我们执行getSum(j) 时，会求出所有小于等于j位置的修改的总和，因此也就获得了前x项的修改总和。这个问题就这样解决了。
+区间修改，区间求和 # 对于一个区间整体+x的操作，我们的处理方式是add(L, x); 和 add(R+1, -x);,此时getSum(j) 求前缀和getSum(j)时得到的结果正是作用于（影响了）j 位置的总和。换言之，只得到了x对于j位置的贡献，并没有计算x对于一整段的贡献。
+我们单独来看x的贡献，对于前j项和来说，x贡献了(j-i)次，因为每个位置都+x了。此时我们独立考虑+x和-x的影响，因此不需要关注x的真正持续范围，因为考虑-x的时候会反向抵消这部分贡献。
+前x项和可以写成公式：$A_1 + A_2 + A_3 + \cdots + A_j + (j-i_1)x_1 + (j-i_2)x_2 &amp;hellip;$，这个式子前半部分是A的前缀和，是固定值，可以直接计算的到。对于后一半，我们做简单的合并同类项的处理：$j\cdot (x_1+x_2 +&amp;hellip;) - (i_1\cdot x_1 + i_2\cdot x_2 + &amp;hellip;.) = j\cdot getSum(j) - (i_1\cdot x_1 + i_2\cdot x_2 + &amp;hellip;.)$
+那么对于$(i_1\cdot x_1 + i_2\cdot x_2 + &amp;hellip;.)$ 我们可以用另外一个树状数组来维护出来: add(i * x);</description>
+    </item>
+    
+  </channel>
+</rss>

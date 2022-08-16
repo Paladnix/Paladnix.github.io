@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Css on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/css/</link>
+    <description>Recent content in Css on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 20 Nov 2017 12:36:39 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/css/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>less 笔记</title>
+      <link>https://Paladnix.github.io/posts/web/less/</link>
+      <pubDate>Mon, 20 Nov 2017 12:36:39 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/web/less/</guid>
+      <description>作为CSS的一种扩展语言，使得CSS开发更便捷。
+变量 # less中的变量使用@开头。
+// LESS @color: #4D926F; #header { color: @color; } h2 { color: @color; } /* 生成的 CSS */ #header { color: #4D926F; } h2 { color: #4D926F; } 甚至可以用变量名定义为变量:
+@fnord: &amp;#34;I am fnord.&amp;#34;; @var: &amp;#39;fnord&amp;#39;; content: @@var; --&amp;gt; content: &amp;#34;I am fnord.&amp;#34;; 请注意 LESS 中的变量为完全的 ‘常量’ ，所以只能定义一次.
+字符串嵌入 # 变量可以用类似ruby和php的方式嵌入到字符串中，像@{name}这样的结构:
+@base-url: &amp;quot;http://assets.fnord.com&amp;quot;; background-image: url(&amp;quot;@{base-url}/images/bg.png&amp;quot;);
+作用域 # LESS 中的作用域跟其他编程语言非常类似，首先会从本地查找变量或者混合模块，如果没找到的话会去父级作用域中查找，直到找到为止.
+引入文件 # 你可以在main文件中通过下面的形势引入 .less 文件, .less 后缀可带可不带:
+@import &amp;#34;lib.</description>
+    </item>
+    
+  </channel>
+</rss>

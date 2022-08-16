@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Http on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/http/</link>
+    <description>Recent content in Http on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 21 Aug 2017 17:52:41 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/http/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CORS Cross-Origin Resource Sharing</title>
+      <link>https://Paladnix.github.io/posts/web/cors/</link>
+      <pubDate>Mon, 21 Aug 2017 17:52:41 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/web/cors/</guid>
+      <description>有一种痛，叫做就是想让你多学习一点东西。
+这个知识点，来源于一口还没找到源头的大黑锅。而我不能背这个锅，并且要找到一个人来背锅。
+Introduction # 在之前的sso文章中，有提到过一个问题，就是cookie的不能跨域的问题。 出于安全考虑，浏览器会限制从脚本内发起的跨域HTTP请求。例如，XMLHttpRequest 和 Fetch 遵循同源策略。因此，使用 XMLHttpRequest或 Fetch 的Web应用程序只能将HTTP请求发送到其自己的域。为了改进Web应用程序，开发人员要求浏览器厂商允许跨域请求。
+针对跨域的解决方案有很多，比如：flush、JSONP、ifame、xhr2等，但是都有很多弊端，我觉得CORS比较有前途。
+这个解决方案已经被几乎所有的主流的浏览器支持了。浏览器内置了这种解决方案，所以对于前端的工程师来说就是透明的，当前端使用ajax发起一个跨域请求的时候，浏览器自动使用这个方案来处理。但是这个方案需要浏览器和服务器共同支持才可以。
+今天主要的使用是依靠XMLHttpRequest来实现。这是一个js的对象，负责与服务端进行动态数据交互。
+发起一个XMLHttpRequest请求 # 原生的请求形式。
+&amp;lt;script type=&amp;#34;text/javascript&amp;#34;&amp;gt; //XmlHttpRequest对象 function createXmlHttpRequest(){ if(window.ActiveXObject){ //如果是IE浏览器 return new ActiveXObject(&amp;#34;Microsoft.XMLHTTP&amp;#34;); }else if(window.XMLHttpRequest){ //非IE浏览器 return new XMLHttpRequest(); } } // 调用getFile方法 function getFile() { var img_Container = document.getElementById(&amp;#34;img_Div&amp;#34;); var xhr = createXmlHttpRequest(); xhr.open(&amp;#39;GET&amp;#39;, &amp;#39;http://oss.youkouyang.com/1.jpg&amp;#39;, true); xhr.setRequestHeader(&amp;#39;Content-Type&amp;#39;, &amp;#39;image/jpeg&amp;#39;); xhr.responseType = &amp;#34;blob&amp;#34;; xhr.onload = function() { if (this.status == 200) { var blob = this.response; var img = document.</description>
+    </item>
+    
+    <item>
+      <title>Java Json And Object</title>
+      <link>https://Paladnix.github.io/posts/java/javajsonandobject/</link>
+      <pubDate>Tue, 15 Aug 2017 20:20:44 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/javajsonandobject/</guid>
+      <description>在写RESTFul风格的接口的时候最经常使用的就是Json和对象的互换。 今天记录一下阿里巴巴开源的FastJson的使用方式。
+FastJson号称最快的Json解析工具包。有幸听了作者的分享会，并且在前几天的转正答辩的时候，他作为我的面试官之一。花名很奇特，叫高铁，可能这就是FastJson为什么这么快的原因吧。
+在听分享会的时候，惊叹于其将一个小小的工具包中运用了如此多的优化方式。他曾是阿里安全团队的一元，对于Java底层非常了解，并且一些算法能力也很强，更是运用了产生式编程的神奇方式编写了这个工具包的某些部分。
+package # 这是开源的工具，听闻，据说是阿里对Java社区做的最大贡献了。
+import com.alibaba.fastjson.*;
+maven: # &amp;lt;!-- https://mvnrepository.com/artifact/com.alibaba/fastjson --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;com.alibaba&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;fastjson&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.2.36&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; Example # 其对于json的操作都是在几个静态类中进行的。 举几个常用的例子来说名用法：
+将Json文本数据信息转换为JsonObject对象，通过键值对获取值 # private static void json2JsonObject() { //一个JsonObject文本数据 String s = &amp;#34;{\&amp;#34;name\&amp;#34;:\&amp;#34;xxx\&amp;#34;}&amp;#34;; //将JsonObject数据转换为Json JSONObject object = JSON.parseObject(s); //利用键值对的方式获取到值 System.out.println(object.get(&amp;#34;name&amp;#34;)); } 将Json文本数据转换为JavaBean # 需要注意的是，Json文本信息中的键的名称必须和JavaBean中的字段名称一致。
+private static void json2BeanM2() { String s = &amp;#34;{\&amp;#34;id\&amp;#34;:\&amp;#34;xx\&amp;#34;,\&amp;#34;city\&amp;#34;:\&amp;#34;xxx\&amp;#34;}&amp;#34;; //一个简单方便 的方法将Json文本信息转换为JsonObject对象的同时转换为JavaBean对象！ Weibo weibo = JSON.parseObject(s, Weibo.class);//Weibo类在下边定义 System.out.println(weibo.getId()); System.out.println(weibo.getCity()); } Map类型的数据转换为JsonString # Map&amp;lt;Integer, Object&amp;gt; map = new HashMap&amp;lt;Integer,Object&amp;gt;(); map.</description>
+    </item>
+    
+    <item>
+      <title>Java HttpClient</title>
+      <link>https://Paladnix.github.io/posts/java/javahttp/</link>
+      <pubDate>Tue, 15 Aug 2017 20:07:20 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/java/javahttp/</guid>
+      <description>来记录一下Java 发起Http请求的方法。
+这里使用的是org.apache.http包中的一些封装工具。
+首先实例化一个client： CloseableHttpClient httpclient = HttpClients.createDefault(); 然后来实例化一个URIBuild： URIBuilder builder = new URIBuilder(url); 如果Http请求带有参数，就设置在uri中： builder.setParameter(key, value); 实例化一个Httpget/Httppost: HttpGet httpget = new HttpGet(builder.build()); HttpPost httppost = new HttpPost(builder.build()); 你可以设置请求的Header： httpget.setHeader(&amp;#34;Accept&amp;#34;, &amp;#34;application/json&amp;#34;); // 接收json数据格式 发送请求： CloseableHttpResponse response = httpclient.execute(httpget); 查看请求结果： if (response.getStatusLine().getStatusCode() == 200) { String content = EntityUtils.toString(response.getEntity(), &amp;#34;utf-8&amp;#34;); } 更多设置可以直接补全出来看。</description>
+    </item>
+    
+    <item>
+      <title>Cookie</title>
+      <link>https://Paladnix.github.io/posts/web/cookie/</link>
+      <pubDate>Mon, 14 Aug 2017 23:02:35 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/web/cookie/</guid>
+      <description>由于Http协议本身是没有状态的，每个请求都要建立新的连接。Cookie就是为了弥补这方面的不足而设计的，主要用来跟踪会话。
+会话 # 跟同一个机器中的同一个应用在一段时间内的通信交互，我们可以认为是一个会话(Session)。 会话与会话之间需要被隔离开。
+形象的理解 # Cookie就像是你的一张证明，并且，你跟不同的对方打交道用的是不同的证明。你会把这个证明带在身上，你可以在证明上写东西，对方也可以在上面写东西。在有需要的时候，双方都可以打开这个证明来看看里面的内容。 其本质其实就是一个键值对形式的文本信息。
+在控制台中，输入命令：alert(document.cookie) 就可以看到你与当前页面应用之间保存的cookie内容。 手机上的浏览器一般不支持cookie。
+跨域 # cookie是以域名作为单位的，同一个域名共享一个cookie。不同域名之间不能操作对方的cookie。 这里就是sso主要要解决的难点。
+跨域设置Cookie有几种实现的方式，其中最方便的就是使用jsonp的方式来实现。
+jsonp 跨域 # 在JQuery中使用ajax可以处理同一域名下的重定向请求。但是其处理不了跨域名的重定向。
+也就是在同一个域名下进行重定向，ajax使得重定向对用户来说是透明的。但如果是跨域的，ajax就会报错。</description>
+    </item>
+    
+    <item>
+      <title>chrome 控制台</title>
+      <link>https://Paladnix.github.io/posts/web/chrome/</link>
+      <pubDate>Sun, 16 Jul 2017 12:56:55 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/web/chrome/</guid>
+      <description>chrome是一个非常好用的Web开发的工具，而不仅仅是个好用的浏览器。 按下就可以调出控制台，控制台可以与页面分离成为一个单独的窗口。这个在调试大屏效果的时候很方便，但是我不是搞前端设计的，所以不管这个。
+这里可以看到有很多选项，常用的有以下几个：Elements、Console、Sources、Network。
+Elements 审查元素 # 这里可以看到你的HTML源码，和对应的css。在前端工程师的工作中经常会用到，不过现在自动化的工具越来越多了，也不一定非用这个了，但是这个一定是很强大的功能。 在这个框的最左上角有一个鼠标箭头的标志，点一下就可以到页面上定位某个元素的代码，很好用。 这一块没有什么技术含量
+Console 控制台 # 这是一个命令交互的控制台，语言是Javascript。下面就介绍一下常用的几个命令。
+console.log() # 这是一组四个命令分别是：console.log()、console.info()、console.error()、console.warn()。其作用就是在控制台中打印信息，在编写前端工程的时候可以这样在js代码中打印log信息来排查问题。
+$.cookieStorage.set(&amp;lsquo;id&amp;rsquo;, 1234) # 这是一个cookie操作函数。可以对应的设置cookie的参数值，如上，如果某个网站的用户登录验证使用cookie来做的，你又猜到了其参数的名字，就直接设置cookie就可以登录上去了，免密码呢。
+Sources # 这个在调试的时候可以看到自己的页面的每个资源的加载情况，包括时间、来源、是否加载成功等，也可以把资源down下来。
+NetWork # 这个我感觉是最好用的一个，他会记录你的异步请求。可以记录请求的地址，参数，返回值等等。
+Anything more?
+Nothing more&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>curl</title>
+      <link>https://Paladnix.github.io/posts/linux/curl/</link>
+      <pubDate>Tue, 11 Jul 2017 17:37:47 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/linux/curl/</guid>
+      <description>linux下面自带的一个命令行工具，很常用，关键是很强大。
+supports # DICT, FILE, FTP, FTPS, Gopher, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, POP3, POP3S, RTMP, RTSP, SCP, SFTP, SMB, SMBS, SMTP, SMTPS, Telnet and TFTP.
+supports SSL certificates, HTTP POST, HTTP PUT, FTP uploading, HTTP form based upload, proxies, HTTP/2, cookies, user+password authentication (Basic, Plain, Digest, CRAM-MD5, NTLM, Negotiate and Kerberos)
+file transfer resume, proxy tunneling and more.
+基本上无所不能了。。。 这里是cURL的PDF版本说明文档，不是很难看懂，里面介绍了这个项目的起源发展、网络协议、如何使用等等。作者还有个很帅的名字：丹尼尔·斯坦伯格。
+作者写了这样一段话：
+Running curl from the command line was natural and Daniel never considered anything else than that it would output data on stdout, to the terminal, by default.</description>
+    </item>
+    
+    <item>
+      <title>你所不知道的http协议之优秀</title>
+      <link>https://Paladnix.github.io/posts/web/http/</link>
+      <pubDate>Mon, 10 Jul 2017 19:02:33 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/web/http/</guid>
+      <description>协议 # 协议就是数据格式+确认策略。 你所需要知道的就是协议是如何分类的，一般我们按照其工作的层次来分类，分成：通信层协议、应用层协议、物理层协议等七个层次的协议。整个计算机网络体系是由这么多层次组成，但是发展到今天我们主要关心的其实就是两个层次上的协议：通信层、应用层。TCP/IP协议属于通信层，Http属于应用层，也有人认为http属于通信层。关于http属于什么层次，可以是两个架构之间的区别，一种就是RESTful模式的，也是我们常用的；还有一种就是SOA（面向服务的体系结构)他是将http当作通信层协议来使用的。这个关于什么是RESTful和SOA就可以写一篇，这里你只需要知道现在正在向RESTful模式迁移就可以了。
+(成熟的架构大局观+敏锐的技术嗅觉，这是一个CTO必备的能力。)
+http协议 # http协议（超文本传输协议）是现代计算机网络最最重要的组成部分。其协议简洁、高效、灵活、强大，也是计算机应用下一步进化的方向。
+除了上面讲的几个你体会不到的特点以外，下面几个特点你要清楚：
+无连接： 不需要保持连接，一个请求干一件事，干完就过。 无状态： 换句话说就是没有记忆，这一点有利有弊。 内容 # http1.1的RFC文档在此，有兴趣的可以去看看。内容比你想的多得多，比我知道的也多得多。本文就简单的介绍一下http报文结构啊什么的，那些网上到处都是，没必要说太多。
+Request # 由于是应用层，所以我们就只关心数据而不关心其他的东西。 报文结构如下：
+GET /562f25980001b1b106000338.jpg HTTP/1.1 Host img.mukewang.com User-Agent Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36 Accept image/webp,image/*,*/*;q=0.8 Referer http://www.imooc.com/ Accept-Encoding gzip, deflate, sdch Accept-Language zh-CN,zh;q=0.8 xxx 报文由四个部分组成，请求行、请求头、空行、请求数据。
+第一行是请求行，包含三个数据，空格分隔：请求方法、请求资源(URL)、协议版本。 下面紧跟的是请求头，是n个键值对，空格分隔，包含其他的数据：请求的目的地、什么浏览器、该请求接受什么返回格式、什么编码&amp;hellip; 空一行 请求数据。 Response # 返回报文一样四部分：状态行、消息报头、空行和响应正文。
+HTTP/1.1 200 OK Date: Fri, 22 May 2009 06:07:21 GMT Content-Type: text/html; charset=UTF-8 &amp;lt;html&amp;gt; &amp;lt;head&amp;gt;&amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;!</description>
+    </item>
+    
+  </channel>
+</rss>

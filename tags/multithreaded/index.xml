@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Multithreaded on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/multithreaded/</link>
+    <description>Recent content in Multithreaded on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 21 Sep 2018 13:38:39 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/multithreaded/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>python 多线程和异步</title>
+      <link>https://Paladnix.github.io/posts/python/python-multithreaded/</link>
+      <pubDate>Fri, 21 Sep 2018 13:38:39 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/python/python-multithreaded/</guid>
+      <description>python 的多线程还有协程这种东西。
+线程池 # 关于多线程的实现，各种语言基本上都是一样的。
+一种是集成一个线程的基类，然后重写一个run()函数。这类写法比较好理解，非常直观就是创建一个线程交给操作系统。
+因为每个线程都有确定的程序起点、执行顺序、程序终点。因此这个函数就是起点。
+另外一种就略有区别，Java中就是实现一个接口，在python中没有接口就是直接传个函数去构造出一个线程。Java中的接口其实很不好理解，因为这个接口只是实现了一个逻辑在run()函数里， 实例化这个类的时候并没有创建这个线程，还要单独用这个类的实例去再实例化一个线程。然后在start这个线程。
+无论是那一种，在底层都是一样的。就是把一段逻辑写进一个函数中，作为一个起点用来生成一个线程资源。而这个工作，都是基类Thread来实现的。
+因此只要给Thread类一个程序入口就可以构造出一个线程了。
+线程的启动和设定都很好解决。有一个问题就是创建线程也是要话费时间的。因此就有线程池的思想。
+线程池的优点:
+避免线程的创建和销毁带来的性能开销。 避免大量的线程间因互相抢占系统资源导致的阻塞现象。 能够对线程进行简单的管理并提供定时执行、间隔执行等功能。 两个单词区分一下：async（异步）、 sync（同步）</description>
+    </item>
+    
+  </channel>
+</rss>

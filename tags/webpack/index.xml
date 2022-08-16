@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Webpack on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/webpack/</link>
+    <description>Recent content in Webpack on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 21 Nov 2017 00:21:50 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/webpack/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>webpack</title>
+      <link>https://Paladnix.github.io/posts/web/webpack/</link>
+      <pubDate>Tue, 21 Nov 2017 00:21:50 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/web/webpack/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

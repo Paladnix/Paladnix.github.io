@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Think on Paladnix Blog Site</title>
+    <link>https://Paladnix.github.io/tags/think/</link>
+    <description>Recent content in Think on Paladnix Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 08 Aug 2017 16:41:48 +0000</lastBuildDate><atom:link href="https://Paladnix.github.io/tags/think/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>随想-关于语言的一些感受</title>
+      <link>https://Paladnix.github.io/posts/c&#43;&#43;/c/</link>
+      <pubDate>Tue, 08 Aug 2017 16:41:48 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/c&#43;&#43;/c/</guid>
+      <description>以前觉得C语言很菜，因为连面向对象都没有，一本C语言的书也就200页撑死了。
+后来学习了C++，一本书动不动800页，多则1500多页，我以为C++很屌。
+后来我接触了Java，发现这个语言虽然用的人很多，但是，很不优美，是一个非工程师可以用的东西。我还是觉得C++很屌。
+再后来我接触了python，我觉得这个语言的作者是个奇葩，不过确实很多工具很方便，这个就是个功能偏强大的玩具了。但是确实很厉害，开发速度飞起来。不过我还是觉得C++很屌。
+后来接触了bash脚本，哎，这个语言很有趣，但是很鸡儿菜，写起来别别扭扭的，就像搭积木一样，还不能搭太高。不过我还是很喜欢它的，但是我还是觉得C++很屌。
+然后用起了php，虽然也是菜鸡儿，但是真的很直白嘛，是个人都能懂。所以C++还是屌。
+最近用起了Javascript。我操！这语言特么有毒，乱七八糟的问题，虽然应用范围越来越多，但是还不那么优美，还是C++比较屌。
+然后我发现了一个神奇的现象，Linux用C语言写的，mysql用C语言写的，各种驱动C语言写的，各种网关C语言写的，redis也是用C语言写的。为啥?
+这说明了，特么的C语言才是最屌的。短短200页就道尽C语言精髓，短短200页就构建起了这个世界的一半基础。C语言有的除了指针，就是指针，再花哨一点的就是有函数指针这个大杀器。
+那些说什么C语言指针难用应该都是傻逼吧。真正的程序员，指针就是万能的上帝之手好嘛！
+至于C++，很强是实话，能驾驭C++的程序员也很强，这是大实话。但是，能驾驭C++的不多，这就很尴尬了。要对象有对象，要指针有指针，要动态绑定有动态绑定，要多态有多态。。。但就是出了Bug不太好找，没办法，就有点失宠了，不过说到底还是因为人菜！语言是好语言，所以C/C++最屌！
+不要跟我说什么生产力，老子不Care！我不管！我就是喜欢，走不动道了。</description>
+    </item>
+    
+  </channel>
+</rss>

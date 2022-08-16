@@ -1,0 +1,2884 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="(注：本文写在N天之中，随着对其的深入学习，很多的看法会发生变化。我也尽量把东西放在这一篇中解决掉，文章思路会有些跳跃，可能先上了细节后面再归档等等。另外，本文会屏蔽一些技术细节，用一些术语来表达，这些术语均是较容易学习的知识块。)
+这段时间神奇的技术走位，Java与Python的爱恨交织。
+所以既然写到了肯定就是用到了呗，拿到了一个Django的项目，改写成Java的，玩的就是这么欢脱，做为一个写C&#43;&#43;出身的入门级Java工程师生活已经如此艰难，然后发现现实是还要兼职Python工程师。
+Django也算是工程师玩的玩意儿？封装成了这个样子还有什么好玩的，估计随随便便学2个小时语法加一点Django的框架设计就可以玩起来的，我只能说写这项目的哥们太会偷懒了，服气，骗完钱就离职，更是任性的不行。
+言归正传！框架这种东西嘛，就是为了简化开发，提高速度效率，降低合作成本用的，所以django的设计也算是符合了这个目的。但是他并不是简单的照搬了JavaWeb框架的MVC设计思路，而是他妈的又提出了一个神奇的MTC，不用想也知道，就在人家的基础上变来变去还自以为参透了宇宙的奥秘。所谓的MTV就是把几个分工重新分了一下，对，就是要跟人家不一样，日你哥！
+不过话回来，就算是对于MVC这个业界都普遍遵循的设计模式，也有很多不同的理解，比如业务逻辑到底该Controller来做还是Model来做，甚至还有人要把这个交给view来做的。之前貌似还看到了个文章讲什么官方设定，话说都发展到这个地步了谁还管你官方设定。不过呢，这都是个设计思路，不同的程序员当然有自己的理解，自己写项目的时候怎么搞都行，但是现在这框架数量真的有点爆炸了，所以大家还是在设计的时候多用点心吧，实现框架的技术不难，但是设计是艺术。
+所谓的MTV分别就是： Model、Templete、View。熟悉就对了，你肯定一眼就看懂了，我也是一瞬间就明白了。但是很抱歉，仔细想一下这个Templete如果是前端模板的话，view是啥？如果view用来组装前端模板的话，要model来做业务逻辑吗？那controller岂不是没有了？……就是这么神奇，人家把业务逻辑交给了view来做，我特么也是佩服的吐血。Model就纯纯的数据库操作，就像是一个sql的python版。至于Templete，我已经没有耐心再跟他浪费时间了，老子一个写接口的要什么前端！
+对于理解一个框架来说什么最重要？我在很久以前初学框架的时候一脸懵比。我草，这么多代码我得看到什么年？怎么连个主函数都没有，日了狗。。。好在我当时看了一会php，这个比较简单，不用编译一下就能懂，后来我从别人的文章中看到了学习框架的几个步骤等，才知道，看懂路由，就懂了这个框架的一半。
+路由 # 提到这个路由，Python这个框架还是让我吃了一惊的。因为这玩意儿不需要容器，厉害啊。写过其他Web的都知道，我们的Web程序是要在一个Web服务程序的组织下做应答的。但是Django抛弃了这个服务程序，严格来说是Python的Web Server抛弃了其他的服务程序，自己写了一个简单的网关程序&ndash;wsgi。其实作用就是做个协议转换，链接机器与python程序，替代了apache2的一些基础功能。不过据说性能欠佳，做做测试还行，上线还是要靠Nginx的帮助，搞个uwsgi。
+底层的东西，可以不懂，但是懂一定没有坏处，但是我还没时间搞懂。下面讲一下上层路由。
+一个Django的项目特点就是目录比较清晰，比如这个urls.py就是存放路由信息的文件。django在自动化这个地方并没有做太多东西，对于路由信息要显示的写在这里。for一个zample.
+from django.conf.urls import url, include from django.contrib import admin import views urlpatterns = [ url(r&#39;^admin/&#39;, admin.site.urls), url(r&#39;^docs/&#39;, include(&#39;rest_framework_docs.urls&#39;)), url(r&#39;^er/&#39;, views.ERView), # ui view url(r&#39;^ui/Node&#39;, ui_views.node_view), url(r&#39;^ui/Cluster&#39;, ui_views.cluster_view), url(r&#39;^ui/InstanceGroup&#39;, ui_views.instance_group_view), url(r&#39;^ui/Chart&#39;, ui_views.chart_view), url(r&#39;^ui.*&#39;, ui_views.home_view), # API url(r&#39;^v1/&#39;, include(&#39;rest_api.urls&#39;)), url(r&#39;^v2/&#39;, include(&#39;rest_api.urls_v2&#39;)), #url(r&#39;^report/&#39;, include(&#39;report.urls&#39;)), url(r&#39;^.*&#39;, include(&#39;rest_framework_docs.urls&#39;)), ] 路由中可以预留参数位置，可以写正则表达式，论灵活性也还行。看到有些东西后买你跟的不是一个类，而是一个import语句，这是将路由转移到这个新的应用中去了，所以要去这个应用下再找对应的文件去继续路由，直到找到某个类为止。上面这个程序中其实是用到了一个叫rest_framwork的东西，这个玩意貌似是用来写网页文档用的东西，不过这个不是重点。
+既然找到了这个类，那么有个经典的问题又来了。去调用那个函数啊？这就涉及到了django路由的两种方式，一种是定义到函数，另一种是调用到类。一把小项目就自己定义到函数就好了。但是当项目比较大的时候就需要将路由定义到类的身上，注意这里我们说的都是在views.py 中的类。
+对于基类View，其暴露了一个as_view()的函数，该函数会对请求进一步做分发。下面两个就是这种方式路由的。
+url(r&#39;^Unit/(?P&lt;pk&gt;\w&#43;)&#39;, UnitDetailView.as_view(), name=&#39;UnitDetail&#39;), url(r&#39;^Unit&#39;, UnitView.as_view(), name=&#39;Unit&#39;), as_view() 是如何做分发的呢？它会调用一个dispatch函数对请求方式做个路由出去再调用到你真正的处理函数。总是很麻烦，还没来得及看代码。 不过这里有一个简化的另外一个类，继承的时候继承Generic.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Django" />
+<meta property="og:description" content="(注：本文写在N天之中，随着对其的深入学习，很多的看法会发生变化。我也尽量把东西放在这一篇中解决掉，文章思路会有些跳跃，可能先上了细节后面再归档等等。另外，本文会屏蔽一些技术细节，用一些术语来表达，这些术语均是较容易学习的知识块。)
+这段时间神奇的技术走位，Java与Python的爱恨交织。
+所以既然写到了肯定就是用到了呗，拿到了一个Django的项目，改写成Java的，玩的就是这么欢脱，做为一个写C&#43;&#43;出身的入门级Java工程师生活已经如此艰难，然后发现现实是还要兼职Python工程师。
+Django也算是工程师玩的玩意儿？封装成了这个样子还有什么好玩的，估计随随便便学2个小时语法加一点Django的框架设计就可以玩起来的，我只能说写这项目的哥们太会偷懒了，服气，骗完钱就离职，更是任性的不行。
+言归正传！框架这种东西嘛，就是为了简化开发，提高速度效率，降低合作成本用的，所以django的设计也算是符合了这个目的。但是他并不是简单的照搬了JavaWeb框架的MVC设计思路，而是他妈的又提出了一个神奇的MTC，不用想也知道，就在人家的基础上变来变去还自以为参透了宇宙的奥秘。所谓的MTV就是把几个分工重新分了一下，对，就是要跟人家不一样，日你哥！
+不过话回来，就算是对于MVC这个业界都普遍遵循的设计模式，也有很多不同的理解，比如业务逻辑到底该Controller来做还是Model来做，甚至还有人要把这个交给view来做的。之前貌似还看到了个文章讲什么官方设定，话说都发展到这个地步了谁还管你官方设定。不过呢，这都是个设计思路，不同的程序员当然有自己的理解，自己写项目的时候怎么搞都行，但是现在这框架数量真的有点爆炸了，所以大家还是在设计的时候多用点心吧，实现框架的技术不难，但是设计是艺术。
+所谓的MTV分别就是： Model、Templete、View。熟悉就对了，你肯定一眼就看懂了，我也是一瞬间就明白了。但是很抱歉，仔细想一下这个Templete如果是前端模板的话，view是啥？如果view用来组装前端模板的话，要model来做业务逻辑吗？那controller岂不是没有了？……就是这么神奇，人家把业务逻辑交给了view来做，我特么也是佩服的吐血。Model就纯纯的数据库操作，就像是一个sql的python版。至于Templete，我已经没有耐心再跟他浪费时间了，老子一个写接口的要什么前端！
+对于理解一个框架来说什么最重要？我在很久以前初学框架的时候一脸懵比。我草，这么多代码我得看到什么年？怎么连个主函数都没有，日了狗。。。好在我当时看了一会php，这个比较简单，不用编译一下就能懂，后来我从别人的文章中看到了学习框架的几个步骤等，才知道，看懂路由，就懂了这个框架的一半。
+路由 # 提到这个路由，Python这个框架还是让我吃了一惊的。因为这玩意儿不需要容器，厉害啊。写过其他Web的都知道，我们的Web程序是要在一个Web服务程序的组织下做应答的。但是Django抛弃了这个服务程序，严格来说是Python的Web Server抛弃了其他的服务程序，自己写了一个简单的网关程序&ndash;wsgi。其实作用就是做个协议转换，链接机器与python程序，替代了apache2的一些基础功能。不过据说性能欠佳，做做测试还行，上线还是要靠Nginx的帮助，搞个uwsgi。
+底层的东西，可以不懂，但是懂一定没有坏处，但是我还没时间搞懂。下面讲一下上层路由。
+一个Django的项目特点就是目录比较清晰，比如这个urls.py就是存放路由信息的文件。django在自动化这个地方并没有做太多东西，对于路由信息要显示的写在这里。for一个zample.
+from django.conf.urls import url, include from django.contrib import admin import views urlpatterns = [ url(r&#39;^admin/&#39;, admin.site.urls), url(r&#39;^docs/&#39;, include(&#39;rest_framework_docs.urls&#39;)), url(r&#39;^er/&#39;, views.ERView), # ui view url(r&#39;^ui/Node&#39;, ui_views.node_view), url(r&#39;^ui/Cluster&#39;, ui_views.cluster_view), url(r&#39;^ui/InstanceGroup&#39;, ui_views.instance_group_view), url(r&#39;^ui/Chart&#39;, ui_views.chart_view), url(r&#39;^ui.*&#39;, ui_views.home_view), # API url(r&#39;^v1/&#39;, include(&#39;rest_api.urls&#39;)), url(r&#39;^v2/&#39;, include(&#39;rest_api.urls_v2&#39;)), #url(r&#39;^report/&#39;, include(&#39;report.urls&#39;)), url(r&#39;^.*&#39;, include(&#39;rest_framework_docs.urls&#39;)), ] 路由中可以预留参数位置，可以写正则表达式，论灵活性也还行。看到有些东西后买你跟的不是一个类，而是一个import语句，这是将路由转移到这个新的应用中去了，所以要去这个应用下再找对应的文件去继续路由，直到找到某个类为止。上面这个程序中其实是用到了一个叫rest_framwork的东西，这个玩意貌似是用来写网页文档用的东西，不过这个不是重点。
+既然找到了这个类，那么有个经典的问题又来了。去调用那个函数啊？这就涉及到了django路由的两种方式，一种是定义到函数，另一种是调用到类。一把小项目就自己定义到函数就好了。但是当项目比较大的时候就需要将路由定义到类的身上，注意这里我们说的都是在views.py 中的类。
+对于基类View，其暴露了一个as_view()的函数，该函数会对请求进一步做分发。下面两个就是这种方式路由的。
+url(r&#39;^Unit/(?P&lt;pk&gt;\w&#43;)&#39;, UnitDetailView.as_view(), name=&#39;UnitDetail&#39;), url(r&#39;^Unit&#39;, UnitView.as_view(), name=&#39;Unit&#39;), as_view() 是如何做分发的呢？它会调用一个dispatch函数对请求方式做个路由出去再调用到你真正的处理函数。总是很麻烦，还没来得及看代码。 不过这里有一个简化的另外一个类，继承的时候继承Generic." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Paladnix.github.io/posts/web/django/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-07-06T12:56:56+00:00" />
+<meta property="article:modified_time" content="2017-07-06T12:56:56+00:00" />
+
+<title>Django | Paladnix Blog Site</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.82c5dbd23447cee0b4c2aa3ed08ce0961faa40e1fa370eee4f8c9f02e0d46b5f.css" integrity="sha256-gsXb0jRHzuC0wqo&#43;0Izglh&#43;qQOH6Nw7uT4yfAuDUa18=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.32aac9bd6b24494aac3806f4c120c12d400590c29ddb2ac42f0ba71f77227fc0.js" integrity="sha256-MqrJvWskSUqsOAb0wSDBLUAFkMKd2yrELwunH3cif8A=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><img src="/images/paladnix-github.jpeg" alt="Logo" /><span>Paladnix Blog Site</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Blog Article</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-19f10fbb697c334a3284dd2194bc29f3" class="toggle"  />
+    <label for="section-19f10fbb697c334a3284dd2194bc29f3" class="flex justify-between">
+      <a role="button" class="">Acm</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Atcoder</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/atcoder/abc-256-f/" class="">ABC-256-F 题解</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/atcoder/abc-255_e/" class="">Lucky Number 题解</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/bit-%E5%8C%BA%E9%97%B4%E6%B1%82%E5%92%8C/" class="">多棵树状数组处理区间问题</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acm-collection/" class="">ACM-collection</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/cf855-c/" class="">Codeforces 855-C 树形DP</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/fft/" class="">FFT 快速傅立叶变换</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acm-vim/" class="">VIM 在ACM/ICPC中的非最佳实践</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acm-contest-1/" class="">比赛题解-2017苏大暑假集训个人赛(13)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/acm/acmroad/" class="">ACMRoad</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-456a039e07b28260a08b7fc62b92dfd7" class="toggle"  />
+    <label for="section-456a039e07b28260a08b7fc62b92dfd7" class="flex justify-between">
+      <a role="button" class="">Rocks Db</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/rocksdb/skip-list/" class="">skip list原理与实现</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/rocksdb/summary/" class="">Summary</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-58201612638e1ea8bc6dbd0ba8468161" class="toggle"  />
+    <label for="section-58201612638e1ea8bc6dbd0ba8468161" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/python/python-type/" class="">python type</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/python/python-multithreaded/" class="">python 多线程和异步</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/python/anaconda/" class="">Tutorial of anaconda &amp; 原生虚环境</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d4afb3cb60fce6f19da24b63c311e48e" class="toggle"  />
+    <label for="section-d4afb3cb60fce6f19da24b63c311e48e" class="flex justify-between">
+      <a role="button" class="">Others</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/cuda/" class="">cuda</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/shadowsocks/" class="">shadowsocks 搭建</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/ngrok/" class="">ngrok服务端与客户端</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/tensorflow/" class="">tensorflow</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/vimium/" class="">Vimium - Google-Chrome-Plugin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/lucene-1/" class="">Lucene（一）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/raspberrypi/" class="">树莓派 - 入坑指南(1)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/curator/" class="">apache curator</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/synchronized/" class="">synchronized 同步锁</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/zookeeper/" class="">ZooKeeper</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/diary/" class="">Latex写工作日志的实践</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/sql/" class="">SQL进阶</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/others/hexo/" class="">Hexo</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6dcc8fdde13341c88dddf304b2c4c793" class="toggle"  />
+    <label for="section-6dcc8fdde13341c88dddf304b2c4c793" class="flex justify-between">
+      <a role="button" class="">Self</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/fight/" class="">创业者</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/self-2/" class="">再出发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/self-1/" class="">阶段性总结</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/myheart/" class="">一个决定</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/alibaba/" class="">实习转正答辩</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/internship/" class="">关于实习-alibaba Middle Ware</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/howtolearn/" class="">关于计算机科学的学习</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/baiji/" class="">百技</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/thinking-1/" class="">随想-1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/before/" class="">学习更深C/C&#43;&#43;语言之前的思想准备</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/begining/" class="">Begining</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/%E4%B8%A4%E7%B1%BB%E4%BA%BA/" class="">两类人</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/self/%E7%A4%BE%E4%BC%9A%E5%88%86%E5%B7%A5/" class="">社会分工</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-859a76a0227ac62639bc2dad75336fc7" class="toggle" checked />
+    <label for="section-859a76a0227ac62639bc2dad75336fc7" class="flex justify-between">
+      <a role="button" class="">Web</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/apache2/" class="">apache2 配置多端口服务</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/less/" class="">less 笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react-2/" class="">react 设计概念</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/mobx/" class="">mobx - redux的优秀替代品</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react-router-dom/" class="">react-router tutorial</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react-1/" class="">使用react开发的优秀实践</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/es6/" class="">ES 6</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/node/" class="">node nodejs npm 傻傻分不清楚on Ubuntu</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/cors/" class="">CORS Cross-Origin Resource Sharing</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/tomcatserver/" class="">tomcat Server.xml及其启动顺序</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/cookie/" class="">Cookie</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/sso/" class="">sso 单点登录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/web/" class="">web.xml</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/angular/" class="">angular</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/react/" class="">react 初探-一些基础概念</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/cgi/" class="">CGI 通用网关协议</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/servlet/" class="">Servlet</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/chrome/" class="">chrome 控制台</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/tomcat/" class="">tomcat</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/http/" class="">你所不知道的http协议之优秀</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/rest-framework/" class="">rest_framework</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/django/" class="active">Django</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/web/husky/" class="">Husky - A Light Web MVC Framework</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fd6cd2d4bc98c7c7e2bc50b28778314" class="toggle"  />
+    <label for="section-9fd6cd2d4bc98c7c7e2bc50b28778314" class="flex justify-between">
+      <a role="button" class="">Bash</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/bash/bash/" class="">编写Bash脚本</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/bash/awk/" class="">awk - Linux文本处理大杀器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/bash/commands/" class="">真正的老司机如何用Linux文本命令</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ac08f61dce7ad61dd2ea7ad4910367cb" class="toggle"  />
+    <label for="section-ac08f61dce7ad61dd2ea7ad4910367cb" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/taskwarrior/" class="">Tutorial of Taskwarrior</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/linux-timing/" class="">Linux 定时任务</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/linuxprogramming-1/" class="">《Linux 编程实践教程》- 1</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/linux/curl/" class="">curl</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-371dae9a8dd24e9c6ca13652146b9046" class="toggle"  />
+    <label for="section-371dae9a8dd24e9c6ca13652146b9046" class="flex justify-between">
+      <a role="button" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/advanced-git-1/" class="">git 进阶一</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/advanced-git/" class="">git 进阶</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/git/" class="">git实战指南</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/git-checkout/" class="">Git Checkout</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/git-log/" class="">Git Log</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/rebase/" class="">Rebase</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/reset/" class="">Reset</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/git/summary/" class="">Summary</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-069647d66c3986a88c683691b95ae841" class="toggle"  />
+    <label for="section-069647d66c3986a88c683691b95ae841" class="flex justify-between">
+      <a role="button" class="">C</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/effectivec-1/" class="">Effective C&#43;&#43; 读书笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/funcp/" class="">C 函数指针</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/cpp-1/" class="">cpp lamda &amp; for_each</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c/" class="">随想-关于语言的一些感受</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c-oop-3/" class="">C&#43;&#43; OOP--const、引用、指针</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c-oop-2/" class="">C&#43;&#43; OOP--函数解析过程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/c-oop-1/" class="">C&#43;&#43; OOP基础--动态绑定</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/accessmodifier/" class="">OOP中的-控制修饰符</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/debug/" class="">Debug</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/epoll/" class="">Epoll</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/gccclang/" class="">Gcc&amp; Clang</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/rand/" class="">Rand</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/scopeguard/" class="">Scope Guard</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/thread/" class="">Thread</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/" class="">内存检测</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" class="">智能指针</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/c&#43;&#43;/%E7%81%AB%E7%84%B0%E5%9B%BE/" class="">火焰图</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4badfc46eeb07d2a91fe2b336a095056" class="toggle"  />
+    <label for="section-4badfc46eeb07d2a91fe2b336a095056" class="flex justify-between">
+      <a role="button" class="">Java</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/javawait/" class="">java wait一种线程通信方式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/lamda/" class="">Java lamda 表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/javajsonandobject/" class="">Java Json And Object</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/javahttp/" class="">Java HttpClient</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-2/" class="">每天读点Spring(2)--Start</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-1/" class="">每天读点Spring(1)--Introduction</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-5/" class="">Java 多线程实现异步调用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-shell/" class="">spring-shell</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/status/" class="">状态机编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/springmvc/" class="">SpringMVC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring/" class="">spring</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/log/" class="">Java-Log日志</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-4/" class="">java 线程与池</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/iterator/" class="">iterator 迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-exception/" class="">Java Exception &amp; Error</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/jdbc/" class="">JDBC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-3/" class="">Java-反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-2/" class="">Java 基础数据结构</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/maven-1/" class="">Maven</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/jersey/" class="">jersey</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-1/" class="">Java 抽象与接口</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/java-test-powermockito/" class="">Java Test Power Mockito</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/jdk/" class="">Jdk</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/maven/" class="">Maven</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/netty-io/" class="">Netty Io</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/spring-boot/" class="">Spring Boot</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/java/util-concurrent/" class="">Util Concurrent</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-bcb64d436ed9c02263a1b9b3269d8223" class="toggle"  />
+    <label for="section-bcb64d436ed9c02263a1b9b3269d8223" class="flex justify-between">
+      <a role="button" class="">Redis</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/redis-1/" class="">Redis 深度学习(1)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/hyperloglog/" class="">HyperLogLog 基数估计算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/geohash/" class="">GeoHash</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/redis/redis/" class="">redis</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-5370d5473c2ed1e3d784bba01e464d1f" class="toggle"  />
+    <label for="section-5370d5473c2ed1e3d784bba01e464d1f" class="flex justify-between">
+      <a role="button" class="">Vim</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/vim/vim/" class="">VIM 花式进阶</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/vim/install/" class="">Install</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/vim/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-c8fc425ee75853771b6ba2bb2652a518" class="toggle"  />
+    <label for="section-c8fc425ee75853771b6ba2bb2652a518" class="flex justify-between">
+      <a role="button" class="">ID Ea</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/idea/ideakey/" class="">IDEA常用快捷键</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/idea/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1927baaa335601867ef5539b8d4b652e" class="toggle"  />
+    <label for="section-1927baaa335601867ef5539b8d4b652e" class="flex justify-between">
+      <a role="button" class="">Cmake</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/libs/" class="">Libs</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/makefile/" class="">Makefile</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/project-struct/" class="">Project Struct</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/cmake/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-01bc7a3f69f55c45502271dc2ed2272b" class="toggle"  />
+    <label for="section-01bc7a3f69f55c45502271dc2ed2272b" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/docker/build-image/" class="">Build Image</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/docker/docker-limit/" class="">Docker Limit</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/docker/readme/" class="">Readme</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/about/" class="">关于我</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-a30b8e1d093c7132d046c0cf50833535" class="toggle"  />
+    <label for="section-a30b8e1d093c7132d046c0cf50833535" class="flex justify-between">
+      <a role="button" class="">Shark</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/2.28/" class="">2.28</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/algorithm-a/" class="">Algorithm A</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/atcoder/" class="">Atcoder</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/mui-v4-to-v5/" class="">Mui V4 to V5</a>
+  
+
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/testing-stl/" class="">Testing Stl</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/testing2-4/" class="">Testing2 4</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/shark/week_11.8-12/" class="">Week 11.8 12</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>_drafts</span>
+  
+
+          
+  <ul>
+    
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/_drafts/latex/" class="">Tutorial of Latex - The difference with .cls and .sty</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Docs</span>
+  
+
+          
+  <ul>
+    
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Django</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#tips">tips</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown">
+  <h1>
+    <a href="/posts/web/django/">Django</a>
+  </h1>
+  
+  <h5>July 6, 2017</h5>
+
+
+
+  
+
+  
+  <div>
+    
+      <a href="/tags/python/">Python</a>, 
+      <a href="/tags/django/">Django</a>, 
+      <a href="/tags/web/">Web</a>
+  </div>
+  
+
+
+
+<p>(注：本文写在N天之中，随着对其的深入学习，很多的看法会发生变化。我也尽量把东西放在这一篇中解决掉，文章思路会有些跳跃，可能先上了细节后面再归档等等。另外，本文会屏蔽一些技术细节，用一些术语来表达，这些术语均是较容易学习的知识块。)</p>
+<p>这段时间神奇的技术走位，Java与Python的爱恨交织。</p>
+<p>所以既然写到了肯定就是用到了呗，拿到了一个Django的项目，改写成Java的，玩的就是这么欢脱，做为一个写C++出身的入门级Java工程师生活已经如此艰难，然后发现现实是还要兼职Python工程师。</p>
+<p>Django也算是工程师玩的玩意儿？封装成了这个样子还有什么好玩的，估计随随便便学2个小时语法加一点Django的框架设计就可以玩起来的，我只能说写这项目的哥们太会偷懒了，服气，骗完钱就离职，更是任性的不行。</p>
+<p>言归正传！框架这种东西嘛，就是为了简化开发，提高速度效率，降低合作成本用的，所以django的设计也算是符合了这个目的。但是他并不是简单的照搬了JavaWeb框架的MVC设计思路，而是他妈的又提出了一个神奇的MTC，不用想也知道，就在人家的基础上变来变去还自以为参透了宇宙的奥秘。所谓的MTV就是把几个分工重新分了一下，对，就是要跟人家不一样，日你哥！</p>
+<p>不过话回来，就算是对于MVC这个业界都普遍遵循的设计模式，也有很多不同的理解，比如业务逻辑到底该Controller来做还是Model来做，甚至还有人要把这个交给view来做的。之前貌似还看到了个文章讲什么官方设定，话说都发展到这个地步了谁还管你官方设定。不过呢，这都是个设计思路，不同的程序员当然有自己的理解，自己写项目的时候怎么搞都行，但是现在这框架数量真的有点爆炸了，所以大家还是在设计的时候多用点心吧，实现框架的技术不难，但是设计是艺术。</p>
+<p>所谓的MTV分别就是： Model、Templete、View。熟悉就对了，你肯定一眼就看懂了，我也是一瞬间就明白了。但是很抱歉，仔细想一下这个Templete如果是前端模板的话，view是啥？如果view用来组装前端模板的话，要model来做业务逻辑吗？那controller岂不是没有了？……就是这么神奇，人家把业务逻辑交给了view来做，我特么也是佩服的吐血。Model就纯纯的数据库操作，就像是一个sql的python版。至于Templete，我已经没有耐心再跟他浪费时间了，老子一个写接口的要什么前端！</p>
+<p>对于理解一个框架来说什么最重要？我在很久以前初学框架的时候一脸懵比。我草，这么多代码我得看到什么年？怎么连个主函数都没有，日了狗。。。好在我当时看了一会php，这个比较简单，不用编译一下就能懂，后来我从别人的文章中看到了学习框架的几个步骤等，才知道，看懂路由，就懂了这个框架的一半。</p>
+<h1 id="路由">
+  路由
+  <a class="anchor" href="#%e8%b7%af%e7%94%b1">#</a>
+</h1>
+<p>提到这个路由，Python这个框架还是让我吃了一惊的。因为这玩意儿不需要容器，厉害啊。写过其他Web的都知道，我们的Web程序是要在一个Web服务程序的组织下做应答的。但是Django抛弃了这个服务程序，严格来说是Python的Web Server抛弃了其他的服务程序，自己写了一个简单的网关程序&ndash;wsgi。其实作用就是做个协议转换，链接机器与python程序，替代了apache2的一些基础功能。不过据说性能欠佳，做做测试还行，上线还是要靠Nginx的帮助，搞个uwsgi。</p>
+<p>底层的东西，可以不懂，但是懂一定没有坏处，但是我还没时间搞懂。下面讲一下上层路由。</p>
+<p>一个Django的项目特点就是目录比较清晰，比如这个urls.py就是存放路由信息的文件。django在自动化这个地方并没有做太多东西，对于路由信息要显示的写在这里。for一个zample.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.conf.urls <span style="color:#f92672">import</span> url, include
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.contrib <span style="color:#f92672">import</span> admin
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> views
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>urlpatterns <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^admin/&#39;</span>, admin<span style="color:#f92672">.</span>site<span style="color:#f92672">.</span>urls),
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^docs/&#39;</span>, include(<span style="color:#e6db74">&#39;rest_framework_docs.urls&#39;</span>)),
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^er/&#39;</span>, views<span style="color:#f92672">.</span>ERView),
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># ui view</span>
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^ui/Node&#39;</span>, ui_views<span style="color:#f92672">.</span>node_view),
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^ui/Cluster&#39;</span>, ui_views<span style="color:#f92672">.</span>cluster_view),
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^ui/InstanceGroup&#39;</span>, ui_views<span style="color:#f92672">.</span>instance_group_view),
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^ui/Chart&#39;</span>, ui_views<span style="color:#f92672">.</span>chart_view),
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^ui.*&#39;</span>, ui_views<span style="color:#f92672">.</span>home_view),
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># API</span>
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^v1/&#39;</span>, include(<span style="color:#e6db74">&#39;rest_api.urls&#39;</span>)),
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^v2/&#39;</span>, include(<span style="color:#e6db74">&#39;rest_api.urls_v2&#39;</span>)),
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#url(r&#39;^report/&#39;, include(&#39;report.urls&#39;)),</span>
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^.*&#39;</span>, include(<span style="color:#e6db74">&#39;rest_framework_docs.urls&#39;</span>)),
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><p>路由中可以预留参数位置，可以写正则表达式，论灵活性也还行。看到有些东西后买你跟的不是一个类，而是一个import语句，这是将路由转移到这个新的应用中去了，所以要去这个应用下再找对应的文件去继续路由，直到找到某个类为止。上面这个程序中其实是用到了一个叫<code>rest_framwork</code>的东西，这个玩意貌似是用来写网页文档用的东西，不过这个不是重点。</p>
+<p>既然找到了这个类，那么有个经典的问题又来了。去调用那个函数啊？这就涉及到了django路由的两种方式，一种是定义到函数，另一种是调用到类。一把小项目就自己定义到函数就好了。但是当项目比较大的时候就需要将路由定义到类的身上，注意这里我们说的都是在views.py 中的类。</p>
+<p>对于基类View，其暴露了一个as_view()的函数，该函数会对请求进一步做分发。下面两个就是这种方式路由的。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^Unit/(?P&lt;pk&gt;\w+)&#39;</span>, UnitDetailView<span style="color:#f92672">.</span>as_view(), name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;UnitDetail&#39;</span>),
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^Unit&#39;</span>, UnitView<span style="color:#f92672">.</span>as_view(), name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Unit&#39;</span>),
+</span></span></code></pre></div><p>as_view() 是如何做分发的呢？它会调用一个dispatch函数对请求方式做个路由出去再调用到你真正的处理函数。总是很麻烦，还没来得及看代码。
+不过这里有一个简化的另外一个类，继承的时候继承<code>Generic.View</code>， 这是一个系列类， 有很多。用的时候就在处理类中写固定的函数就好了。在View的部分再细说。</p>
+<h1 id="从安装到hello-world">
+  从安装到Hello World
+  <a class="anchor" href="#%e4%bb%8e%e5%ae%89%e8%a3%85%e5%88%b0hello-world">#</a>
+</h1>
+<ol>
+<li>安装python</li>
+<li>安装pip</li>
+<li>安装django</li>
+</ol>
+<p>找到一个目录来存放你的站点，然后执行命令创建目录：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>django-admin startproject mysite
+</span></span></code></pre></div><p>在目录中出现站点的目录，进入发现有一个<code>manage.py</code>的文件和一个目录。
+目录结构如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mysite/
+</span></span><span style="display:flex;"><span>    manage.py
+</span></span><span style="display:flex;"><span>    mysite/
+</span></span><span style="display:flex;"><span>        __init__.py
+</span></span><span style="display:flex;"><span>        settings.py
+</span></span><span style="display:flex;"><span>        urls.py
+</span></span><span style="display:flex;"><span>        wsgi.py
+</span></span></code></pre></div><ul>
+<li>manage.py 是这个项目的命令行工具，与<code>django-admin</code>相似。</li>
+<li>mysite/ 这个文件夹的名字是不能随便更改的，因为这就是包的名字。</li>
+<li>settings.py 就是这个项目的所有设置</li>
+<li>urls.py 就是你自己设计的路由</li>
+<li>wsgi.py 这是事实上的Server入口</li>
+</ul>
+<p>然后命令启动这个Web Server就可以了：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 manage.py runserver
+</span></span></code></pre></div><p>一般我会给个manage.py运行权限，将首行的python改成python3, 这样看你的django装在了那个版本下面。
+运行起来去看8000端口就可以了。这个页面写的还是挺好的，内容不多，但是有一些提示很有人性化。</p>
+<p>至此一个项目就算是建成了，但是这里的项目跟其他我们说的项目不太一样，就是个空壳子，往里面塞的事实上我们称之为app。</p>
+<p>添加一个app：(在manage.py 同级的目录下执行下列命令，以使app作为独立模块使用而不是子模块)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 manage.py startapp polls 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 建立一个名为polls的app</span>
+</span></span></code></pre></div><p>然后还是来看目录结构：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>polls/
+</span></span><span style="display:flex;"><span>    __init__.py
+</span></span><span style="display:flex;"><span>    admin.py
+</span></span><span style="display:flex;"><span>    apps.py
+</span></span><span style="display:flex;"><span>    migrations/
+</span></span><span style="display:flex;"><span>        __init__.py
+</span></span><span style="display:flex;"><span>    models.py
+</span></span><span style="display:flex;"><span>    tests.py
+</span></span><span style="display:flex;"><span>    views.py
+</span></span></code></pre></div><ul>
+<li>models.py 数据库相关</li>
+<li>views.py 业务逻辑相关</li>
+</ul>
+<p>现在我们写一个简单的view，并组装好路由信息，让网站跑起来。</p>
+<ol>
+<li>编写views.py 如下：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#f92672">from</span> django.shortcuts <span style="color:#f92672">import</span> render
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">from</span> django.http <span style="color:#f92672">import</span> HttpResponse
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Create your views here.</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>(request):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> HttpResponse(<span style="color:#e6db74">&#34;Hello World. This is polls app.&#34;</span>)
+</span></span></code></pre></div></li>
+<li>新增一个urls.py 文件在polls文件夹下，并添加路由信息如下：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#75715e">#!/usr/bin/env python3</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># coding=utf-8</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">from</span> django.conf.urls <span style="color:#f92672">import</span> url
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">from</span> . <span style="color:#f92672">import</span> views
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    urlpatterns <span style="color:#f92672">=</span>[
+</span></span><span style="display:flex;"><span>        url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^$&#39;</span>, views<span style="color:#f92672">.</span>index, name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;index&#34;</span>),
+</span></span><span style="display:flex;"><span>    ]
+</span></span></code></pre></div></li>
+<li>在mysite目录的urls.py 新增polls的路由信息：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#f92672">from</span> django.conf.urls <span style="color:#f92672">import</span> include, url
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">from</span> django.contrib <span style="color:#f92672">import</span> admin
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    urlpatterns <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^polls/&#39;</span>, include(<span style="color:#e6db74">&#39;polls.urls&#39;</span>)),
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^admin/&#39;</span>, admin<span style="color:#f92672">.</span>site<span style="color:#f92672">.</span>urls),
+</span></span><span style="display:flex;"><span>    ]
+</span></span></code></pre></div></li>
+<li>runserver</li>
+</ol>
+<h3 id="tips">
+  tips
+  <a class="anchor" href="#tips">#</a>
+</h3>
+<p>在mysite的路由中，我们没有加正则结束符<code>$</code>,且使用include可以将polls内部独立成一个模块，无论polls在哪里都没关系。</p>
+<p>在url中可以添加参数进行访问，在使用到的时候补充这部分例子。</p>
+<h1 id="model">
+  Model
+  <a class="anchor" href="#model">#</a>
+</h1>
+<p>python在这个方面简直方便的没有人性。我倾向于理解其是用python对象对数据表加以描述，并且！自动生成一个管理中心。可以直接使用python进行数据库交互。更方便的是，如果你对数据库操作很生疏，sql语句使用的不熟练，python自己集成了sqlLite这个玩意，你可以单纯使用python进行数据处理而不需要担心数据持久化的事情。当然你也可以自己搭建好数据库，并在配置中配置你所使用的数据库。</p>
+<p>下面就来建立model。编辑polls/models.py代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.db <span style="color:#f92672">import</span> models
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create your models here.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Question</span>(models<span style="color:#f92672">.</span>Model):
+</span></span><span style="display:flex;"><span>    queston_text <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">200</span>)
+</span></span><span style="display:flex;"><span>    pub_date <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>DateTimeField(<span style="color:#e6db74">&#39;date published&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __str__(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>question_text
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Choice</span>(models<span style="color:#f92672">.</span>Model):
+</span></span><span style="display:flex;"><span>    question <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>ForeignKey(Question, on_delete<span style="color:#f92672">=</span>models<span style="color:#f92672">.</span>CASCADE)
+</span></span><span style="display:flex;"><span>    choice_text <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">200</span>)
+</span></span><span style="display:flex;"><span>    votes <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>IntegerField(default<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __str__(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>choice_text
+</span></span></code></pre></div><p>官方是这样解释的：The code is straightforward. 代码已经很直观了。除了基本的字段，还有一个函数，这个函数一看就是默认的函数，用来字符串化这个model的。也就是说，当你输出这个类的实例的时候，输出什么东西，就是这个函数来决定的。</p>
+<p>现在我们只是写了两个类，当然一个类就对应着一个数据表。我们需要手动建立这些表并生成交互接口。下面我们要将polls这个app，install到这个项目中，在mysite的settings.py中添加install项：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>INSTALLED_APPS <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;django.contrib.admin&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;django.contrib.auth&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;django.contrib.contenttypes&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;django.contrib.sessions&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;django.contrib.messages&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;django.contrib.staticfiles&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;polls.apps.PollsConfig&#39;</span>,
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><p>然后我们执行下面的命令：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 manage.py makemigrations polls
+</span></span></code></pre></div><p>这个时候就完成了建表的任务。这个命令就是专用model操作的。然后使用下面这个命令可以显示出被执行的sql语句：(后面的0001根据执行返回值确定)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python manage.py sqlmigrate polls <span style="color:#ae81ff">0001</span>
+</span></span></code></pre></div><p>然后我们执行以下命令来使我们的变更生效：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 manage.py migrate
+</span></span></code></pre></div><p>以上都不是关键，关键是其自动化数据库交互的部分, 在官方文档称之为database API。</p>
+<p>其主要思想就是面向对象的概念，将数据表抽象成为一个对象，对这个对象提供了一些增删改查的函数。直接show you the code</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.utils <span style="color:#f92672">import</span> timezone
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> polls.models <span style="color:#f92672">import</span> Question, Choice
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查询Question表中数据</span>
+</span></span><span style="display:flex;"><span>Question<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>all()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建一条数据并存入数据表， 注意q是一个记录对象，只是一条记录。</span>
+</span></span><span style="display:flex;"><span>q <span style="color:#f92672">=</span> Question(question_text<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;What&#39;s new?&#34;</span>, pub_date<span style="color:#f92672">=</span>timezone<span style="color:#f92672">.</span>now())
+</span></span><span style="display:flex;"><span>q<span style="color:#f92672">.</span>save()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 获取字段值</span>
+</span></span><span style="display:flex;"><span>q<span style="color:#f92672">.</span>id
+</span></span><span style="display:flex;"><span>q<span style="color:#f92672">.</span>question_text
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 更改字段值并保存</span>
+</span></span><span style="display:flex;"><span>q<span style="color:#f92672">.</span>question_text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;what&#39;s your name?&#34;</span>
+</span></span><span style="display:flex;"><span>q<span style="color:#f92672">.</span>save()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 获取记录</span>
+</span></span><span style="display:flex;"><span>q <span style="color:#f92672">=</span> Question<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>filter(id<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>q <span style="color:#f92672">=</span> Question<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>get(id<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 这两个之间的区别还是有的，暂时没有深究</span>
+</span></span></code></pre></div><p>更多操作待补充，继续往下走&hellip;</p>
+<p>(Django 自动生成了一个admin的操作页面， 使用下列命令生成用户就可以使用了)：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 manage.py createsuperuser
+</span></span></code></pre></div><p>然后在url后加/admin/就可以进去了。</p>
+<h1 id="settings">
+  settings
+  <a class="anchor" href="#settings">#</a>
+</h1>
+<p>待续&hellip;</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+    window.MathJaxReady = false;
+    window.MathJax = {
+        startup: {
+            ready: () => {
+            MathJax.startup.defaultReady();
+            MathJax.startup.promise.then(() => {
+            console.log('MathJax initial typesetting complete');
+          });
+        },
+        elements: null,          
+        typeset: true,           
+        pageReady: () => {
+          return MathJax.startup.defaultPageReady().then(() => {
+            window.MathJaxReady = true;
+            console.log('MathJax initial typesetting complete');
+          });
+        },
+        document: document,      
+        input: [],               
+        output: null,            
+        handler: null,           
+        adaptor: null            
+      },
+      tex: {
+        inlineMath: [['$', '$'], ['$$$', '$$$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+      },
+        options:{
+            ignoreHtmlClass: "CodeMirror|language-cpp|ace_editor|noJax",
+            skipHtmlTags: ['script', 'style', 'textarea', 'input'],
+        },
+      chtml:{
+          scale: 1.1
+      }
+    };
+</script>
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#tips">tips</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
