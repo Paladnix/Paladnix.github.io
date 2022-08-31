@@ -1,0 +1,29 @@
+- description: |
+    在Linux 系统终端中，用于列出当前目录下所含的文件和子目录
+    的命令为（）
+    ```cpp
+    #include<bits>
+    ```
+  type: 'simple'
+  options: 
+    - ls
+    - cd
+    - cp
+    - all
+  answer: 
+    - A
+  source: '2021 CSP-S 初赛'
+  score: 2
+
+
+- description: '二进制00101010 和 00010110 的和是多少'
+  type: 'simple'
+  options: 
+    - ls
+    - cd
+    - cp
+    - all
+  answer: 
+    - A
+  source: '2021 CSP-S 初赛'
+  score: 2

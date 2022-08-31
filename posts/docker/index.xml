@@ -32,6 +32,15 @@ REPOSITORY TAG IMAGE ID CREATED SIZE simple-gdb 1.0 1a46f7f7599e 16 seconds ago 
     
     <item>
       <title></title>
+      <link>https://Paladnix.github.io/posts/docker/k8s/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/docker/k8s/</guid>
+      <description> 如何搭建一个K8s的集群 # </description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://Paladnix.github.io/posts/docker/readme/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
