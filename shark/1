@@ -5,11 +5,13 @@ import sys
 import yaml
 import os
 import requests
+import json
 
 
 def create_problem(problem):
-    print("will post:\n")
-    print(problem)
+    url = 'https://codeshark.cn/api/written-problem/create'
+    r = requests.post(url, json = problem)
+    print("%s\n" % r.text)
     
 
 
@@ -21,14 +23,14 @@ def check_field(problem):
     if 'answer' not in problem or problem['answer'] == "":
         print("error Field: answer")
         return False
-    if 'type' not in problem or problem['type'] not in ['simple', 'multi', 'fill']:
+    if 'type' not in problem or problem['type'] not in ['SIMPLE', 'MULTI', 'FILL']:
         print("error Field: type")
         return False
-    if problem['type'] != 'fill':
+    if problem['type'] != 'FILL':
         if 'options' not in problem or len(problem['options']) == 0:
             print("error Field: type")
             return False
-    if problem['type'] == 'simple':
+    if problem['type'] == 'SIMPLE':
         if len(problem['answer']) != 1:
             print("error Field: answer")
             return False

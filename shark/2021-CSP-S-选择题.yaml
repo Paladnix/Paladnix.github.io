@@ -1,0 +1,205 @@
+- description: |
+    在Linux 系统终端中，用于列出当前目录下所含的文件和子目录的命令为（）
+  type: 'SIMPLE'
+  options: 
+    - ls
+    - cd
+    - cp
+    - all
+  answer: 
+    - A
+  source: '2021 CSP-S 初赛'
+  score: 2
+
+
+- description: '二进制$00101010_2$ 和 $00010110_2$ 的和是多少'
+  type: 'SIMPLE'
+  options: 
+    - $00111100_2$
+    - $01000000_2$
+    - $00111100_2$ （原题即有重复）
+    - $01000010_2$
+  answer: 
+    - B
+  source: '2021 CSP-S 初赛'
+  score: 2
+
+- description: '在程序运行过程中，如果递归调用的层数过多，可能会由于（ ）引发错误。'
+  type: 'SIMPLE'
+  options: 
+    - 系统分配的栈空间溢出
+    - 系统分配的队列空间溢出
+    - 系统分配的链表空间溢出
+    - 系统分配的堆空间溢出
+  answer: 
+    - A
+  source: '2021 CSP-S 初赛'
+  score: 2
+
+- description: '以下排序方法中，（ ）是不稳定的。'
+  type: 'SIMPLE'
+  options: 
+    - 插入排序
+    - 冒泡排序
+    - 堆排序
+    - 归并排序
+  answer: 
+    - C
+  source: '2021 CSP-S 初赛'
+  score: 2
+
+- description: |
+    以比较为基本运算，对于 $2\times n$ 个数，同时找到最大值和最小值，最坏情况下需要的最小的比较次数为（）
+  type: 'SIMPLE'
+  options: 
+    - $4n-2$
+    - $3n+1$
+    - $3n-2$
+    - $2n+1$
+  answer: 
+    - C
+  source: '2021 CSP-S 初赛'
+  score: 2
+
+- description: |
+    现有一个地址区间为 $0 \sim 10$ 的哈希表，对于出现冲突情况，会往后找第一个空的地址存储（到 10 冲突了就从 0 开始往后），现在要依次存储（0,1, 2,3,4,5,6,7），哈希函数为 $h(x)=x^2 \mod 11$ 
+    
+    请问 7 存储在哈希表哪个地址中（ ）。
+  type: 'SIMPLE'
+  options: 
+    - 5
+    - 6
+    - 7
+    - 8
+  answer: 
+    - C
+  source: '2021 CSP-S 初赛'
+  score: 2
+
+- description: |
+    GG 是一个非连通简单无向图（没有自环和重边），共有 36 条边，则该图至少有（ ）个点
+  type: 'SIMPLE'
+  options: 
+    - 8
+    - 9
+    - 10
+    - 11
+  answer: 
+    - C
+  source: '2021 CSP-S 初赛'
+  score: 2
+
+- description: |
+    令根结点的高度为 11，则一棵含有 2021 个结点的二叉树的高度至少为（ ）。
+  type: 'SIMPLE'
+  options: 
+    - 10
+    - 11
+    - 12
+    - 2021
+  answer: 
+    - B
+  source: '2021 CSP-S 初赛'
+  score: 2
+
+- description: |
+    前序遍历和中序遍历相同的二叉树为且仅为（ ）。
+  type: 'SIMPLE'
+  options: 
+    - 只有1个点的二叉树
+    - 根结点没有左子树的二叉树
+    - 非叶结点只有左子树的二叉树
+    - 非叶结点只有右子树的二叉树
+  answer: 
+    - D
+  source: '2021 CSP-S 初赛'
+  score: 2
+
+- description: |
+    定义一种字符串操作为交换相邻两个字符。将“DACFEB”变为 “ABCDEF”最少需要（ ） 次上述操作
+  type: 'SIMPLE'
+  options: 
+    - 7
+    - 8
+    - 9
+    - 6
+  answer: 
+    - A
+  source: '2021 CSP-S 初赛'
+  score: 2
+
+- description: |
+    有如下递归代码
+    ```cpp
+    solve(t, n):
+      if t = 1 return 1
+        else return 5 * solve(t - 1, n) mod n
+    ```
+    则solve(23, 23)的结果为（ ）。
+
+  type: 'SIMPLE'
+  options: 
+    - 1
+    - 7
+    - 12
+    - 22
+  answer: 
+    - A
+  source: '2021 CSP-S 初赛'
+  score: 2
+
+- description: |
+    斐波那契数列的定义为$F1=1,F2=1,Fn=Fn−1+Fn−2(n>=3)$
+    现在用如下程序来计算斐波那契数列的第 n 项，其时间复杂度为（ ）。
+
+  type: 'SIMPLE'
+  options: 
+    - $O(n)$
+    - $O(n!)$
+    - $O(2^n)$
+    - $O(nlogn)$
+  answer: 
+    - C
+  source: '2021 CSP-S 初赛'
+  score: 2
+
+- description: |
+    有 8 个苹果从左到右排成一排，你要从中挑选至少一个苹果，并且不能同时挑选相邻的两个苹果，一共有（ ）种方案。
+  type: 'SIMPLE'
+  options: 
+    - 36
+    - 48
+    - 54
+    - 64
+  answer: 
+    - C
+  source: '2021 CSP-S 初赛'
+  score: 2
+
+- description: |
+    设一个三位数 $n= \overline {abc}$, $a, b, c$ 均为 $1\sim9$ 之间的整数，若以 $a, b, c$ 作为三角形的三条边可以构成等腰三角形（包括等边），则这样的 n 有（ ）个。
+
+  type: 'SIMPLE'
+  options: 
+    - 81
+    - 1201
+    - 165
+    - 216
+  answer: 
+    - C
+  source: '2021 CSP-S 初赛'
+  score: 2
+
+- description: |
+    有如下的有向图，节点为 $A, B, \cdots , J$，其中每条边的长度都标在图中。则节点 A 到节点 J 的最短路径长度为（ ）。
+    ![image.png](https://space4-img.oss-cn-shanghai.aliyuncs.com/web-images/rw45s1661969128557.png)
+  type: 'SIMPLE'
+  options: 
+    - 16
+    - 19
+    - 20
+    - 22
+  answer: 
+    - B
+  source: '2021 CSP-S 初赛'
+  score: 2

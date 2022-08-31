@@ -1,29 +1,154 @@
 - description: |
-    在Linux 系统终端中，用于列出当前目录下所含的文件和子目录
-    的命令为（）
+    （RMQ 区间最值问题）给定序列 $a_1,a_2,\cdots,a_n$，和 m 次询问，每次询问给定 $l,r$ 求 $max{a_l,a_{l+1},\cdots,a_r}$
+
+    为了解决该问题，有一个算法叫 the Method of Four Russians，其时间复杂度为 O(n + m)，步骤如下：
+
+    1. 建立 Cartesian（笛卡尔）树，将问题转化为树上的 LCA（最近公共祖先）问题。
+    2. 对于 LCA 问题，可以考虑其 Euler 序（即按照 DFS 过程，经过所有点，环游回根的序列），即求 Euler 序列上两点间一个新的 RMQ 问题。
+    3. 注意新的问题为 ±1 RMQ，即相邻两点的深度差一定为 1。
+
+    下面解决这个 ±1 RMQ 问题，“序列”指 Euler 序列：
+
+    1. 设 t 为 Euler 序列长度。取 $b=\lceil\frac{log_2t}{2}\rceil$。 将序列每 b 个分为一大块，使用 ST 表（倍增表）处理大块间的 RMQ 问题，复杂度 $O(\frac{t}{b}log_t) = O(n)$O(
+    2. （重点）对于一个块内的 RMQ 问题，也需要 O(1) 的算法。由于差分数组 $2^{b-1}$种，可以预处理出所有情况下的最值位置，预处理复杂度$O(b2^b)$，不超过 O(n)。
+    3. 最终，对于一个查询，可以转化为中间整的大块的 RMQ 问题，以及两端块内的 RMQ 问题。 试补全程序。
+    
     ```cpp
-    #include<bits>
+     #include <iostream>
+     #include <cmath>
+    
+     using namespace std;
+    
+     const int MAXN = 100000, MAXT = MAXN << 1;
+     const int MAXL = 18, MAXB = 9, MAXC = MAXT / MAXB;
+    
+     struct node {
+         int val;
+         int dep, dfn, end;
+         node *son[2]; // son[0], son[1] 分别表示左右儿子
+     } T[MAXN];
+    
+     int n, t, b, c, Log2[MAXC + 1];
+     int Pos[(1 << (MAXB - 1)) + 5], Dif[MAXC +    1];
+     node *root, *A[MAXT], *Min[MAXL][MAXC];
+    
+     void build() { // 建立 Cartesian 树
+         static node *S[MAXN + 1];
+         int top = 0;
+         for (int i = 0; i < n; i++) {
+             node *p = &T[i];
+             while (top && S[top]->val < p->val)
+                 ①;
+             if (top)
+                 ②;
+             S[++top] = p;
+         }
+        root = S[1];
+     }
+    
+     void DFS(node *p) { // 构建 Euler 序列
+         A[p->dfn = t++] = p;
+         for (int i = 0; i < 2; i++)
+             if (p->son[i]) {
+                 p->son[i]->dep = p->dep + 1;
+                 DFS(p->son[i]);
+                 A[t++] = p;
+             }
+             p->end    = t - 1;
+     }
+    
+     node *min(node    *x, node *y) {
+         return ③ ?    x : y;
+     }
+    
+     void ST_init()    {
+         b = (int)(ceil(log2(t) / 2));
+         c = t / b;
+         Log2[1] = 0;
+         for (int i = 2; i <= c; i++)
+             Log2[i] = Log2[i >> 1] + 1;
+         for (int i = 0; i < c; i++) {
+             Min[0][i] = A[i * b];
+             for (int j = 1; j < b; j++)
+                 Min[0][i] = min(Min[0][i], A[i * b + j]);
+         }
+         for (int i = 1, l = 2; l <= c; i++, l <<= 1)
+             for (int j = 0; j + l <= c; j++)
+                 Min[i][j] = min(Min[i - 1][j], Min[i - 1][j    + (l >> 1)]);
+     }
+    
+     void small_init() { // 块内预处理
+         for (int i = 0; i <= c; i++)
+         for (int j = 1; j < b && i * b + j < t; j++)
+             if (④)
+                 Dif[i] |= 1 << (j - 1);
+         for (int S = 0; S < (1 << (b - 1)); S++) {
+             int mx = 0, v = 0;
+             for (int i = 1; i < b; i++) {
+                 ⑤;
+                 if (v < mx) {
+                     mx = v;
+                     Pos[S] = i;
+                 }
+             }
+         }
+     }
+    
+     node *ST_query(int l, int r) {
+         int g = Log2[r - l + 1];
+         return min(Min[g][l], Min[g][r - (1 << g) +    1]);
+     }
+    
+     node *small_query(int l, int r) { // 块内查询
+         int p = l / b;
+         int S = ⑥;
+         return A[l + Pos[S]];
+     }
+    
+     node *query(int l, int r) {
+         if (l > r)
+             return query(r, l);
+         int pl = l / b, pr = r / b;
+         if (pl == pr) {
+             return small_query(l, r);
+         } else {
+             node *s = min(small_query(l, pl * b + b - 1),
+    small_query(pr * b, r));
+               if (pl + 1 <= pr - 1)
+               s = min(s, ST_query(pl + 1, pr - 1));
+              return s;
+           }
+     }
+    
+     int main() {
+         int m;
+         cin >> n >> m;
+         for (int i = 0; i < n; i++)
+             cin >> T[i].val;
+         build();
+         DFS(root);
+         ST_init();
+         small_init();
+         while (m--) {
+             int l, r;
+             cin >> l >> r;
+             cout << query(T[l].dfn, T[r].dfn)->val <<    endl;
+         }
+         return 0;
+     }
     ```
-  type: 'simple'
-  options: 
-    - ls
-    - cd
-    - cp
-    - all
-  answer: 
-    - A
-  source: '2021 CSP-S 初赛'
-  score: 2
+
+    ⑥ 处应填（ ）
 
 
-- description: '二进制00101010 和 00010110 的和是多少'
-  type: 'simple'
-  options: 
-    - ls
-    - cd
-    - cp
-    - all
-  answer: 
-    - A
+  type: 'SIMPLE'
+  options:
+    - (Dif[p] >> (r - p * b)) & ((1 << (r - l)) - 1)
+    - Dif[p]
+    - (Dif[p] >> (l - p * b)) & ((1 << (r - l)) - 1)
+    - (Dif[p] >> ((p + 1) * b - r)) & ((1 << (r - l + 1)) - 1)
+  answer:
+    - C
   source: '2021 CSP-S 初赛'
-  score: 2
+  score: 3
+
