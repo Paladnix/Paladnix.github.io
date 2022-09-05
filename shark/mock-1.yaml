@@ -1,0 +1,439 @@
+- description: |
+    以下选项中，不是操作系统的是（）
+
+
+  type: 'SIMPLE'
+  options:
+    - windows
+    - macOS
+    - edge
+    - centOS
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+    以下问题中无法用BFS算法解决的是（）
+
+  type: 'SIMPLE'
+  options:
+    - 求解有根树的高度
+    - 求解无向图中联通块个数
+    - 判断无向图中是否有环
+    - 求解一般图中两点间最短路径
+  answer:
+    - D
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+    以下排序算法中，算法复杂度不稳定的是
+
+  type: 'SIMPLE'
+  options:
+    - 冒泡排序
+    - 快速排序
+    - 归并排序
+    - 堆排序
+  answer:
+    - B
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+    对 "CSP-J", "CSP-S", "CSP J", "CSP S", "csp j", "csp s"按照字典序从小到达排序，以下字符串排序的结果正确的是（）
+
+  type: 'SIMPLE'
+  options:
+    - "csp j", "csp s", "CSP-J", "CSP-S", "CSP J", "CSP S"
+    - "csp j", "csp s", "CSP J", "CSP S", "CSP-J", "CSP-S"
+    - "CSP-J", "CSP-S", "CSP J", "CSP S", "csp j", "csp s"
+    - "CSP J", "CSP S", "CSP-J", "CSP-S", "csp j", "csp s"
+  answer:
+    - D
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+    以下关于内存堆栈的说法错误的是
+
+  type: 'SIMPLE'
+  options:
+    - 堆栈空间大小可以在程序中设定，但是CSP比赛中不允许使用
+    - 局部变量存储在栈空间，全局变量存储在堆空间
+    - 函数调用时传递的引用参数，不会在栈空间内占据任何空间。
+    - 栈溢出错误通常会导致程序直接退出。
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+    现代计算机体系的冯诺伊曼架构中5大组成部分不包含（）
+
+  type: 'SIMPLE'
+  options:
+    - 网络路由器
+    - 存储器
+    - 运算器
+    - 控制器
+  answer:
+    - A
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+    各位数字均不相同的三位数字([100, 999])有（）个。
+
+  type: 'SIMPLE'
+  options:
+    - 648
+    - 504
+    - 720
+    - 576
+  answer:
+    - A
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+    由数字集合{1, 2, 4, 9, 3, 6, 8, 11, 20, 12}构成的二叉查找树中最大和最小的高度分别是（）
+    (根节点高度为1)
+  type: 'SIMPLE'
+  options:
+    - 10，2
+    - 10，4
+    - 9，2
+    - 9，4
+
+  answer:
+    - B
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+    在一个8行8列的棋盘上，从左上角走到右下角且不穿越左上角到右下角对角线的路径有多少条。
+    每一步只能向右或向下走。
+
+  type: 'SIMPLE'
+  options:
+    - 429
+    - 428
+    - 858
+    - 857
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+    有以下函数
+    ```cpp
+    solve(n, m) {
+      if(n == 1 || m == 1) return 1;
+      int s = 0;
+      for(int i = 1; i < n; i++) {
+        s += i*solve(i, m-1);
+      }
+
+      returm s;
+    }
+    ```
+    solve(7, 5) 的结果是多少
+
+  type: 'SIMPLE'
+  options:
+    - 122
+    - 85
+    - 90
+    - 28
+  answer:
+    - D
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+    下列关于memset函数的说法错误的是
+
+
+  type: 'SIMPLE'
+  options:
+    - 函数的复杂度是O(n), 当传入数组时，n是数组所占字节数。
+    - memset 函数可以实现将int类型数组全量初始化为-1
+    - mmeset 函数可以实现将int类型数组全量初始化为0x3f
+    - memset 可以对非数组的变量进行操作，例如结构体。
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+    
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
+
+- description: |
+
+
+  type: 'SIMPLE'
+  options:
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 2
