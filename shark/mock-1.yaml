@@ -306,14 +306,569 @@
   score: 2
 
 - description: |
-
+    阅读程序《求解DAG中的最长路径》：
+  
+    ```cpp
+    #include <bits/stdc++.h>
+  
+    using namespace std;
+    
+    const int MAXN = 100;
+    const int MAXM = 10000;
+    
+    struct Node {
+        int v, w, nxt;
+        Node(){}
+    
+        Node(int v, int w, int nxt):v(v), w(w), nxt(nxt){}
+    }G[MAXM << 1];
+    
+    int head[MAXN+1], tot = 0;
+    int deg[MAXN+1], dp[MAXN+1];
+    
+    void init() {
+        memset(head, 0xff, sizeof(head));
+        tot = 0;
+    }
+    
+    void add(int u, int v, int w) {
+        G[tot] = Node(v, w, head[u]);
+        head[u] = tot++;
+    }
+    
+    
+    int LongestPath(int n) {
+        queue<int> Q;
+        int cnt = 0;
+        for(int i = 1; i <= n; i++) {
+            if(deg[i] == 0) Q.push(i), cnt++;
+        }
+        while(!Q.empty()) {
+            int u = Q.front();
+            Q.pop();
+            for(int i = head[u]; ~i; i = G[i].nxt) {
+                int v = G[i].v;
+                dp[v] = max(dp[v], dp[u] + G[i].w);
+                deg[v] --;
+                if(deg[v] == 0) {
+                    Q.push(v);
+                    cnt++;
+                }
+            }
+        }
+        if(cnt == n) return 1;
+        else return 0;
+    }
+    
+    int main(){
+        init();
+        int n, m;
+        cin >> n >> m;
+    
+        for(int i = 0, u, v, w; i < m; i++) {
+            cin >> u >> v >> w;
+            add(u, v, w);
+            deg[v]++;
+        }
+    
+        int ret = LongestPath(n);
+        if(ret) {
+            int ans = 0;
+            for(int i = 1; i <= n; i++) {
+                ans = max(ans, dp[i]);
+            }
+            cout << ans << endl;
+        } else {
+            cout << "Not DAG." << endl;
+        }
+    
+        return 0;
+    }
+  
+  
+    ```
+    如果不调用init() 函数，程序将出现越界错误。
 
   type: 'SIMPLE'
   options:
+    - 正确
+    - 错误
+  answer:
+    - B
+  source: 'CSP-J 模拟卷'
+  score: 1.5
+
+- description: |
+    阅读程序《求解DAG中的最长路径》：
+  
+    ```cpp
+    #include <bits/stdc++.h>
+  
+    using namespace std;
+    
+    const int MAXN = 100;
+    const int MAXM = 10000;
+    
+    struct Node {
+        int v, w, nxt;
+        Node(){}
+    
+        Node(int v, int w, int nxt):v(v), w(w), nxt(nxt){}
+    }G[MAXM << 1];
+    
+    int head[MAXN+1], tot = 0;
+    int deg[MAXN+1], dp[MAXN+1];
+    
+    void init() {
+        memset(head, 0xff, sizeof(head));
+        tot = 0;
+    }
+    
+    void add(int u, int v, int w) {
+        G[tot] = Node(v, w, head[u]);
+        head[u] = tot++;
+    }
+    
+    
+    int LongestPath(int n) {
+        queue<int> Q;
+        int cnt = 0;
+        for(int i = 1; i <= n; i++) {
+            if(deg[i] == 0) Q.push(i), cnt++;
+        }
+        while(!Q.empty()) {
+            int u = Q.front();
+            Q.pop();
+            for(int i = head[u]; ~i; i = G[i].nxt) {
+                int v = G[i].v;
+                dp[v] = max(dp[v], dp[u] + G[i].w);
+                deg[v] --;
+                if(deg[v] == 0) {
+                    Q.push(v);
+                    cnt++;
+                }
+            }
+        }
+        if(cnt == n) return 1;
+        else return 0;
+    }
+    
+    int main(){
+        init();
+        int n, m;
+        cin >> n >> m;
+    
+        for(int i = 0, u, v, w; i < m; i++) {
+            cin >> u >> v >> w;
+            add(u, v, w);
+            deg[v]++;
+        }
+    
+        int ret = LongestPath(n);
+        if(ret) {
+            int ans = 0;
+            for(int i = 1; i <= n; i++) {
+                ans = max(ans, dp[i]);
+            }
+            cout << ans << endl;
+        } else {
+            cout << "Not DAG." << endl;
+        }
+    
+        return 0;
+    }
+  
+    ```
+    输入的数据中w如果存在负数，程序的结果不一定错误。
+
+  type: 'SIMPLE'
+  options:
+    - 正确
+    - 错误
+  answer:
+    - A
+  source: 'CSP-J 模拟卷'
+  score: 1.5
+
+- description: |
+    阅读程序《求解DAG中的最长路径》：
+  
+    ```cpp
+    #include <bits/stdc++.h>
+  
+    using namespace std;
+    
+    const int MAXN = 100;
+    const int MAXM = 10000;
+    
+    struct Node {
+        int v, w, nxt;
+        Node(){}
+    
+        Node(int v, int w, int nxt):v(v), w(w), nxt(nxt){}
+    }G[MAXM << 1];
+    
+    int head[MAXN+1], tot = 0;
+    int deg[MAXN+1], dp[MAXN+1];
+    
+    void init() {
+        memset(head, 0xff, sizeof(head));
+        tot = 0;
+    }
+    
+    void add(int u, int v, int w) {
+        G[tot] = Node(v, w, head[u]);
+        head[u] = tot++;
+    }
+    
+    
+    int LongestPath(int n) {
+        queue<int> Q;
+        int cnt = 0;
+        for(int i = 1; i <= n; i++) {
+            if(deg[i] == 0) Q.push(i), cnt++;
+        }
+        while(!Q.empty()) {
+            int u = Q.front();
+            Q.pop();
+            for(int i = head[u]; ~i; i = G[i].nxt) {
+                int v = G[i].v;
+                dp[v] = max(dp[v], dp[u] + G[i].w);
+                deg[v] --;
+                if(deg[v] == 0) {
+                    Q.push(v);
+                    cnt++;
+                }
+            }
+        }
+        if(cnt == n) return 1;
+        else return 0;
+    }
+    
+    int main(){
+        init();
+        int n, m;
+        cin >> n >> m;
+    
+        for(int i = 0, u, v, w; i < m; i++) {
+            cin >> u >> v >> w;
+            add(u, v, w);
+            deg[v]++;
+        }
+    
+        int ret = LongestPath(n);
+        if(ret) {
+            int ans = 0;
+            for(int i = 1; i <= n; i++) {
+                ans = max(ans, dp[i]);
+            }
+            cout << ans << endl;
+        } else {
+            cout << "Not DAG." << endl;
+        }
+    
+        return 0;
+    }
+  
+    ```
+    将第6行的`10000`替换成`1e4`，程序会编译错误。
+
+  type: 'SIMPLE'
+  options:
+    - 正确
+    - 错误
+  answer:
+    - B
+  source: 'CSP-J 模拟卷'
+  score: 1.5
+
+- description: |
+    阅读程序《求解DAG中的最长路径》：
+  
+    ```cpp
+    #include <bits/stdc++.h>
+  
+    using namespace std;
+    
+    const int MAXN = 100;
+    const int MAXM = 10000;
+    
+    struct Node {
+        int v, w, nxt;
+        Node(){}
+    
+        Node(int v, int w, int nxt):v(v), w(w), nxt(nxt){}
+    }G[MAXM << 1];
+    
+    int head[MAXN+1], tot = 0;
+    int deg[MAXN+1], dp[MAXN+1];
+    
+    void init() {
+        memset(head, 0xff, sizeof(head));
+        tot = 0;
+    }
+    
+    void add(int u, int v, int w) {
+        G[tot] = Node(v, w, head[u]);
+        head[u] = tot++;
+    }
+    
+    
+    int LongestPath(int n) {
+        queue<int> Q;
+        int cnt = 0;
+        for(int i = 1; i <= n; i++) {
+            if(deg[i] == 0) Q.push(i), cnt++;
+        }
+        while(!Q.empty()) {
+            int u = Q.front();
+            Q.pop();
+            for(int i = head[u]; ~i; i = G[i].nxt) {
+                int v = G[i].v;
+                dp[v] = max(dp[v], dp[u] + G[i].w);
+                deg[v] --;
+                if(deg[v] == 0) {
+                    Q.push(v);
+                    cnt++;
+                }
+            }
+        }
+        if(cnt == n) return 1;
+        else return 0;
+    }
+    
+    int main(){
+        init();
+        int n, m;
+        cin >> n >> m;
+    
+        for(int i = 0, u, v, w; i < m; i++) {
+            cin >> u >> v >> w;
+            add(u, v, w);
+            deg[v]++;
+        }
+    
+        int ret = LongestPath(n);
+        if(ret) {
+            int ans = 0;
+            for(int i = 1; i <= n; i++) {
+                ans = max(ans, dp[i]);
+            }
+            cout << ans << endl;
+        } else {
+            cout << "Not DAG." << endl;
+        }
+    
+        return 0;
+    }
+  
+    ```
+
+    程序执行结束后，deg数组将全部变为0
+
+  type: 'SIMPLE'
+  options:
+    - 正确
+    - 错误
+  answer:
+    - B
+  source: 'CSP-J 模拟卷'
+  score: 1.5
+
+
+
+- description: |
+    阅读程序《求解DAG中的最长路径》：
+  
+    ```cpp
+    #include <bits/stdc++.h>
+  
+    using namespace std;
+    
+    const int MAXN = 100;
+    const int MAXM = 10000;
+    
+    struct Node {
+        int v, w, nxt;
+        Node(){}
+    
+        Node(int v, int w, int nxt):v(v), w(w), nxt(nxt){}
+    }G[MAXM << 1];
+    
+    int head[MAXN+1], tot = 0;
+    int deg[MAXN+1], dp[MAXN+1];
+    
+    void init() {
+        memset(head, 0xff, sizeof(head));
+        tot = 0;
+    }
+    
+    void add(int u, int v, int w) {
+        G[tot] = Node(v, w, head[u]);
+        head[u] = tot++;
+    }
+    
+    
+    int LongestPath(int n) {
+        queue<int> Q;
+        int cnt = 0;
+        for(int i = 1; i <= n; i++) {
+            if(deg[i] == 0) Q.push(i), cnt++;
+        }
+        while(!Q.empty()) {
+            int u = Q.front();
+            Q.pop();
+            for(int i = head[u]; ~i; i = G[i].nxt) {
+                int v = G[i].v;
+                dp[v] = max(dp[v], dp[u] + G[i].w);
+                deg[v] --;
+                if(deg[v] == 0) {
+                    Q.push(v);
+                    cnt++;
+                }
+            }
+        }
+        if(cnt == n) return 1;
+        else return 0;
+    }
+    
+    int main(){
+        init();
+        int n, m;
+        cin >> n >> m;
+    
+        for(int i = 0, u, v, w; i < m; i++) {
+            cin >> u >> v >> w;
+            add(u, v, w);
+            deg[v]++;
+        }
+    
+        int ret = LongestPath(n);
+        if(ret) {
+            int ans = 0;
+            for(int i = 1; i <= n; i++) {
+                ans = max(ans, dp[i]);
+            }
+            cout << ans << endl;
+        } else {
+            cout << "Not DAG." << endl;
+        }
+    
+        return 0;
+    }
+  
+    ```
+
+    init() 函数执行结束后，head[0] 的值是（）
+
+  type: 'SIMPLE'
+  options:
+    - 0
+    - 0xff
+    - 256
+    - -1
+  answer:
+    - D
+  source: 'CSP-J 模拟卷'
+  score: 3
+
+
+- description: |
+    阅读程序《求解DAG中的最长路径》：
+  
+    ```cpp
+    #include <bits/stdc++.h>
+  
+    using namespace std;
+    
+    const int MAXN = 100;
+    const int MAXM = 10000;
+    
+    struct Node {
+        int v, w, nxt;
+        Node(){}
+    
+        Node(int v, int w, int nxt):v(v), w(w), nxt(nxt){}
+    }G[MAXM << 1];
+    
+    int head[MAXN+1], tot = 0;
+    int deg[MAXN+1], dp[MAXN+1];
+    
+    void init() {
+        memset(head, 0xff, sizeof(head));
+        tot = 0;
+    }
+    
+    void add(int u, int v, int w) {
+        G[tot] = Node(v, w, head[u]);
+        head[u] = tot++;
+    }
+    
+    
+    int LongestPath(int n) {
+        queue<int> Q;
+        int cnt = 0;
+        for(int i = 1; i <= n; i++) {
+            if(deg[i] == 0) Q.push(i), cnt++;
+        }
+        while(!Q.empty()) {
+            int u = Q.front();
+            Q.pop();
+            for(int i = head[u]; ~i; i = G[i].nxt) {
+                int v = G[i].v;
+                dp[v] = max(dp[v], dp[u] + G[i].w);
+                deg[v] --;
+                if(deg[v] == 0) {
+                    Q.push(v);
+                    cnt++;
+                }
+            }
+        }
+        if(cnt == n) return 1;
+        else return 0;
+    }
+    
+    int main(){
+        init();
+        int n, m;
+        cin >> n >> m;
+    
+        for(int i = 0, u, v, w; i < m; i++) {
+            cin >> u >> v >> w;
+            add(u, v, w);
+            deg[v]++;
+        }
+    
+        int ret = LongestPath(n);
+        if(ret) {
+            int ans = 0;
+            for(int i = 1; i <= n; i++) {
+                ans = max(ans, dp[i]);
+            }
+            cout << ans << endl;
+        } else {
+            cout << "Not DAG." << endl;
+        }
+    
+        return 0;
+    }
+  
+    ```
+
+    当输入的数据是：`4 5 1 2 1 1 3 2 1 4 1 2 4 1 3 4 1` 则输出的结果是()
+
+  type: 'SIMPLE'
+  options:
+    - 1
+    - 2
+    - 3
+    - "Not DAG."
   answer:
     - C
   source: 'CSP-J 模拟卷'
-  score: 2
+  score: 3
+
+
 
 - description: |
 
