@@ -226,84 +226,521 @@
 
 
 - description: |
+    阅读程序
+    ```cpp
+    #include <bits/stdc++.h>
+    using namespace std;
+    
+    const int MAXN = 100005;
+    
+    int a[MAXN], b[MAXN], c[MAXN];
+    int n, m, T;
+    
+    int solve() {
+        for(int i = 1; i <= n; i++) {
+            b[a[i]] ++;
+            T = max(T, a[i]);
+        }
+        for(int i = 1; i <= T; i++) b[i] += b[i-1];
+        for(int i = n; i >= 1; i--) {
+            c[i] = b[a[i]]--;
+        }
+        return c[m];
+    }
+    
+    int main(){
+        cin >> n >> m;
+        for(int i = 1; i <= n; i++) cin >> a[i];
+    
+        cout << solve() << endl;
+        return 0;
+    }
+    ```
+    当输入的数字均不超过100000时。回答下列问题。
+
+    MAXN 最小可以赋值为100001才不会出现越界错误。
 
 
   type: 'SIMPLE'
   options:
+    - 正确
+    - 错误
   answer:
-    - C
+    - A
   source: 'CSP-J 模拟卷'
-  score: 2
+  score: 1.5
 
 - description: |
+    阅读程序
+    ```cpp
+    #include <bits/stdc++.h>
+    using namespace std;
+    
+    const int MAXN = 100005;
+    
+    int a[MAXN], b[MAXN], c[MAXN];
+    int n, m, T;
+    
+    int solve() {
+        for(int i = 1; i <= n; i++) {
+            b[a[i]] ++;
+            T = max(T, a[i]);
+        }
+        for(int i = 1; i <= T; i++) b[i] += b[i-1];
+        for(int i = n; i >= 1; i--) {
+            c[i] = b[a[i]]--;
+        }
+        return c[m];
+    }
+    
+    int main(){
+        cin >> n >> m;
+        for(int i = 1; i <= n; i++) cin >> a[i];
+    
+        cout << solve() << endl;
+        return 0;
+    }
+    ```
+    当输入的数字均不超过100000时。回答下列问题。
 
+    输出的结果可能是负数
 
   type: 'SIMPLE'
   options:
+    - 正确
+    - 错误
   answer:
-    - C
+    - B
   source: 'CSP-J 模拟卷'
-  score: 2
+  score: 1.5
 
 - description: |
+    阅读程序
+    ```cpp
+    #include <bits/stdc++.h>
+    using namespace std;
+    
+    const int MAXN = 100005;
+    
+    int a[MAXN], b[MAXN], c[MAXN];
+    int n, m, T;
+    
+    int solve() {
+        for(int i = 1; i <= n; i++) {
+            b[a[i]] ++;
+            T = max(T, a[i]);
+        }
+        for(int i = 1; i <= T; i++) b[i] += b[i-1];
+        for(int i = n; i >= 1; i--) {
+            c[i] = b[a[i]]--;
+        }
+        return c[m];
+    }
+    
+    int main(){
+        cin >> n >> m;
+        for(int i = 1; i <= n; i++) cin >> a[i];
+    
+        cout << solve() << endl;
+        return 0;
+    }
+    ```
+    当输入的数字均不超过100000时。回答下列问题。
+
+    b数组是int类型，存在数据溢出风险，要改为long long类型。
 
 
   type: 'SIMPLE'
   options:
+    - 正确
+    - 错误
   answer:
-    - C
+    - B
   source: 'CSP-J 模拟卷'
-  score: 2
+  score: 1.5
 
 - description: |
+    阅读程序
+    ```cpp
+    #include <bits/stdc++.h>
+    using namespace std;
+    
+    const int MAXN = 100005;
+    
+    int a[MAXN], b[MAXN], c[MAXN];
+    int n, m, T;
+    
+    int solve() {
+        for(int i = 1; i <= n; i++) {
+            b[a[i]] ++;
+            T = max(T, a[i]);
+        }
+        for(int i = 1; i <= T; i++) b[i] += b[i-1];
+        for(int i = n; i >= 1; i--) {
+            c[i] = b[a[i]]--;
+        }
+        return c[m];
+    }
+    
+    int main(){
+        cin >> n >> m;
+        for(int i = 1; i <= n; i++) cin >> a[i];
+    
+        cout << solve() << endl;
+        return 0;
+    }
+    ```
+
+    当输入的数字均不超过100000时。回答下列问题。
+
+    当输入“7 4 9 2 1 2 3 1 5”时，输出
 
 
   type: 'SIMPLE'
   options:
+    - 0
+    - -1
+    - 4
+    - 2
   answer:
     - C
   source: 'CSP-J 模拟卷'
-  score: 2
+  score: 3
 
 - description: |
+    阅读程序
+    ```cpp
+    #include <bits/stdc++.h>
+    using namespace std;
+    
+    const int MAXN = 100005;
+    
+    int a[MAXN], b[MAXN], c[MAXN];
+    int n, m, T;
+    
+    int solve() {
+        for(int i = 1; i <= n; i++) {
+            b[a[i]] ++;
+            T = max(T, a[i]);
+        }
+        for(int i = 1; i <= T; i++) b[i] += b[i-1];
+        for(int i = n; i >= 1; i--) {
+            c[i] = b[a[i]]--;
+        }
+        return c[m];
+    }
+    
+    int main(){
+        cin >> n >> m;
+        for(int i = 1; i <= n; i++) cin >> a[i];
+    
+        cout << solve() << endl;
+        return 0;
+    }
+    ```
+    当输入的数字均不超过100000时。回答下列问题。
 
+    当输入n=10，m=3时。下列a数组作为输入，输出的结果最大的是
 
   type: 'SIMPLE'
   options:
+    - 8 0 9 1 4 2 4 2 2 3
+    - 1,2,2,4,3,9,1,2,8,10
+    - 1,1,1,1,1,1,1,1,1,1
+    - 2 4 2 2 4 8 0 9 1 4
   answer:
-    - C
+    - A
   source: 'CSP-J 模拟卷'
-  score: 2
+  score: 3
 
 - description: |
-
+    阅读程序
+    ```cpp
+    #include <bits/stdc++.h>
+    using namespace std;
+    
+    string Manachar(string s) {
+    	string t = "$#";
+    	for(int i=0; i < s.size(); ++i) t+=s[i], t+='#';
+    
+    	vector<int> p(t.size(),0);
+    
+    	int mx = 0, id = 0, resLen = 0, resCenter = 0;
+    	for(int i = 1; i < t.size(); ++i) {
+    		p[i] = mx > i ? min( p[2*id-i] , mx-i ) : 1 ;
+    		while( t[i+p[i]] ) ++p[i];x
+    		if( mx < i+p[i] ) {
+    			mx = i+p[i];
+    			id = i;
+    		}
+    		if( resLen < p[i] ) {
+    			resLen = p[i];
+    			resCenter = i;
+    		}
+    	}
+    	return s.substr( (resCenter-resLen)/2 , resLen-1 );
+    }
+    
+    int main(){
+        string s;
+        cin >> s;
+        cout << Manachar(s) << endl;
+    
+        return 0;
+    }
+    ```
+    第4行参数s和主函数中声明的s指向内存中相同的一段地址。
 
   type: 'SIMPLE'
   options:
+    - 正确
+    - 错误
   answer:
-    - C
+    - B
   source: 'CSP-J 模拟卷'
-  score: 2
+  score: 1.5
 
 - description: |
-
+    阅读程序
+    ```cpp
+    #include <bits/stdc++.h>
+    using namespace std;
+    
+    string Manachar(string s) {
+    	string t = "$#";
+    	for(int i=0; i < s.size(); ++i) t+=s[i], t+='#';
+    
+    	vector<int> p(t.size(),0);
+    
+    	int mx = 0, id = 0, resLen = 0, resCenter = 0;
+    	for(int i = 1; i < t.size(); ++i) {
+    		p[i] = mx > i ? min( p[2*id-i] , mx-i ) : 1 ;
+    		while( t[i+p[i]] ) ++p[i];x
+    		if( mx < i+p[i] ) {
+    			mx = i+p[i];
+    			id = i;
+    		}
+    		if( resLen < p[i] ) {
+    			resLen = p[i];
+    			resCenter = i;
+    		}
+    	}
+    	return s.substr( (resCenter-resLen)/2 , resLen-1 );
+    }
+    
+    int main(){
+        string s;
+        cin >> s;
+        cout << Manachar(s) << endl;
+    
+        return 0;
+    }
+    ```
+    变量p存储在内存的栈空间中。
 
   type: 'SIMPLE'
   options:
+    - 正确
+    - 错误
   answer:
-    - C
+    - A
   source: 'CSP-J 模拟卷'
-  score: 2
+  score: 1.5
 
 - description: |
+    阅读程序
+    ```cpp
+    #include <bits/stdc++.h>
+    using namespace std;
+    
+    string Manachar(string s) {
+    	string t = "$#";
+    	for(int i=0; i < s.size(); ++i) t+=s[i], t+='#';
+    
+    	vector<int> p(t.size(),0);
+    
+    	int mx = 0, id = 0, resLen = 0, resCenter = 0;
+    	for(int i = 1; i < t.size(); ++i) {
+    		p[i] = mx > i ? min( p[2*id-i] , mx-i ) : 1 ;
+    		while( t[i+p[i]] ) ++p[i];x
+    		if( mx < i+p[i] ) {
+    			mx = i+p[i];
+    			id = i;
+    		}
+    		if( resLen < p[i] ) {
+    			resLen = p[i];
+    			resCenter = i;
+    		}
+    	}
+    	return s.substr( (resCenter-resLen)/2 , resLen-1 );
+    }
+    
+    int main(){
+        string s;
+        cin >> s;
+        cout << Manachar(s) << endl;
+    
+        return 0;
+    }
+    ```
 
+    输出的字符串长度一定大于等于3
 
   type: 'SIMPLE'
   options:
+    - 正确
+    - 错误
   answer:
-    - C
+    - B
   source: 'CSP-J 模拟卷'
-  score: 2
+  score: 1.5
+
+- description: |
+    阅读程序
+    ```cpp
+    #include <bits/stdc++.h>
+    using namespace std;
+    
+    string Manachar(string s) {
+    	string t = "$#";
+    	for(int i=0; i < s.size(); ++i) t+=s[i], t+='#';
+    
+    	vector<int> p(t.size(),0);
+    
+    	int mx = 0, id = 0, resLen = 0, resCenter = 0;
+    	for(int i = 1; i < t.size(); ++i) {
+    		p[i] = mx > i ? min( p[2 * id-i] , mx-i) : 1 ;
+    		while( t[i+p[i]] ) ++p[i];x
+    		if( mx < i+p[i] ) {
+    			mx = i+p[i];
+    			id = i;
+    		}
+    		if( resLen < p[i] ) {
+    			resLen = p[i];
+    			resCenter = i;
+    		}
+    	}
+    	return s.substr( (resCenter-resLen)/2 , resLen-1 );
+    }
+    
+    int main(){
+        string s;
+        cin >> s;
+        cout << Manachar(s) << endl;
+    
+        return 0;
+    }
+    ```
+    Manachar 算法的复杂度是
+
+  type: 'SIMPLE'
+  options:
+    - $O(n)$
+    - $O(nlogn)$
+    - $O(n^2)$
+    - $O(n\sqrt(n))$
+  answer:
+    - A
+  source: 'CSP-J 模拟卷'
+  score: 3
+
+- description: |
+    阅读程序
+    ```cpp
+    #include <bits/stdc++.h>
+    using namespace std;
+    
+    string Manachar(string s) {
+    	string t = "$#";
+    	for(int i=0; i < s.size(); ++i) t+=s[i], t+='#';
+    
+    	vector<int> p(t.size(),0);
+    
+    	int mx = 0, id = 0, resLen = 0, resCenter = 0;
+    	for(int i = 1; i < t.size(); ++i) {
+    		p[i] = mx > i ? min( p[2*id-i] , mx-i ) : 1 ;
+    		while( t[i+p[i]] ) ++p[i];x
+    		if( mx < i+p[i] ) {
+    			mx = i+p[i];
+    			id = i;
+    		}
+    		if( resLen < p[i] ) {
+    			resLen = p[i];
+    			resCenter = i;
+    		}
+    	}
+    	return s.substr( (resCenter-resLen)/2 , resLen-1 );
+    }
+    
+    int main(){
+        string s;
+        cin >> s;
+        cout << Manachar(s) << endl;
+    
+        return 0;
+    }
+    ```
+    输入"manachar" 输出的结果是？
+
+  type: 'SIMPLE'
+  options:
+    - manachar
+    - mana
+    - aaa
+    - ana
+  answer:
+    - D
+  source: 'CSP-J 模拟卷'
+  score: 3
+
+- description: |
+    阅读程序
+    ```cpp
+    #include <bits/stdc++.h>
+    using namespace std;
+    
+    string Manachar(string s) {
+    	string t = "$#";
+    	for(int i=0; i < s.size(); ++i) t+=s[i], t+='#';
+    
+    	vector<int> p(t.size(),0);
+    
+    	int mx = 0, id = 0, resLen = 0, resCenter = 0;
+    	for(int i = 1; i < t.size(); ++i) {
+    		p[i] = mx > i ? min( p[2*id-i] , mx-i ) : 1 ;
+    		while( t[i+p[i]] ) ++p[i];x
+    		if( mx < i+p[i] ) {
+    			mx = i+p[i];
+    			id = i;
+    		}
+    		if( resLen < p[i] ) {
+    			resLen = p[i];
+    			resCenter = i;
+    		}
+    	}
+    	return s.substr( (resCenter-resLen)/2 , resLen-1 );
+    }
+    
+    int main(){
+        string s;
+        cin >> s;
+        cout << Manachar(s) << endl;
+    
+        return 0;
+    }
+    ```
+    输入"ccfcfc cfc" 输出的结果字符串长度是？
+
+  type: 'SIMPLE'
+  options:
+    - 3
+    - 5
+    - 6
+    - 7
+  answer:
+    - D
+  source: 'CSP-J 模拟卷'
+  score: 3
 
 - description: |
     阅读程序《求解DAG中的最长路径》：
@@ -871,14 +1308,390 @@
 
 
 - description: |
+    (最大子段平均数) 给定一个数组a，由n个整数构成。给定一个数字m，保证$1\leq m \leq n$，请你找出一段长度不小于m，且平均数最大的一段。输出这个平均数，保留整数。
+  
+    提示：代码的解题思路为：
+    1. 二分答案，检验数组中是否存在一段符合条件的子段。
+    2. 检验是否存在符合条件的子段使用动态规划的方法。通过先减去平均值，转换为寻找一段长度大于等于m且和为正数的子段。
+    ```cpp
+    #include <bits/stdc++.h>
+    using namespace std;
+    const int MAXN = 10005;
+    int a[MAXN];
+    double b[MAXN], c[MAXN], dp[MAXN];
+    int n, m;
+  
+    bool check(double x) {
+        for(int i = 1; i <= n; i++) {
+            b[i] = ____(1)_____;
+            c[i] = c[i-1] + b[i];
+        }
+    
+        for(int i = 1; i <= m; i++) dp[m] += b[i];
+        if(____(2)_____) return true;
+        for(int i = m+1; i <= n; i++) {
+            dp[i] = max(b[i] + dp[i-1], _____(3)_____);
+            if(dp[i] >= 0) return true;
+        }
+        return false;
+    }
+    
+    int main(){
+        cin >> n >> m;
+        for(int i = 1; i <= n; i++) cin >> a[i];
+        
+        double L = 0, R = 1e18;
+        while(abs(L-R) >= 1e-8) {
+            double mid = ____(4)______;
+            if(check(mid)) {
+                _____(5)______;
+            } else {
+                ______(6)_____;
+            }
+        }
+    
+        cout << L << endl;
+    
+        return 0;
+    }
+    
+    ```
 
+    (1) 处应填
 
   type: 'SIMPLE'
   options:
+    - a[i] - x
+    - a[i] - mid
+    - a[i] - a[i-1];
+    - a[i];
+
+  answer:
+    - A
+  source: 'CSP-J 模拟卷'
+  score: 3
+
+- description: |
+    (最大子段平均数) 给定一个数组a，由n个整数构成。给定一个数字m，保证$1\leq m \leq n$，请你找出一段长度不小于m，且平均数最大的一段。输出这个平均数，保留整数。
+  
+    提示：代码的解题思路为：
+    1. 二分答案，检验数组中是否存在一段符合条件的子段。
+    2. 检验是否存在符合条件的子段使用动态规划的方法。通过先减去平均值，转换为寻找一段长度大于等于m且和为正数的子段。
+    ```cpp
+    #include <bits/stdc++.h>
+    using namespace std;
+    const int MAXN = 10005;
+    int a[MAXN];
+    double b[MAXN], c[MAXN], dp[MAXN];
+    int n, m;
+  
+    bool check(double x) {
+        for(int i = 1; i <= n; i++) {
+            b[i] = ____(1)_____;
+            c[i] = c[i-1] + b[i];
+        }
+    
+        for(int i = 1; i <= m; i++) dp[m] += b[i];
+        if(____(2)_____) return true;
+        for(int i = m+1; i <= n; i++) {
+            dp[i] = max(b[i] + dp[i-1], _____(3)_____);
+            if(dp[i] >= 0) return true;
+        }
+        return false;
+    }
+    
+    int main(){
+        cin >> n >> m;
+        for(int i = 1; i <= n; i++) cin >> a[i];
+        
+        double L = 0, R = 1e18;
+        while(abs(L-R) >= 1e-8) {
+            double mid = ____(4)______;
+            if(check(mid)) {
+                _____(5)______;
+            } else {
+                ______(6)_____;
+            }
+        }
+    
+        cout << L << endl;
+    
+        return 0;
+    }
+    
+    ```
+
+    (2) 处应填
+
+  type: 'SIMPLE'
+  options:
+    - n == m && dp[m] > 0
+    - n == m && dp[m] >= 0
+    - dp[m] > 0
+    - dp[m] >= 0
+  answer:
+    - D
+  source: 'CSP-J 模拟卷'
+  score: 3
+
+- description: |
+    (最大子段平均数) 给定一个数组a，由n个整数构成。给定一个数字m，保证$1\leq m \leq n$，请你找出一段长度不小于m，且平均数最大的一段。输出这个平均数，保留整数。
+  
+    提示：代码的解题思路为：
+    1. 二分答案，检验数组中是否存在一段符合条件的子段。
+    2. 检验是否存在符合条件的子段使用动态规划的方法。通过先减去平均值，转换为寻找一段长度大于等于m且和为正数的子段。
+    ```cpp
+    #include <bits/stdc++.h>
+    using namespace std;
+    const int MAXN = 10005;
+    int a[MAXN];
+    double b[MAXN], c[MAXN], dp[MAXN];
+    int n, m;
+  
+    bool check(double x) {
+        for(int i = 1; i <= n; i++) {
+            b[i] = ____(1)_____;
+            c[i] = c[i-1] + b[i];
+        }
+    
+        for(int i = 1; i <= m; i++) dp[m] += b[i];
+        if(____(2)_____) return true;
+        for(int i = m+1; i <= n; i++) {
+            dp[i] = max(b[i] + dp[i-1], _____(3)_____);
+            if(dp[i] >= 0) return true;
+        }
+        return false;
+    }
+    
+    int main(){
+        cin >> n >> m;
+        for(int i = 1; i <= n; i++) cin >> a[i];
+        
+        double L = 0, R = 1e18;
+        while(abs(L-R) >= 1e-8) {
+            double mid = ____(4)______;
+            if(check(mid)) {
+                _____(5)______;
+            } else {
+                ______(6)_____;
+            }
+        }
+    
+        cout << L << endl;
+    
+        return 0;
+    }
+    
+    ```
+
+    (3) 处应填
+
+  type: 'SIMPLE'
+  options:
+    - dp[i-1] 
+    - c[i] + dp[i-1]
+    - c[i] - c[i-m]
+    - dp[i]
   answer:
     - C
   source: 'CSP-J 模拟卷'
-  score: 2
+  score: 3
+
+- description: |
+    (最大子段平均数) 给定一个数组a，由n个整数构成。给定一个数字m，保证$1\leq m \leq n$，请你找出一段长度不小于m，且平均数最大的一段。输出这个平均数，保留整数。
+  
+    提示：代码的解题思路为：
+    1. 二分答案，检验数组中是否存在一段符合条件的子段。
+    2. 检验是否存在符合条件的子段使用动态规划的方法。通过先减去平均值，转换为寻找一段长度大于等于m且和为正数的子段。
+    ```cpp
+    #include <bits/stdc++.h>
+    using namespace std;
+    const int MAXN = 10005;
+    int a[MAXN];
+    double b[MAXN], c[MAXN], dp[MAXN];
+    int n, m;
+  
+    bool check(double x) {
+        for(int i = 1; i <= n; i++) {
+            b[i] = ____(1)_____;
+            c[i] = c[i-1] + b[i];
+        }
+    
+        for(int i = 1; i <= m; i++) dp[m] += b[i];
+        if(____(2)_____) return true;
+        for(int i = m+1; i <= n; i++) {
+            dp[i] = max(b[i] + dp[i-1], _____(3)_____);
+            if(dp[i] >= 0) return true;
+        }
+        return false;
+    }
+    
+    int main(){
+        cin >> n >> m;
+        for(int i = 1; i <= n; i++) cin >> a[i];
+        
+        double L = 0, R = 1e18;
+        while(abs(L-R) >= 1e-8) {
+            double mid = ____(4)______;
+            if(check(mid)) {
+                _____(5)______;
+            } else {
+                ______(6)_____;
+            }
+        }
+    
+        cout << L << endl;
+    
+        return 0;
+    }
+    
+    ```
+
+    (4) 处应填
+
+  type: 'SIMPLE'
+  options:
+    - L + (R - L) >> 1
+    - (L + R) >> 1
+    - L/2 + R/2
+    - abs(L-R)/2
+  answer:
+    - C
+  source: 'CSP-J 模拟卷'
+  score: 3
+
+- description: |
+    (最大子段平均数) 给定一个数组a，由n个整数构成。给定一个数字m，保证$1\leq m \leq n$，请你找出一段长度不小于m，且平均数最大的一段。输出这个平均数，保留整数。
+  
+    提示：代码的解题思路为：
+    1. 二分答案，检验数组中是否存在一段符合条件的子段。
+    2. 检验是否存在符合条件的子段使用动态规划的方法。通过先减去平均值，转换为寻找一段长度大于等于m且和为正数的子段。
+    ```cpp
+    #include <bits/stdc++.h>
+    using namespace std;
+    const int MAXN = 10005;
+    int a[MAXN];
+    double b[MAXN], c[MAXN], dp[MAXN];
+    int n, m;
+  
+    bool check(double x) {
+        for(int i = 1; i <= n; i++) {
+            b[i] = ____(1)_____;
+            c[i] = c[i-1] + b[i];
+        }
+    
+        for(int i = 1; i <= m; i++) dp[m] += b[i];
+        if(____(2)_____) return true;
+        for(int i = m+1; i <= n; i++) {
+            dp[i] = max(b[i] + dp[i-1], _____(3)_____);
+            if(dp[i] >= 0) return true;
+        }
+        return false;
+    }
+    
+    int main(){
+        cin >> n >> m;
+        for(int i = 1; i <= n; i++) cin >> a[i];
+        
+        double L = 0, R = 1e18;
+        while(abs(L-R) >= 1e-8) {
+            double mid = ____(4)______;
+            if(check(mid)) {
+                _____(5)______;
+            } else {
+                ______(6)_____;
+            }
+        }
+    
+        cout << L << endl;
+    
+        return 0;
+    }
+    
+    ```
+
+    (5) 处应填
+
+  type: 'SIMPLE'
+  options:
+    - L = mid 
+    - R = mid
+    - L = mid + 1
+    - R = mid - 1
+  answer:
+    - A
+  source: 'CSP-J 模拟卷'
+  score: 3
+
+- description: |
+    (最大子段平均数) 给定一个数组a，由n个整数构成。给定一个数字m，保证$1\leq m \leq n$，请你找出一段长度不小于m，且平均数最大的一段。输出这个平均数，保留整数。
+  
+    提示：代码的解题思路为：
+    1. 二分答案，检验数组中是否存在一段符合条件的子段。
+    2. 检验是否存在符合条件的子段使用动态规划的方法。通过先减去平均值，转换为寻找一段长度大于等于m且和为正数的子段。
+    ```cpp
+    #include <bits/stdc++.h>
+    using namespace std;
+    const int MAXN = 10005;
+    int a[MAXN];
+    double b[MAXN], c[MAXN], dp[MAXN];
+    int n, m;
+  
+    bool check(double x) {
+        for(int i = 1; i <= n; i++) {
+            b[i] = ____(1)_____;
+            c[i] = c[i-1] + b[i];
+        }
+    
+        for(int i = 1; i <= m; i++) dp[m] += b[i];
+        if(____(2)_____) return true;
+        for(int i = m+1; i <= n; i++) {
+            dp[i] = max(b[i] + dp[i-1], _____(3)_____);
+            if(dp[i] >= 0) return true;
+        }
+        return false;
+    }
+    
+    int main(){
+        cin >> n >> m;
+        for(int i = 1; i <= n; i++) cin >> a[i];
+        
+        double L = 0, R = 1e18;
+        while(abs(L-R) >= 1e-8) {
+            double mid = ____(4)______;
+            if(check(mid)) {
+                _____(5)______;
+            } else {
+                ______(6)_____;
+            }
+        }
+    
+        cout << L << endl;
+    
+        return 0;
+    }
+    
+    ```
+
+    (6) 处应填
+
+  type: 'SIMPLE'
+  options:
+    - L = mid 
+    - R = mid
+    - L = mid + 1
+    - R = mid - 1
+  answer:
+    - B
+  source: 'CSP-J 模拟卷'
+  score: 3
+
+
+
+
+
+
+
 
 - description: |
 

@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-ll a[MAXN], b[MAXN], c[MAXN];
+const int MAXN = 10005;
+int a[MAXN];
+double b[MAXN], c[MAXN], dp[MAXN];
 int n, m;
 
 bool check(double x) {
