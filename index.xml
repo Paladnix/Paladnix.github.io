@@ -2269,15 +2269,6 @@ REPOSITORY TAG IMAGE ID CREATED SIZE simple-gdb 1.0 1a46f7f7599e 16 seconds ago 
     
     <item>
       <title></title>
-      <link>https://Paladnix.github.io/posts/docker/k8s/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://Paladnix.github.io/posts/docker/k8s/</guid>
-      <description> 如何搭建一个K8s的集群 # </description>
-    </item>
-    
-    <item>
-      <title></title>
       <link>https://Paladnix.github.io/posts/docker/readme/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -2609,12 +2600,33 @@ for(int i = 0; i &amp;lt; n; i++) { for(int j = 0; j &amp;lt; n; j++) { continue
     </item>
     
     <item>
+      <title></title>
+      <link>https://Paladnix.github.io/shark/work-record/2022-q4/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/shark/work-record/2022-q4/</guid>
+      <description> 第四季度 # 以应用易用性为基础做工作，简化工作操作流程。
+优化微信群通知类消息的展示形式，转化为图片形式：代码、题解等。 权限角色系统接入细化到操作级别。 答题的步进式提示。 教师统计类信息快速获取。 用户行为判断、监控、提醒。 同学博客建设。 页面聊天室打通微信，接入自动答疑机器人自动处理。 数据文件提取ID仅提取前缀/后缀，如果没有就默认是大数据。 技术演进 # 网站做区域隔离，对外供给学校、机构等。 </description>
+    </item>
+    
+    <item>
       <title>jupyter-notebook</title>
       <link>https://Paladnix.github.io/_drafts/jupyter-notebook/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://Paladnix.github.io/_drafts/jupyter-notebook/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>k8s 入门</title>
+      <link>https://Paladnix.github.io/posts/docker/k8s/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/docker/k8s/</guid>
+      <description>Docker 作为一种资源虚拟化的技术，并不具备资源调度的能力。因此如何管理调度大量的容器，则需要容器编排技术。K8s就是容器编排引擎。
+Kubernetes作为一种资源编排引擎，除了预定义的pod资源外，也可以自定义资源，k8s则对这些资源进行调度。包括创建、销毁、变更等。
+# </description>
     </item>
     
     <item>

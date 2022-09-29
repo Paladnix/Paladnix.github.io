@@ -102,5 +102,15 @@ vector是容器，一个vector内部可以存储不同类型的数据 vector的�
 for(int i = 0; i &amp;lt; n; i++) { for(int j = 0; j &amp;lt; n; j++) { continue; } } for(int i = 0; i &amp;lt; n; i++) { for(int j = 0; j &amp;lt; n; j++){ break; } } </description>
     </item>
     
+    <item>
+      <title></title>
+      <link>https://Paladnix.github.io/shark/work-record/2022-q4/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/shark/work-record/2022-q4/</guid>
+      <description> 第四季度 # 以应用易用性为基础做工作，简化工作操作流程。
+优化微信群通知类消息的展示形式，转化为图片形式：代码、题解等。 权限角色系统接入细化到操作级别。 答题的步进式提示。 教师统计类信息快速获取。 用户行为判断、监控、提醒。 同学博客建设。 页面聊天室打通微信，接入自动答疑机器人自动处理。 数据文件提取ID仅提取前缀/后缀，如果没有就默认是大数据。 技术演进 # 网站做区域隔离，对外供给学校、机构等。 </description>
+    </item>
+    
   </channel>
 </rss>

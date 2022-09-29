@@ -679,8 +679,6 @@
   </url><url>
     <loc>https://Paladnix.github.io/posts/docker/docker-limit/</loc>
   </url><url>
-    <loc>https://Paladnix.github.io/posts/docker/k8s/</loc>
-  </url><url>
     <loc>https://Paladnix.github.io/posts/docker/readme/</loc>
   </url><url>
     <loc>https://Paladnix.github.io/posts/git/git-checkout/</loc>
@@ -739,6 +737,8 @@
   </url><url>
     <loc>https://Paladnix.github.io/shark/week_11.8-12/</loc>
   </url><url>
+    <loc>https://Paladnix.github.io/shark/work-record/2022-q4/</loc>
+  </url><url>
     <loc>https://Paladnix.github.io/_drafts/</loc>
   </url><url>
     <loc>https://Paladnix.github.io/tags/c/c&#43;&#43;/</loc>
@@ -746,6 +746,8 @@
     <loc>https://Paladnix.github.io/docs/</loc>
   </url><url>
     <loc>https://Paladnix.github.io/_drafts/jupyter-notebook/</loc>
+  </url><url>
+    <loc>https://Paladnix.github.io/posts/docker/k8s/</loc>
   </url><url>
     <loc>https://Paladnix.github.io/_drafts/latex/</loc>
   </url>

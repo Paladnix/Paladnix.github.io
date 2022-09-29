@@ -32,15 +32,6 @@ REPOSITORY TAG IMAGE ID CREATED SIZE simple-gdb 1.0 1a46f7f7599e 16 seconds ago 
     
     <item>
       <title></title>
-      <link>https://Paladnix.github.io/posts/docker/k8s/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://Paladnix.github.io/posts/docker/k8s/</guid>
-      <description> 如何搭建一个K8s的集群 # </description>
-    </item>
-    
-    <item>
-      <title></title>
       <link>https://Paladnix.github.io/posts/docker/readme/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -48,6 +39,17 @@ REPOSITORY TAG IMAGE ID CREATED SIZE simple-gdb 1.0 1a46f7f7599e 16 seconds ago 
       <description>Docker 的基本理念与设计 # Docker是一种基于cgroup技术的虚拟容器技术，其设计核心思路与Git类似。
 镜像与容器 # 镜像(image)可以简单的理解为一个小型的OS或者APP，其好处是可以直接通过docker启动执行，而不需要配置乱七八糟的依赖环境。而容器(container)则是启动后的镜像，同一个镜像可以被多次启动。
 启动一个容器以后我们可以使用交互模式启动也可以直接启动某个程序，或者在构建镜像的时候就指定默认启动程序。</description>
+    </item>
+    
+    <item>
+      <title>k8s 入门</title>
+      <link>https://Paladnix.github.io/posts/docker/k8s/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Paladnix.github.io/posts/docker/k8s/</guid>
+      <description>Docker 作为一种资源虚拟化的技术，并不具备资源调度的能力。因此如何管理调度大量的容器，则需要容器编排技术。K8s就是容器编排引擎。
+Kubernetes作为一种资源编排引擎，除了预定义的pod资源外，也可以自定义资源，k8s则对这些资源进行调度。包括创建、销毁、变更等。
+# </description>
     </item>
     
   </channel>
