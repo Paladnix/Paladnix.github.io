@@ -2484,7 +2484,7 @@ https://github.com/alex-shpak/hugo-book
       
         <li class="flex justify-between">
           <a href="/tags/c/">C</a>
-          <span>4</span>
+          <span>3</span>
         </li>
       
         <li class="flex justify-between">
@@ -2769,7 +2769,7 @@ https://github.com/alex-shpak/hugo-book
       
         <li class="flex justify-between">
           <a href="/tags/c/c&#43;&#43;/">C/C&#43;&#43;</a>
-          <span>1</span>
+          <span>2</span>
         </li>
       
       </ul>
@@ -2894,42 +2894,6 @@ Redis是单线程的，运行在CPU的一个核上。所以在线程的思路上
 在redis4.0.1中一共有600多个文件，包含了C文件、bash脚本、Lua脚本、tcl脚本，额，，还有一些没见过的东西。太菜了，连文件后缀都没见过。
 但是这些并不都是redis的代码，在src/文件夹中可以看到只有120多个c文件，这些才是核心。600多个是包含了一些测试文件和单元测试等等。
 Redis的数据结构 # redis对外提供的数据结构在上一篇中也都介绍过，这里带着介绍一下其内部实现的方式。
-    </p>
-  </article>
-  
-  <article class="markdown book-post">
-    <h2>
-      <a href="/posts/c&#43;&#43;/accessmodifier/">OOP中的-控制修饰符</a>
-    </h2>
-    
-  <h5>May 27, 2017</h5>
-
-
-
-  
-
-  
-  <div>
-    
-      <a href="/tags/c/c&#43;&#43;/">C/C&#43;&#43;</a>, 
-      <a href="/tags/java/">Java</a>, 
-      <a href="/tags/php/">PHP</a>
-  </div>
-  
-
-
-
-
-    <p>面向对象编程(Object-Oriented Programming)中,最初开始接触到的就是访问控制修饰符。访问控制修饰是几乎所有的OOP语言都会涉及到的，下面就整理三个我熟悉的语言。
-C/C++ # 更详细的内容可以参考《C++ primer》-类 这一章。
-概述 # 有三种修饰符，分别：private、public、protected。其中最后一个protected是在继承出现以后才有效的。对于无论是成员变量还是成员函数，这些修饰符都具有相同的作用，即访问控制。其设计的主要作用是为了防止封装的类内成员被类的使用者无意更改或误操作，同时，对访问权限的限制可以实现代码间的松耦合。在类内算法做调整的过程中保持使用者可调用的代码接口，只更改私有函数等。 在详述各个控制符之前要讲一下struct 和class的区别。二者都可以用来定义类，唯一的不同就是默认的访问权限不同。struct的第一个修饰符之前定义的成员默认是public的，但是class是默认private的。
-private 与 public # 这两个要一起来说，因为二相相生。private就是将控制权限制在类内，只能是类内的函数访问。public完全没有限制。这两个是最容易理解的，也没有什么好说的。
-protected # 比上面两个略复杂一点点。在没有继承的情况下，protected与private是一样的，所以protect之所以与private不同在于派生类的访问。其修饰的成员可以被派生类直接访问，但是不被派生类对象访问。这个有些博客写的不太严谨，protected无论什么时候都不能与public一样，也就是类的使用者不能直接访问。 换句话说，派生类可以将其修饰的成员当成自己的亲成员来访问，派生类内部可以用对象实例来访问，但是类外不行。
-举个例子：
-class Base{ protected: int m; ... } class A : public Base{ public: // Note-1 void Add(A &amp; tmp){ tmp.m += 1; } ... } int main(){ A tmp; // Note-2 int x = tmp.m; return 0; } /* * 其中，Note-1的写法没有问题，但是Note-2的写法就是非法的。 */ friend # 有的时候我们的类成员不能被使用者直接访问，但是我需要让其他的一些非类内成员函数来访问，如重载运算符的时候需要被模板函数访问，所以又有了一个新的控制访问修饰符，这个修饰符只用来修饰一些函数或类的声明，也就是说可以让一些类或函数成为该类的友元，使得其可以访问类内的成员变量和成员函数，不受其他修饰符的限制。
-只能修饰非成员函数的声明，或其他类。 只能在类内修饰。 其声明不受其他几个修饰符影响。 友元关系不能传递, 也不可继承。 友元声明，只是声明了访问权限，并没有实际声明，如要使用该函数，仍然需要显示用普通声明再声明一次。 用作继承权限修饰符 # 除了用于成员权限声明，此三个修饰符海可以用来修饰类的继承方式，不同的继承方式使得基类成员在派生类中的权限不同。
-        <a href="/posts/c&#43;&#43;/accessmodifier/">...</a>
-      
     </p>
   </article>
   
@@ -3163,7 +3127,7 @@ class Base{ protected: int m; ... } class A : public Base{ public: // Note-1 voi
       
         <li class="flex justify-between">
           <a href="/tags/c/">C</a>
-          <span>4</span>
+          <span>3</span>
         </li>
       
         <li class="flex justify-between">
@@ -3448,7 +3412,7 @@ class Base{ protected: int m; ... } class A : public Base{ public: // Note-1 voi
       
         <li class="flex justify-between">
           <a href="/tags/c/c&#43;&#43;/">C/C&#43;&#43;</a>
-          <span>1</span>
+          <span>2</span>
         </li>
       
       </ul>
