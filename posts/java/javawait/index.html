@@ -2425,11 +2425,11 @@ https://github.com/alex-shpak/hugo-book
 <p>除了要在同步的基础上使用以外，在书《Java并发实践》中，作者提出一定要在循环中使用<code>wait</code>。正确的代码应该是下面的样子：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// The standard idiom for calling the wait method in Java 
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">synchronized</span> <span style="color:#f92672">(</span>sharedObject<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> 
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>condition<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> 
-</span></span><span style="display:flex;"><span>    sharedObject<span style="color:#f92672">.</span><span style="color:#a6e22e">wait</span><span style="color:#f92672">();</span> 
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// (Releases lock, and reacquires on wakeup) 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span> 
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// do action based upon condition e.g. take or put into queue 
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    </span><span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>condition<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> 
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    </span>sharedObject<span style="color:#f92672">.</span><span style="color:#a6e22e">wait</span><span style="color:#f92672">();</span> 
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        </span><span style="color:#75715e">// (Releases lock, and reacquires on wakeup) 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">    </span><span style="color:#f92672">}</span> 
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    </span><span style="color:#75715e">// do action based upon condition e.g. take or put into queue 
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
 </span></span></code></pre></div><p>在while循环里使用wait的目的，是在线程被唤醒的前后都持续检查条件是否被满足。如果条件并未改变，wait被调用之前notify的唤醒通知就来了，那么这个线程并不能保证被唤醒，有可能会导致死锁问题。</p>
 <p>这两个函数都是对于某个对象来说的，这个对象一定是一个多线程共享的对象。是同步，是利用锁的机制进行同步的。</p>

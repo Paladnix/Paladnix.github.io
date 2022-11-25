@@ -2385,8 +2385,8 @@ https://github.com/alex-shpak/hugo-book
 <p>C语言有了函数指针以后，就算是完整了，构建了这个世界。</p>
 <p>先来看三个例子：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span>A) <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> (<span style="color:#f92672">*</span>fun1)(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> p1,<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> p2);
-</span></span><span style="display:flex;"><span>B) <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> <span style="color:#f92672">*</span>fun2(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> p1,<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> p2);
-</span></span><span style="display:flex;"><span>C) <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> fun3(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> p1,<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> p2);
+</span></span><span style="display:flex;"><span>B) <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">fun2</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> p1,<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> p2);
+</span></span><span style="display:flex;"><span>C) <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">fun3</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> p1,<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> p2);
 </span></span></code></pre></div><p>最后一个很好理解，fun3是函数名，函数返回一个<code>char*</code>。
 中间个是返回一个二级指针，本质与最后一个没有什么区别。</p>
 <p>在第一个中，其实就是函数指针了，fun1是个函数指针，这个函数返回一个<code>char*</code>。</p>
@@ -2416,19 +2416,19 @@ printf(&#34;%d\n&#34;, p(5, b));
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">//定义回调函数
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">PrintfText</span>() 
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;Hello World!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Hello World!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">//定义实现回调函数的&#34;调用函数&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">CallPrintfText</span>(<span style="color:#66d9ef">void</span> (<span style="color:#f92672">*</span>callfuct)())
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    callfuct();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">callfuct</span>();
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">//实现函数回调
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc,<span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> argv[])
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    CallPrintfText(PrintfText);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">CallPrintfText</span>(PrintfText);
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>函数名本身就是一个函数指针，所以直接传函数名就可以实现。在函数声明的地方要使用函数指针的方式去声明参数。</p>

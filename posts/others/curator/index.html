@@ -2398,7 +2398,7 @@ https://github.com/alex-shpak/hugo-book
 </h3>
 <p>connection的实例(CuratorFramework)是用工厂模式分配的(CuratorFrameworkFactory)，对于一个zk集群，你只需要一个连接的实例。
 同时你可能会用到的是RetryPolicy 去设置失败重试的参数，一般你会这样使用：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>RetryPolicy retryPolicy <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ExponentialBackoffRetry<span style="color:#f92672">(</span>1000<span style="color:#f92672">,</span> 3<span style="color:#f92672">)</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>RetryPolicy retryPolicy <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ExponentialBackoffRetry<span style="color:#f92672">(</span><span style="color:#ae81ff">1000</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>CuratorFramework client <span style="color:#f92672">=</span> CuratorFrameworkFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">newClient</span><span style="color:#f92672">(</span>zookeeperConnectionString<span style="color:#f92672">,</span> retryPolicy<span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>client<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
 </span></span></code></pre></div><p>客户端需要显式的start并且在不用的时候显式的close.</p>

@@ -2406,11 +2406,11 @@ https://github.com/alex-shpak/hugo-book
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>[a](<span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> x) { x<span style="color:#f92672">+=</span>a; }              <span style="color:#75715e">// 没有return语句 -&gt; lambda 函数的返回类型是&#39;void&#39;;注意，此处a是从lambda函数体外部传入其中的变量
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>[]() { <span style="color:#f92672">++</span>global_x; }               <span style="color:#75715e">// 没有参数,仅访问某个全局变量
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>[]{ <span style="color:#f92672">++</span>global_x; }                  <span style="color:#75715e">// 与上一个相同,省略了()
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>　　
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">　　</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// 可以像下面这样显示指定返回类型:  
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span>[](<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">int</span> { <span style="color:#66d9ef">int</span> z <span style="color:#f92672">=</span> x <span style="color:#f92672">+</span> y; <span style="color:#66d9ef">return</span> z; }
-</span></span><span style="display:flex;"><span>　　<span style="color:#75715e">// 在这个例子中创建了一个临时变量z来存储中间值. 和普通函数一样,这个中间值不会保存到下次调用. 什么也不返回的Lambda函数可以省略返回类型, 而不需要使用 -&gt; void 形式.
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">　　</span><span style="color:#75715e">// 在这个例子中创建了一个临时变量z来存储中间值. 和普通函数一样,这个中间值不会保存到下次调用. 什么也不返回的Lambda函数可以省略返回类型, 而不需要使用 -&gt; void 形式.
 </span></span></span></code></pre></div><p>下面举两个例子：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> some_list;  
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> total <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  

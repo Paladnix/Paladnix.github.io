@@ -2540,7 +2540,7 @@ https://github.com/alex-shpak/hugo-book
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        ResultSet rs<span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>        Connection conn <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>        PreparedStatement ps <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> ret <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> ret <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>            conn <span style="color:#f92672">=</span> ds<span style="color:#f92672">.</span><span style="color:#a6e22e">getConnection</span><span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">// important &amp; 
@@ -2548,7 +2548,7 @@ https://github.com/alex-shpak/hugo-book
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> rows <span style="color:#f92672">=</span> ps<span style="color:#f92672">.</span><span style="color:#a6e22e">executeUpdate</span><span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>            rs <span style="color:#f92672">=</span> ps<span style="color:#f92672">.</span><span style="color:#a6e22e">getGeneratedKeys</span><span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span> rs<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">()</span> <span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>                ret <span style="color:#f92672">=</span> rs<span style="color:#f92672">.</span><span style="color:#a6e22e">getLong</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                ret <span style="color:#f92672">=</span> rs<span style="color:#f92672">.</span><span style="color:#a6e22e">getLong</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>            conn<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>            ps<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
